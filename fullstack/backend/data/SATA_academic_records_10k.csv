@@ -1,0 +1,31 @@
+student_id,semester,subject_code,subject_name,credits,Total_marks,pass_fail,performance_comment
+STU001,1,CS101,Programming Fundamentals,4,85,Pass,Excellent understanding of core concepts
+STU001,1,MA101,Engineering Mathematics I,4,78,Pass,Good analytical skills
+STU001,1,PH101,Engineering Physics,3,82,Pass,Strong grasp of fundamental principles
+STU001,2,CS102,Data Structures,4,88,Pass,Outstanding problem-solving ability
+STU001,2,MA102,Engineering Mathematics II,4,75,Pass,Satisfactory performance
+STU001,2,EC101,Digital Electronics,3,80,Pass,Good practical knowledge
+STU002,1,EC101,Basic Electronics,4,92,Pass,Exceptional performance
+STU002,1,MA101,Engineering Mathematics I,4,89,Pass,Strong mathematical foundation
+STU002,1,PH101,Engineering Physics,3,91,Pass,Excellent conceptual clarity
+STU002,2,EC102,Circuit Analysis,4,94,Pass,Outstanding analytical skills
+STU002,2,MA102,Engineering Mathematics II,4,87,Pass,Very good understanding
+STU002,2,CS101,Programming Fundamentals,3,90,Pass,Excellent coding skills
+STU003,1,ME101,Engineering Mechanics,4,76,Pass,Good understanding of mechanics
+STU003,1,MA101,Engineering Mathematics I,4,72,Pass,Adequate mathematical knowledge
+STU003,1,PH101,Engineering Physics,3,79,Pass,Satisfactory physics concepts
+STU003,2,ME102,Thermodynamics,4,81,Pass,Good grasp of thermal concepts
+STU003,2,MA102,Engineering Mathematics II,4,74,Pass,Needs improvement in calculus
+STU003,2,ED101,Engineering Drawing,3,77,Pass,Good visualization skills
+STU004,1,CS101,Programming Fundamentals,4,87,Pass,Strong programming logic
+STU004,1,MA101,Engineering Mathematics I,4,83,Pass,Good mathematical aptitude
+STU004,1,PH101,Engineering Physics,3,86,Pass,Excellent physics understanding
+STU004,2,CS102,Data Structures,4,90,Pass,Outstanding algorithmic thinking
+STU004,2,MA102,Engineering Mathematics II,4,81,Pass,Good analytical skills
+STU004,2,EC101,Digital Electronics,3,84,Pass,Strong digital logic concepts
+STU005,1,CE101,Surveying,4,73,Pass,Adequate field knowledge
+STU005,1,MA101,Engineering Mathematics I,4,70,Pass,Needs more practice
+STU005,1,PH101,Engineering Physics,3,75,Pass,Satisfactory understanding
+STU005,2,CE102,Strength of Materials,4,77,Pass,Good grasp of material properties
+STU005,2,MA102,Engineering Mathematics II,4,71,Pass,Improving gradually
+STU005,2,ED101,Engineering Drawing,3,76,Pass,Good technical drawing skills

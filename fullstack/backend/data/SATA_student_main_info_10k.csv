@@ -1,0 +1,11 @@
+student_id,name,email,department,year_of_passout,current_semester,cgpa,status
+STU001,Rajesh Kumar,rajesh.kumar@example.com,Computer Science,2026,6,8.45,Active
+STU002,Priya Sharma,priya.sharma@example.com,Electronics,2026,6,9.12,Active
+STU003,Amit Patel,amit.patel@example.com,Mechanical,2025,8,7.89,Active
+STU004,Sneha Reddy,sneha.reddy@example.com,Computer Science,2027,4,8.76,Active
+STU005,Vikram Singh,vikram.singh@example.com,Civil Engineering,2026,6,7.54,Active
+STU006,Ananya Iyer,ananya.iyer@example.com,Information Technology,2026,6,9.34,Active
+STU007,Karthik Menon,karthik.menon@example.com,Computer Science,2025,8,8.91,Active
+STU008,Divya Nair,divya.nair@example.com,Electronics,2027,4,8.23,Active
+STU009,Rohan Gupta,rohan.gupta@example.com,Mechanical,2026,6,7.12,Active
+STU010,Meera Krishnan,meera.krishnan@example.com,Computer Science,2026,6,9.01,Active
