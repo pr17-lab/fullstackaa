@@ -1,0 +1,13 @@
+﻿src/components/analytics/AnalyticsCharts.tsx(4,36): error TS6133: 'RadarChart' is declared but its value is never read.
+src/components/analytics/AnalyticsCharts.tsx(4,48): error TS6133: 'PolarGrid' is declared but its value is never read.
+src/components/analytics/AnalyticsCharts.tsx(4,59): error TS6133: 'PolarAngleAxis' is declared but its value is never read.
+src/components/analytics/AnalyticsCharts.tsx(4,75): error TS6133: 'PolarRadiusAxis' is declared but its value is never read.
+src/components/analytics/AnalyticsCharts.tsx(4,92): error TS6133: 'Radar' is declared but its value is never read.
+src/components/analytics/AnalyticsCharts.tsx(26,36): error TS6133: 'entry' is declared but its value is never read.
+src/components/students/StudentFilters.tsx(2,10): error TS6133: 'Search' is declared but its value is never read.
+src/pages/Dashboard.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/StudentProfile.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/StudentProfile.tsx(103,34): error TS2532: Object is possibly 'undefined'.
+src/pages/StudentProfile.tsx(103,79): error TS2532: Object is possibly 'undefined'.
+src/pages/Students.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/Students.tsx(5,10): error TS6133: 'Student' is declared but its value is never read.

@@ -1,0 +1,113 @@
+﻿
+================================================================================
+  API ENDPOINT VALIDATION TEST SUITE
+================================================================================
+
+================================================================================
+  SETUP: Getting Student IDs
+================================================================================
+
+[TEST] Fetch students list to get test ID
+       GET http://127.0.0.1:8000/api/students
+       Status: 200 (Expected: 200)
+python : Traceback 
+(most recent call 
+last):
+At line:1 char:32
++ ... .venv\Scripts\A
+ctivate.ps1; python t
+est_api_endpoints.py 
+2>&1 | Out-F ...
++                    
+             ~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Traceba   
+ ck (most recent     
+call last)::Stri    
+ng) [], RemoteEx    
+ception
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\test_api_endpo
+ints.py", line 32, 
+in test_endpoint
+    print("       
+\u2713 PASS")
+  File "C:\Program Fi
+les\Python312\Lib\enc
+odings\cp1252.py", 
+line 19, in encode
+    return codecs.cha
+rmap_encode(input,sel
+f.errors,encoding_tab
+le)[0]
+           ^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+^^^
+UnicodeEncodeError: 
+'charmap' codec 
+can't encode 
+character '\u2713' 
+in position 7: 
+character maps to 
+<undefined>
+
+During handling of 
+the above exception, 
+another exception 
+occurred:
+
+Traceback (most 
+recent call last):
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\test_api_endpo
+ints.py", line 128, 
+in <module>
+    main()
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\test_api_endpo
+ints.py", line 57, 
+in main
+    success, 
+students_data = 
+test_endpoint(
+                     
+        
+^^^^^^^^^^^^^^
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\test_api_endpo
+ints.py", line 42, 
+in test_endpoint
+    print(f"       
+\u2717 ERROR: 
+{str(e)}")
+  File "C:\Program Fi
+les\Python312\Lib\enc
+odings\cp1252.py", 
+line 19, in encode
+    return codecs.cha
+rmap_encode(input,sel
+f.errors,encoding_tab
+le)[0]
+           ^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+^^^
+UnicodeEncodeError: 
+'charmap' codec 
+can't encode 
+character '\u2717' 
+in position 7: 
+character maps to 
+<undefined>

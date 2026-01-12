@@ -1,0 +1,6 @@
+﻿src/components/students/StudentFilters.tsx(2,10): error TS6133: 'Search' is declared but its value is never read.
+src/pages/Dashboard.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/StudentProfile.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/StudentProfile.tsx(103,34): error TS2532: Object is possibly 'undefined'.
+src/pages/StudentProfile.tsx(103,79): error TS2532: Object is possibly 'undefined'.
+src/pages/Students.tsx(1,8): error TS6133: 'React' is declared but its value is never read.

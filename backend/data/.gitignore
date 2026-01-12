@@ -1,0 +1,9 @@
+# Ignore CSV files with real student data (if replaced with actual data)
+# Keep only sample/demo files in version control
+*.csv
+!SATA_student_main_info_10k.csv
+!SATA_academic_records_10k.csv
+
+# Temporary files
+*.tmp
+*.bak
