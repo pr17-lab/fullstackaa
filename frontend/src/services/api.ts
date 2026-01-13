@@ -34,9 +34,7 @@ export const StudentService = {
 
 export const AnalyticsService = {
     getGPATrend: async (studentId: string) => {
-        const response = await api.get<GPATrend>('/analytics/gpa-trend', {
-            params: { student_id: studentId }
-        });
+        const response = await api.get<GPATrend>(`/analytics/gpa-trend/${studentId}`);
         return response.data;
     },
 

@@ -163,15 +163,22 @@ async def get_student_academic_records(
             AcademicTerm.user_id == student.user_id
         ).order_by(AcademicTerm.year, AcademicTerm.semester).all()
         
-        # Calculate overall statistics
-        if terms:
+        # Calculate overall statistics with defensive handling
+        if terms and len(terms) > 0:
+            # Safe GPA calculation
             overall_gpa = sum(float(term.gpa) for term in terms) / len(terms)
-            # Get total credits by summing all subjects across all terms
+            
+            # Safe credits calculation
             total_credits = 0
             for term in terms:
                 if term.subjects:
-                    total_credits += sum(subject.credits for subject in term.subjects)
+                    # Ensure credits exist and are valid before summing
+                    total_credits += sum(
+                        subject.credits for subject in term.subjects 
+                        if subject.credits is not None
+                    )
         else:
+            # Return empty academic record for students with no data
             overall_gpa = 0.0
             total_credits = 0
         
@@ -183,11 +190,13 @@ async def get_student_academic_records(
             terms=terms
         )
     except HTTPException:
+        # Re-raise HTTP exceptions (like 404)
         raise
     except Exception as e:
-        # Return the actual error for debugging
+        # Log and return the actual error for debugging
         raise HTTPException(
             status_code=500,
             detail=f"Error fetching academic records: {str(e)}"
         )
+
 

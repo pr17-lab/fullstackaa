@@ -39,8 +39,14 @@ async def get_gpa_trend(
         AcademicTerm.user_id == student.user_id
     ).order_by(AcademicTerm.year, AcademicTerm.semester).all()
     
+    # Return empty state if no academic records found (instead of 404)
     if not terms:
-        raise HTTPException(status_code=404, detail="No academic records found")
+        return GPATrend(
+            student_id=student_id,
+            data_points=[],
+            average_gpa=Decimal("0.0"),
+            trend="stable"
+        )
     
     # Build data points
     data_points = [
@@ -53,7 +59,7 @@ async def get_gpa_trend(
         for term in terms
     ]
     
-    # Calculate average GPA
+    # Calculate average GPA (safe from division by zero due to check above)
     avg_gpa = sum(float(term.gpa) for term in terms) / len(terms)
     
     # Determine trend
@@ -193,8 +199,23 @@ async def get_student_analytics_summary(
         AcademicTerm.user_id == student.user_id
     ).all()
     
-    # Calculate overall GPA
-    overall_gpa = sum(float(t.gpa) for t in terms) / len(terms) if terms else 0.0
+    # Handle empty terms with defensive defaults
+    if not terms or len(terms) == 0:
+        # Return default summary for student with no academic records
+        return StudentAnalyticsSummary(
+            student_id=student_id,
+            student_name=student.name,
+            branch=student.branch,
+            current_semester=student.semester,
+            overall_gpa=Decimal("0.0"),
+            total_credits=0,
+            total_subjects=0,
+            gpa_trend="stable",
+            performance_percentile=Decimal("50.0")
+        )
+    
+    # Calculate overall GPA (safe from division by zero)
+    overall_gpa = sum(float(t.gpa) for t in terms) / len(terms)
     
     # Get total credits and subjects
     total_subjects = db.query(func.count(Subject.id)).join(

@@ -10,7 +10,7 @@ class SubjectBase(BaseModel):
     subject_code: str = Field(..., min_length=1, max_length=50)
     credits: int = Field(..., ge=1, le=10)
     marks: Decimal = Field(..., ge=0, le=100, decimal_places=2)
-    grade: str = Field(..., pattern="^[A-F][+-]?$", description="Grade (A+, A, B+, etc.)")
+    grade: str = Field(..., pattern="^([A-F][+-]?|P|S|U|F)$", description="Grade (A+, A, B+, P, S, U, F, etc.)")
 
 class SubjectCreate(SubjectBase):
     term_id: uuid.UUID
@@ -20,7 +20,7 @@ class SubjectUpdate(BaseModel):
     subject_code: Optional[str] = Field(None, min_length=1, max_length=50)
     credits: Optional[int] = Field(None, ge=1, le=10)
     marks: Optional[Decimal] = Field(None, ge=0, le=100)
-    grade: Optional[str] = Field(None, pattern="^[A-F][+-]?$")
+    grade: Optional[str] = Field(None, pattern="^([A-F][+-]?|P|S|U|F)$")
 
 class SubjectResponse(SubjectBase):
     id: uuid.UUID

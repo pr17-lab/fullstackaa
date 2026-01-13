@@ -45,3 +45,8 @@ frontend/.env.production.local
 # System
 .DS_Store
 Thumbs.db
+
+# Local test outputs
+backend/db_test_output.txt
+backend/test_results.txt
+backend/test_endpoints_simple.py

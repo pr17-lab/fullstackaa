@@ -13,12 +13,12 @@ export const Card: React.FC<CardProps> = ({
     variant = 'default',
     onClick
 }) => {
-    const baseStyles = 'bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl transition-all duration-200';
+    const baseStyles = 'bg-white border border-[var(--border-primary)] rounded-2xl transition-all duration-200';
 
     const variantStyles = {
-        default: '',
-        elevated: 'shadow-lg',
-        interactive: 'cursor-pointer hover:border-[var(--border-accent)] hover:shadow-md hover:translate-y-[-2px]',
+        default: 'shadow-sm',
+        elevated: 'shadow-md',
+        interactive: 'cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-lg hover:translate-y-[-2px]',
     };
 
     const handleClick = () => {
@@ -86,7 +86,7 @@ interface CardFooterProps {
 
 export const CardFooter: React.FC<CardFooterProps> = ({ children, className = '' }) => {
     return (
-        <div className={`px-6 py-4 border-t border-[var(--border-primary)] bg-[var(--bg-primary)] rounded-b-xl ${className}`}>
+        <div className={`px-6 py-4 border-t border-[var(--border-primary)] bg-[var(--bg-tertiary)] rounded-b-2xl ${className}`}>
             {children}
         </div>
     );

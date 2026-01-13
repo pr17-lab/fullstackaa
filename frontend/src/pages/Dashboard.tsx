@@ -1,48 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Award, BookOpen, TrendingUp, Target, Sparkles, Trophy, Clock } from 'lucide-react';
+import { Award, BookOpen, Target, TrendingUp } from 'lucide-react';
 import { StudentService, AnalyticsService } from '../services/api';
 import { AcademicRecordSummary, GPATrend, StudentAnalyticsSummary } from '../api/types';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/common/Card';
 import { LoadingSpinner, ErrorDisplay } from '../components/common/Loading';
-import { Skeleton, SkeletonCard } from '../components/common/Skeleton';
-import { Badge } from '../components/common/Badge';
-import { GPATrendChart } from '../components/analytics/AnalyticsCharts';
+import { StatCard } from '../components/dashboard/StatCard';
+import { GPADonutChart } from '../components/dashboard/GPADonutChart';
+import { WeakStrongSubjects } from '../components/dashboard/WeakStrongSubjects';
+import { MyCoursesCard } from '../components/dashboard/MyCoursesCard';
+import { SemesterProgressCard } from '../components/dashboard/SemesterProgressCard';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-// Hardcoded student ID (in real app, this would come from auth context)
 const STUDENT_ID = 'd0c97f9a-5b6b-4dd7-9248-b12d835448d6';
-
-interface PersonalStatCardProps {
-    title: string;
-    value: string | number;
-    subtext?: string;
-    icon: React.ElementType;
-    gradient: string;
-    trend?: 'up' | 'down' | 'stable';
-}
-
-const PersonalStatCard = ({ title, value, subtext, icon: Icon, gradient, trend }: PersonalStatCardProps) => (
-    <Card variant="elevated" className="group hover:scale-[1.02] transition-transform duration-200">
-        <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-                <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}>
-                    <Icon className="h-6 w-6 text-white" />
-                </div>
-                {trend && (
-                    <Badge variant={trend === 'up' ? 'success' : trend === 'down' ? 'warning' : 'default'} size="sm">
-                        {trend === 'up' ? '↑' : trend === 'down' ? '↓' : '→'} {trend}
-                    </Badge>
-                )}
-            </div>
-            <div>
-                <p className="text-sm font-medium text-[var(--text-tertiary)] mb-1">{title}</p>
-                <h3 className="text-3xl font-bold text-[var(--text-primary)] mb-1">{value}</h3>
-                {subtext && (
-                    <p className="text-xs text-[var(--text-secondary)]">{subtext}</p>
-                )}
-            </div>
-        </CardContent>
-    </Card>
-);
 
 const Dashboard = () => {
     const [records, setRecords] = useState<AcademicRecordSummary | null>(null);
@@ -77,20 +45,8 @@ const Dashboard = () => {
 
     if (loading) {
         return (
-            <div className="space-y-8 animate-fade-in max-w-6xl mx-auto">
-                <div>
-                    <Skeleton width="400px" height="36px" className="mb-2" />
-                    <Skeleton width="300px" height="20px" />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {[1, 2, 3, 4].map((i) => (
-                        <SkeletonCard key={i} />
-                    ))}
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <SkeletonCard className="lg:col-span-2" />
-                    <SkeletonCard />
-                </div>
+            <div className="flex items-center justify-center min-h-[400px]">
+                <LoadingSpinner />
             </div>
         );
     }
@@ -98,157 +54,146 @@ const Dashboard = () => {
     if (error) return <ErrorDisplay message={error} onRetry={fetchData} />;
     if (!records || !summary) return null;
 
-    // Calculate pass rate (assuming all passed for now)
-    const totalSubjects = summary.total_subjects || 0;
-    const passRate = totalSubjects > 0 ? 100 : 0;
+    // Prepare data
+    const passRate = summary.total_subjects > 0 ? 100 : 0;
 
-    // Calculate rank percentile
-    const rankPercentile = summary.performance_percentile ? Number(summary.performance_percentile) : 0;
-    const topPercentage = rankPercentile > 0 ? 100 - rankPercentile : 0;
+    const allSubjects = records.terms.flatMap(term =>
+        term.subjects?.map(subject => ({
+            id: subject.id,
+            name: subject.subject_name,
+            code: subject.subject_code,
+            marks: Number(subject.marks),
+            credits: subject.credits
+        })) || []
+    );
 
-    // Get current time of day for greeting
-    const hour = new Date().getHours();
-    const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+    const sortedByMarks = [...allSubjects].sort((a, b) => a.marks - b.marks);
+
+    const weakestSubjects = sortedByMarks.slice(0, 3).map((subject, idx) => ({
+        id: subject.id,
+        rank: idx + 1,
+        name: subject.name,
+        percentage: Math.round((subject.marks / 100) * 100)
+    }));
+
+    const strongestSubjects = sortedByMarks.slice(-3).reverse().map((subject, idx) => ({
+        id: subject.id,
+        rank: idx + 1,
+        name: subject.name,
+        percentage: Math.round((subject.marks / 100) * 100)
+    }));
+
+    const courses = allSubjects.map(subject => ({
+        id: subject.id,
+        name: subject.name,
+        code: subject.code,
+        credits: subject.credits
+    }));
+
+    const gpaChartData = trend?.data_points.map(point => ({
+        semester: `S${point.semester}`,
+        gpa: Number(point.gpa)
+    })) || [];
 
     return (
-        <div className="space-y-8 animate-slide-up max-w-6xl mx-auto">
+        <div className="space-y-6">
             {/* Welcome Header */}
             <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <h1 className="text-4xl font-bold text-[var(--text-primary)]">
-                        {greeting}, Priya! 👋
-                    </h1>
-                </div>
-                <p className="text-lg text-[var(--text-secondary)]">
-                    Here's your academic progress overview
-                </p>
+                <h1 className="text-3xl font-bold text-gray-900">Welcome back, Priya! 👋</h1>
+                <p className="text-gray-500 mt-1">Here's your academic overview</p>
             </div>
 
-            {/* Personal Stats */}
+            {/* Stat Cards Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <PersonalStatCard
-                    title="My GPA"
+                <StatCard
+                    title="Overall GPA"
                     value={Number(records.overall_gpa).toFixed(2)}
-                    subtext="Overall CGPA"
                     icon={Award}
-                    gradient="from-blue-500 to-cyan-600"
-                    trend={summary.gpa_trend === 'improving' ? 'up' : summary.gpa_trend === 'declining' ? 'down' : 'stable'}
+                    color="indigo"
+                    subtitle="Cumulative"
                 />
-                <PersonalStatCard
-                    title="My Rank"
-                    value={`Top ${topPercentage.toFixed(0)}%`}
-                    subtext="Among peers"
-                    icon={Trophy}
-                    gradient="from-amber-500 to-orange-600"
-                />
-                <PersonalStatCard
+                <StatCard
                     title="Credits Earned"
                     value={records.total_credits}
-                    subtext={`${summary.total_subjects} subjects`}
                     icon={BookOpen}
-                    gradient="from-emerald-500 to-teal-600"
+                    color="violet"
+                    subtitle={`${records.total_terms} semesters`}
                 />
-                <PersonalStatCard
+                <StatCard
+                    title="Subjects"
+                    value={summary.total_subjects}
+                    icon={TrendingUp}
+                    color="blue"
+                    subtitle="Completed"
+                />
+                <StatCard
                     title="Pass Rate"
                     value={`${passRate}%`}
-                    subtext="All subjects cleared"
                     icon={Target}
-                    gradient="from-purple-500 to-pink-600"
+                    color="emerald"
+                    subtitle="All cleared"
                 />
             </div>
 
-            {/* Charts & Insights */}
+            {/* 2-Column Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* GPA Trend Chart */}
-                <Card variant="elevated" className="lg:col-span-2">
-                    <CardHeader>
-                        <CardTitle>My GPA Progression</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        {trend && <GPATrendChart data={trend.data_points} />}
-                    </CardContent>
-                </Card>
+                {/* Main Column (2/3 width) */}
+                <div className="lg:col-span-2 space-y-6">
+                    {/* GPA Donut */}
+                    <GPADonutChart gpa={Number(records.overall_gpa)} maxGpa={10} />
 
-                {/* Insights Card */}
-                <Card variant="elevated">
-                    <CardHeader>
-                        <CardTitle>Insights</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="flex items-start gap-3 p-4 bg-[var(--bg-tertiary)] rounded-lg">
-                            <Sparkles className="h-5 w-5 text-[var(--brand-primary)] mt-0.5 flex-shrink-0" />
-                            <div>
-                                <p className="text-sm font-medium text-[var(--text-primary)] mb-1">
-                                    {summary.gpa_trend === 'improving'
-                                        ? 'Excellent Progress!'
-                                        : summary.gpa_trend === 'declining'
-                                            ? 'Room for Improvement'
-                                            : 'Steady Performance'}
-                                </p>
-                                <p className="text-xs text-[var(--text-secondary)]">
-                                    {summary.gpa_trend === 'improving'
-                                        ? 'Your GPA is trending upward. Keep up the great work!'
-                                        : summary.gpa_trend === 'declining'
-                                            ? 'Consider seeking help for challenging subjects.'
-                                            : 'Maintaining consistent academic performance.'}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-3 p-4 bg-[var(--bg-tertiary)] rounded-lg">
-                            <TrendingUp className="h-5 w-5 text-[var(--accent-emerald)] mt-0.5 flex-shrink-0" />
-                            <div>
-                                <p className="text-sm font-medium text-[var(--text-primary)] mb-1">Strong Performance</p>
-                                <p className="text-xs text-[var(--text-secondary)]">
-                                    You're in the top {topPercentage.toFixed(0)}% of your class
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-3 p-4 bg-[var(--bg-tertiary)] rounded-lg">
-                            <Clock className="h-5 w-5 text-[var(--accent-amber)] mt-0.5 flex-shrink-0" />
-                            <div>
-                                <p className="text-sm font-medium text-[var(--text-primary)] mb-1">Current Semester</p>
-                                <p className="text-xs text-[var(--text-secondary)]">
-                                    Semester {summary.current_semester} • {records.total_credits} credits
-                                </p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-
-            {/* Recent Activity */}
-            <Card variant="elevated">
-                <CardHeader>
-                    <CardTitle>Semester Overview</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-[var(--bg-tertiary)] rounded-lg p-6 text-center">
-                            <p className="text-sm text-[var(--text-tertiary)] mb-2">Current Semester</p>
-                            <p className="text-3xl font-bold text-[var(--text-primary)] mb-1">
-                                {summary.current_semester}
-                            </p>
-                            <p className="text-xs text-[var(--text-secondary)]">Electronics Engineering</p>
-                        </div>
-                        <div className="bg-[var(--bg-tertiary)] rounded-lg p-6 text-center">
-                            <p className="text-sm text-[var(--text-tertiary)] mb-2">Total Subjects</p>
-                            <p className="text-3xl font-bold text-[var(--text-primary)] mb-1">
-                                {summary.total_subjects}
-                            </p>
-                            <p className="text-xs text-[var(--text-secondary)]">Across all semesters</p>
-                        </div>
-                        <div className="bg-[var(--bg-tertiary)] rounded-lg p-6 text-center">
-                            <p className="text-sm text-[var(--text-tertiary)] mb-2">Total Credits</p>
-                            <p className="text-3xl font-bold text-[var(--text-primary)] mb-1">
-                                {records.total_credits}
-                            </p>
-                            <p className="text-xs text-[var(--text-secondary)]">Credits earned</p>
-                        </div>
+                    {/* GPA Trend Chart */}
+                    <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">GPA Trend</h3>
+                        <ResponsiveContainer width="100%" height={250}>
+                            <LineChart data={gpaChartData}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                <XAxis dataKey="semester" stroke="#6b7280" style={{ fontSize: '12px' }} />
+                                <YAxis domain={[0, 10]} stroke="#6b7280" style={{ fontSize: '12px' }} />
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: '#fff',
+                                        border: '1px solid #e5e7eb',
+                                        borderRadius: '8px'
+                                    }}
+                                />
+                                <Line
+                                    type="monotone"
+                                    dataKey="gpa"
+                                    stroke="#6366f1"
+                                    strokeWidth={3}
+                                    dot={{ fill: '#6366f1', r: 4 }}
+                                    activeDot={{ r: 6 }}
+                                />
+                            </LineChart>
+                        </ResponsiveContainer>
                     </div>
-                </CardContent>
-            </Card>
+
+                    {/* Weak and Strong Subjects */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <WeakStrongSubjects
+                            title="Weakest Subjects"
+                            subjects={weakestSubjects}
+                            type="weak"
+                        />
+                        <WeakStrongSubjects
+                            title="Strongest Subjects"
+                            subjects={strongestSubjects}
+                            type="strong"
+                        />
+                    </div>
+                </div>
+
+                {/* Right Sidebar (1/3 width) */}
+                <div className="space-y-6">
+                    <MyCoursesCard courses={courses} />
+                    <SemesterProgressCard
+                        currentSemester={summary.current_semester}
+                        totalCredits={records.total_credits}
+                        totalTerms={records.total_terms}
+                    />
+                </div>
+            </div>
         </div>
     );
 };
