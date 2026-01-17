@@ -2,9 +2,11 @@ import { User, Bell, Lock, Globe, Moon, Mail } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Settings = () => {
     const { user } = useAuth();
+    const { theme, toggleTheme } = useTheme();
 
     // Get user initials
     const getInitials = (name?: string) => {
@@ -87,15 +89,23 @@ const Settings = () => {
                         <Badge variant="info" size="sm">On</Badge>
                     </div>
 
-                    <div className="flex items-center justify-between p-3 hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors cursor-not-allowed opacity-60">
+                    {/* Dark Mode Toggle - Now Functional */}
+                    <div
+                        onClick={toggleTheme}
+                        className="flex items-center justify-between p-3 hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors cursor-pointer"
+                    >
                         <div className="flex items-center gap-3">
                             <Moon className="h-5 w-5 text-[var(--text-tertiary)]" />
                             <div>
                                 <p className="text-sm font-medium text-[var(--text-primary)]">Dark Mode</p>
-                                <p className="text-xs text-[var(--text-secondary)]">Currently enabled</p>
+                                <p className="text-xs text-[var(--text-secondary)]">
+                                    {theme === 'dark' ? 'Currently enabled' : 'Currently disabled'}
+                                </p>
                             </div>
                         </div>
-                        <Badge variant="success" size="sm">Enabled</Badge>
+                        <Badge variant={theme === 'dark' ? 'success' : 'default'} size="sm">
+                            {theme === 'dark' ? 'Enabled' : 'Disabled'}
+                        </Badge>
                     </div>
 
                     <div className="flex items-center justify-between p-3 hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors cursor-not-allowed opacity-60">

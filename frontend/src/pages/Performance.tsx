@@ -80,51 +80,51 @@ const Performance = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">My Academic Performance</h1>
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 mb-4">My Academic Performance</h1>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-indigo-50 rounded-lg">
-                            <User className="h-5 w-5 text-indigo-600" />
+                        <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg transition-colors">
+                            <User className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                         </div>
                         <div>
-                            <p className="text-xs text-gray-500">Student</p>
-                            <p className="text-sm font-semibold text-gray-900">{user?.name || 'Student'}</p>
+                            <p className="text-xs text-gray-500 dark:text-zinc-400">Student</p>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{user?.name || 'Student'}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-violet-50 rounded-lg">
-                            <BookOpen className="h-5 w-5 text-violet-600" />
+                        <div className="p-2 bg-violet-50 dark:bg-violet-900/30 rounded-lg transition-colors">
+                            <BookOpen className="h-5 w-5 text-violet-600 dark:text-violet-400" />
                         </div>
                         <div>
-                            <p className="text-xs text-gray-500">Branch</p>
-                            <p className="text-sm font-semibold text-gray-900">{user?.branch || 'N/A'}</p>
+                            <p className="text-xs text-gray-500 dark:text-zinc-400">Branch</p>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{user?.branch || 'N/A'}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-blue-50 rounded-lg">
-                            <Calendar className="h-5 w-5 text-blue-600" />
+                        <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg transition-colors">
+                            <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                         </div>
                         <div>
-                            <p className="text-xs text-gray-500">Current Semester</p>
-                            <p className="text-sm font-semibold text-gray-900">{user?.semester || 'N/A'}</p>
+                            <p className="text-xs text-gray-500 dark:text-zinc-400">Current Semester</p>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{user?.semester || 'N/A'}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-emerald-50 rounded-lg">
-                            <Award className="h-5 w-5 text-emerald-600" />
+                        <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg transition-colors">
+                            <Award className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                         </div>
                         <div>
-                            <p className="text-xs text-gray-500">Overall GPA</p>
-                            <p className="text-sm font-semibold text-gray-900">{Number(records.overall_gpa).toFixed(2)}</p>
+                            <p className="text-xs text-gray-500 dark:text-zinc-400">Overall GPA</p>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{Number(records.overall_gpa).toFixed(2)}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* GPA Trend */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">GPA Trend Over Time</h3>
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100 mb-4">GPA Trend Over Time</h3>
                 <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={gpaData}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -152,8 +152,8 @@ const Performance = () => {
             {/* Credit Distribution and Subject Performance */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Credit Distribution */}
-                <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Credit Distribution</h3>
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100 mb-4">Credit Distribution</h3>
                     <ResponsiveContainer width="100%" height={250}>
                         <BarChart data={creditData}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -172,8 +172,8 @@ const Performance = () => {
                 </div>
 
                 {/* Subject Performance */}
-                <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Subject Performance</h3>
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100 mb-4">Top Subject Performance</h3>
                     <ResponsiveContainer width="100%" height={250}>
                         <BarChart data={topSubjects} layout="vertical">
                             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -193,31 +193,31 @@ const Performance = () => {
             </div>
 
             {/* Semester Details Table */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Semester Summary</h3>
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100 mb-4">Semester Summary</h3>
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead>
-                            <tr className="border-b border-gray-200">
-                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Semester</th>
-                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Year</th>
-                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">GPA</th>
-                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Subjects</th>
-                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Credits</th>
+                            <tr className="border-b border-gray-200 dark:border-zinc-700">
+                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-zinc-300">Semester</th>
+                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-zinc-300">Year</th>
+                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-zinc-300">GPA</th>
+                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-zinc-300">Subjects</th>
+                                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-zinc-300">Credits</th>
                             </tr>
                         </thead>
                         <tbody>
                             {records.terms.map((term, index) => (
-                                <tr key={term.id} className="border-b border-gray-100 hover:bg-gray-50">
-                                    <td className="py-3 px-4 text-sm text-gray-900">Semester {term.semester}</td>
-                                    <td className="py-3 px-4 text-sm text-gray-600">{term.year}</td>
+                                <tr key={term.id} className="border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
+                                    <td className="py-3 px-4 text-sm text-gray-900 dark:text-zinc-100">Semester {term.semester}</td>
+                                    <td className="py-3 px-4 text-sm text-gray-600 dark:text-zinc-400">{term.year}</td>
                                     <td className="py-3 px-4">
-                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 transition-colors">
                                             {Number(term.gpa).toFixed(2)}
                                         </span>
                                     </td>
-                                    <td className="py-3 px-4 text-sm text-gray-600">{term.subjects?.length || 0}</td>
-                                    <td className="py-3 px-4 text-sm text-gray-600">
+                                    <td className="py-3 px-4 text-sm text-gray-600 dark:text-zinc-400">{term.subjects?.length || 0}</td>
+                                    <td className="py-3 px-4 text-sm text-gray-600 dark:text-zinc-400">
                                         {term.subjects?.reduce((sum, s) => sum + (s.credits || 0), 0) || 0}
                                     </td>
                                 </tr>

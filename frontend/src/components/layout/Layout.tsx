@@ -18,9 +18,9 @@ const Layout = () => {
     const studentName = user?.name || 'Student';
 
     return (
-        <div className="min-h-screen bg-[#f5f7fb]">
-            {/* Light Header */}
-            <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="min-h-screen bg-[#f5f7fb] dark:bg-zinc-950 transition-colors duration-300">
+            {/* Glassmorphism Header */}
+            <header className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-zinc-700/50 sticky top-0 z-50 transition-colors duration-300">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         {/* Logo */}
@@ -29,8 +29,8 @@ const Layout = () => {
                                 <GraduationCap className="h-6 w-6 text-white" />
                             </div>
                             <div>
-                                <h1 className="text-lg font-bold text-gray-900">Academic Portal</h1>
-                                <p className="text-xs text-gray-500 hidden sm:block">{studentName}</p>
+                                <h1 className="text-lg font-bold text-gray-900 dark:text-zinc-100">Academic Portal</h1>
+                                <p className="text-xs text-gray-500 dark:text-zinc-400 hidden sm:block">{studentName}</p>
                             </div>
                         </div>
 
@@ -43,8 +43,8 @@ const Layout = () => {
                                         key={item.name}
                                         to={item.href}
                                         className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                                            ? 'bg-indigo-50 text-indigo-600'
-                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                            ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
+                                            : 'text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-zinc-200'
                                             }`}
                                     >
                                         <item.icon className="h-4 w-4" />
@@ -57,12 +57,12 @@ const Layout = () => {
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+                            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800"
                         >
                             {mobileMenuOpen ? (
-                                <X className="h-5 w-5 text-gray-600" />
+                                <X className="h-5 w-5 text-gray-600 dark:text-zinc-400" />
                             ) : (
-                                <Menu className="h-5 w-5 text-gray-600" />
+                                <Menu className="h-5 w-5 text-gray-600 dark:text-zinc-400" />
                             )}
                         </button>
                     </div>
@@ -70,7 +70,7 @@ const Layout = () => {
 
                 {/* Mobile Navigation */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden border-t border-gray-200 bg-white">
+                    <div className="md:hidden border-t border-gray-200/50 dark:border-zinc-700/50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md">
                         <nav className="px-4 py-4 space-y-1">
                             {navigation.map((item) => {
                                 const isActive = location.pathname === item.href;
@@ -80,8 +80,8 @@ const Layout = () => {
                                         to={item.href}
                                         onClick={() => setMobileMenuOpen(false)}
                                         className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
-                                            ? 'bg-indigo-50 text-indigo-600'
-                                            : 'text-gray-600 hover:bg-gray-50'
+                                            ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
+                                            : 'text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800'
                                             }`}
                                     >
                                         <item.icon className="h-5 w-5" />

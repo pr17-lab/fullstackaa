@@ -17,17 +17,17 @@ export const SemesterProgressCard: React.FC<SemesterProgressCardProps> = ({
     const progress = (currentSemester / totalSemesters) * 100;
 
     return (
-        <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
             <div className="flex items-center gap-2 mb-4">
-                <Calendar className="h-5 w-5 text-violet-600" />
-                <h3 className="text-lg font-semibold text-gray-900">Semester Progress</h3>
+                <Calendar className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100">Semester Progress</h3>
             </div>
 
             <div className="space-y-4">
                 <div>
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-600">Current Semester</span>
-                        <span className="text-sm font-semibold text-gray-900">
+                        <span className="text-sm text-gray-600 dark:text-zinc-400">Current Semester</span>
+                        <span className="text-sm font-semibold text-gray-900 dark:text-zinc-100">
                             {currentSemester} of {totalSemesters}
                         </span>
                     </div>
@@ -39,21 +39,21 @@ export const SemesterProgressCard: React.FC<SemesterProgressCardProps> = ({
                     </div>
                 </div>
 
-                <div className="pt-4 border-t border-gray-100 space-y-3">
+                <div className="pt-4 border-t border-gray-100 dark:border-zinc-800 space-y-3">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Award className="h-4 w-4 text-gray-400" />
-                            <span className="text-sm text-gray-600">Total Credits</span>
+                            <Award className="h-4 w-4 text-gray-400 dark:text-zinc-500" />
+                            <span className="text-sm text-gray-600 dark:text-zinc-400">Total Credits</span>
                         </div>
-                        <span className="text-sm font-semibold text-gray-900">{totalCredits}</span>
+                        <span className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{totalCredits}</span>
                     </div>
 
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-gray-400" />
-                            <span className="text-sm text-gray-600">Completed Terms</span>
+                            <Calendar className="h-4 w-4 text-gray-400 dark:text-zinc-500" />
+                            <span className="text-sm text-gray-600 dark:text-zinc-400">Completed Terms</span>
                         </div>
-                        <span className="text-sm font-semibold text-gray-900">{totalTerms}</span>
+                        <span className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{totalTerms}</span>
                     </div>
                 </div>
             </div>

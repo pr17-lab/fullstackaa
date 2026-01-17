@@ -13,7 +13,7 @@ export const Card: React.FC<CardProps> = ({
     variant = 'default',
     onClick
 }) => {
-    const baseStyles = 'bg-white border border-[var(--border-primary)] rounded-2xl transition-all duration-200';
+    const baseStyles = 'bg-white dark:bg-zinc-900 border border-[var(--border-primary)] dark:border-zinc-800 rounded-2xl transition-all duration-200';
 
     const variantStyles = {
         default: 'shadow-sm',

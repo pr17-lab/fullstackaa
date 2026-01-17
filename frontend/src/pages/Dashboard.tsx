@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Award, BookOpen, Target, TrendingUp } from 'lucide-react';
 import { StudentService, AnalyticsService } from '../services/api';
 import { AcademicRecordSummary, GPATrend, StudentAnalyticsSummary } from '../api/types';
-import { LoadingSpinner, ErrorDisplay } from '../components/common/Loading';
+import { ErrorDisplay } from '../components/common/Loading';
+import { SkeletonStatCard } from '../components/common/SkeletonStatCard';
 import { StatCard } from '../components/dashboard/StatCard';
 import { GPADonutChart } from '../components/dashboard/GPADonutChart';
 import { WeakStrongSubjects } from '../components/dashboard/WeakStrongSubjects';
@@ -53,8 +54,32 @@ const Dashboard = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <LoadingSpinner />
+            <div className="space-y-6">
+                {/* Welcome Header Skeleton */}
+                <div>
+                    <div className="h-9 w-64 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse mb-2"></div>
+                    <div className="h-5 w-48 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                </div>
+
+                {/* Skeleton Stat Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <SkeletonStatCard />
+                    <SkeletonStatCard />
+                    <SkeletonStatCard />
+                    <SkeletonStatCard />
+                </div>
+
+                {/* Skeleton Charts */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 space-y-6">
+                        <div className="h-96 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 animate-pulse"></div>
+                        <div className="h-80 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 animate-pulse"></div>
+                    </div>
+                    <div className="space-y-6">
+                        <div className="h-64 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 animate-pulse"></div>
+                        <div className="h-48 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 animate-pulse"></div>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -107,8 +132,8 @@ const Dashboard = () => {
         <div className="space-y-6">
             {/* Welcome Header */}
             <div>
-                <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.name?.split(' ')[0] || 'Student'}! 👋</h1>
-                <p className="text-gray-500 mt-1">Here's your academic overview</p>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-zinc-100">Welcome back, {user?.name?.split(' ')[0] || 'Student'}! 👋</h1>
+                <p className="text-gray-500 dark:text-zinc-400 mt-1">Here's your academic overview</p>
             </div>
 
             {/* Stat Cards Row */}
@@ -151,13 +176,13 @@ const Dashboard = () => {
                     <GPADonutChart gpa={Number(records.overall_gpa)} maxGpa={10} />
 
                     {/* GPA Trend Chart */}
-                    <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">GPA Trend</h3>
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100 mb-4">GPA Trend</h3>
                         <ResponsiveContainer width="100%" height={250}>
                             <LineChart data={gpaChartData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                <XAxis dataKey="semester" stroke="#6b7280" style={{ fontSize: '12px' }} />
-                                <YAxis domain={[0, 10]} stroke="#6b7280" style={{ fontSize: '12px' }} />
+                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-zinc-700" />
+                                <XAxis dataKey="semester" stroke="#6b7280" className="dark:stroke-zinc-400" style={{ fontSize: '12px' }} />
+                                <YAxis domain={[0, 10]} stroke="#6b7280" className="dark:stroke-zinc-400" style={{ fontSize: '12px' }} />
                                 <Tooltip
                                     contentStyle={{
                                         backgroundColor: '#fff',
