@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { Home, TrendingUp, BookOpen, Settings, Menu, X, GraduationCap } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Layout = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const location = useLocation();
+    const { user } = useAuth();
 
     const navigation = [
         { name: 'Dashboard', href: '/', icon: Home },
@@ -13,8 +15,7 @@ const Layout = () => {
         { name: 'Settings', href: '/settings', icon: Settings },
     ];
 
-    const studentName = 'Priya Sharma';
-    const studentBranch = 'Electronics Engineering';
+    const studentName = user?.name || 'Student';
 
     return (
         <div className="min-h-screen bg-[#f5f7fb]">
@@ -42,8 +43,8 @@ const Layout = () => {
                                         key={item.name}
                                         to={item.href}
                                         className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                                                ? 'bg-indigo-50 text-indigo-600'
-                                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                            ? 'bg-indigo-50 text-indigo-600'
+                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                             }`}
                                     >
                                         <item.icon className="h-4 w-4" />
@@ -79,8 +80,8 @@ const Layout = () => {
                                         to={item.href}
                                         onClick={() => setMobileMenuOpen(false)}
                                         className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
-                                                ? 'bg-indigo-50 text-indigo-600'
-                                                : 'text-gray-600 hover:bg-gray-50'
+                                            ? 'bg-indigo-50 text-indigo-600'
+                                            : 'text-gray-600 hover:bg-gray-50'
                                             }`}
                                     >
                                         <item.icon className="h-5 w-5" />

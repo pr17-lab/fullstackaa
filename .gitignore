@@ -50,3 +50,6 @@ Thumbs.db
 backend/db_test_output.txt
 backend/test_results.txt
 backend/test_endpoints_simple.py
+
+# Sensitive data (DO NOT COMMIT)
+backend/data/user_credentials_10k_common_password.csv

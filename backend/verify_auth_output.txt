@@ -1,0 +1,52 @@
+﻿================================================================================
+AUTHENTICATION VERIFICATION
+================================================================================
+
+[Test 1] Looking up demo user by student_id...
+python : Traceback 
+(most recent call 
+last):
+At line:1 char:1
++ python scripts/veri
+fy_auth.py 2>&1 | 
+Out-File -FilePath 
+verify_auth_o ...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Traceba   
+ ck (most recent     
+call last)::Stri    
+ng) [], RemoteEx    
+ception
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\scripts\verify
+_auth.py", line 36, 
+in <module>
+    print(f"  \u2713 
+User found:")
+  File "C:\Program Fi
+les\Python312\Lib\enc
+odings\cp1252.py", 
+line 19, in encode
+    return codecs.cha
+rmap_encode(input,sel
+f.errors,encoding_tab
+le)[0]
+           ^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+^^^
+UnicodeEncodeError: 
+'charmap' codec 
+can't encode 
+character '\u2713' 
+in position 2: 
+character maps to 
+<undefined>

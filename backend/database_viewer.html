@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostgreSQL Database Viewer - student_tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .data-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .data-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        table tr:hover {
+            background-color: #f8f9ff;
+        }
+
+        .chart {
+            margin: 20px 0;
+        }
+
+        .bar {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .bar-label {
+            width: 200px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .bar-fill {
+            height: 30px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: width 0.3s ease;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ PostgreSQL Database Viewer</h1>
+            <p>student_tracker database</p>
+            <button class="refresh-btn" onclick="loadData()">🔄 Refresh Data</button>
+        </div>
+
+        <div class="stats-grid" id="stats">
+            <div class="loading">Loading statistics...</div>
+        </div>
+
+        <div class="data-section">
+            <h2>📊 Students by Department</h2>
+            <div class="chart" id="deptChart">
+                <div class="loading">Loading chart...</div>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h2>📖 Students by Semester</h2>
+            <div class="chart" id="semesterChart">
+                <div class="loading">Loading chart...</div>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h2>👥 Sample Users (First 10)</h2>
+            <div id="usersTable">
+                <div class="loading">Loading users...</div>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h2>🎓 Sample Student Profiles (First 10)</h2>
+            <div id="profilesTable">
+                <div class="loading">Loading profiles...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulated data - in production, this would come from an API
+        const dbData = {
+            stats: {
+                users: 9787,
+                student_profiles: 9787,
+                academic_terms: 10,
+                subjects: 30,
+                total: 9815
+            },
+            departments: [
+                { name: 'Mechanical Engineering', count: 1632 },
+                { name: 'Computer Science', count: 1632 },
+                { name: 'Electrical Engineering', count: 1632 },
+                { name: 'Civil Engineering', count: 1631 },
+                { name: 'Information Technology', count: 1631 },
+                { name: 'Electronics', count: 1629 }
+            ],
+            semesters: [
+                { semester: 1, count: 1224 },
+                { semester: 2, count: 1224 },
+                { semester: 3, count: 1224 },
+                { semester: 4, count: 1224 },
+                { semester: 5, count: 1223 },
+                { semester: 6, count: 1223 },
+                { semester: 7, count: 1223 },
+                { semester: 8, count: 1222 }
+            ]
+        };
+
+        function loadData() {
+            loadStats();
+            loadDepartmentChart();
+            loadSemesterChart();
+            loadSampleUsers();
+            loadSampleProfiles();
+        }
+
+        function loadStats() {
+            const statsHtml = `
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <div class="number">${dbData.stats.users.toLocaleString()}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Student Profiles</h3>
+                    <div class="number">${dbData.stats.student_profiles.toLocaleString()}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Academic Terms</h3>
+                    <div class="number">${dbData.stats.academic_terms.toLocaleString()}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Subjects</h3>
+                    <div class="number">${dbData.stats.subjects.toLocaleString()}</div>
+                </div>
+            `;
+            document.getElementById('stats').innerHTML = statsHtml;
+        }
+
+        function loadDepartmentChart() {
+            const maxCount = Math.max(...dbData.departments.map(d => d.count));
+            const chartHtml = dbData.departments.map(dept => `
+                <div class="bar">
+                    <div class="bar-label">${dept.name}</div>
+                    <div class="bar-fill" style="width: ${(dept.count / maxCount) * 60}%">
+                        ${dept.count.toLocaleString()} students
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('deptChart').innerHTML = chartHtml;
+        }
+
+        function loadSemesterChart() {
+            const maxCount = Math.max(...dbData.semesters.map(s => s.count));
+            const chartHtml = dbData.semesters.map(sem => `
+                <div class="bar">
+                    <div class="bar-label">Semester ${sem.semester}</div>
+                    <div class="bar-fill" style="width: ${(sem.count / maxCount) * 60}%">
+                        ${sem.count.toLocaleString()} students
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('semesterChart').innerHTML = chartHtml;
+        }
+
+        function loadSampleUsers() {
+            const tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Active</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>kiran.iyer001@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>priya.sharma002@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>rahul.kumar003@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>akhil.reddy004@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>sneha.patel005@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>arjun.nair006@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>divya.singh007@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>vikram.gupta008@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>anjali.rao009@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                        <tr><td>aditya.mehta010@student.edu</td><td>✅ Active</td><td>2026-01-15</td></tr>
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('usersTable').innerHTML = tableHtml;
+        }
+
+        function loadSampleProfiles() {
+            const tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Semester</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Kiran Iyer</td><td>Computer Science</td><td>2</td></tr>
+                        <tr><td>Priya Sharma</td><td>Electrical Engineering</td><td>3</td></tr>
+                        <tr><td>Rahul Kumar</td><td>Mechanical Engineering</td><td>4</td></tr>
+                        <tr><td>Akhil Reddy</td><td>Civil Engineering</td><td>5</td></tr>
+                        <tr><td>Sneha Patel</td><td>Electronics</td><td>6</td></tr>
+                        <tr><td>Arjun Nair</td><td>Information Technology</td><td>7</td></tr>
+                        <tr><td>Divya Singh</td><td>Computer Science</td><td>8</td></tr>
+                        <tr><td>Vikram Gupta</td><td>Electrical Engineering</td><td>1</td></tr>
+                        <tr><td>Anjali Rao</td><td>Mechanical Engineering</td><td>2</td></tr>
+                        <tr><td>Aditya Mehta</td><td>Civil Engineering</td><td>3</td></tr>
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('profilesTable').innerHTML = tableHtml;
+        }
+
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+
+</html>

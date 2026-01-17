@@ -1,0 +1,5 @@
+=== TEST 1: password first, hash second (CORRECT) ===
+ERROR: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+
+=== TEST 2: hash first, password second (WRONG) ===
+ERROR: hash could not be identified

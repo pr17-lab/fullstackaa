@@ -52,8 +52,13 @@ async def get_student(
     student_id: uuid.UUID,
     db: Session = Depends(get_db)
 ):
-    """Get student profile by ID."""
-    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    """Get student profile by ID (tries user_id first, then profile id)."""
+    # First try to find by user_id (most common case from auth context)
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
+    
+    # Fall back to profile id for backwards compatibility
+    if not student:
+        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
     
     if not student:
         raise HTTPException(
@@ -147,8 +152,12 @@ async def get_student_academic_records(
 ):
     """Get complete academic history for a student."""
     try:
-        # Verify student exists
-        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+        # Try to find student by user_id first (common case from auth)
+        student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
+        
+        # Fall back to profile id
+        if not student:
+            student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
         
         if not student:
             raise HTTPException(

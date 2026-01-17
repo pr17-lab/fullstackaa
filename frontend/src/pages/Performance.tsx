@@ -4,19 +4,25 @@ import { StudentService } from '../services/api';
 import { AcademicRecordSummary } from '../api/types';
 import { LoadingSpinner, ErrorDisplay } from '../components/common/Loading';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-
-const STUDENT_ID = 'd0c97f9a-5b6b-4dd7-9248-b12d835448d6';
+import { useAuth } from '../contexts/AuthContext';
 
 const Performance = () => {
+    const { user } = useAuth();
     const [records, setRecords] = useState<AcademicRecordSummary | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     const fetchData = async () => {
+        if (!user?.id) {
+            setError('User not authenticated');
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
         setError(null);
         try {
-            const data = await StudentService.getAcademicRecords(STUDENT_ID);
+            const data = await StudentService.getAcademicRecords(user.id);
             setRecords(data);
         } catch (err: any) {
             setError(err.message || 'Failed to fetch performance data');
@@ -26,8 +32,10 @@ const Performance = () => {
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (user?.id) {
+            fetchData();
+        }
+    }, [user?.id]);
 
     if (loading) {
         return (
@@ -81,7 +89,7 @@ const Performance = () => {
                         </div>
                         <div>
                             <p className="text-xs text-gray-500">Student</p>
-                            <p className="text-sm font-semibold text-gray-900">Priya Sharma</p>
+                            <p className="text-sm font-semibold text-gray-900">{user?.name || 'Student'}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -90,7 +98,7 @@ const Performance = () => {
                         </div>
                         <div>
                             <p className="text-xs text-gray-500">Branch</p>
-                            <p className="text-sm font-semibold text-gray-900">Electronics</p>
+                            <p className="text-sm font-semibold text-gray-900">{user?.branch || 'N/A'}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -99,7 +107,7 @@ const Performance = () => {
                         </div>
                         <div>
                             <p className="text-xs text-gray-500">Current Semester</p>
-                            <p className="text-sm font-semibold text-gray-900">4</p>
+                            <p className="text-sm font-semibold text-gray-900">{user?.semester || 'N/A'}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">

@@ -9,10 +9,10 @@ import { WeakStrongSubjects } from '../components/dashboard/WeakStrongSubjects';
 import { MyCoursesCard } from '../components/dashboard/MyCoursesCard';
 import { SemesterProgressCard } from '../components/dashboard/SemesterProgressCard';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-const STUDENT_ID = 'd0c97f9a-5b6b-4dd7-9248-b12d835448d6';
+import { useAuth } from '../contexts/AuthContext';
 
 const Dashboard = () => {
+    const { user } = useAuth();
     const [records, setRecords] = useState<AcademicRecordSummary | null>(null);
     const [trend, setTrend] = useState<GPATrend | null>(null);
     const [summary, setSummary] = useState<StudentAnalyticsSummary | null>(null);
@@ -20,13 +20,19 @@ const Dashboard = () => {
     const [error, setError] = useState<string | null>(null);
 
     const fetchData = async () => {
+        if (!user?.id) {
+            setError('User not authenticated');
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
         setError(null);
         try {
             const [recordsData, trendData, summaryData] = await Promise.all([
-                StudentService.getAcademicRecords(STUDENT_ID),
-                AnalyticsService.getGPATrend(STUDENT_ID),
-                AnalyticsService.getStudentSummary(STUDENT_ID),
+                StudentService.getAcademicRecords(user.id),
+                AnalyticsService.getGPATrend(user.id),
+                AnalyticsService.getStudentSummary(user.id),
             ]);
 
             setRecords(recordsData);
@@ -40,8 +46,10 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (user?.id) {
+            fetchData();
+        }
+    }, [user?.id]);
 
     if (loading) {
         return (
@@ -99,7 +107,7 @@ const Dashboard = () => {
         <div className="space-y-6">
             {/* Welcome Header */}
             <div>
-                <h1 className="text-3xl font-bold text-gray-900">Welcome back, Priya! 👋</h1>
+                <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.name?.split(' ')[0] || 'Student'}! 👋</h1>
                 <p className="text-gray-500 mt-1">Here's your academic overview</p>
             </div>
 

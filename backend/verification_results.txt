@@ -1,0 +1,22 @@
+================================================================================
+VERIFYING PROFILE UPDATES
+================================================================================
+
+[1] Checking S00004 (Akhil Reddy)...
+     Name:     Akhil Reddy
+     Branch:   IT
+     Semester: 2
+     Email:    akhil.reddy750@student.edu
+
+[2] Checking Department Distribution:
+    Branch                    | Count
+    --------------------------+-----------
+    AI&ML                     | 2464
+    CSE                       | 2514
+    Civil Engineering         | 1
+    Computer Science          | 4
+    ECE                       | 2388
+    Electronics               | 2
+    IT                        | 2411
+    Information Technology    | 1
+    Mechanical                | 2

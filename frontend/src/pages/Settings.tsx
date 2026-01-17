@@ -1,8 +1,21 @@
 import { User, Bell, Lock, Globe, Moon, Mail } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
+import { useAuth } from '../contexts/AuthContext';
 
 const Settings = () => {
+    const { user } = useAuth();
+
+    // Get user initials
+    const getInitials = (name?: string) => {
+        if (!name) return 'U';
+        const parts = name.split(' ');
+        if (parts.length >= 2) {
+            return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        }
+        return name[0].toUpperCase();
+    };
+
     // This is a placeholder page for future implementation
 
     return (
@@ -23,12 +36,12 @@ const Settings = () => {
                 <CardContent className="space-y-4">
                     <div className="flex items-center gap-4 p-4 bg-[var(--bg-tertiary)] rounded-lg">
                         <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] flex items-center justify-center text-2xl font-bold text-white shadow-lg">
-                            PS
+                            {getInitials(user?.name)}
                         </div>
                         <div className="flex-1">
-                            <p className="font-semibold text-[var(--text-primary)]">Priya Sharma</p>
-                            <p className="text-sm text-[var(--text-secondary)]">Electronics Engineering</p>
-                            <p className="text-xs text-[var(--text-tertiary)]">Student ID: 2021EC042</p>
+                            <p className="font-semibold text-[var(--text-primary)]">{user?.name || 'Student'}</p>
+                            <p className="text-sm text-[var(--text-secondary)]">{user?.branch || 'N/A'}</p>
+                            <p className="text-xs text-[var(--text-tertiary)]">Student ID: {user?.student_id || 'N/A'}</p>
                         </div>
                         <Badge variant="success">Active</Badge>
                     </div>
@@ -39,7 +52,7 @@ const Settings = () => {
                                 <Mail className="h-5 w-5 text-[var(--text-tertiary)]" />
                                 <div>
                                     <p className="text-sm font-medium text-[var(--text-primary)]">Email</p>
-                                    <p className="text-xs text-[var(--text-secondary)]">priya.sharma@college.edu</p>
+                                    <p className="text-xs text-[var(--text-secondary)]">{user?.email || 'N/A'}</p>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +62,7 @@ const Settings = () => {
                                 <User className="h-5 w-5 text-[var(--text-tertiary)]" />
                                 <div>
                                     <p className="text-sm font-medium text-[var(--text-primary)]">Semester</p>
-                                    <p className="text-xs text-[var(--text-secondary)]">6th Semester</p>
+                                    <p className="text-xs text-[var(--text-secondary)]">{user?.semester ? `${user.semester}th Semester` : 'N/A'}</p>
                                 </div>
                             </div>
                         </div>

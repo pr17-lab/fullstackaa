@@ -29,8 +29,13 @@ async def get_gpa_trend(
     db: Session = Depends(get_db)
 ):
     """Get GPA trend over time for a specific student."""
-    # Verify student exists
-    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    # Try to find student by user_id first (common case from auth)
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
+    
+    # Fall back to profile id
+    if not student:
+        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
@@ -89,8 +94,13 @@ async def get_subject_performance(
     db: Session = Depends(get_db)
 ):
     """Analyze performance across all subjects for a student."""
-    # Verify student exists
-    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    # Try to find student by user_id first
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
+    
+    # Fall back to profile id
+    if not student:
+        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
@@ -139,8 +149,13 @@ async def get_semester_comparison(
     db: Session = Depends(get_db)
 ):
     """Compare performance across different semesters."""
-    # Verify student exists
-    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    # Try to find student by user_id first
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
+    
+    # Fall back to profile id
+    if not student:
+        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
@@ -189,8 +204,13 @@ async def get_student_analytics_summary(
     db: Session = Depends(get_db)
 ):
     """Get comprehensive analytics summary for a student."""
-    # Get student profile
-    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    # Try to find student by user_id first (common case from auth)
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
+    
+    # Fall back to profile id
+    if not student:
+        student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     

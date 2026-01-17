@@ -1,0 +1,12 @@
+Login attempt:
+  Username: priya.sharma@example.com
+  Password: STU001@123
+  Password length: 10
+
+User found: priya.sharma@example.com
+  user.password_hash type: <class 'str'>
+  user.password_hash length: 60
+  user.password_hash value: $2b$12$5Z74qkmhs0wK1S1MyQBWjOZlYMXRx9wdP4ZQ81y5/3ZnO0FP2LkqO
+
+Calling verify_password('STU001@123', '$2b$12$5Z74qkmhs0wK1S1MyQBWjOZlYMXRx9wdP4ZQ81y5/3ZnO0FP2LkqO')
+Result: False
