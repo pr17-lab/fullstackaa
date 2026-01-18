@@ -1,0 +1,6 @@
+2026-01-18 21:45:00 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-01-18 21:45:00 - app.main - INFO - main.py:22 - Loading CSV data...
+2026-01-18 21:45:00 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-01-18 21:45:00 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-01-18 21:45:00 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-01-18 21:45:00 - app.main - INFO - main.py:24 - CSV data loaded: True

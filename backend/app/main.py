@@ -3,10 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api.routes import auth, profile, academic, students, analytics
 from app.services.csv_data_service import csv_data_loader
+from app.core.logging import setup_logging
 import logging
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Initialize structured logging
+setup_logging(level="INFO" if not settings.DEBUG else "DEBUG")
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
