@@ -1,0 +1,49 @@
+﻿python : Traceback 
+(most recent call 
+last):
+At line:1 char:1
++ python test_migrati
+on_import.py 2>&1 | 
+Out-File -Encoding 
+utf8 migrat ...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Traceba   
+ ck (most recent     
+call last)::Stri    
+ng) [], RemoteEx    
+ception
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\test_migration
+_import.py", line 5, 
+in <module>
+    from migrations.d
+ata.m_001_initial 
+import 
+InitialMigration
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\migrations\dat
+a\__init__.py", line 
+12
+    python scripts/ru
+n_data_migration.py 
+--version 002 
+--direction upgrade
+                     
+                     
+         ^^
+SyntaxError: leading 
+zeros in decimal 
+integer literals are 
+not permitted; use 
+an 0o prefix for 
+octal integers
+ERROR: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (__init__.py, line 12)
