@@ -47,6 +47,41 @@ async def list_students(
         students=students
     )
 
+@router.get("/students/search", response_model=StudentListResponse)
+async def search_students(
+    q: str = Query(..., min_length=2, description="Search query"),
+    page: int = Query(1, ge=1, description="Page number"),
+    page_size: int = Query(20, ge=1, le=100, description="Items per page"),
+    db: Session = Depends(get_db)
+):
+    """Search students by name, student_id, or email."""
+    from sqlalchemy import or_
+    
+    search_pattern = f"%{q}%"
+    
+    # Join with User table for student_id and email search
+    query = db.query(StudentProfile).join(User).filter(
+        or_(
+            User.student_id.ilike(search_pattern),
+            User.email.ilike(search_pattern),
+            StudentProfile.name.ilike(search_pattern)
+        )
+    )
+    
+    # Get total count
+    total = query.count()
+    
+    # Apply pagination
+    students = query.offset((page - 1) * page_size).limit(page_size).all()
+    
+    return StudentListResponse(
+        total=total,
+        page=page,
+        page_size=page_size,
+        students=students
+    )
+
+
 @router.get("/students/{student_id}", response_model=StudentProfileResponse)
 async def get_student(
     student_id: uuid.UUID,

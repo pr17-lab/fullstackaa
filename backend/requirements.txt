@@ -11,3 +11,19 @@ python-multipart==0.0.6
 python-dotenv==1.0.0
 pandas==2.1.4
 
+# Rate Limiting
+slowapi==0.1.9
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+httpx==0.25.2
+
+# Logging
+python-json-logger==2.0.7
+
+# System Metrics
+psutil==5.9.6
+
+

@@ -42,3 +42,37 @@ def decode_access_token(token: str) -> Optional[dict]:
         return payload
     except JWTError:
         return None
+
+def validate_password_strength(password: str) -> tuple[bool, str]:
+    """
+    Validate password meets complexity requirements.
+    
+    Requirements:
+    - At least 8 characters
+    - Contains lowercase letters
+    - Contains uppercase letters
+    - Contains numbers
+    - Contains special characters
+    
+    Returns:
+        Tuple of (is_valid, message)
+    """
+    import re
+    
+    if len(password) < 8:
+        return False, "Password must be at least 8 characters"
+    
+    if not re.search(r"[a-z]", password):
+        return False, "Password must contain lowercase letters"
+    
+    if not re.search(r"[A-Z]", password):
+        return False, "Password must contain uppercase letters"
+    
+    if not re.search(r"\d", password):
+        return False, "Password must contain numbers"
+    
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        return False, "Password must contain special characters"
+    
+    return True, "Password is strong"
+

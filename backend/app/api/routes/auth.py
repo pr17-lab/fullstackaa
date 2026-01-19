@@ -56,13 +56,29 @@ async def login(
             headers={"WWW-Authenticate": "Bearer"},
         )
     
+    # Check if account is locked
+    if user.is_locked():
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"Account is locked due to too many failed login attempts. Please try again later.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
     # Verify password
     if not user.password_hash or not verify_password(form_data.password, user.password_hash):
+        # Record failed login attempt
+        user.record_failed_login()
+        db.commit()
+        
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect student ID or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    
+    # Reset failed attempts on successful login
+    user.reset_failed_attempts()
+    db.commit()
     
     # Create access token (still use email as subject for backwards compatibility with tokens)
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -72,6 +88,7 @@ async def login(
     )
     
     return {"access_token": access_token, "token_type": "bearer"}
+
 
 @router.get("/me", response_model=UserResponse)
 async def get_me(
