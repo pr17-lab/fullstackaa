@@ -11,6 +11,7 @@ import { MyCoursesCard } from '../components/dashboard/MyCoursesCard';
 import { SemesterProgressCard } from '../components/dashboard/SemesterProgressCard';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useAuth } from '../contexts/AuthContext';
+import { convertGPATo10Scale } from '../utils/gpa';
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -125,8 +126,11 @@ const Dashboard = () => {
 
     const gpaChartData = trend?.data_points.map(point => ({
         semester: `S${point.semester}`,
-        gpa: Number(point.gpa)
+        gpa: convertGPATo10Scale(point.gpa)
     })) || [];
+
+    // Convert overall GPA to 10-point scale
+    const overallGPA10 = convertGPATo10Scale(records.overall_gpa);
 
     return (
         <div className="space-y-6">
@@ -140,7 +144,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatCard
                     title="Overall GPA"
-                    value={Number(records.overall_gpa).toFixed(2)}
+                    value={overallGPA10.toFixed(2)}
                     icon={Award}
                     color="indigo"
                     subtitle="Cumulative"
@@ -173,34 +177,7 @@ const Dashboard = () => {
                 {/* Main Column (2/3 width) */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* GPA Donut */}
-                    <GPADonutChart gpa={Number(records.overall_gpa)} maxGpa={10} />
-
-                    {/* GPA Trend Chart */}
-                    <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100 mb-4">GPA Trend</h3>
-                        <ResponsiveContainer width="100%" height={250}>
-                            <LineChart data={gpaChartData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-zinc-700" />
-                                <XAxis dataKey="semester" stroke="#6b7280" className="dark:stroke-zinc-400" style={{ fontSize: '12px' }} />
-                                <YAxis domain={[0, 10]} stroke="#6b7280" className="dark:stroke-zinc-400" style={{ fontSize: '12px' }} />
-                                <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: '#fff',
-                                        border: '1px solid #e5e7eb',
-                                        borderRadius: '8px'
-                                    }}
-                                />
-                                <Line
-                                    type="monotone"
-                                    dataKey="gpa"
-                                    stroke="#6366f1"
-                                    strokeWidth={3}
-                                    dot={{ fill: '#6366f1', r: 4 }}
-                                    activeDot={{ r: 6 }}
-                                />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </div>
+                    <GPADonutChart gpa={overallGPA10} maxGpa={10} />
 
                     {/* Weak and Strong Subjects */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

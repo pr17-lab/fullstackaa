@@ -3,8 +3,10 @@ import { Award, BookOpen, Calendar, User } from 'lucide-react';
 import { StudentService } from '../services/api';
 import { AcademicRecordSummary } from '../api/types';
 import { LoadingSpinner, ErrorDisplay } from '../components/common/Loading';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useAuth } from '../contexts/AuthContext';
+import GPATrendChart from '../components/dashboard/GPATrendChart';
+import { convertGPATo10Scale } from '../utils/gpa';
 
 const Performance = () => {
     const { user } = useAuth();
@@ -48,14 +50,6 @@ const Performance = () => {
     if (error) return <ErrorDisplay message={error} onRetry={fetchData} />;
     if (!records) return null;
 
-    // Prepare GPA trend data
-    const gpaData = records.terms.map(term => ({
-        semester: `Sem ${term.semester}`,
-        year: term.year,
-        gpa: Number(term.gpa),
-        subjects: term.subjects?.length || 0
-    }));
-
     // Prepare credit distribution
     const creditData = records.terms.map(term => ({
         semester: `S${term.semester}`,
@@ -74,8 +68,6 @@ const Performance = () => {
     const topSubjects = [...allSubjects]
         .sort((a, b) => b.marks - a.marks)
         .slice(0, 8);
-
-    const COLORS = ['#6366f1', '#8b5cf6', '#3b82f6', '#10b981'];
 
     return (
         <div className="space-y-6">
@@ -116,38 +108,14 @@ const Performance = () => {
                         </div>
                         <div>
                             <p className="text-xs text-gray-500 dark:text-zinc-400">Overall GPA</p>
-                            <p className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{Number(records.overall_gpa).toFixed(2)}</p>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{convertGPATo10Scale(records.overall_gpa).toFixed(2)}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* GPA Trend */}
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-zinc-800 transition-colors">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100 mb-4">GPA Trend Over Time</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={gpaData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                        <XAxis dataKey="semester" stroke="#6b7280" style={{ fontSize: '12px' }} />
-                        <YAxis domain={[0, 10]} stroke="#6b7280" style={{ fontSize: '12px' }} />
-                        <Tooltip
-                            contentStyle={{
-                                backgroundColor: '#fff',
-                                border: '1px solid #e5e7eb',
-                                borderRadius: '8px'
-                            }}
-                        />
-                        <Line
-                            type="monotone"
-                            dataKey="gpa"
-                            stroke="#6366f1"
-                            strokeWidth={3}
-                            dot={{ fill: '#6366f1', r: 5 }}
-                            activeDot={{ r: 7 }}
-                        />
-                    </LineChart>
-                </ResponsiveContainer>
-            </div>
+            {/* GPA Trend - New Chart.js Component */}
+            {user?.id && <GPATrendChart studentId={user.id} />}
 
             {/* Credit Distribution and Subject Performance */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -65,7 +65,4 @@ async def root():
         "docs": "/docs"
     }
 
-# Apply rate limiting to login endpoint
-from app.api.routes.auth import router as auth_router
-limiter.limit("5/minute")(auth.login)
 

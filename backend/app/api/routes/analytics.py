@@ -64,8 +64,25 @@ async def get_gpa_trend(
         for term in terms
     ]
     
-    # Calculate average GPA (safe from division by zero due to check above)
-    avg_gpa = sum(float(term.gpa) for term in terms) / len(terms)
+    # Calculate CGPA (Cumulative GPA) - weighted average based on credits
+    total_credits = 0
+    weighted_sum = 0
+    
+    for term in terms:
+        # Get all subjects for this term
+        subjects = db.query(Subject).filter(Subject.term_id == term.id).all()
+        term_credits = sum(s.credits for s in subjects)
+        
+        # Add to running totals
+        total_credits += term_credits
+        weighted_sum += float(term.gpa) * term_credits
+    
+    # Calculate weighted average (CGPA)
+    if total_credits > 0:
+        avg_gpa = weighted_sum / total_credits
+    else:
+        # Fallback to simple average if no credit data
+        avg_gpa = sum(float(term.gpa) for term in terms) / len(terms)
     
     # Determine trend
     if len(terms) >= 2:
@@ -87,6 +104,7 @@ async def get_gpa_trend(
         average_gpa=Decimal(str(avg_gpa)),
         trend=trend
     )
+
 
 @router.get("/subject-performance", response_model=SubjectPerformance)
 async def get_subject_performance(

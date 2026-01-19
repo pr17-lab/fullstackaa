@@ -4,9 +4,11 @@ Authentication API routes for login and user management.
 
 from datetime import timedelta
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 from app.core.config import settings
 from app.core.security import verify_password, create_access_token
 from app.models.user import User
@@ -17,6 +19,9 @@ from pydantic import BaseModel
 
 
 router = APIRouter(tags=["Authentication"])
+
+# Initialize rate limiter
+limiter = Limiter(key_func=get_remote_address)
 
 # Schemas
 class Token(BaseModel):
@@ -36,7 +41,9 @@ class UserResponse(BaseModel):
     }
 
 @router.post("/login", response_model=Token)
+@limiter.limit("5/minute")
 async def login(
+    request: Request,
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
@@ -45,6 +52,8 @@ async def login(
     
     Username should be student_id (e.g., "S00001").
     Password will be verified against hashed password in database.
+    
+    Rate limited to 5 requests per minute per IP address.
     """
     # Find user by student_id
     user = db.query(User).filter(User.student_id == form_data.username).first()
