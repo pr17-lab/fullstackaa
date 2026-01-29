@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import { AuthProvider } from './contexts/AuthContext.tsx';
+import { ThemeProvider } from './contexts/ThemeContext.tsx';
 import './index.css';
 
 // Create React Query client
@@ -21,9 +22,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
-                <AuthProvider>
-                    <App />
-                </AuthProvider>
+                <ThemeProvider>
+                    <AuthProvider>
+                        <App />
+                    </AuthProvider>
+                </ThemeProvider>
             </BrowserRouter>
         </QueryClientProvider>
     </React.StrictMode>,

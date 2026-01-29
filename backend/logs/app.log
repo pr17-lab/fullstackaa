@@ -255,3 +255,42 @@
 2026-01-19 11:57:06 - app.middleware.logging - INFO - logging.py:15 - api_request
 2026-01-19 11:57:07 - app.middleware.logging - INFO - logging.py:15 - api_request
 2026-01-19 11:57:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:04:41 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-01-22 21:04:41 - app.main - INFO - main.py:34 - Loading CSV data...
+2026-01-22 21:04:41 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-01-22 21:04:41 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-01-22 21:04:41 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-01-22 21:04:41 - app.main - INFO - main.py:36 - CSV data loaded: True
+2026-01-22 21:04:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:04:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:10:35 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-01-22 21:10:35 - app.main - INFO - main.py:34 - Loading CSV data...
+2026-01-22 21:10:35 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-01-22 21:10:36 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-01-22 21:10:36 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-01-22 21:10:36 - app.main - INFO - main.py:36 - CSV data loaded: True
+2026-01-22 21:10:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:10:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:10:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:10:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:10:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:10:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:10:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:10:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:11:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:11:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:11:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:11:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:11:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:12:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:12:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:12:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:12:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:12:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:12:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:12:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:12:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:14:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:14:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:14:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-01-22 21:14:15 - app.middleware.logging - INFO - logging.py:15 - api_request
