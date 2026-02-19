@@ -200,11 +200,12 @@ async def get_student_academic_records(
                 detail=f"Student with ID {student_id} not found"
             )
         
-        # Get all academic terms with subjects (eager loading)
+        # Get academic terms up to current semester only (eager loading)
         terms = db.query(AcademicTerm).options(
             joinedload(AcademicTerm.subjects)
         ).filter(
-            AcademicTerm.user_id == student.user_id
+            AcademicTerm.user_id == student.user_id,
+            AcademicTerm.semester <= student.semester  # Only completed semesters
         ).order_by(AcademicTerm.year, AcademicTerm.semester).all()
         
         # Calculate overall statistics with defensive handling

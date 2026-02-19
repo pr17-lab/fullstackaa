@@ -7,7 +7,7 @@ Checks for duplicates, missing fields, invalid data, and format errors.
 
 Usage:
     python backend/scripts/validate_csv.py data/SATA_student_main_info_10k_IEEE.csv
-    python backend/scripts/validate_csv.py data/SATA_academic_records_10k_IEEE.csv
+    python backend/scripts/validate_csv.py data/SATA_academic_records_10k_IEEE_progressive (1).csv
 """
 
 import sys
@@ -230,7 +230,7 @@ def main():
         print("Usage: python validate_csv.py <csv_file_path>")
         print("\nExamples:")
         print("  python scripts/validate_csv.py data/SATA_student_main_info_10k_IEEE.csv")
-        print("  python scripts/validate_csv.py data/SATA_academic_records_10k_IEEE.csv")
+        print("  python scripts/validate_csv.py data/SATA_academic_records_10k_IEEE_progressive (1).csv")
         sys.exit(1)
     
     csv_path = sys.argv[1]

@@ -1,0 +1,103 @@
+﻿python : Traceback 
+(most recent call 
+last):
+At line:1 char:1
++ python backend\scri
+pts\import_csv_to_db.
+py 2>&1 | Out-File 
+-Encoding  ...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Traceba   
+ ck (most recent     
+call last)::Stri    
+ng) [], RemoteEx    
+ception
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\scripts\import
+_csv_to_db.py", line 
+20, in <module>
+    from app.models 
+import User, 
+StudentProfile, 
+AcademicTerm, Subject
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\app\models\__i
+nit__.py", line 1, 
+in <module>
+    from .user 
+import User
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\app\models\use
+r.py", line 7, in 
+<module>
+    from 
+app.core.database 
+import Base
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\app\core\datab
+ase.py", line 5, in 
+<module>
+    from 
+app.core.config 
+import settings
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\app\core\confi
+g.py", line 80, in 
+<module>
+    settings = 
+Settings()
+               
+^^^^^^^^^^
+  File "C:\Users\Admi
+n\AppData\Roaming\Pyt
+hon\Python312\site-pa
+ckages\pydantic_setti
+ngs\main.py", line 
+71, in __init__
+    super().__init__(
+  File "C:\Users\Admi
+n\AppData\Roaming\Pyt
+hon\Python312\site-pa
+ckages\pydantic\main.
+py", line 164, in 
+__init__
+    __pydantic_self__
+.__pydantic_validator
+__.validate_python(da
+ta, self_instance=__p
+ydantic_self__)
+pydantic_core._pydant
+ic_core.ValidationErr
+or: 2 validation 
+errors for Settings
+DATABASE_URL
+  Field required 
+[type=missing, 
+input_value={}, 
+input_type=dict]
+    For further 
+information visit htt
+ps://errors.pydantic.
+dev/2.5/v/missing
+SECRET_KEY
+  Field required 
+[type=missing, 
+input_value={}, 
+input_type=dict]
+    For further 
+information visit htt
+ps://errors.pydantic.
+dev/2.5/v/missing

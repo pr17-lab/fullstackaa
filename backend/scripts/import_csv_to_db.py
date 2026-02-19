@@ -246,8 +246,8 @@ def main():
     print("="*80)
     
     # Paths to CSV files
-    student_csv = backend_dir / "data" / "SATA_student_main_info_10k.csv"
-    academic_csv = backend_dir / "data" / "SATA_academic_records_10k.csv"
+    student_csv = backend_dir / "data" / "SATA_student_main_info_10k_IEEE.csv"
+    academic_csv = backend_dir / "data" / "SATA_academic_records_10k_IEEE_progressive (1).csv"
     
     # Validate CSV files exist
     if not student_csv.exists():

@@ -39,9 +39,10 @@ async def get_gpa_trend(
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
-    # Get all academic terms
+    # Get academic terms up to current semester only (only completed semesters)
     terms = db.query(AcademicTerm).filter(
-        AcademicTerm.user_id == student.user_id
+        AcademicTerm.user_id == student.user_id,
+        AcademicTerm.semester <= student.semester  # Filter to completed semesters only
     ).order_by(AcademicTerm.year, AcademicTerm.semester).all()
     
     # Return empty state if no academic records found (instead of 404)
@@ -177,9 +178,10 @@ async def get_semester_comparison(
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
-    # Get all terms with aggregated statistics
+    # Get terms up to current semester with aggregated statistics
     terms = db.query(AcademicTerm).filter(
-        AcademicTerm.user_id == student.user_id
+        AcademicTerm.user_id == student.user_id,
+        AcademicTerm.semester <= student.semester  # Only completed semesters
     ).order_by(AcademicTerm.year, AcademicTerm.semester).all()
     
     if not terms:
@@ -232,9 +234,10 @@ async def get_student_analytics_summary(
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
-    # Get academic terms
+    # Get academic terms up to current semester
     terms = db.query(AcademicTerm).filter(
-        AcademicTerm.user_id == student.user_id
+        AcademicTerm.user_id == student.user_id,
+        AcademicTerm.semester <= student.semester  # Only completed semesters
     ).all()
     
     # Handle empty terms with defensive defaults

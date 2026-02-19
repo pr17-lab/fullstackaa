@@ -101,20 +101,44 @@ const Dashboard = () => {
         })) || []
     );
 
-    const sortedByMarks = [...allSubjects].sort((a, b) => a.marks - b.marks);
+    // Group subjects by name and calculate average marks
+    const subjectAverages = allSubjects.reduce((acc, subject) => {
+        if (!acc[subject.name]) {
+            acc[subject.name] = {
+                name: subject.name,
+                code: subject.code,
+                totalMarks: 0,
+                count: 0,
+                credits: subject.credits
+            };
+        }
+        acc[subject.name].totalMarks += subject.marks;
+        acc[subject.name].count += 1;
+        return acc;
+    }, {} as Record<string, { name: string; code: string; totalMarks: number; count: number; credits: number }>);
+
+    // Convert to array with average marks
+    const uniqueSubjects = Object.values(subjectAverages).map(subject => ({
+        name: subject.name,
+        code: subject.code,
+        averageMarks: subject.totalMarks / subject.count,
+        credits: subject.credits
+    }));
+
+    const sortedByMarks = [...uniqueSubjects].sort((a, b) => a.averageMarks - b.averageMarks);
 
     const weakestSubjects = sortedByMarks.slice(0, 3).map((subject, idx) => ({
-        id: subject.id,
+        id: `${subject.code}-weak`,
         rank: idx + 1,
         name: subject.name,
-        percentage: Math.round((subject.marks / 100) * 100)
+        percentage: Math.round(subject.averageMarks)
     }));
 
     const strongestSubjects = sortedByMarks.slice(-3).reverse().map((subject, idx) => ({
-        id: subject.id,
+        id: `${subject.code}-strong`,
         rank: idx + 1,
         name: subject.name,
-        percentage: Math.round((subject.marks / 100) * 100)
+        percentage: Math.round(subject.averageMarks)
     }));
 
     const courses = allSubjects.map(subject => ({

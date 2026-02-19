@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BookOpen, Search } from 'lucide-react';
+import { BookOpen, Search, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
 import { EmptyState, LoadingSpinner, ErrorDisplay } from '../components/common/Loading';
@@ -13,6 +13,19 @@ const Subjects = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [expandedSemesters, setExpandedSemesters] = useState<Set<number>>(new Set([1])); // Default: first semester expanded
+
+    const toggleSemester = (semester: number) => {
+        setExpandedSemesters(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(semester)) {
+                newSet.delete(semester);
+            } else {
+                newSet.add(semester);
+            }
+            return newSet;
+        });
+    };
 
     const fetchData = async () => {
         if (!user?.id) {
@@ -59,7 +72,8 @@ const Subjects = () => {
             marks: Number(subject.marks),
             grade: subject.grade,
             semester: term.semester,
-            year: term.year
+            year: term.year,
+            gpa: term.gpa
         })) || []
     ) || [];
 
@@ -69,13 +83,28 @@ const Subjects = () => {
         subject.code.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Group subjects by semester
+    const subjectsBySemester = filteredSubjects.reduce((acc, subject) => {
+        const key = subject.semester;
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(subject);
+        return acc;
+    }, {} as Record<number, typeof filteredSubjects>);
+
+    // Sort semesters in ascending order
+    const sortedSemesters = Object.keys(subjectsBySemester)
+        .map(Number)
+        .sort((a, b) => a - b);
+
     return (
         <div className="space-y-6 animate-slide-up max-w-6xl mx-auto">
             {/* Header */}
             <div>
                 <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-2">My Subjects</h1>
                 <p className="text-lg text-[var(--text-secondary)]">
-                    All courses from your academic history
+                    All courses organized by semester
                 </p>
             </div>
 
@@ -97,52 +126,107 @@ const Subjects = () => {
 
             {/* Subjects Count */}
             <div className="text-sm text-[var(--text-secondary)]">
-                Showing {filteredSubjects.length} of {allSubjects.length} subjects
+                Showing {filteredSubjects.length} of {allSubjects.length} subjects across {sortedSemesters.length} semester{sortedSemesters.length !== 1 ? 's' : ''}
             </div>
 
-            {/* Subjects Grid */}
-            {filteredSubjects.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredSubjects.map((subject) => (
-                        <Card key={subject.id} variant="interactive">
-                            <CardContent className="p-6">
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] flex items-center justify-center shadow-lg">
-                                        <BookOpen className="h-6 w-6 text-white" />
-                                    </div>
-                                    <Badge
-                                        variant={subject.marks >= 40 ? "success" : "warning"}
-                                        size="sm"
-                                    >
-                                        {subject.grade || 'N/A'}
-                                    </Badge>
-                                </div>
+            {/* Subjects by Semester */}
+            {sortedSemesters.length > 0 ? (
+                <div className="space-y-6">
+                    {sortedSemesters.map((semester) => {
+                        const semesterSubjects = subjectsBySemester[semester];
+                        const semesterGPA = semesterSubjects[0]?.gpa || 0;
+                        const semesterYear = semesterSubjects[0]?.year || new Date().getFullYear();
+                        const totalCredits = semesterSubjects.reduce((sum, s) => sum + s.credits, 0);
 
-                                <h3 className="font-semibold text-lg text-[var(--text-primary)] mb-2 line-clamp-2" title={subject.name}>
-                                    {subject.name}
-                                </h3>
+                        const isExpanded = expandedSemesters.has(semester);
 
-                                <div className="space-y-2">
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-[var(--text-secondary)]">Code</span>
-                                        <span className="text-[var(--text-primary)] font-medium">{subject.code}</span>
+                        return (
+                            <div key={semester} className="space-y-4">
+                                {/* Semester Header */}
+                                <Card variant="elevated">
+                                    <CardHeader>
+                                        <div
+                                            className="cursor-pointer hover:opacity-80 transition-opacity"
+                                            onClick={() => toggleSemester(semester)}
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-[var(--brand-primary)] text-white font-bold">
+                                                        {semester}
+                                                    </div>
+                                                    <div>
+                                                        <CardTitle className="text-xl">
+                                                            Semester {semester}
+                                                        </CardTitle>
+                                                        <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+                                                            {semesterSubjects.length} subjects • {totalCredits} credits
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-6">
+                                                    <div className="text-right">
+                                                        <div className="text-xs text-[var(--text-secondary)]">GPA</div>
+                                                        <div className="text-lg font-bold text-[var(--brand-primary)]">
+                                                            {(semesterGPA * 2.5).toFixed(2)}/10
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center justify-center h-10 w-10">
+                                                        {isExpanded ? (
+                                                            <ChevronUp className="h-6 w-6 text-[var(--text-secondary)]" />
+                                                        ) : (
+                                                            <ChevronDown className="h-6 w-6 text-[var(--text-secondary)]" />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardHeader>
+                                </Card>
+
+                                {/* Semester Subjects Grid - Collapsible */}
+                                {isExpanded && (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-slide-up">
+                                        {semesterSubjects.map((subject) => (
+                                            <Card key={subject.id} variant="interactive">
+                                                <CardContent className="p-5">
+                                                    <div className="flex items-start justify-between mb-3">
+                                                        <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] flex items-center justify-center shadow-md">
+                                                            <BookOpen className="h-5 w-5 text-white" />
+                                                        </div>
+                                                        <Badge
+                                                            variant={subject.marks >= 40 ? "success" : "warning"}
+                                                            size="sm"
+                                                        >
+                                                            {subject.grade || 'N/A'}
+                                                        </Badge>
+                                                    </div>
+
+                                                    <h3 className="font-semibold text-base text-[var(--text-primary)] mb-3 line-clamp-2" title={subject.name}>
+                                                        {subject.name}
+                                                    </h3>
+
+                                                    <div className="space-y-1.5">
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-[var(--text-secondary)]">Code</span>
+                                                            <span className="text-[var(--text-primary)] font-medium">{subject.code}</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-[var(--text-secondary)]">Credits</span>
+                                                            <span className="text-[var(--text-primary)] font-medium">{subject.credits}</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-[var(--text-secondary)]">Marks</span>
+                                                            <span className="text-[var(--text-primary)] font-medium">{subject.marks}/100</span>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        ))}
                                     </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-[var(--text-secondary)]">Credits</span>
-                                        <span className="text-[var(--text-primary)] font-medium">{subject.credits}</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-[var(--text-secondary)]">Marks</span>
-                                        <span className="text-[var(--text-primary)] font-medium">{subject.marks}/100</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-[var(--text-secondary)]">Semester</span>
-                                        <span className="text-[var(--text-primary)] font-medium">Sem {subject.semester} ({subject.year})</span>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             ) : (
                 <Card variant="elevated">

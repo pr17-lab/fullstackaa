@@ -1,0 +1,105 @@
+﻿python : Traceback 
+(most recent call 
+last):
+At line:1 char:1
++ python scripts/comp
+are_subject_names.py 
+2>&1 | Out-File 
+-FilePath scr ...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Traceba   
+ ck (most recent     
+call last)::Stri    
+ng) [], RemoteEx    
+ception
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+  File "C:\Users\Admi
+n\Desktop\fullstack\b
+ackend\scripts\compar
+e_subject_names.py", 
+line 47, in <module>
+    print(f"\n\u26a0\
+ufe0f  Found 
+{len(in_db_not_csv)} 
+subject name(s) in 
+DATABASE that differ 
+from CSV:")
+  File "C:\Program Fi
+les\Python312\Lib\enc
+odings\cp1252.py", 
+line 19, in encode
+====================================================================================================
+SUBJECT NAME COMPARISON: CSV vs DATABASE
+====================================================================================================
+
+[CSV] Sample subject names from source file:
+----------------------------------------------------------------------------------------------------
+subject_code                subject_name
+       AI101          Python Programming
+       AI102              Linear Algebra
+       AI201  Probability and Statistics
+       AI202             Data Structures
+       AI301            Machine Learning
+       AI302               Deep Learning
+       AI303 Natural Language Processing
+       AI304             Computer Vision
+       AI305     Optimization Techniques
+       AI306             Neural Networks
+       AI401      Reinforcement Learning
+       AI402              Explainable AI
+       AI403          Big Data Analytics
+       AI404                 Data Mining
+       AI405        Time Series Analysis
+       AI406      Graph Machine Learning
+       AI407           Speech Processing
+       AI408       Information Retrieval
+       AI409                   AI Ethics
+       AI410            AI in Healthcare
+
+
+[DATABASE] Sample subject names from database:
+----------------------------------------------------------------------------------------------------
+subject_code                subject_name
+       AI301            Machine Learning
+       AI302               Deep Learning
+       AI303 Natural Language Processing
+       AI304             Computer Vision
+       CS201             Data Structures
+       CS301           Operating Systems
+       CS302                        DBMS
+       CS401            Machine Learning
+       CS402           Computer Networks
+       EC201         Signals and Systems
+       EC301   Digital Signal Processing
+       EC302                 VLSI Design
+       EC303       Communication Systems
+       IT201            Web Technologies
+       IT301            Database Systems
+       IT401             Cloud Computing
+       IT402        Information Security
+
+
+[COMPARISON] Looking for discrepancies:
+----------------------------------------------------------------------------------------------------
+    return codecs.cha
+rmap_encode(input,sel
+f.errors,encoding_tab
+le)[0]
+           ^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+^^^
+UnicodeEncodeError: 
+'charmap' codec 
+can't encode 
+characters in 
+position 2-3: 
+character maps to 
+<undefined>

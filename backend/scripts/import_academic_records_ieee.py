@@ -15,10 +15,13 @@ import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.models import User, AcademicTerm, Subject
+# Direct imports to avoid Pydantic settings validation
+from app.models.user import User
+from app.models.academic_term import AcademicTerm
+from app.models.subject import Subject
 
 DATABASE_URL = "postgresql://studentadmin:studentpass123@localhost:5432/student_tracker"
-IEEE_CSV_PATH = backend_dir / "data" / "SATA_academic_records_10k_IEEE.csv"
+IEEE_CSV_PATH = backend_dir / "data" / "SATA_academic_records_10k_IEEE_progressive (1).csv"
 
 # Grade to grade point mapping
 GRADE_POINTS = {
