@@ -135,7 +135,6 @@ const Subjects = () => {
                     {sortedSemesters.map((semester) => {
                         const semesterSubjects = subjectsBySemester[semester];
                         const semesterGPA = semesterSubjects[0]?.gpa || 0;
-                        const semesterYear = semesterSubjects[0]?.year || new Date().getFullYear();
                         const totalCredits = semesterSubjects.reduce((sum, s) => sum + s.credits, 0);
 
                         const isExpanded = expandedSemesters.has(semester);

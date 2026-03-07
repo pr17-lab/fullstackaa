@@ -4,6 +4,7 @@ import ErrorBoundary from './components/common/ErrorBoundary';
 import Layout from './components/layout/Layout';
 import Login from './pages/Login';
 import { Dashboard, Performance, Subjects, Settings } from './pages';
+import InterviewPrep from './pages/InterviewPrep';
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route index element={<Dashboard />} />
                     <Route path="performance" element={<Performance />} />
                     <Route path="subjects" element={<Subjects />} />
+                    <Route path="interview" element={<InterviewPrep />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Route>

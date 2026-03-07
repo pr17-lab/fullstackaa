@@ -5,41 +5,50 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
 from app.core.config import settings
-from app.api.routes import auth, profile, academic, students, analytics, health
-from app.services.csv_data_service import csv_data_loader
 from app.core.logging import setup_logging
 from app.middleware.logging import log_requests
+from app.services.csv_data_service import csv_data_loader
+
+# Routers: auth & health are application-level; academic and interview are modules
+from app.api.routes import auth, health
+from app.modules.academic.router import router as academic_module_router
+from app.modules.interview.router import router as interview_module_router
+
 import logging
 
-# Initialize structured logging
+# ---------------------------------------------------------------------------
+# Structured logging  (all middleware registered directly — no gateway)
+# ---------------------------------------------------------------------------
 setup_logging(level="INFO" if not settings.DEBUG else "DEBUG")
 logger = logging.getLogger(__name__)
 
-# Initialize rate limiter
+# ---------------------------------------------------------------------------
+# Rate limiter
+# ---------------------------------------------------------------------------
 limiter = Limiter(key_func=get_remote_address)
 
+# ---------------------------------------------------------------------------
+# Application — v1.0 (modular monolith)
+# ---------------------------------------------------------------------------
 app = FastAPI(
     title="Student Academic Tracker API",
-    description="REST API for managing student academic records and performance analytics",
-    version="1.0.0"
+    description=(
+        "REST API for managing student academic records, performance analytics, "
+        "and AI-assisted interview preparation. "
+        "Academic and Interview features run as isolated modules within a single "
+        "FastAPI application (modular monolith, v1.0)."
+    ),
+    version="1.0.0",
 )
 
-# Add rate limiting
+# ---------------------------------------------------------------------------
+# Middleware (CORS, rate limiting, request logging — all registered directly)
+# ---------------------------------------------------------------------------
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-@app.on_event("startup")
-async def startup_event():
-    """Load CSV data when application starts."""
-    logger.info("Loading CSV data...")
-    csv_data_loader.load_data()
-    logger.info(f"CSV data loaded: {csv_data_loader.is_loaded}")
-
-
-# Add request logging middleware
 app.middleware("http")(log_requests)
 
-# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
@@ -48,21 +57,38 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
-app.include_router(students.router, prefix="/api", tags=["Students"])
-app.include_router(profile.router, prefix="/api/profile", tags=["Profile"])
-app.include_router(academic.router, prefix="/api/academic", tags=["Academic Records"])
-app.include_router(analytics.router, prefix="/api/analytics", tags=["Analytics"])
-app.include_router(health.router, prefix="/api", tags=["Health"])
+# ---------------------------------------------------------------------------
+# Startup
+# ---------------------------------------------------------------------------
 
+@app.on_event("startup")
+async def startup_event():
+    """Load CSV reference data on startup."""
+    logger.info("Starting Student Academic Tracker API v1.0 (modular monolith)")
+    csv_data_loader.load_data()
+    logger.info("CSV data loaded: %s", csv_data_loader.is_loaded)
 
-@app.get("/")
+# ---------------------------------------------------------------------------
+# Routers
+#
+# Auth and Health are application-level concerns — registered directly.
+# Academic module  → /api/{students,academic,analytics,profile}/*
+# Interview module → /api/interview/*
+# ---------------------------------------------------------------------------
+app.include_router(auth.router,                prefix="/api/auth",      tags=["Authentication"])
+app.include_router(health.router,              prefix="/api",            tags=["Health"])
+app.include_router(academic_module_router,     prefix="/api",            tags=["Academic Module"])
+app.include_router(interview_module_router,    prefix="/api/interview",  tags=["Interview Module"])
+
+# ---------------------------------------------------------------------------
+# Root
+# ---------------------------------------------------------------------------
+
+@app.get("/", tags=["Root"])
 async def root():
     return {
         "message": "Student Academic Tracker API",
         "version": "1.0.0",
-        "docs": "/docs"
+        "docs": "/docs",
+        "modules": ["academic", "interview"],
     }
-
-

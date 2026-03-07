@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { Home, TrendingUp, BookOpen, Settings, Menu, X, GraduationCap } from 'lucide-react';
+import { Home, TrendingUp, BookOpen, Settings, Menu, X, GraduationCap, Cpu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Layout = () => {
@@ -12,6 +12,7 @@ const Layout = () => {
         { name: 'Dashboard', href: '/', icon: Home },
         { name: 'My Performance', href: '/performance', icon: TrendingUp },
         { name: 'Subjects', href: '/subjects', icon: BookOpen },
+        { name: 'Interview Prep', href: '/interview', icon: Cpu },
         { name: 'Settings', href: '/settings', icon: Settings },
     ];
 

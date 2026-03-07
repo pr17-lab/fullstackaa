@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Award, BookOpen, Target, TrendingUp } from 'lucide-react';
 import { StudentService, AnalyticsService } from '../services/api';
-import { AcademicRecordSummary, GPATrend, StudentAnalyticsSummary } from '../api/types';
+import { AcademicRecordSummary, StudentAnalyticsSummary } from '../api/types';
 import { ErrorDisplay } from '../components/common/Loading';
 import { SkeletonStatCard } from '../components/common/SkeletonStatCard';
 import { StatCard } from '../components/dashboard/StatCard';
@@ -9,14 +9,12 @@ import { GPADonutChart } from '../components/dashboard/GPADonutChart';
 import { WeakStrongSubjects } from '../components/dashboard/WeakStrongSubjects';
 import { MyCoursesCard } from '../components/dashboard/MyCoursesCard';
 import { SemesterProgressCard } from '../components/dashboard/SemesterProgressCard';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useAuth } from '../contexts/AuthContext';
 import { convertGPATo10Scale } from '../utils/gpa';
 
 const Dashboard = () => {
     const { user } = useAuth();
     const [records, setRecords] = useState<AcademicRecordSummary | null>(null);
-    const [trend, setTrend] = useState<GPATrend | null>(null);
     const [summary, setSummary] = useState<StudentAnalyticsSummary | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -31,14 +29,12 @@ const Dashboard = () => {
         setLoading(true);
         setError(null);
         try {
-            const [recordsData, trendData, summaryData] = await Promise.all([
+            const [recordsData, summaryData] = await Promise.all([
                 StudentService.getAcademicRecords(user.id),
-                AnalyticsService.getGPATrend(user.id),
                 AnalyticsService.getStudentSummary(user.id),
             ]);
 
             setRecords(recordsData);
-            setTrend(trendData);
             setSummary(summaryData);
         } catch (err: any) {
             setError(err.message || 'Failed to fetch your academic data');
@@ -147,11 +143,6 @@ const Dashboard = () => {
         code: subject.code,
         credits: subject.credits
     }));
-
-    const gpaChartData = trend?.data_points.map(point => ({
-        semester: `S${point.semester}`,
-        gpa: convertGPATo10Scale(point.gpa)
-    })) || [];
 
     // Convert overall GPA to 10-point scale
     const overallGPA10 = convertGPATo10Scale(records.overall_gpa);

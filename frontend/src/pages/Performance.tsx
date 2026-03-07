@@ -175,7 +175,7 @@ const Performance = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {records.terms.map((term, index) => (
+                            {records.terms.map((term) => (
                                 <tr key={term.id} className="border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
                                     <td className="py-3 px-4 text-sm text-gray-900 dark:text-zinc-100">Semester {term.semester}</td>
                                     <td className="py-3 px-4 text-sm text-gray-600 dark:text-zinc-400">{term.year}</td>

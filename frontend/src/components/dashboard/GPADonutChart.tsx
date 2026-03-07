@@ -33,7 +33,7 @@ export const GPADonutChart: React.FC<GPADonutChartProps> = ({ gpa, maxGpa = 10 }
                                 startAngle={90}
                                 endAngle={-270}
                             >
-                                {data.map((entry, index) => (
+                                {data.map((_, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index]} />
                                 ))}
                             </Pie>

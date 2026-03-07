@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, GraduationCap, BookOpen, Clock, Calendar, TrendingUp, Award, Target } from 'lucide-react';
+import { ChevronLeft, GraduationCap, BookOpen, Clock, Calendar, Award, Target } from 'lucide-react';
 import { StudentService, AnalyticsService } from '../services/api';
 import { Student, AcademicRecordSummary, GPATrend, StudentAnalyticsSummary } from '../api/types';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
-import { LoadingSpinner, ErrorDisplay } from '../components/common/Loading';
-import { Skeleton, SkeletonTable } from '../components/common/Skeleton';
+import { ErrorDisplay } from '../components/common/Loading';
+import { Skeleton } from '../components/common/Skeleton';
 import { GPATrendChart } from '../components/analytics/AnalyticsCharts';
 
 const StudentProfile = () => {

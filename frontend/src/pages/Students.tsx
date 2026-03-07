@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, BookOpen, ChevronRight, ChevronLeft, Search, Filter as FilterIcon } from 'lucide-react';
+import { User, BookOpen, ChevronRight, ChevronLeft, Filter as FilterIcon } from 'lucide-react';
 import { StudentService } from '../services/api';
 import { StudentListResponse } from '../api/types';
 import { StudentFilters } from '../components/students/StudentFilters';
 import { Card, CardContent } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
-import { LoadingSpinner, ErrorDisplay, EmptyState } from '../components/common/Loading';
+import { ErrorDisplay, EmptyState } from '../components/common/Loading';
 import { SkeletonCard } from '../components/common/Skeleton';
 
 const Students = () => {

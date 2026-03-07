@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     
     # CORS
     CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5173"]
+
+    # ML Sub-Service (internal only — not exposed publicly)
+    ML_SERVICE_URL: str = "http://localhost:8001"
+    ML_SERVICE_TIMEOUT: float = 3.0  # seconds before falling back to built-in bank
     
     @field_validator("DATABASE_URL")
     @classmethod

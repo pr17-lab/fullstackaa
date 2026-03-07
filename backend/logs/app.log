@@ -953,3 +953,1786 @@
 2026-02-06 22:15:12 - app.middleware.logging - INFO - logging.py:15 - api_request
 2026-02-06 22:15:13 - app.middleware.logging - INFO - logging.py:15 - api_request
 2026-02-06 22:15:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-23 21:16:30 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 21:16:57 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 23:36:53 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 23:36:53 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable (refused) — using built-in bank
+2026-02-23 23:36:54 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable ('coroutine' object has no attribute 'get') — using built-in bank
+2026-02-23 23:36:56 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-23 23:36:56 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:36:56 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:36:57 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:36:57 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-23 23:36:57 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-23 23:37:39 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 23:37:39 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable (refused) — using built-in bank
+2026-02-23 23:37:39 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable ('coroutine' object has no attribute 'get') — using built-in bank
+2026-02-23 23:37:40 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-23 23:37:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:37:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:37:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:37:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-23 23:37:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-23 23:39:58 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 23:39:58 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable ('coroutine' object has no attribute 'get') — using built-in bank
+2026-02-23 23:40:17 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 23:40:17 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable (refused) — using built-in bank
+2026-02-23 23:40:17 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable ('coroutine' object has no attribute 'get') — using built-in bank
+2026-02-23 23:41:02 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 23:41:02 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable (refused) — using built-in bank
+2026-02-23 23:41:02 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable ('coroutine' object has no attribute 'get') — using built-in bank
+2026-02-23 23:43:12 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 23:43:12 - app.modules.interview.service - WARNING - service.py:159 - ML service unavailable (refused) — using built-in bank
+2026-02-23 23:43:12 - app.modules.interview.service - INFO - service.py:156 - ML service: 1 questions for branch=Computer Science
+2026-02-23 23:43:12 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-23 23:43:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:43:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:43:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:43:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-23 23:43:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-23 23:55:16 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-23 23:55:17 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-23 23:55:17 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-23 23:55:17 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-23 23:55:17 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-23 23:55:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:55:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:55:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-23 23:55:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-23 23:55:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 20:41:26 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 20:41:30 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 20:41:30 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 20:41:30 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 20:41:30 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 20:41:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:41:31 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:41:31 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:41:31 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 20:41:31 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 20:42:05 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 20:42:07 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 20:42:07 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 20:42:07 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 20:42:07 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 20:42:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:42:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:42:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:42:08 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 20:42:08 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 20:43:21 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 20:43:21 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 20:43:21 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 20:43:23 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 20:43:23 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 20:43:23 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 20:45:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:46:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:48:44 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:52:08 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 20:52:08 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 20:52:08 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 20:52:09 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 20:52:09 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 20:52:09 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 20:53:44 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:53:44 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:53:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:53:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:55:02 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 20:55:02 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 20:55:02 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 20:55:03 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 20:55:03 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 20:55:03 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 20:57:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:57:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:58:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 20:59:06 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 20:59:13 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 20:59:13 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 20:59:13 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 20:59:13 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 20:59:13 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:59:13 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:59:13 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 20:59:13 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 20:59:13 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:00:19 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:00:24 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:00:24 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:00:24 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:00:24 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:00:24 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:00:24 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:00:24 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:00:24 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:00:24 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:00:51 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:02:26 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:02:30 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:02:30 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:02:30 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:02:30 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:02:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:02:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:02:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:02:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:02:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:04:34 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:04:35 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:35 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:35 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:35 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:35 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:04:36 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-02-24 21:04:36 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:36 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:36 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:36 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:36 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:38 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:38 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:39 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:39 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:39 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:04:39 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:04:39 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:39 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:39 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:39 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:39 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:40 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:40 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:41 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:41 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:41 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:42 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:42 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:42 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:42 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:42 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:04:42 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:04:42 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:04:42 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:04:42 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:04:42 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:04:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:04:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:04:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:04:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:04:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:04:42 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:42 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:43 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:43 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:43 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:44 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:44 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:44 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:44 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:44 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:45 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:45 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:46 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:46 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:46 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:47 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:47 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:48 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:48 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:48 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:48 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:48 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:49 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:49 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:49 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:50 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:50 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:51 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:51 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:51 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:51 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:51 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:52 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:52 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:52 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:04:52 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/8682e591-f1e7-4eac-a615-433e99d2724b "HTTP/1.1 404 Not Found"
+2026-02-24 21:04:52 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:04:52 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:04:52 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:04:52 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:04:52 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:04:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:04:52 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-02-24 21:05:35 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:05:35 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:05:36 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:05:36 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:05:36 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:05:36 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:42 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:07:43 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:43 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:43 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:43 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:43 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:07:45 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-02-24 21:07:45 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:45 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:45 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:45 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:45 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:46 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:47 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:47 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:47 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:47 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:47 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:07:47 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:07:47 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:47 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:48 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:48 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:48 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:49 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:49 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:49 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:49 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:49 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:50 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:50 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:50 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:50 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:50 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:07:50 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:07:50 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:07:50 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:07:50 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:07:51 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:07:51 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:07:51 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:07:51 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:07:51 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:07:51 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:07:51 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:51 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:51 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:51 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:51 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:52 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:07:52 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:52 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:52 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:52 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:52 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:52 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:52 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:52 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:52 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:52 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:53 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:53 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:54 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:54 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:54 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:55 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:55 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:55 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:55 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:55 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:56 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:56 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:56 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:56 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:56 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:57 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:57 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:58 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:58 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:58 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:58 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:58 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:59 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:59 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:59 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:07:59 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/2f0c884b-53a5-4fd3-a4b4-482b4d290fae "HTTP/1.1 404 Not Found"
+2026-02-24 21:07:59 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:07:59 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:07:59 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:07:59 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:07:59 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:07:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:07:59 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-02-24 21:12:02 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:12:02 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:02 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:03 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:03 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:03 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:04 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-02-24 21:12:04 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:04 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:05 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:05 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:05 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:06 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:12:06 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:06 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:07 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:07 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:07 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:12:07 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:07 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:08 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:08 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:08 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:08 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:12:09 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:09 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:12:09 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:12:09 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:09 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:12:09 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:09 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:10 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:10 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:10 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:10 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:12:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:10 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:12:10 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:10 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:11 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:11 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:11 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:11 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:12:11 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:12:11 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:12:11 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:12:11 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:12:11 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:12:11 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:12:11 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:12:11 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:12:11 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:12:11 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:11 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:12 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:12 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:12 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:12 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:12:12 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:12 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:13 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:13 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:13 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:13 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?branch=CSE "HTTP/1.1 200 OK"
+2026-02-24 21:12:13 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:13 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:14 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:14 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:14 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:14 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:14 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?semester=3 "HTTP/1.1 200 OK"
+2026-02-24 21:12:14 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:14 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:15 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:15 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:15 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:15 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=Test&page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:12:15 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:15 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:16 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:16 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:16 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:16 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=TEST001 "HTTP/1.1 200 OK"
+2026-02-24 21:12:16 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:16 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:17 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:17 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:17 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:17 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/83b65d6f-c908-4a08-907b-214748bcd302 "HTTP/1.1 200 OK"
+2026-02-24 21:12:17 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:17 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:18 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:18 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:18 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:18 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/f84da451-6407-4af6-8850-513badca7b16 "HTTP/1.1 404 Not Found"
+2026-02-24 21:12:18 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:18 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:18 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:18 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:18 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:12:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:12:18 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-02-24 21:12:53 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:12:53 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:12:53 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:12:54 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:12:54 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:12:54 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:06 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:15:06 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:06 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:06 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:06 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:06 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-02-24 21:15:07 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:07 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:07 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:07 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:07 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:08 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:15:08 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:08 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:08 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:08 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:08 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:08 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:15:08 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:08 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:09 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:09 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:09 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:10 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:15:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:10 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:15:10 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:15:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:10 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:15:11 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:11 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:11 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:11 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:11 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:11 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:15:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:11 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:15:11 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:11 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:12 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:12 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:12 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:12 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:15:12 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:15:12 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:15:12 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:15:12 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:15:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:15:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:15:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:15:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:15:12 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:15:12 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:12 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:12 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:12 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:12 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:13 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:15:13 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:13 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:13 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:13 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:13 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:13 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?branch=CSE "HTTP/1.1 200 OK"
+2026-02-24 21:15:13 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:13 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:14 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:14 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:14 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:14 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:14 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?semester=3 "HTTP/1.1 200 OK"
+2026-02-24 21:15:14 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:14 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:15 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:15 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:15 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:15 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=Test&page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:15:15 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:15 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:15 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:15 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:16 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:16 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=TEST001 "HTTP/1.1 200 OK"
+2026-02-24 21:15:16 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:16 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:16 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:16 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:16 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:17 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/31a749f2-72f0-46fb-add4-826e6fb69ceb "HTTP/1.1 200 OK"
+2026-02-24 21:15:17 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:17 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:17 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:17 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:17 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:17 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/46f061d5-89f0-4247-853b-8da39e1366bc "HTTP/1.1 404 Not Found"
+2026-02-24 21:15:17 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:15:17 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:15:18 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:15:18 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:15:18 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:15:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:15:18 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-02-24 21:16:03 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:17:42 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:17:42 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:17:42 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:17:43 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:17:43 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:17:43 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:17:54 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:17:54 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:17:54 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:17:55 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:17:55 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:17:55 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:27 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:18:27 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:27 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:27 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:27 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:27 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:28 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-02-24 21:18:28 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:28 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:28 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:28 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:28 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:29 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:18:29 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:29 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:30 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:30 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:30 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:18:30 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:30 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:30 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:30 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:30 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:31 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:18:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:31 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:18:31 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:18:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:31 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:18:31 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:31 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:32 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:32 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:32 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:32 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:18:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:32 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:18:32 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:32 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:32 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:32 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:32 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:32 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:18:33 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:18:33 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:18:33 - app.modules.interview.service - INFO - service.py:162 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:18:33 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:18:33 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:18:33 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:18:33 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:18:33 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:18:33 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:18:33 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:33 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:33 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:33 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:33 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:34 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:18:34 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:34 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:34 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:34 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:34 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:34 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?branch=CSE "HTTP/1.1 200 OK"
+2026-02-24 21:18:34 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:34 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:35 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:35 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:35 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:35 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?semester=3 "HTTP/1.1 200 OK"
+2026-02-24 21:18:35 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:35 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:36 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:36 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:36 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:36 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=Test&page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:18:36 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:36 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:37 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:37 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:37 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:37 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=TEST001 "HTTP/1.1 200 OK"
+2026-02-24 21:18:37 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:37 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:37 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:37 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:37 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:38 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/a10a3e6c-e75a-450b-86bd-ddffbb88da20 "HTTP/1.1 200 OK"
+2026-02-24 21:18:38 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:38 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:38 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:38 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:38 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:38 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/22c803c9-722b-4305-9239-ea3d0c56f4ec "HTTP/1.1 404 Not Found"
+2026-02-24 21:18:38 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:18:38 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:18:38 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:18:38 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:18:38 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:18:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:18:38 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-02-24 21:19:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:19:52 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:19:52 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:19:52 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:19:53 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:19:53 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:19:53 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:19:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:20:32 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 1 failed (All connection attempts failed) — retrying
+2026-02-24 21:20:35 - app.modules.interview.service - WARNING - service.py:168 - ML service attempt 2 failed (All connection attempts failed) — falling back to built-in bank
+2026-02-24 21:20:35 - app.modules.interview.service - ERROR - service.py:269 - Failed to create interview session — rolled back
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "interview_sessions" does not exist
+LINE 1: INSERT INTO interview_sessions (id, user_id, branch, topic, ...
+                    ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\service.py", line 246, in create_session
+    db.flush()  # get session.id before creating questions
+    ^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4312, in flush
+    self._flush(objects)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4408, in _flush
+    flush_context.execute()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\persistence.py", line 1227, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py", line 517, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 2344, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "interview_sessions" does not exist
+LINE 1: INSERT INTO interview_sessions (id, user_id, branch, topic, ...
+                    ^
+
+[SQL: INSERT INTO interview_sessions (id, user_id, branch, topic, status) VALUES (%(id)s::UUID, %(user_id)s::UUID, %(branch)s, %(topic)s, %(status)s) RETURNING interview_sessions.created_at, interview_sessions.updated_at]
+[parameters: {'id': UUID('5baeb8c9-8659-457d-9f5a-45508fe7176d'), 'user_id': UUID('10547d3f-ad95-4626-a34c-eabde87d5a9a'), 'branch': 'IT', 'topic': 'General', 'status': 'active'}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-02-24 21:20:35 - app.modules.interview.router - ERROR - router.py:169 - Error creating interview session: (psycopg2.errors.UndefinedTable) relation "interview_sessions" does not exist
+LINE 1: INSERT INTO interview_sessions (id, user_id, branch, topic, ...
+                    ^
+
+[SQL: INSERT INTO interview_sessions (id, user_id, branch, topic, status) VALUES (%(id)s::UUID, %(user_id)s::UUID, %(branch)s, %(topic)s, %(status)s) RETURNING interview_sessions.created_at, interview_sessions.updated_at]
+[parameters: {'id': UUID('5baeb8c9-8659-457d-9f5a-45508fe7176d'), 'user_id': UUID('10547d3f-ad95-4626-a34c-eabde87d5a9a'), 'branch': 'IT', 'topic': 'General', 'status': 'active'}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "interview_sessions" does not exist
+LINE 1: INSERT INTO interview_sessions (id, user_id, branch, topic, ...
+                    ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\router.py", line 154, in create_session
+    session = _interview_svc.create_session(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\service.py", line 246, in create_session
+    db.flush()  # get session.id before creating questions
+    ^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4312, in flush
+    self._flush(objects)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4408, in _flush
+    flush_context.execute()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\persistence.py", line 1227, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py", line 517, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 2344, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "interview_sessions" does not exist
+LINE 1: INSERT INTO interview_sessions (id, user_id, branch, topic, ...
+                    ^
+
+[SQL: INSERT INTO interview_sessions (id, user_id, branch, topic, status) VALUES (%(id)s::UUID, %(user_id)s::UUID, %(branch)s, %(topic)s, %(status)s) RETURNING interview_sessions.created_at, interview_sessions.updated_at]
+[parameters: {'id': UUID('5baeb8c9-8659-457d-9f5a-45508fe7176d'), 'user_id': UUID('10547d3f-ad95-4626-a34c-eabde87d5a9a'), 'branch': 'IT', 'topic': 'General', 'status': 'active'}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-02-24 21:20:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:21:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:09 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:09 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:14 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:22:58 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:22:58 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:22:58 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:22:59 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:22:59 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:22:59 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:33:01 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:33:01 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:33:02 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:33:02 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:33:02 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:33:02 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:34:14 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:34:14 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:34:14 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:34:15 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:34:15 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:34:15 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:39:19 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:39:19 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:39:19 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:39:20 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:39:20 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:39:20 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:43:02 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:43:02 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:43:02 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:43:02 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:43:02 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:43:02 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:49:20 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:49:20 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:49:20 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:49:22 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:49:22 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:49:22 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:52:30 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:52:30 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:52:30 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:52:31 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:52:31 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:52:31 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:53:04 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:53:04 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:53:04 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:53:05 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:53:05 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:53:05 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:23 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:54:23 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:23 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:23 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:23 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:23 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:24 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-02-24 21:54:24 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:24 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:24 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:24 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:24 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:25 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:54:25 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:25 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:26 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:26 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:26 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:26 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:54:26 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:26 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:26 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:26 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:26 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:54:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:54:27 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:54:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:54:27 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:27 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:28 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:28 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:28 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:28 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:54:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:28 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:54:28 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:28 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:28 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:28 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:28 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:28 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:54:28 - app.modules.interview.service - WARNING - service.py:186 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:54:28 - app.modules.interview.service - WARNING - service.py:186 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:54:28 - app.modules.interview.service - INFO - service.py:180 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:54:28 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:54:28 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:54:28 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:54:28 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:54:28 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:54:28 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:54:28 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:28 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:29 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:29 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:29 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:29 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:54:29 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:29 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:30 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:30 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:30 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:30 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?branch=CSE "HTTP/1.1 200 OK"
+2026-02-24 21:54:30 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:30 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:30 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:30 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:30 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:31 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?semester=3 "HTTP/1.1 200 OK"
+2026-02-24 21:54:31 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:31 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:31 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:31 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:31 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:31 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=Test&page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:54:31 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:31 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:32 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:32 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:32 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:32 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=TEST001 "HTTP/1.1 200 OK"
+2026-02-24 21:54:32 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:32 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:33 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:33 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:33 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:33 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/718c44c4-333c-472a-9cf7-38aeb4954e90 "HTTP/1.1 200 OK"
+2026-02-24 21:54:33 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:33 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:34 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:34 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:34 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:34 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/4ba8ccf3-9405-46dd-a270-7343353c87a8 "HTTP/1.1 404 Not Found"
+2026-02-24 21:54:34 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:54:34 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:54:34 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:54:34 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:54:34 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:54:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:54:34 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-02-24 21:55:16 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:55:16 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:16 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:17 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:17 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:17 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:18 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-02-24 21:55:18 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:18 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:18 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:18 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:18 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:19 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:55:19 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:19 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:19 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:19 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:19 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:19 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:55:19 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:19 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:20 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:20 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:20 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:21 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:55:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:21 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:55:21 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:55:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:21 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:55:21 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:21 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:21 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:21 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:21 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:22 - slowapi - WARNING - extension.py:510 - ratelimit 5 per 1 minute (127.0.0.1) exceeded at endpoint: /api/auth/login
+2026-02-24 21:55:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 429 Too Many Requests"
+2026-02-24 21:55:22 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:22 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:22 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:22 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:22 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:22 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-02-24 21:55:22 - app.modules.interview.service - WARNING - service.py:186 - ML service attempt 1 failed (refused) — retrying
+2026-02-24 21:55:22 - app.modules.interview.service - WARNING - service.py:186 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-24 21:55:22 - app.modules.interview.service - INFO - service.py:180 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-24 21:55:22 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-24 21:55:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:55:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:55:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 21:55:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:55:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-24 21:55:22 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:22 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:23 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:23 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:23 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:23 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:55:23 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:23 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:23 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:23 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:23 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:24 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?branch=CSE "HTTP/1.1 200 OK"
+2026-02-24 21:55:24 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:24 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:24 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:24 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:24 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:24 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?semester=3 "HTTP/1.1 200 OK"
+2026-02-24 21:55:24 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:24 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:25 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:25 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:25 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:25 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=Test&page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-02-24 21:55:25 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:25 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:26 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:26 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:26 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:26 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=TEST001 "HTTP/1.1 200 OK"
+2026-02-24 21:55:26 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:26 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:26 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:26 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:26 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:27 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/1c363b3e-bb5e-459d-a211-f784baa10c01 "HTTP/1.1 200 OK"
+2026-02-24 21:55:27 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:27 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:27 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:27 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:27 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:27 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/c59a3a2b-c079-47c8-b699-6f05070adf7d "HTTP/1.1 404 Not Found"
+2026-02-24 21:55:27 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:55:28 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:55:28 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:55:28 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:55:28 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:55:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 21:55:28 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-02-24 21:57:29 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:57:29 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:57:29 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:57:30 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:57:30 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:57:30 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 21:58:06 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 21:58:06 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 21:58:06 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 21:58:07 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 21:58:07 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 21:58:07 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 22:03:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 22:03:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 22:03:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 22:03:27 - app.modules.interview.service - WARNING - service.py:186 - ML service attempt 1 failed (All connection attempts failed) — retrying
+2026-02-24 22:03:30 - app.modules.interview.service - WARNING - service.py:186 - ML service attempt 2 failed (All connection attempts failed) — falling back to built-in bank
+2026-02-24 22:03:31 - app.modules.interview.service - INFO - service.py:279 - Session f51b82ef-5087-42cb-a0d6-1b0cee1a0a32 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=7
+2026-02-24 22:03:31 - app.modules.interview.router - INFO - router.py:161 - Session f51b82ef-5087-42cb-a0d6-1b0cee1a0a32 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (7 questions, source=built-in)
+2026-02-24 22:03:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 22:03:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 22:03:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:22:00 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 23:22:00 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 23:22:00 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 23:22:01 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 23:22:01 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 23:22:01 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 23:23:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:50 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 23:23:50 - app.modules.interview.service - INFO - service.py:180 - ML service: 7 questions for branch=IT (attempt 1)
+2026-02-24 23:23:50 - app.modules.interview.service - INFO - service.py:279 - Session 4a775d41-89b0-4b81-8d83-dff62bfb6b32 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=7
+2026-02-24 23:23:50 - app.modules.interview.router - INFO - router.py:161 - Session 4a775d41-89b0-4b81-8d83-dff62bfb6b32 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (7 questions, source=ml_service)
+2026-02-24 23:23:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:23:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:30:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:33:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:33:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:33:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:33:03 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:33:03 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:35:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:35:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:35:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:11 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 23:36:11 - app.modules.interview.service - INFO - service.py:180 - ML service: 7 questions for branch=IT (attempt 1)
+2026-02-24 23:36:11 - app.modules.interview.service - INFO - service.py:279 - Session bdd58f55-fc16-4862-a3db-e26057e0a0b4 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=7
+2026-02-24 23:36:11 - app.modules.interview.router - INFO - router.py:161 - Session bdd58f55-fc16-4862-a3db-e26057e0a0b4 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (7 questions, source=ml_service)
+2026-02-24 23:36:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:36:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:26 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-24 23:38:26 - app.modules.interview.service - INFO - service.py:180 - ML service: 7 questions for branch=IT (attempt 1)
+2026-02-24 23:38:26 - app.modules.interview.service - INFO - service.py:279 - Session d069ff91-dc00-449c-b81b-414210081345 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=7
+2026-02-24 23:38:26 - app.modules.interview.router - INFO - router.py:161 - Session d069ff91-dc00-449c-b81b-414210081345 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (7 questions, source=ml_service)
+2026-02-24 23:38:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:38:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-24 23:40:42 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 23:40:42 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 23:40:42 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 23:40:43 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 23:40:43 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 23:40:43 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-24 23:59:02 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-24 23:59:02 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-24 23:59:03 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-24 23:59:05 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-24 23:59:05 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-24 23:59:05 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 00:08:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:20 - app.modules.interview.service - INFO - service.py:400 - Session d069ff91-dc00-449c-b81b-414210081345 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-25 00:08:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:21 - app.modules.interview.service - INFO - service.py:400 - Session bdd58f55-fc16-4862-a3db-e26057e0a0b4 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-25 00:08:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:22 - app.modules.interview.service - INFO - service.py:400 - Session 4a775d41-89b0-4b81-8d83-dff62bfb6b32 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-25 00:08:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:36 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 00:08:36 - app.modules.interview.service - INFO - service.py:180 - ML service: 7 questions for branch=IT (attempt 1)
+2026-02-25 00:08:36 - app.modules.interview.service - INFO - service.py:279 - Session 728ff290-6f5a-4468-8327-bbf2ea163f0e created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=7
+2026-02-25 00:08:36 - app.modules.interview.router - INFO - router.py:161 - Session 728ff290-6f5a-4468-8327-bbf2ea163f0e created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (7 questions, source=ml_service)
+2026-02-25 00:08:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:08:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:09:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:09:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:09:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:09:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:09:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:09:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:33 - app.modules.interview.service - INFO - service.py:400 - Session 728ff290-6f5a-4468-8327-bbf2ea163f0e deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-25 00:11:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:36 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 00:11:36 - app.modules.interview.service - INFO - service.py:180 - ML service: 7 questions for branch=IT (attempt 1)
+2026-02-25 00:11:36 - app.modules.interview.service - INFO - service.py:279 - Session dee76aa9-8201-486f-8cb4-df4439144362 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=7
+2026-02-25 00:11:36 - app.modules.interview.router - INFO - router.py:161 - Session dee76aa9-8201-486f-8cb4-df4439144362 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (7 questions, source=ml_service)
+2026-02-25 00:11:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 00:11:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:28:38 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 20:28:38 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 20:28:38 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 20:28:39 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 20:28:39 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 20:28:39 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 20:31:00 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:00 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:31:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:35 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 20:36:35 - app.modules.interview.service - INFO - service.py:180 - ML service: 7 questions for branch=IT (attempt 1)
+2026-02-25 20:36:35 - app.modules.interview.service - INFO - service.py:279 - Session a0201533-2d2c-43e0-bd08-d5e769256c47 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=7
+2026-02-25 20:36:35 - app.modules.interview.router - INFO - router.py:161 - Session a0201533-2d2c-43e0-bd08-d5e769256c47 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (7 questions, source=ml_service)
+2026-02-25 20:36:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:44 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:44 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:36:44 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 20:43:30 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 20:43:30 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 20:43:30 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 20:43:31 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 20:43:31 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 20:43:31 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 21:17:33 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:17:33 - app.modules.interview.service - WARNING - service.py:226 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:17:33 - app.modules.interview.service - WARNING - service.py:226 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:17:33 - app.modules.interview.service - INFO - service.py:220 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:17:34 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:17:34 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:17:34 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:17:34 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:17:34 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:17:34 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:17:34 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:17:34 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:17:34 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:17:51 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:17:51 - app.modules.interview.service - WARNING - service.py:226 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:17:51 - app.modules.interview.service - WARNING - service.py:226 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:17:51 - app.modules.interview.service - INFO - service.py:220 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:17:52 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:17:52 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:17:52 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:17:52 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:17:52 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:17:52 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:17:52 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:17:52 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:17:52 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:18:08 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:18:09 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:18:09 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:18:09 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:18:09 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:18:09 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:18:09 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:18:09 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:18:10 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:18:10 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:18:25 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:18:25 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:18:25 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:18:25 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:18:25 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:18:25 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:18:25 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:18:25 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:18:25 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:18:25 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:19:18 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:19:18 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:19:18 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:20:16 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:20:17 - app.modules.interview.service - WARNING - service.py:226 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:20:17 - app.modules.interview.service - WARNING - service.py:226 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:20:17 - app.modules.interview.service - INFO - service.py:220 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:20:17 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:20:17 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:20:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:20:17 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:20:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:20:17 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:20:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:20:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:20:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:21:29 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:21:30 - app.modules.interview.service - WARNING - service.py:226 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:21:30 - app.modules.interview.service - WARNING - service.py:226 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:21:30 - app.modules.interview.service - INFO - service.py:220 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:21:30 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:21:30 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:21:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:21:30 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:21:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:21:30 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:21:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:21:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:21:30 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:22:31 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:22:31 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:22:31 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:23:53 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:23:53 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:23:53 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:23:53 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:23:53 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:23:53 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:23:53 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:23:53 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:23:53 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:23:53 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:23:53 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:23:54 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:23:54 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:25:08 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:25:08 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 21:25:08 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 21:25:09 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 21:25:09 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 21:25:09 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 21:25:27 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:25:27 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:25:27 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:25:27 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:25:27 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:25:27 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:25:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:25:27 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:25:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:25:27 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:25:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:25:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:25:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:26:06 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:26:07 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:26:07 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:26:07 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:26:07 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:26:07 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:07 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:07 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:26:07 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:26:22 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:26:22 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:26:22 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:26:22 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:26:22 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:26:22 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:22 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:22 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:26:22 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:26:53 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:26:54 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:26:54 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:26:54 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:26:54 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:26:54 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:54 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:54 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:54 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:54 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:26:54 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:26:54 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:26:54 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:27:25 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:27:41 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:27:41 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:27:41 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:27:41 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:27:42 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:27:42 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:27:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:27:42 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:27:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:27:42 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:27:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:27:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:27:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:28:02 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:28:03 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:28:03 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:28:03 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:28:03 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:28:03 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:28:03 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:28:03 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:28:03 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:28:03 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:28:03 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:28:03 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:28:03 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:31:06 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:31:06 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:31:06 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:31:06 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:31:06 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:31:06 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:31:06 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:31:06 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:31:06 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:31:06 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:31:06 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:31:06 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:31:06 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:32:33 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:32:33 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:32:33 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:35:08 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:35:08 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 21:35:08 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 21:35:09 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 21:35:09 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 21:35:09 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 21:35:27 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:35:27 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 21:35:27 - app.modules.interview.service - WARNING - service.py:227 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 21:35:27 - app.modules.interview.service - INFO - service.py:221 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 21:35:27 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 21:35:27 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:35:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:35:27 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:35:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:35:27 - ml_service.groq_client - INFO - groq_client.py:187 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 21:35:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 21:35:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:35:27 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 21:40:11 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 21:40:11 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 21:40:11 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 21:40:13 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 21:40:13 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 21:40:13 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 22:39:35 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 22:39:35 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 22:39:35 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 22:39:36 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 22:39:36 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 22:39:36 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 22:44:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:34 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 22:44:34 - app.modules.interview.service - INFO - service.py:221 - ML service: 9 questions for branch=IT (attempt 1)
+2026-02-25 22:44:34 - app.modules.interview.service - INFO - service.py:320 - Session 0f4e4d75-7c54-47fc-b1e0-c8c62f9d09dd created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=9
+2026-02-25 22:44:34 - app.modules.interview.router - INFO - router.py:161 - Session 0f4e4d75-7c54-47fc-b1e0-c8c62f9d09dd created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-02-25 22:44:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:44:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:29 - app.modules.interview.service - INFO - service.py:441 - Session a0201533-2d2c-43e0-bd08-d5e769256c47 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-25 22:45:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:29 - app.modules.interview.service - INFO - service.py:441 - Session dee76aa9-8201-486f-8cb4-df4439144362 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-25 22:45:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:30 - app.modules.interview.service - INFO - service.py:441 - Session f51b82ef-5087-42cb-a0d6-1b0cee1a0a32 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-25 22:45:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:36 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 22:45:36 - app.modules.interview.service - INFO - service.py:221 - ML service: 9 questions for branch=IT (attempt 1)
+2026-02-25 22:45:36 - app.modules.interview.service - INFO - service.py:320 - Session f681fb04-b3dc-4b79-8c21-01b9dae3b87f created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=9
+2026-02-25 22:45:36 - app.modules.interview.router - INFO - router.py:161 - Session f681fb04-b3dc-4b79-8c21-01b9dae3b87f created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-02-25 22:45:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:45 - app.modules.interview.service - INFO - service.py:441 - Session 0f4e4d75-7c54-47fc-b1e0-c8c62f9d09dd deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-25 22:45:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:55 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 22:45:55 - app.modules.interview.service - INFO - service.py:221 - ML service: 9 questions for branch=IT (attempt 1)
+2026-02-25 22:45:55 - app.modules.interview.service - INFO - service.py:320 - Session cc4bbdd9-1cba-4162-a21e-e1b0d8076558 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=9
+2026-02-25 22:45:55 - app.modules.interview.router - INFO - router.py:161 - Session cc4bbdd9-1cba-4162-a21e-e1b0d8076558 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-02-25 22:45:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:45:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:46:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:46:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:46:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:46:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:46:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:46:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:50:10 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 22:50:10 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 22:50:11 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 22:50:15 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 22:50:15 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 22:50:15 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 22:53:19 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 22:53:19 - app.modules.interview.service - WARNING - service.py:229 - ML service attempt 1 failed (refused) — retrying
+2026-02-25 22:53:19 - app.modules.interview.service - WARNING - service.py:229 - ML service attempt 2 failed (refused) — falling back to built-in bank
+2026-02-25 22:53:19 - app.modules.interview.service - INFO - service.py:223 - ML service: 1 questions for branch=Computer Science (attempt 1)
+2026-02-25 22:53:20 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-02-25 22:53:20 - ml_service.groq_client - INFO - groq_client.py:195 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 22:53:20 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 22:53:20 - ml_service.groq_client - INFO - groq_client.py:195 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 22:53:20 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 22:53:20 - ml_service.groq_client - INFO - groq_client.py:195 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-02-25 22:53:20 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 22:53:20 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 22:53:20 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-02-25 22:54:49 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 22:54:49 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 22:54:49 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 22:54:50 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 22:54:50 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 22:54:50 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 22:55:18 - httpx - INFO - _client.py:1758 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-25 22:55:18 - app.modules.interview.service - INFO - service.py:221 - ML service: 9 questions for branch=IT (attempt 1)
+2026-02-25 22:55:19 - app.modules.interview.service - INFO - service.py:320 - Session cae8bb79-ccd2-493c-a36a-1206f7c25797 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=9
+2026-02-25 22:55:19 - app.modules.interview.router - INFO - router.py:161 - Session cae8bb79-ccd2-493c-a36a-1206f7c25797 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-02-25 22:55:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:55:26 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 22:55:26 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 22:55:26 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 22:55:27 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 22:55:27 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 22:55:27 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 22:55:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:55:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:55:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:55:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:55:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:55:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:55:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 22:55:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 23:25:26 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 23:25:26 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 23:25:26 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 23:25:26 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 23:25:26 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 23:25:26 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 23:25:27 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 23:25:27 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 23:25:27 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 23:25:27 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 23:25:27 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 23:25:27 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-25 23:42:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 23:47:03 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 23:47:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 23:47:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 23:47:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 23:54:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-25 23:54:10 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-25 23:54:10 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-25 23:54:10 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-25 23:54:11 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-25 23:54:11 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-25 23:54:11 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-26 00:06:22 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-26 00:06:22 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-26 00:06:23 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-26 00:06:24 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-26 00:06:24 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-26 00:06:24 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-26 09:30:52 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-26 09:30:52 - app.main - INFO - main.py:67 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-02-26 09:30:53 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-02-26 09:30:56 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-02-26 09:30:56 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-02-26 09:30:56 - app.main - INFO - main.py:69 - CSV data loaded: True
+2026-02-26 09:35:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:35:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:28 - app.modules.interview.service - INFO - service.py:443 - Session cc4bbdd9-1cba-4162-a21e-e1b0d8076558 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-26 09:36:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:29 - app.modules.interview.service - INFO - service.py:443 - Session f681fb04-b3dc-4b79-8c21-01b9dae3b87f deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-02-26 09:36:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:36:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:40:16 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-26 09:40:16 - app.modules.interview.service - INFO - service.py:223 - ML service: 9 questions for branch=IT (attempt 1)
+2026-02-26 09:40:16 - app.modules.interview.service - INFO - service.py:322 - Session af4ab25e-55c0-44a1-b270-ff9fc6fdf155 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=9
+2026-02-26 09:40:16 - app.modules.interview.router - INFO - router.py:169 - Session af4ab25e-55c0-44a1-b270-ff9fc6fdf155 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-02-26 09:40:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:40:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:40:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:40:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:40:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:45:52 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-26 09:45:52 - app.modules.interview.service - INFO - service.py:223 - ML service: 9 questions for branch=IT (attempt 1)
+2026-02-26 09:45:53 - app.modules.interview.service - INFO - service.py:322 - Session 16deee8f-35d1-4f56-b729-bb0b9703908b created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=9
+2026-02-26 09:45:53 - app.modules.interview.router - INFO - router.py:169 - Session 16deee8f-35d1-4f56-b729-bb0b9703908b created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-02-26 09:45:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:45:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:45:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:45:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:45:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:57:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:01 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-26 09:58:01 - app.modules.interview.service - INFO - service.py:223 - ML service: 9 questions for branch=IT (attempt 1)
+2026-02-26 09:58:01 - app.modules.interview.service - INFO - service.py:322 - Session 54dfcf05-bb37-4c99-aca5-871779eb2efc created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=9
+2026-02-26 09:58:01 - app.modules.interview.router - INFO - router.py:169 - Session 54dfcf05-bb37-4c99-aca5-871779eb2efc created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-02-26 09:58:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 09:58:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:13:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:59 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-02-26 10:20:59 - app.modules.interview.service - INFO - service.py:223 - ML service: 8 questions for branch=IT (attempt 1)
+2026-02-26 10:20:59 - app.modules.interview.service - INFO - service.py:322 - Session 40c24612-e98a-4b42-b8b8-1a32fb649a67 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=IT questions=8
+2026-02-26 10:20:59 - app.modules.interview.router - INFO - router.py:169 - Session 40c24612-e98a-4b42-b8b8-1a32fb649a67 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (8 questions, source=ml_service)
+2026-02-26 10:20:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:20:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:21:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:21:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:29:44 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:33:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:33:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:33:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:34:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:34:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:34:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:34:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:34:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:34:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:34:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:34:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:35:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:35:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:35:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:35:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 10:35:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 11:53:25 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-26 11:54:17 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-26 11:56:37 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-02-26 11:56:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-02-26 11:56:37 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/interview/sessions/parse-resume "HTTP/1.1 200 OK"

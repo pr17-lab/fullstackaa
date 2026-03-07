@@ -1,0 +1,11 @@
+﻿src/components/dashboard/GPADonutChart.tsx(36,44): error TS6133: 'entry' is declared but its value is never read.
+src/pages/Dashboard.tsx(12,1): error TS6192: All imports in import declaration are unused.
+src/pages/Dashboard.tsx(151,11): error TS6133: 'gpaChartData' is declared but its value is never read.
+src/pages/InterviewPrep.tsx(503,11): error TS6133: 'answered' is declared but its value is never read.
+src/pages/Performance.tsx(178,55): error TS6133: 'index' is declared but its value is never read.
+src/pages/StudentProfile.tsx(3,65): error TS6133: 'TrendingUp' is declared but its value is never read.
+src/pages/StudentProfile.tsx(9,10): error TS6133: 'LoadingSpinner' is declared but its value is never read.
+src/pages/StudentProfile.tsx(10,20): error TS6133: 'SkeletonTable' is declared but its value is never read.
+src/pages/Students.tsx(3,53): error TS6133: 'Search' is declared but its value is never read.
+src/pages/Students.tsx(10,10): error TS6133: 'LoadingSpinner' is declared but its value is never read.
+src/pages/Subjects.tsx(138,31): error TS6133: 'semesterYear' is declared but its value is never read.
