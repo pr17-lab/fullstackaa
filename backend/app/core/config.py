@@ -29,6 +29,9 @@ class Settings(BaseSettings):
     ML_SERVICE_URL: str = "http://localhost:8001"
     ML_SERVICE_TIMEOUT: float = 3.0  # seconds before falling back to built-in bank
     
+    # External APIs
+    RAPIDAPI_KEY: str = ""
+    
     @field_validator("DATABASE_URL")
     @classmethod
     def validate_database_url(cls, v: str, info: ValidationInfo) -> str:

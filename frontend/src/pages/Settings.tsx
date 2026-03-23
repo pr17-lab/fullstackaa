@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/common/C
 import { Badge } from '../components/common/Badge';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { PageTransition } from '../components/layout/PageTransition';
 
 const Settings = () => {
     const { user } = useAuth();
@@ -21,7 +22,7 @@ const Settings = () => {
     // This is a placeholder page for future implementation
 
     return (
-        <div className="space-y-6 animate-slide-up max-w-4xl mx-auto">
+        <PageTransition className="space-y-6 max-w-4xl mx-auto">
             {/* Header */}
             <div>
                 <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-2">Settings</h1>
@@ -144,7 +145,7 @@ const Settings = () => {
                     Settings functionality will be available in a future update
                 </p>
             </div>
-        </div>
+        </PageTransition>
     );
 };
 

@@ -61,6 +61,12 @@ export const deleteSession = async (sessionId: string): Promise<void> => {
     await api.delete(`/interview/sessions/${sessionId}`);
 };
 
+// Evaluate an interview session answers
+export const evaluateSession = async (sessionId: string): Promise<InterviewSession> => {
+    const res = await api.post(`/interview/sessions/${sessionId}/evaluate`);
+    return res.data;
+};
+
 // Parse a PDF resume using the backend endpoint
 export const parseResumePdf = async (file: File): Promise<{ text: string }> => {
     const formData = new FormData();

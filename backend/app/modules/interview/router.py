@@ -64,7 +64,7 @@ async def get_interview_questions(
         overall_gpa   = _academic_svc.get_overall_gpa(db, current_user.id)
 
         questions, source = await _interview_svc.generate_questions_async(
-            branch=profile.branch,
+            branch=profile.department,
             semester=profile.semester,
             weak_subjects=[s.subject_name for s in weak_subjects],
             overall_gpa=overall_gpa,
@@ -74,7 +74,7 @@ async def get_interview_questions(
 
         return GeneratedQuestionsResponse(
             student_id=str(current_user.id),
-            branch=profile.branch,
+            branch=profile.department,
             semester=profile.semester,
             overall_gpa=str(overall_gpa),
             weak_subjects=[s.subject_name for s in weak_subjects],
@@ -178,7 +178,7 @@ async def create_session(
         overall_gpa   = _academic_svc.get_overall_gpa(db, current_user.id)
 
         questions, source = await _interview_svc.generate_questions_async(
-            branch=profile.branch,
+            branch=profile.department,
             semester=profile.semester,
             weak_subjects=[s.subject_name for s in weak_subjects],
             overall_gpa=overall_gpa,
@@ -190,7 +190,7 @@ async def create_session(
         session = _interview_svc.create_session(
             db,
             user_id=current_user.id,
-            branch=profile.branch,
+            branch=profile.department,
             topic=body.jd_text[:80] + ("..." if len(body.jd_text) > 80 else ""),  # store JD snippet as topic label
             questions=questions,
         )
@@ -243,6 +243,23 @@ async def submit_answer(
         user_answer=question.user_answer,
         session_completed=session_completed,
     )
+
+@router.post("/sessions/{session_id}/evaluate", response_model=InterviewSessionOut)
+async def evaluate_session(
+    session_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Evaluates all answered questions within an interview session using Groq AI.
+    Assigns grades, verdicts, model answers, and concise feedback.
+    """
+    session = await _interview_svc.evaluate_session_answers(
+        db,
+        session_id=session_id,
+        user_id=current_user.id,
+    )
+    return session
 
 @router.delete("/sessions/{session_id}", status_code=204)
 async def delete_session(

@@ -246,7 +246,7 @@ async def get_student_analytics_summary(
         return StudentAnalyticsSummary(
             student_id=student_id,
             student_name=student.name,
-            branch=student.branch,
+            branch=student.department,
             current_semester=student.semester,
             overall_gpa=Decimal("0.0"),
             total_credits=0,
@@ -281,22 +281,21 @@ async def get_student_analytics_summary(
     else:
         gpa_trend = "stable"
     
-    # Calculate percentile rank (simplified - compares to branch/semester cohort)
-    cohort_students = db.query(StudentProfile).filter(
-        StudentProfile.branch == student.branch,
-        StudentProfile.semester == student.semester
-    ).all()
-    
-    # Get GPAs for cohort
-    cohort_gpas = []
-    for cohort_student in cohort_students:
-        student_terms = db.query(AcademicTerm).filter(
-            AcademicTerm.user_id == cohort_student.user_id
-        ).all()
-        if student_terms:
-            cohort_gpa = sum(float(t.gpa) for t in student_terms) / len(student_terms)
-            cohort_gpas.append(cohort_gpa)
-    
+    # Calculate percentile rank using a single aggregated SQL query (no N+1 loop)
+    # Get average GPA per student in the same department/semester cohort in one query
+    cohort_gpa_rows = (
+        db.query(func.avg(AcademicTerm.gpa).label("avg_gpa"))
+        .join(StudentProfile, StudentProfile.user_id == AcademicTerm.user_id)
+        .filter(
+            StudentProfile.department == student.department,
+            StudentProfile.semester == student.semester,
+        )
+        .group_by(AcademicTerm.user_id)
+        .all()
+    )
+
+    cohort_gpas = [float(row.avg_gpa) for row in cohort_gpa_rows if row.avg_gpa is not None]
+
     # Calculate percentile
     if cohort_gpas and overall_gpa > 0:
         better_count = sum(1 for gpa in cohort_gpas if gpa < overall_gpa)
@@ -307,7 +306,7 @@ async def get_student_analytics_summary(
     return StudentAnalyticsSummary(
         student_id=student_id,
         student_name=student.name,
-        branch=student.branch,
+        branch=student.department,
         current_semester=student.semester,
         overall_gpa=Decimal(str(overall_gpa)),
         total_credits=total_credits,
@@ -325,7 +324,7 @@ async def get_cohort_statistics(
     """Get statistical analysis for a specific cohort (branch + semester)."""
     # Get all students in cohort
     students = db.query(StudentProfile).filter(
-        StudentProfile.branch == branch,
+        StudentProfile.department == branch,
         StudentProfile.semester == semester
     ).all()
     
@@ -449,7 +448,7 @@ async def get_analytics_overview(
             StudentAnalyticsSummary(
                 student_id=student.id,
                 student_name=student.name,
-                branch=student.branch,
+                branch=student.department,
                 current_semester=student.semester,
                 overall_gpa=Decimal(str(item['gpa'])),
                 total_credits=total_credits,

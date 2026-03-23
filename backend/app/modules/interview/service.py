@@ -442,3 +442,84 @@ class InterviewService:
         db.commit()
         logger.info("Session %s deleted by user %s", session_id, user_id)
         return True
+
+    # ------------------------------------------------------------------
+    # AI Answer Evaluation
+    # ------------------------------------------------------------------
+
+    async def evaluate_session_answers(
+        self,
+        db: Session,
+        session_id: uuid.UUID,
+        user_id: uuid.UUID,
+    ) -> InterviewSession:
+        """
+        Submits all answered questions in a session to Groq for evaluation,
+        updates the DB with AI scores and feedback, and returns the full session.
+        """
+        import json
+        from groq import AsyncGroq
+
+        session = self.get_session(db, session_id, user_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+
+        # Get questions that actually have a user answer
+        answered_qs = [q for q in session.questions if q.user_answer and str(q.user_answer).strip()]
+        if not answered_qs:
+            return session  # Nothing to evaluate
+        
+        # Build prompt payload
+        q_list_text = ""
+        for q in answered_qs:
+            q_list_text += f"ID: {q.id}\nQuestion: {q.question}\nAnswer: {q.user_answer}\n\n"
+
+        prompt = (
+            "You are a senior technical interviewer. Evaluate each answer below.\n"
+            "For each question, return a JSON array of objects with strictly the following keys:\n"
+            '- "question_id": the exact ID string provided\n'
+            '- "score": an integer from 1 to 10\n'
+            '- "verdict": exactly one of "Strong", "Adequate", or "Weak"\n'
+            '- "feedback": one concise sentence on what was good or missing\n'
+            '- "model_answer": a brief ideal answer in 2-3 sentences\n\n'
+            f"Questions and Answers:\n{q_list_text}\n"
+            "Return ONLY a valid JSON array. No markdown blocks, no preamble."
+        )
+
+        try:
+            # Init client dynamically
+            client = AsyncGroq(api_key=settings.GROQ_API_KEY)
+            completion = await client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.1,
+            )
+            raw_text = completion.choices[0].message.content.strip()
+            
+            # Clean possible markdown wrap
+            if raw_text.startswith("```json"):
+                raw_text = raw_text.replace("```json", "").replace("```", "").strip()
+            elif raw_text.startswith("```"):
+                raw_text = raw_text.replace("```", "").strip()
+                
+            results = json.loads(raw_text)
+
+            # Map results to DB instances
+            for item in results:
+                q_id = item.get("question_id")
+                match_q = next((q for q in answered_qs if str(q.id) == str(q_id)), None)
+                if match_q:
+                    match_q.ai_score = str(item.get("score"))
+                    match_q.ai_verdict = item.get("verdict")
+                    match_q.ai_feedback = item.get("feedback")
+                    match_q.model_answer = item.get("model_answer")
+            
+            db.commit()
+            db.refresh(session)
+            return session
+
+        except Exception as exc:
+            db.rollback()
+            logger.error("Error evaluating session answers via Groq: %s", exc, exc_info=True)
+            raise HTTPException(status_code=500, detail="Failed to evaluate interview answers")
+

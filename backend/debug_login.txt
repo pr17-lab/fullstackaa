@@ -1,0 +1,3 @@
+LOGIN ATTEMPT: len(username)=6 string='S00001', len(password)=10 string='S00001@123'
+FOUND USER: S00001
+IS_VALID: True

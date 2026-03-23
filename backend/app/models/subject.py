@@ -17,6 +17,10 @@ class Subject(Base):
     grade = Column(String(2), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    # New columns added in migration 0005_new_dataset_columns
+    pass_fail = Column(String(4), nullable=True)   # 'Pass' or 'F'
+    total_marks = Column(Integer, default=100)
     
     # Relationships
     term = relationship("AcademicTerm", back_populates="subjects")

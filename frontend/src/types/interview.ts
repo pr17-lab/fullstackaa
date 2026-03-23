@@ -7,6 +7,10 @@ export interface InterviewQuestion {
     difficulty: 'easy' | 'medium' | 'hard';
     source?: string;
     user_answer?: string;
+    ai_score?: string;
+    ai_verdict?: string;
+    ai_feedback?: string;
+    model_answer?: string;
     created_at?: string;
 }
 

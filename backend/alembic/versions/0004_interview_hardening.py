@@ -36,23 +36,24 @@ depends_on: Union[str, Sequence[str], None] = None
 # ---------------------------------------------------------------------------
 def upgrade() -> None:
     # 1. Composite index for paginated, ordered per-user session queries.
-    #    list_sessions() orders by created_at DESC — without this, Postgres
-    #    falls back to a sequential scan + sort on every call.
-    op.create_index(
-        "ix_interview_sessions_user_id_created_at",
-        "interview_sessions",
-        ["user_id", "created_at"],
-        unique=False,
+    op.execute(
+        "CREATE INDEX IF NOT EXISTS ix_interview_sessions_user_id_created_at "
+        "ON interview_sessions (user_id, created_at)"
     )
 
-    # 2. CHECK constraint — DB-level guard complementing the Python-side
-    #    SessionStatus constants.  Rejects any INSERT/UPDATE that supplies
-    #    a status value outside the three allowed lifecycle states.
-    op.create_check_constraint(
-        "ck_interview_sessions_status",
-        "interview_sessions",
-        "status IN ('active', 'completed', 'abandoned')",
-    )
+    # 2. CHECK constraint
+    op.execute("""
+    DO $$
+    BEGIN
+        IF NOT EXISTS (
+            SELECT 1 FROM pg_constraint WHERE conname = 'ck_interview_sessions_status'
+        ) THEN
+            ALTER TABLE interview_sessions 
+            ADD CONSTRAINT ck_interview_sessions_status CHECK (status IN ('active', 'completed', 'abandoned'));
+        END IF;
+    END
+    $$;
+    """)
 
 
 # ---------------------------------------------------------------------------

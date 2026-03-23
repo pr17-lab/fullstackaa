@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { BookOpen, Search, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
 import { EmptyState, LoadingSpinner, ErrorDisplay } from '../components/common/Loading';
 import { StudentService } from '../services/api';
-import { AcademicRecordSummary } from '../api/types';
 import { useAuth } from '../contexts/AuthContext';
+import { PageTransition } from '../components/layout/PageTransition';
 
 const Subjects = () => {
     const { user } = useAuth();
-    const [records, setRecords] = useState<AcademicRecordSummary | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedSemesters, setExpandedSemesters] = useState<Set<number>>(new Set([1])); // Default: first semester expanded
+
+    const { data: records, isLoading, error, refetch } = useQuery({
+        queryKey: ['academic-records', user?.id],
+        queryFn: () => StudentService.getAcademicRecords(user!.id),
+        enabled: !!user?.id,
+        staleTime: 5 * 60 * 1000,
+    });
 
     const toggleSemester = (semester: number) => {
         setExpandedSemesters(prev => {
@@ -27,32 +32,7 @@ const Subjects = () => {
         });
     };
 
-    const fetchData = async () => {
-        if (!user?.id) {
-            setError('User not authenticated');
-            setLoading(false);
-            return;
-        }
-
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await StudentService.getAcademicRecords(user.id);
-            setRecords(data);
-        } catch (err: any) {
-            setError(err.message || 'Failed to fetch subjects');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (user?.id) {
-            fetchData();
-        }
-    }, [user?.id]);
-
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <LoadingSpinner />
@@ -60,7 +40,7 @@ const Subjects = () => {
         );
     }
 
-    if (error) return <ErrorDisplay message={error} onRetry={fetchData} />;
+    if (error) return <ErrorDisplay message={(error as Error).message || 'Failed to fetch subjects'} onRetry={() => refetch()} />;
 
     // Get all unique subjects from all terms
     const allSubjects = records?.terms.flatMap(term =>
@@ -99,7 +79,7 @@ const Subjects = () => {
         .sort((a, b) => a - b);
 
     return (
-        <div className="space-y-6 animate-slide-up max-w-6xl mx-auto">
+        <PageTransition className="space-y-6 max-w-6xl mx-auto">
             {/* Header */}
             <div>
                 <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-2">My Subjects</h1>
@@ -166,7 +146,7 @@ const Subjects = () => {
                                                     <div className="text-right">
                                                         <div className="text-xs text-[var(--text-secondary)]">GPA</div>
                                                         <div className="text-lg font-bold text-[var(--brand-primary)]">
-                                                            {(semesterGPA * 2.5).toFixed(2)}/10
+                                                            {Number(semesterGPA).toFixed(2)}/10
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center justify-center h-10 w-10">
@@ -238,7 +218,7 @@ const Subjects = () => {
                     </CardContent>
                 </Card>
             )}
-        </div>
+        </PageTransition>
     );
 };
 

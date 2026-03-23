@@ -13,6 +13,10 @@ from app.services.csv_data_service import csv_data_loader
 from app.api.routes import auth, health
 from app.modules.academic.router import router as academic_module_router
 from app.modules.interview.router import router as interview_module_router
+from app.modules.skills.router import router as skills_module_router
+from app.modules.preferences.router import router as preferences_router
+from app.modules.roadmap.router import router as roadmap_router
+from app.modules.jobs.router import router as jobs_router
 
 import logging
 
@@ -79,6 +83,10 @@ app.include_router(auth.router,                prefix="/api/auth",      tags=["A
 app.include_router(health.router,              prefix="/api",            tags=["Health"])
 app.include_router(academic_module_router,     prefix="/api",            tags=["Academic Module"])
 app.include_router(interview_module_router,    prefix="/api/interview",  tags=["Interview Module"])
+app.include_router(skills_module_router)
+app.include_router(preferences_router,         prefix="/api/preferences", tags=["Preferences"])
+app.include_router(roadmap_router,             prefix="/api/roadmap",     tags=["Roadmap"])
+app.include_router(jobs_router,                prefix="/api/jobs",        tags=["Jobs"])
 
 # ---------------------------------------------------------------------------
 # Root
@@ -90,5 +98,5 @@ async def root():
         "message": "Student Academic Tracker API",
         "version": "1.0.0",
         "docs": "/docs",
-        "modules": ["academic", "interview"],
+        "modules": ["academic", "interview", "skills", "preferences", "roadmap"],
     }

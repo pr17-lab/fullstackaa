@@ -9,10 +9,11 @@ import {
     RotateCcw, Volume2, Trash2,
 } from 'lucide-react';
 import {
-    createSession, listSessions, getSession, submitAnswer, deleteSession, parseResumePdf
+    createSession, listSessions, getSession, submitAnswer, deleteSession, parseResumePdf, evaluateSession
 } from '../api/interview';
 import type { InterviewSession, InterviewSessionSummary } from '../types/interview';
 import { Card, CardHeader, CardContent, CardTitle } from '../components/common/Card';
+import { PageTransition } from '../components/layout/PageTransition';
 
 // ---------------------------------------------------------------------------
 // Web Speech API type augmentation
@@ -45,7 +46,7 @@ declare global {
 // ---------------------------------------------------------------------------
 const QUESTION_TIME_SEC = 90;
 
-// Topics removed — now JD-based
+// Topics removed â€” now JD-based
 
 const DIFFICULTY_COLOR: Record<string, string> = {
     easy: 'text-emerald-400',
@@ -283,7 +284,7 @@ function SessionHistoryItem({
                 </div>
             </button>
 
-            {/* Delete button — visible on hover */}
+            {/* Delete button â€” visible on hover */}
             <button
                 id={`delete-session-${summary.id}`}
                 type="button"
@@ -346,12 +347,12 @@ function Lobby({
                         </div>
                         <div>
                             <CardTitle>AI Interview</CardTitle>
-                            <p className="text-sm text-gray-500 dark:text-zinc-500 dark:text-zinc-400 font-medium">Voice-only • Real-time • Personalised</p>
+                            <p className="text-sm text-gray-500 dark:text-zinc-500 dark:text-zinc-400 font-medium">Voice-only â€¢ Real-time â€¢ Personalised</p>
                         </div>
                     </CardHeader>
                 </Card>
 
-                {/* JD input — primary */}
+                {/* JD input â€” primary */}
                 <Card variant="elevated" className="border-indigo-500/20 dark:border-indigo-400/20 shadow-indigo-300 dark:shadow-indigo-900/10">
                     <CardHeader className="pb-3 flex flex-row items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -475,7 +476,7 @@ The AI will tailor every question to this JD.`}
                         className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition shadow-lg shadow-indigo-200 dark:shadow-indigo-900/40 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <Sparkles className="h-4 w-4" />
-                        {isStarting ? 'Generating questions…' : 'Start Interview'}
+                        {isStarting ? 'Generating questionsâ€¦' : 'Start Interview'}
                     </button>
                     {!hasJd && (
                         <p className="text-xs text-gray-500 dark:text-zinc-500">Paste a job description above to start</p>
@@ -560,8 +561,8 @@ function InterviewRoom({
     const total = session.questions.length;
 
     // Keep onSkip in a ref so the timer effect never needs it as a dependency.
-    // Without this, every skip would create a new onSkip → re-trigger the timer
-    // effect with secondsLeft still at 0 → immediately skip again (repeat loop).
+    // Without this, every skip would create a new onSkip â†’ re-trigger the timer
+    // effect with secondsLeft still at 0 â†’ immediately skip again (repeat loop).
     const onSkipRef = useRef(onSkip);
     useEffect(() => { onSkipRef.current = onSkip; }, [onSkip]);
 
@@ -580,7 +581,7 @@ function InterviewRoom({
     // Typewriter
     const { displayed, done } = useTypewriter(question?.question ?? '', 20);
 
-    // TTS — speak the question once typewriter finishes
+    // TTS â€” speak the question once typewriter finishes
     const { speak, cancel } = useTTS();
     useEffect(() => {
         if (done && question?.question) {
@@ -614,7 +615,7 @@ function InterviewRoom({
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                     <span className="text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase tracking-wider">
-                        {session.branch}{session.topic ? ` · ${session.topic}` : ''}
+                        {session.branch}{session.topic ? ` Â· ${session.topic}` : ''}
                     </span>
                     <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${DIFFICULTY_COLOR[question.difficulty] ?? 'text-gray-600 dark:text-zinc-400'} bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700`}>
                         {question.difficulty}
@@ -682,7 +683,7 @@ function InterviewRoom({
                             <p className="text-indigo-400 italic">{interimText}</p>
                         ) : (
                             <p className="text-gray-500 dark:text-zinc-600 italic">
-                                {listening ? 'Listening… speak your answer' : 'Press Speak to record your answer'}
+                                {listening ? 'Listeningâ€¦ speak your answer' : 'Press Speak to record your answer'}
                             </p>
                         )}
                         {listening && (
@@ -717,7 +718,7 @@ function InterviewRoom({
                             className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition disabled:opacity-40 shadow-lg shadow-indigo-200 dark:shadow-indigo-900/30"
                         >
                             <Volume2 className="h-4 w-4" />
-                            {answerMutation.isPending ? 'Saving…' : 'Submit Answer'}
+                            {answerMutation.isPending ? 'Savingâ€¦' : 'Submit Answer'}
                         </button>
 
                         {finalText && (
@@ -749,9 +750,13 @@ function InterviewRoom({
 function ResultsScreen({
     session,
     onNewInterview,
+    onEvaluate,
+    isEvaluating,
 }: {
     session: InterviewSession;
     onNewInterview: () => void;
+    onEvaluate: () => void;
+    isEvaluating: boolean;
 }) {
     const total = session.questions.length;
     const answered = session.questions.filter(q => q.user_answer).length;
@@ -774,13 +779,29 @@ function ResultsScreen({
                         <p className="text-sm text-gray-600 dark:text-zinc-400 mt-1">Completion rate</p>
                     </div>
                 </div>
-                <button
-                    id="new-interview-btn"
-                    onClick={onNewInterview}
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition mt-2"
-                >
-                    <RotateCcw className="h-4 w-4" /> New Interview
-                </button>
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4">
+                    <button
+                        id="new-interview-btn"
+                        onClick={onNewInterview}
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-zinc-200 text-sm font-semibold transition"
+                    >
+                        <RotateCcw className="h-4 w-4" /> New Interview
+                    </button>
+                    <button
+                        id="evaluate-answers-btn"
+                        onClick={onEvaluate}
+                        disabled={isEvaluating}
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition disabled:opacity-50"
+                    >
+                        {isEvaluating ? (
+                            <div className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                        ) : (
+                            <Sparkles className="h-4 w-4" />
+                        )}
+                        {isEvaluating ? 'Evaluating Responses…' : 'Evaluate My Answers'}
+                    </button>
+                </div>
             </div>
 
             {/* Q&A summary */}
@@ -801,11 +822,38 @@ function ResultsScreen({
                                 </div>
                                 <p className="text-sm font-medium text-gray-800 dark:text-zinc-200">{q.question}</p>
                                 {q.user_answer ? (
-                                    <div className="rounded-lg bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-700/30 px-3 py-2">
-                                        <p className="text-xs text-indigo-600 dark:text-indigo-300 font-semibold mb-1 flex items-center gap-1">
-                                            <Mic className="h-3 w-3" /> Your Answer
-                                        </p>
-                                        <p className="text-sm text-gray-700 dark:text-zinc-300">{q.user_answer}</p>
+                                    <div className="rounded-lg bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-700/30 px-3 py-2 space-y-3">
+                                        <div>
+                                            <p className="text-xs text-indigo-600 dark:text-indigo-300 font-semibold mb-1 flex items-center gap-1">
+                                                <Mic className="h-3 w-3" /> Your Answer
+                                            </p>
+                                            <p className="text-sm text-gray-700 dark:text-zinc-300">{q.user_answer}</p>
+                                        </div>
+
+                                        {q.ai_score && (
+                                            <div className="pt-3 border-t border-indigo-100 dark:border-indigo-800/50 space-y-2">
+                                                <div className="flex items-center gap-3">
+                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${
+                                                        Number(q.ai_score) >= 8 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
+                                                        Number(q.ai_score) >= 5 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
+                                                        'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                                                    }`}>
+                                                        Score: {q.ai_score}/10
+                                                    </span>
+                                                    <span className="text-xs font-medium text-gray-500 dark:text-zinc-400">
+                                                        Verdict: <span className="text-gray-900 dark:text-zinc-200">{q.ai_verdict}</span>
+                                                    </span>
+                                                </div>
+                                                <p className="text-sm text-gray-800 dark:text-zinc-200">
+                                                    <span className="font-semibold text-indigo-600 dark:text-indigo-400">Feedback: </span>
+                                                    {q.ai_feedback}
+                                                </p>
+                                                <div className="mt-2 text-sm text-gray-600 dark:text-zinc-400">
+                                                    <span className="font-semibold">Model Answer: </span>
+                                                    {q.model_answer}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 ) : (
                                     <div className="rounded-lg bg-white/50 dark:bg-zinc-900/50 border border-gray-200/30 dark:border-zinc-700/30 px-3 py-2">
@@ -861,7 +909,7 @@ const InterviewPrep: React.FC = () => {
         };
     }, [activeSession, localAnswers]);
 
-    // Create session mutation — JD-based: pass jd_text + optional resume context
+    // Create session mutation â€” JD-based: pass jd_text + optional resume context
     const createMutation = useMutation({
         mutationFn: () => {
             const resumeSnippet = resumeText.trim().slice(0, 500) || undefined;
@@ -890,6 +938,15 @@ const InterviewPrep: React.FC = () => {
             }
         },
         onSettled: () => setDeletingId(null),
+    });
+
+    // Evaluate session mutation
+    const evaluateMutation = useMutation({
+        mutationFn: () => evaluateSession(activeSessionId!),
+        onSuccess: () => {
+            qc.invalidateQueries({ queryKey: ['interview-session', activeSessionId] });
+            qc.invalidateQueries({ queryKey: ['interview-sessions'] });
+        },
     });
 
     const handleAnswered = (qId: string, answer: string, completed: boolean) => {
@@ -930,7 +987,7 @@ const InterviewPrep: React.FC = () => {
     };
 
     return (
-        <div className="w-full text-gray-900 dark:text-zinc-100">
+        <PageTransition className="w-full text-gray-900 dark:text-zinc-100">
             <div className="max-w-6xl mx-auto px-4 py-8">
                 {phase === 'lobby' && (
                     <Lobby
@@ -954,7 +1011,7 @@ const InterviewPrep: React.FC = () => {
                     sessionLoading || !mergedSession ? (
                         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
                             <div className="h-12 w-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" />
-                            <p className="text-gray-600 dark:text-zinc-400 text-sm">Preparing your interview…</p>
+                            <p className="text-gray-600 dark:text-zinc-400 text-sm">Preparing your interviewâ€¦</p>
                         </div>
                     ) : (
                         <InterviewRoom
@@ -970,10 +1027,12 @@ const InterviewPrep: React.FC = () => {
                     <ResultsScreen
                         session={mergedSession}
                         onNewInterview={handleNewInterview}
+                        onEvaluate={() => evaluateMutation.mutate()}
+                        isEvaluating={evaluateMutation.isPending}
                     />
                 )}
             </div>
-        </div>
+        </PageTransition>
     );
 };
 

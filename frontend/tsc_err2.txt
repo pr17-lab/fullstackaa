@@ -1,0 +1,1 @@
+src/pages/SkillsPage.tsx(186,7): error TS2552: Cannot find name 'isError'. Did you mean 'Error'?

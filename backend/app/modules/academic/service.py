@@ -132,4 +132,4 @@ class AcademicService:
 
     def get_branch(self, db: Session, user_id: uuid.UUID) -> str:
         """Convenience: return the student's branch string."""
-        return self.get_student_profile(db, user_id).branch
+        return self.get_student_profile(db, user_id).department

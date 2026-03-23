@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { User, BookOpen, ChevronRight, ChevronLeft, Filter as FilterIcon } from 'lucide-react';
 import { StudentService } from '../services/api';
-import { StudentListResponse } from '../api/types';
 import { StudentFilters } from '../components/students/StudentFilters';
 import { Card, CardContent } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
@@ -12,11 +12,7 @@ import { SkeletonCard } from '../components/common/Skeleton';
 
 const Students = () => {
     const navigate = useNavigate();
-    const [data, setData] = useState<StudentListResponse | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [showFilters, setShowFilters] = useState(false);
-
     const [filters, setFilters] = useState({
         branch: '',
         semester: '' as number | '',
@@ -24,27 +20,17 @@ const Students = () => {
     const [page, setPage] = useState(1);
     const pageSize = 12;
 
-    const fetchStudents = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const result = await StudentService.getStudents(
-                page,
-                pageSize,
-                filters.branch || undefined,
-                filters.semester || undefined
-            );
-            setData(result);
-        } catch (err: any) {
-            setError(err.message || 'Failed to fetch students');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchStudents();
-    }, [page, filters]);
+    const { data, isLoading: loading, error, refetch } = useQuery({
+        queryKey: ['students', page, filters.branch, filters.semester],
+        queryFn: () => StudentService.getStudents(
+            page,
+            pageSize,
+            filters.branch || undefined,
+            filters.semester || undefined
+        ),
+        staleTime: 2 * 60 * 1000, // 2 min stale — student list changes more often
+        placeholderData: (prev) => prev, // keep previous data while loading next page
+    });
 
     const handleFilterChange = (key: string, value: string | number) => {
         setFilters((prev) => ({ ...prev, [key]: value }));
@@ -52,6 +38,7 @@ const Students = () => {
     };
 
     const totalPages = data ? Math.ceil(data.total / pageSize) : 0;
+
 
     return (
         <div className="space-y-6 animate-slide-up">
@@ -94,7 +81,8 @@ const Students = () => {
             )}
 
             {/* Error State */}
-            {error && !data && <ErrorDisplay message={error} onRetry={fetchStudents} />}
+            {error && !data && <ErrorDisplay message={(error as Error).message || 'Failed to fetch students'} onRetry={() => refetch()} />}
+
 
             {/* Empty State */}
             {!loading && data?.students.length === 0 && (

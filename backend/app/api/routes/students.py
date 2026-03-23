@@ -30,7 +30,7 @@ async def list_students(
     
     # Apply filters
     if branch:
-        query = query.filter(StudentProfile.branch == branch)
+        query = query.filter(StudentProfile.department == branch)
     if semester:
         query = query.filter(StudentProfile.semester == semester)
     

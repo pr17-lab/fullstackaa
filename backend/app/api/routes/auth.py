@@ -56,7 +56,8 @@ async def login(
     Rate limited to 5 requests per minute per IP address.
     """
     # Find user by student_id
-    user = db.query(User).filter(User.student_id == form_data.username).first()
+    safe_username = form_data.username.strip().upper()
+    user = db.query(User).filter(User.student_id == safe_username).first()
     
     if not user:
         raise HTTPException(
@@ -74,7 +75,8 @@ async def login(
         )
     
     # Verify password
-    if not user.password_hash or not verify_password(form_data.password, user.password_hash):
+    is_valid = verify_password(form_data.password, user.password_hash) if user.password_hash else False
+    if not is_valid:
         # Record failed login attempt
         user.record_failed_login()
         db.commit()
@@ -115,6 +117,6 @@ async def get_me(
         "email": current_user.email,
         "student_id": current_user.student_id,
         "name": profile.name if profile else None,
-        "branch": profile.branch if profile else None,
+        "branch": profile.department if profile else None,
         "semester": profile.semester if profile else None
     }

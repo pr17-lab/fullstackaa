@@ -23,6 +23,10 @@ class InterviewQuestionOut(BaseModel):
     difficulty: str
     source: Optional[str] = None
     user_answer: Optional[str] = None
+    ai_score: Optional[int] = None
+    ai_verdict: Optional[str] = None
+    ai_feedback: Optional[str] = None
+    model_answer: Optional[str] = None
     created_at: Optional[datetime] = None
 
 

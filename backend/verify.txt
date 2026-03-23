@@ -1,0 +1,54 @@
+================================================================================
+  SATA — Database Import Verification
+================================================================================
+
+[1] COUNT CHECKS
+  [[92mPASS[0m] users table count                        | Actual: 10000      | Expected: ~10000
+  [[92mPASS[0m] student_profiles table count             | Actual: 10000      | Expected: 10000
+  [[92mPASS[0m] academic_terms count                     | Actual: 76366      | Expected: >0
+  [[92mPASS[0m] subjects count                           | Actual: 519404     | Expected: ~241000
+
+[2] REFERENTIAL INTEGRITY
+  [[92mPASS[0m] student_profiles without user            | Actual: 0          | Expected: 0
+  [[92mPASS[0m] academic_terms without user              | Actual: 0          | Expected: 0
+  [[92mPASS[0m] subjects without academic_term           | Actual: 0          | Expected: 0
+
+[3] SAMPLE SPOT CHECK (S00001)
+  Profile: Sanjay Kumar | IT | Sem 4 | CGPA None | Batch None | None
+  Academic Terms:
+    - Sem 1 (2020): GPA 5.71
+      Subjects (Sem 1):
+        * AI101  | Engineering Maths I            | 4 cr | 60.00 marks | Grade B+
+        * AI102  | Statistics & Probability       | 3 cr | 54.00 marks | Grade B
+        * AI103  | Python Programming             | 3 cr | 25.00 marks | Grade F
+        * AI104  | Engineering Drawing            | 2 cr | 89.00 marks | Grade A+
+        * AI105  | Environmental Science          | 2 cr | 79.00 marks | Grade A
+    - Sem 2 (2020): GPA 5.93
+    - Sem 3 (2021): GPA 7.35
+    - Sem 4 (2021): GPA 6.35
+    - Sem 5 (2022): GPA 5.29
+    - Sem 6 (2022): GPA 5.50
+    - Sem 7 (2023): GPA 2.47
+    - Sem 8 (2023): GPA 2.56
+
+[4] GPA SANITY
+  [[92mPASS[0m] terms with gpa = 0.0                     | Actual: 3          | Expected: Expected low/0
+  [[92mPASS[0m] Average GPA across terms                 | Actual: 5.46       | Expected: ~6-7
+  [[92mPASS[0m] Min GPA                                  | Value: 0.50
+  [[92mPASS[0m] Max GPA                                  | Value: 9.99
+
+[5] DEPARTMENT DISTRIBUTION
+  ECE                           :   2561
+  CSE                           :   2497
+  AI&ML                         :   2238
+  IT                            :   2178
+  MECH                          :    293
+  AIML                          :    233
+
+[6] BACKLOG & PERFORMANCE SANITY
+  [[91mFAIL[0m] active_backlog = true                    | Actual: 273        | Expected: ~2505
+  [[91mFAIL[0m] performance_status = 'At Risk'           | Actual: 142        | Expected: ~1244
+
+================================================================================
+  VERIFICATION COMPLETE
+================================================================================

@@ -24,6 +24,15 @@ class User(Base):
     # Relationships
     profile = relationship("StudentProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
     academic_terms = relationship("AcademicTerm", back_populates="user", cascade="all, delete-orphan")
+    interview_sessions = relationship("InterviewSession", back_populates="user", cascade="all, delete-orphan")
+    
+    # V2 Career Intelligence Relationships
+    student_projects = relationship("StudentProject", back_populates="user", cascade="all, delete-orphan")
+    student_preferences = relationship("StudentPreference", back_populates="user", uselist=False, cascade="all, delete-orphan")
+    student_skills = relationship("StudentSkill", back_populates="user", cascade="all, delete-orphan")
+    skill_gaps = relationship("SkillGap", back_populates="user", cascade="all, delete-orphan")
+    roadmaps = relationship("Roadmap", back_populates="user", cascade="all, delete-orphan")
+    behavior_summary = relationship("BehaviorSummary", back_populates="user", uselist=False, cascade="all, delete-orphan")
     
     def is_locked(self) -> bool:
         """Check if account is currently locked."""

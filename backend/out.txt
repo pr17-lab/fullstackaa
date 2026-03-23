@@ -1,0 +1,84 @@
+﻿
+==================================================
+skill_taxonomy count
+==================================================
+COUNT: 68
+
+==================================================
+job_skill_requirements count
+==================================================
+COUNT: 122
+
+==================================================
+student_preferences count
+==================================================
+COUNT: 10000
+
+==================================================
+student_skills count
+==================================================
+COUNT: 99234
+
+==================================================
+skill_gaps count
+==================================================
+COUNT: 25924
+
+==================================================
+behavior_summary count
+==================================================
+COUNT: 10000
+
+==================================================
+Average match score per job role
+==================================================
+job_role             | avg_match            | student_count       
+------------------------------------------------------------------
+Hardware/VLSI Design Engineer | 25.80                | 2085                
+Data Scientist       | 12.03                | 6605                
+Software Engineer    | 10.20                | 8878                
+Embedded Systems Engineer | 8.26                 | 3356                
+Data Engineer        | 7.99                 | 5000                
+
+==================================================
+Skill distribution
+==================================================
+level                | count               
+-------------------------------------------
+weak                 | 5572                
+moderate             | 54197               
+strong               | 39465               
+
+==================================================
+Top 10 strong skills
+==================================================
+skill_name           | strong_count        
+-------------------------------------------
+DSA                  | 3500                
+Digital Electronics  | 3112                
+Software Engineering | 3026                
+DBMS                 | 2673                
+Machine Learning     | 2488                
+Operating Systems    | 2370                
+Computer Networks    | 2334                
+Microcontrollers     | 2282                
+Python               | 1833                
+NLP                  | 1793                
+
+==================================================
+Spot check S00001
+==================================================
+student_id           | department           | cgpa                 | confidence_score     | skill_name           | level               
+---------------------------------------------------------------------------------------------------------------------------------------
+S00001               | AIML                 | 5.61                 | 83.00                | Computer Networks    | strong              
+S00001               | AIML                 | 5.61                 | 78.00                | DBMS                 | strong              
+S00001               | AIML                 | 5.61                 | 77.50                | Software Engineering | strong              
+S00001               | AIML                 | 5.61                 | 66.00                | OOP                  | moderate            
+S00001               | AIML                 | 5.61                 | 65.00                | Operating Systems    | moderate            
+S00001               | AIML                 | 5.61                 | 59.00                | DSA                  | moderate            
+S00001               | AIML                 | 5.61                 | 57.00                | NLP                  | moderate            
+S00001               | AIML                 | 5.61                 | 54.00                | Deep Learning        | moderate            
+S00001               | AIML                 | 5.61                 | 53.50                | Machine Learning     | moderate            
+S00001               | AIML                 | 5.61                 | 53.00                | Microcontrollers     | moderate            
+S00001               | AIML                 | 5.61                 | 51.00                | Computer Vision      | moderate            
+S00001               | AIML                 | 5.61                 | 25.00                | Python               | weak                
