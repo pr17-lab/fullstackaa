@@ -19,6 +19,7 @@ import {
     RoadmapDetail,
     StudentPreferences,
     JobListingsResponse,
+    TaxonomySearchResponse,
 } from '../types/career';
 
 export const StudentService = {

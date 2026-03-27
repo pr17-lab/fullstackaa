@@ -230,7 +230,7 @@ const StudentProfile = () => {
                                                     {Number(subject.marks).toFixed(1)}
                                                 </td>
                                                 <td className="px-6 py-4 text-center">
-                                                    <Badge variant={subject.grade === 'P' ? 'success' : 'danger'} size="sm">
+                                                    <Badge variant={subject.grade !== 'F' ? 'success' : 'danger'} size="sm">
                                                         {subject.grade}
                                                     </Badge>
                                                 </td>

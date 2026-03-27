@@ -475,7 +475,7 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
             className="h-3 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500"
             initial={{ width: 0 }}
             animate={{ width: `${pct}%` }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            transition={{ duration: 0.8, ease: 'easeOut' as const }}
           />
         </div>
 
@@ -549,7 +549,7 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
           </AnimatePresence>
         </div>
 
-        <DragOverlay dropAnimation={defaultDropAnimationSideEffects({ styles: { active: { opacity: '0.5' } } })}>
+        <DragOverlay dropAnimation={defaultDropAnimationSideEffects({ styles: { active: { opacity: '0.5' } } }) as any}>
           {activeDragTask ? <TaskCardContent task={activeDragTask} isOverlay={true} /> : null}
         </DragOverlay>
       </DndContext>

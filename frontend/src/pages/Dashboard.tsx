@@ -58,8 +58,6 @@ const Dashboard = () => {
     if (error) return <ErrorDisplay message={(error as Error).message || 'Failed to fetch your academic data'} onRetry={() => refetchRecords()} />;
     if (!records || !summary) return null;
 
-    // Derived Logic
-    const passRate = summary.total_subjects > 0 ? 100 : 0;
     const allSubjects = records.terms.flatMap(term =>
         term.subjects?.map(subject => ({
             id: subject.id,
@@ -70,6 +68,10 @@ const Dashboard = () => {
             grade: subject.grade
         })) || []
     );
+
+    const passRate = allSubjects.length > 0
+        ? Math.round((allSubjects.filter(s => s.grade !== 'F').length / allSubjects.length) * 100)
+        : 0;
 
     const subjectAverages = allSubjects.reduce((acc, subject) => {
         if (!acc[subject.name]) {

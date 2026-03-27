@@ -10,6 +10,7 @@ import { SkillsService, JobListingsService } from '../services/api';
 import { ErrorDisplay } from '../components/common/Loading';
 import type { StudentSkill, SkillGap, TaxonomySearchResponse } from '../types/career';
 import { PageTransition } from '../components/layout/PageTransition';
+import { useAuth } from '../contexts/AuthContext';
 
 // ─── Animation Variants ────────────────────────────────────────────────────────
 
@@ -90,9 +91,13 @@ function SkeletonGapCard() {
 // ─── Section 1: Summary Bar ────────────────────────────────────────────────────
 
 function SkillsSummarySection() {
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['skills-summary'],
     queryFn: SkillsService.getSkillsSummary,
+    enabled: isAuthenticated && !authLoading,
+    retry: 1,
+    staleTime: 5 * 60 * 1000,
   });
 
   if (isLoading) {
@@ -163,9 +168,13 @@ function SkillsSummarySection() {
 
 function CareerRecommendationSection() {
   // Derive recommendation from gaps data — use top gap as primary
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const { data: gaps, isLoading, isError } = useQuery({
     queryKey: ['skill-gaps'],
     queryFn: SkillsService.getSkillGaps,
+    enabled: isAuthenticated && !authLoading,
+    retry: 1,
+    staleTime: 5 * 60 * 1000,
   });
 
   if (isLoading) {
@@ -310,7 +319,7 @@ function GapCard({ gap }: { gap: SkillGap }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            transition={{ duration: 0.25, ease: 'easeInOut' as const }}
             className="overflow-hidden"
           >
             <div className="px-5 pb-5 border-t border-gray-100 dark:border-zinc-800 pt-4 space-y-3">
@@ -451,9 +460,13 @@ function GapCard({ gap }: { gap: SkillGap }) {
 }
 
 function SkillGapsSection() {
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const { data: gaps, isLoading, isError, refetch } = useQuery({
     queryKey: ['skill-gaps'],
     queryFn: SkillsService.getSkillGaps,
+    enabled: isAuthenticated && !authLoading,
+    retry: 1,
+    staleTime: 5 * 60 * 1000,
   });
 
   if (isLoading) {
@@ -508,9 +521,13 @@ function SkillsListSection() {
     enabled: debouncedQuery.length > 0,
   });
 
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const { data: skills, isLoading, isError, refetch } = useQuery({
     queryKey: ['my-skills'],
     queryFn: SkillsService.getMySkills,
+    enabled: isAuthenticated && !authLoading,
+    retry: 1,
+    staleTime: 5 * 60 * 1000,
   });
 
   const addMutation = useMutation({
@@ -712,9 +729,7 @@ function SkillsListSection() {
                   <div className="flex flex-col gap-1 items-start">
                     <div className="flex items-center gap-2">
                       {skill.skill_name}
-                      {skill.source.includes('academic') && (
-                        <GraduationCap className="w-3.5 h-3.5 text-emerald-500" title="Verified Academic Skill" />
-                      )}
+                        <GraduationCap className="w-3.5 h-3.5 text-emerald-500" />
                     </div>
                     {skill.source.includes('self_reported') && (
                       <div className="flex items-center gap-1">

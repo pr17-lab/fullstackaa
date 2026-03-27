@@ -66,7 +66,7 @@ export const StatCard: React.FC<StatCardProps> = ({
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
+            transition={{ duration: 0.3, ease: 'easeOut' as const }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             className={`bg-white dark:bg-zinc-900 rounded-2xl shadow-sm hover:shadow-lg hover:border-white/10 hover:shadow-black/20 p-6 border border-gray-100 dark:border-zinc-800 transition-all duration-200 ${borderClasses[color]}`}
         >
