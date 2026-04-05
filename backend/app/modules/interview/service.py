@@ -1,40 +1,34 @@
 """
 InterviewService (v2.0)
 -----------------------
-Phase 2: DB-backed sessions, async ML inference with fallback, and
-session state lifecycle management.
+DB-backed sessions, async ML inference with fallback, and
+session-state lifecycle management.
 
-Architectural refinements:
-  - Transaction safety: session + questions in one atomic commit with rollback.
-  - Lifecycle: status auto-advances to "completed" when all questions answered.
+Architectural notes:
+  - Transaction safety: session + questions committed atomically with rollback on error.
+  - Lifecycle: status auto-advances to "completed" when all questions are answered.
   - Performance: list_sessions() uses joinedload to avoid N+1 on question_count.
-  - ML fallback: httpx call with configurable timeout; built-in bank on failure.
+  - ML pipeline: Groq → Gemini → built-in question bank (graceful degradation).
 
 ML Sub-Service — Network Boundary
 ----------------------------------
-The ML sub-service (configured via ML_SERVICE_URL) is an **internal service**
-intended to run exclusively within the private Docker network.  It operates
-without its own authentication layer by design:
-
-  - It MUST NOT be exposed on a public port or via any public DNS name.
-  - All authentication is handled by the core FastAPI application BEFORE
-    this service is called.  The ML service trusts all callers implicitly.
-  - In docker-compose, the ml_service container should NOT publish ports
-    to the host (no "ports:" key, or only bind to 127.0.0.1).
-  - The ML_SERVICE_URL env var should point to the Docker service name
-    (e.g. http://ml_service:8001) so it is only reachable inside the
-    compose network, never from outside.
-
-Rationale: adding auth to the ML service is deferred to a future phase.
-Until then, network isolation is the security boundary.
+The ML sub-service (ML_SERVICE_URL) must run exclusively inside the private Docker
+network and must NOT be exposed publicly. All authentication is handled by the core
+FastAPI application before this service is called. See docker-compose.yml for the
+correct network isolation pattern.
 """
 from __future__ import annotations
 
-import uuid
-import random
+import io
+import json
 import logging
+import random
+import re
+import uuid
+from datetime import datetime
 from decimal import Decimal
 from typing import Optional
+from uuid import UUID
 
 import httpx
 from fastapi import HTTPException
@@ -61,7 +55,7 @@ _QUESTION_BANK: dict[str, list[dict]] = {
         {"topic": "DSA",  "question": "What is the difference between a stack and a queue?", "difficulty": "easy"},
         {"topic": "DSA",  "question": "Explain binary search and its time complexity.", "difficulty": "easy"},
         {"topic": "DSA",  "question": "What is a balanced binary search tree? Give an example.", "difficulty": "medium"},
-        {"topic": "DSA",  "question": "Explain the concept of graph shortest path algorithms (Dijkstra vs Bellman-Ford).", "difficulty": "hard"},
+        {"topic": "DSA",  "question": "Explain graph shortest path algorithms (Dijkstra vs Bellman-Ford).", "difficulty": "hard"},
         # DBMS
         {"topic": "DBMS", "question": "What is database normalisation? Explain 1NF, 2NF, 3NF.", "difficulty": "medium"},
         {"topic": "DBMS", "question": "Explain ACID properties with examples.", "difficulty": "medium"},
@@ -140,11 +134,37 @@ _WEAK_SUBJECT_TEMPLATE = (
 )
 
 
+# ---------------------------------------------------------------------------
+# Private helpers
+# ---------------------------------------------------------------------------
+
+def _strip_json_fences(raw: str) -> str:
+    """Remove markdown code fences (```json ... ```) from an LLM response."""
+    if "```" in raw:
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+    return raw.strip()
+
+
+def _clean_text(t: str) -> str:
+    """Strip HTML tags, collapse whitespace, and cap at 3000 chars."""
+    if not t:
+        return ""
+    t = re.sub(r"<[^>]+>", " ", t)
+    t = re.sub(r"\s+", " ", t)
+    return t.strip()[:3000]
+
+
+# ---------------------------------------------------------------------------
+# InterviewService
+# ---------------------------------------------------------------------------
+
 class InterviewService:
-    """Business logic for the Interview module (Phase 2 — DB-backed)."""
+    """Business logic for the Interview module (v2.0 — DB-backed)."""
 
     # ------------------------------------------------------------------
-    # Question generation — sync fallback
+    # Question generation — sync fallback (built-in bank)
     # ------------------------------------------------------------------
 
     def generate_questions(
@@ -161,9 +181,9 @@ class InterviewService:
         bank = list(_QUESTION_BANK.get(branch, _QUESTION_BANK["default"]))
         if topic:
             filtered = [q for q in bank if q["topic"].lower() == topic.lower()]
-            bank = filtered if filtered else bank  # fallback if topic not found
+            bank = filtered if filtered else bank
 
-        random.shuffle(bank)  # randomise order on every call
+        random.shuffle(bank)
 
         follow_ups = [
             {
@@ -174,11 +194,10 @@ class InterviewService:
             }
             for subj in weak_subjects[:3]
         ]
-        # Prepend follow-ups so they are guaranteed within the limit
         return (follow_ups + bank)[:limit]
 
     # ------------------------------------------------------------------
-    # Question generation — async ML path with graceful fallback
+    # Question generation — async pipeline (ML service → Groq → bank)
     # ------------------------------------------------------------------
 
     async def generate_questions_async(
@@ -192,62 +211,169 @@ class InterviewService:
         resume_context: Optional[str] = None,
         limit: int = 10,
     ) -> tuple[list[dict], str]:
-        """
-        Try the ML sub-service; retry once before falling back to built-in bank.
-
-        Strategy:
-          - Attempt 1: call ML service (timeout = ML_SERVICE_TIMEOUT)
-          - Attempt 2 (retry): one more call on transient failure
-          - If both attempts fail: return questions from the built-in bank
-
-        Returns:
-            (questions, source) where source is "ml_service" or "built-in".
-        """
-        payload = {
-            "branch": branch,
-            "semester": semester,
-            "weak_subjects": weak_subjects,
-            "overall_gpa": float(overall_gpa),
-            "jd_text": jd_text,
-            "resume_context": resume_context,
-            "limit": limit,
-        }
-        url = f"{settings.ML_SERVICE_URL}/predict/questions"
-
-        for attempt in range(2):  # attempt 0 = first try, attempt 1 = retry
+        # Groq / Gemini is the PRIMARY path
+        if settings.GROQ_API_KEY or settings.GEMINI_API_KEY:
             try:
-                async with httpx.AsyncClient(timeout=settings.ML_SERVICE_TIMEOUT) as client:
-                    resp = await client.post(url, json=payload)
-                    resp.raise_for_status()
-                    questions = resp.json().get("questions", [])
-                    logger.info(
-                        "ML service: %d questions for branch=%s (attempt %d)",
-                        len(questions), branch, attempt + 1,
-                    )
-                    return questions, "ml_service"
-            except Exception as exc:
-                logger.warning(
-                    "ML service attempt %d failed (%s)%s",
-                    attempt + 1,
-                    exc,
-                    " — retrying" if attempt == 0 else " — falling back to built-in bank",
-                )
+                with open("log_api_inputs.txt", "a", encoding="utf-8") as f:
+                    f.write(f"generate_questions_async inputs: jd_text='{jd_text}', resume_context='{resume_context}', branch='{branch}'\n")
+            except:
+                pass
+                
+            ai_result, source_tag = await self._groq_fallback(
+                branch=branch, semester=semester,
+                weak_subjects=weak_subjects, overall_gpa=overall_gpa,
+                jd_text=jd_text, resume_context=resume_context or "",
+                limit=limit
+            )
+            if ai_result:
+                try:
+                    with open("log_api_inputs.txt", "a", encoding="utf-8") as f:
+                        f.write(f"AI Success: {source_tag}\n")
+                except:
+                    pass
+                return ai_result, source_tag
 
-        return (
-            self.generate_questions(
-                branch=branch,
-                semester=semester,
-                weak_subjects=weak_subjects,
-                overall_gpa=overall_gpa,
-                topic=None,   # built-in bank doesn't support JD filtering
-                limit=limit,
-            ),
-            "built-in",
+        # Try ML service as fallback
+        ml_result = await self._try_ml_service(
+            branch=branch, semester=semester,
+            weak_subjects=weak_subjects, overall_gpa=overall_gpa,
+            jd_text=jd_text, resume_context=resume_context or "",
+            limit=limit
         )
+        if ml_result:
+            return ml_result, "ml_service"
+        
+        # Built-in is last resort ONLY
+        logger.warning("Both Groq and ML service failed — using built-in bank")
+        return self.generate_questions(
+            branch=branch, semester=semester,
+            weak_subjects=weak_subjects, overall_gpa=overall_gpa,
+            topic=jd_text if jd_text else None,
+            limit=limit
+        ), "built-in"
 
+    async def _try_ml_service(self, **kwargs):
+        try:
+            async with httpx.AsyncClient(timeout=3.0) as client:
+                resp = await client.post(
+                    f"{settings.ML_SERVICE_URL}/predict/questions",
+                    json={
+                        "branch": kwargs["branch"],
+                        "semester": kwargs["semester"],
+                        "weak_subjects": kwargs["weak_subjects"],
+                        "overall_gpa": float(kwargs["overall_gpa"]),
+                        "jd_text": kwargs.get("jd_text", ""),
+                        "resume_context": kwargs.get("resume_context", ""),
+                        "limit": kwargs.get("limit", 10)
+                    }
+                )
+                resp.raise_for_status()
+                questions = resp.json().get("questions", [])
+                if questions:
+                    return questions
+        except Exception as e:
+            logger.warning(f"ML service unavailable: {e}")
+        return None
+
+    async def _groq_fallback(self, *, branch, semester, 
+        weak_subjects, overall_gpa, jd_text, 
+        resume_context, limit):
+        
+        weak_str = ", ".join(weak_subjects) if weak_subjects else "none"
+        resume_str = resume_context.strip() if resume_context else "not provided"
+        
+        if jd_text and jd_text.strip():
+            resume_section = f"\nResume:\n{resume_str}\n" if resume_context and resume_context.strip() and resume_context.strip() != "None" else ""
+            prompt = f"""You are a senior technical interviewer.
+Generate exactly {limit} interview questions based STRICTLY on this job description.
+
+JOB DESCRIPTION:
+{jd_text.strip()}
+{resume_section}
+STRICT RULES:
+- Questions MUST test specific technical skills and requirements mapped to the job description.
+- 40% easy, 40% medium, 20% hard.
+- Do NOT generate generic computer science questions. Be highly specific and technical based on the JD.
+- Ensure all {limit} questions are strictly UNIQUE and distinct from one another. You may ask multiple questions about the same topic, but the actual questions MUST NOT be repeated.
+
+Return ONLY a valid JSON object with a 'questions' key containing an array of your questions:
+{{"questions": [{{"topic": "specific skill name", "question": "question text", "difficulty": "easy|medium|hard"}}]}}"""
+        else:
+            prompt = f"""Generate exactly {limit} technical interview questions 
+for a {branch} engineering student, semester {semester}, GPA {overall_gpa:.1f}/10.
+Weak subjects: {weak_str}
+
+Cover core technical topics appropriate for their branch and semester.
+Mix difficulties: 40% easy, 40% medium, 20% hard.
+Ensure all {limit} questions are strictly UNIQUE and distinct from one another. You may ask multiple questions about the same topic, but the actual questions MUST NOT be repeated.
+
+Return ONLY a valid JSON object with a 'questions' key containing an array of your questions:
+{{"questions": [{{"topic": "topic", "question": "question text", "difficulty": "easy|medium|hard"}}]}}"""
+
+        try:
+            if settings.GROQ_API_KEY:
+                from groq import Groq
+                client = Groq(api_key=settings.GROQ_API_KEY)
+                
+                response = client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.7,
+                    max_tokens=2000,
+                    response_format={"type": "json_object"}
+                )
+                
+                raw = response.choices[0].message.content.strip()
+                
+                import json
+                parsed = json.loads(raw)
+                questions = parsed.get("questions", [])
+                
+                if isinstance(questions, list) and len(questions) > 0:
+                    return questions, "groq_direct"
+                    
+        except Exception as e:
+            logger.error(f"Groq primary attempt failed: {type(e).__name__}: {e}")
+            try:
+                with open("log_api_inputs.txt", "a", encoding="utf-8") as f:
+                    f.write(f"Groq exception: {type(e).__name__}: {e}\n")
+            except:
+                pass
+
+        # --- Gemini Fallback ---
+        if settings.GEMINI_API_KEY:
+            try:
+                logger.info("Attempting Gemini fallback for question generation...")
+                url = (
+                    "https://generativelanguage.googleapis.com/v1beta/models/"
+                    f"gemini-1.5-flash:generateContent?key={settings.GEMINI_API_KEY}"
+                )
+                payload = {
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {"temperature": 0.7, "response_mime_type": "application/json"},
+                }
+                async with httpx.AsyncClient(timeout=30.0) as http_client:
+                    resp = await http_client.post(url, json=payload)
+                    resp.raise_for_status()
+                    raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+                    
+                    import json
+                    parsed = json.loads(raw)
+                    questions = parsed.get("questions", [])
+                    if isinstance(questions, list) and len(questions) > 0:
+                        return questions, "gemini_fallback"
+            except Exception as e:
+                logger.error(f"Gemini fallback failed: {type(e).__name__}: {e}")
+                try:
+                    with open("log_api_inputs.txt", "a", encoding="utf-8") as f:
+                        f.write(f"Gemini exception: {type(e).__name__}: {e}\n")
+                except:
+                    pass
+
+        return None, "ai_failed"
 
     # ------------------------------------------------------------------
-    # Session management — DB-backed with transaction safety
+    # Session management
     # ------------------------------------------------------------------
 
     def list_sessions(
@@ -257,19 +383,8 @@ class InterviewService:
         limit: int = 20,
         offset: int = 0,
     ) -> tuple[list[InterviewSession], int]:
-        """
-        Return a paginated page of sessions for *user_id*, newest first.
-
-        Uses joinedload to avoid N+1 on session.questions.
-        Executes COUNT(*) + paginated SELECT in the same DB round-trip scope.
-
-        Returns:
-            (sessions, total) — total is the unpaginated count.
-        """
-        base_query = (
-            db.query(InterviewSession)
-            .filter(InterviewSession.user_id == user_id)
-        )
+        """Return a paginated page of sessions for user_id, newest first."""
+        base_query = db.query(InterviewSession).filter(InterviewSession.user_id == user_id)
         total = base_query.count()
         sessions = (
             base_query
@@ -281,7 +396,6 @@ class InterviewService:
         )
         return sessions, total
 
-
     def create_session(
         self,
         db: Session,
@@ -290,12 +404,7 @@ class InterviewService:
         topic: Optional[str],
         questions: list[dict],
     ) -> InterviewSession:
-        """
-        Atomically persist a new session + all its questions.
-
-        Transaction safety: if any question insert fails, the entire
-        session creation is rolled back — no partial records in the DB.
-        """
+        """Atomically persist a new session + all its questions."""
         try:
             session = InterviewSession(
                 user_id=user_id,
@@ -304,18 +413,16 @@ class InterviewService:
                 status=SessionStatus.ACTIVE,
             )
             db.add(session)
-            db.flush()  # get session.id before creating questions
+            db.flush()
 
             for q in questions:
-                db.add(
-                    InterviewQuestion(
-                        session_id=session.id,
-                        topic=q.get("topic", "General"),
-                        question=q.get("question", ""),
-                        difficulty=q.get("difficulty", "medium"),
-                        source=q.get("source", None),
-                    )
-                )
+                db.add(InterviewQuestion(
+                    session_id=session.id,
+                    topic=q.get("topic", "General"),
+                    question=q.get("question", ""),
+                    difficulty=q.get("difficulty", "medium"),
+                    source=q.get("source"),
+                ))
 
             db.commit()
             db.refresh(session)
@@ -324,7 +431,6 @@ class InterviewService:
                 session.id, user_id, branch, len(session.questions),
             )
             return session
-
         except Exception:
             db.rollback()
             logger.exception("Failed to create interview session — rolled back")
@@ -336,7 +442,7 @@ class InterviewService:
         session_id: uuid.UUID,
         user_id: uuid.UUID,
     ) -> Optional[InterviewSession]:
-        """Return a session owned by *user_id*, eagerly loading its questions."""
+        """Return a session owned by user_id, eagerly loading its questions."""
         return (
             db.query(InterviewSession)
             .filter(
@@ -362,19 +468,10 @@ class InterviewService:
         """
         Persist the student's answer and advance the session lifecycle.
 
-        Lifecycle logic:
-          - Stores the answer on the InterviewQuestion row.
-          - If ALL questions in the session now have a user_answer,
-            the session status is advanced to "completed".
-
-        Returns:
-            (question, session_completed) where session_completed is True
-            when the session just transitioned to "completed".
-
-        Raises:
-            HTTP 404 if question not found or belongs to a different user's session.
+        Returns (question, session_completed) — session_completed is True
+        when the session just transitioned to 'completed'.
+        Raises HTTP 404 if the question is not found or belongs to another user.
         """
-        # Load the question and its owning session in one query
         question = (
             db.query(InterviewQuestion)
             .join(InterviewSession)
@@ -390,7 +487,6 @@ class InterviewService:
 
         question.user_answer = answer
 
-        # Lifecycle check: mark session completed when all questions answered
         session_completed = False
         sibling_questions = (
             db.query(InterviewQuestion)
@@ -398,11 +494,10 @@ class InterviewService:
             .all()
         )
         all_answered = all(
-            (q.user_answer is not None and q.user_answer.strip() != "")
+            (q.user_answer is not None and q.user_answer.strip())
             for q in sibling_questions
-            if q.id != question_id  # the current question's answer is in-memory
+            if q.id != question_id
         )
-        # Include the answer we're about to save
         if all_answered and answer.strip():
             session = db.query(InterviewSession).filter(
                 InterviewSession.id == session_id
@@ -422,12 +517,7 @@ class InterviewService:
         session_id: uuid.UUID,
         user_id: uuid.UUID,
     ) -> bool:
-        """
-        Delete a session and all its questions for the given user.
-
-        Returns True if deleted, False if the session was not found
-        (or belongs to a different user).
-        """
+        """Delete a session and all its questions. Returns False if not found."""
         session = (
             db.query(InterviewSession)
             .filter(
@@ -444,82 +534,154 @@ class InterviewService:
         return True
 
     # ------------------------------------------------------------------
-    # AI Answer Evaluation
+    # AI answer evaluation
     # ------------------------------------------------------------------
 
-    async def evaluate_session_answers(
+    async def evaluate_session(
         self,
         db: Session,
-        session_id: uuid.UUID,
-        user_id: uuid.UUID,
-    ) -> InterviewSession:
+        session_id: UUID,
+        user_id: UUID,
+    ) -> dict:
         """
-        Submits all answered questions in a session to Groq for evaluation,
-        updates the DB with AI scores and feedback, and returns the full session.
+        Evaluate all answered questions in a completed session using Groq → Gemini.
+        Returns a structured result dict with per-question scores and an overall verdict.
         """
-        import json
-        from groq import AsyncGroq
-
-        session = self.get_session(db, session_id, user_id)
+        session = db.query(InterviewSession).filter(
+            InterviewSession.id == session_id,
+            InterviewSession.user_id == user_id,
+        ).first()
         if not session:
-            raise HTTPException(status_code=404, detail="Session not found")
+            raise HTTPException(404, "Session not found")
+        # Mark session as completed since evaluation is requested
+        if session.status != SessionStatus.COMPLETED:
+            session.status = SessionStatus.COMPLETED
 
-        # Get questions that actually have a user answer
-        answered_qs = [q for q in session.questions if q.user_answer and str(q.user_answer).strip()]
-        if not answered_qs:
-            return session  # Nothing to evaluate
-        
-        # Build prompt payload
-        q_list_text = ""
-        for q in answered_qs:
-            q_list_text += f"ID: {q.id}\nQuestion: {q.question}\nAnswer: {q.user_answer}\n\n"
+        questions = db.query(InterviewQuestion).filter(
+            InterviewQuestion.session_id == session_id,
+        ).all()
+        if not questions:
+            raise HTTPException(400, "No questions found in this session")
 
-        prompt = (
-            "You are a senior technical interviewer. Evaluate each answer below.\n"
-            "For each question, return a JSON array of objects with strictly the following keys:\n"
-            '- "question_id": the exact ID string provided\n'
-            '- "score": an integer from 1 to 10\n'
-            '- "verdict": exactly one of "Strong", "Adequate", or "Weak"\n'
-            '- "feedback": one concise sentence on what was good or missing\n'
-            '- "model_answer": a brief ideal answer in 2-3 sentences\n\n'
-            f"Questions and Answers:\n{q_list_text}\n"
-            "Return ONLY a valid JSON array. No markdown blocks, no preamble."
+        qa_text = "\n".join(
+            f"Q{i}: {q.question}\nStudent Answer: {q.user_answer if q.user_answer and q.user_answer.strip() else 'skipped'}\nDifficulty: {q.difficulty}\n---"
+            for i, q in enumerate(questions, 1)
         )
 
+        eval_prompt = f"""You are a senior technical interviewer evaluating a student's mock interview answers.
+
+Evaluate each answer and return a JSON array ONLY — no preamble, no markdown, no explanation.
+
+Format:
+[
+  {{
+    "question_index": 1,
+    "score": 7,
+    "verdict": "Adequate",
+    "feedback": "Good understanding of the concept but missed edge cases.",
+    "model_answer": "The ideal answer should cover X, Y, and Z."
+  }}
+]
+
+Rules:
+- score: integer 1-10 (1=very poor, 10=excellent)
+- verdict: exactly one of "Strong" (score>=7), "Adequate" (score>=4), "Weak" (score<4)
+- feedback: one sentence, specific and constructive
+- model_answer: 2-3 sentences covering what an ideal answer includes
+- If student answer is empty or "skipped": score=0, verdict="Weak",
+  feedback="Question was skipped.", model_answer="[provide ideal answer]"
+
+Questions and Answers to evaluate:
+{qa_text}
+
+Return ONLY the JSON array. No other text."""
+
+        evaluations = None
+
+        # --- Gemini ---
         try:
-            # Init client dynamically
-            client = AsyncGroq(api_key=settings.GROQ_API_KEY)
-            completion = await client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.1,
+            if not settings.GEMINI_API_KEY:
+                raise ValueError("GEMINI_API_KEY not configured")
+            url = (
+                f"https://generativelanguage.googleapis.com/v1beta/models/"
+                f"gemini-1.5-flash-latest:generateContent?key={settings.GEMINI_API_KEY}"
             )
-            raw_text = completion.choices[0].message.content.strip()
-            
-            # Clean possible markdown wrap
-            if raw_text.startswith("```json"):
-                raw_text = raw_text.replace("```json", "").replace("```", "").strip()
-            elif raw_text.startswith("```"):
-                raw_text = raw_text.replace("```", "").strip()
-                
-            results = json.loads(raw_text)
+            payload = {
+                "contents": [{"parts": [{"text": eval_prompt}]}],
+                "generationConfig": {"temperature": 0.3, "response_mime_type": "application/json"},
+            }
+            async with httpx.AsyncClient(timeout=30.0) as client_http:
+                resp = await client_http.post(url, json=payload)
+                resp.raise_for_status()
+                raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+                evaluations = json.loads(_strip_json_fences(raw))
+        except Exception as e:
+            logger.warning("Gemini evaluation failed: %s — trying Groq as fallback.", e)
 
-            # Map results to DB instances
-            for item in results:
-                q_id = item.get("question_id")
-                match_q = next((q for q in answered_qs if str(q.id) == str(q_id)), None)
-                if match_q:
-                    match_q.ai_score = str(item.get("score"))
-                    match_q.ai_verdict = item.get("verdict")
-                    match_q.ai_feedback = item.get("feedback")
-                    match_q.model_answer = item.get("model_answer")
-            
-            db.commit()
-            db.refresh(session)
-            return session
+        # --- Groq fallback ---
+        if not evaluations:
+            try:
+                from groq import Groq
+                client = Groq(api_key=settings.GROQ_API_KEY)
+                response = client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=[{"role": "user", "content": eval_prompt}],
+                    temperature=0.3,
+                    max_tokens=2000,
+                )
+                evaluations = json.loads(_strip_json_fences(response.choices[0].message.content.strip()))
+            except Exception as e:
+                logger.error("Groq evaluation error: %s", e)
+                raise HTTPException(
+                    503,
+                    f"AI evaluation unavailable: {e}. Please try again in a moment.",
+                )
 
-        except Exception as exc:
-            db.rollback()
-            logger.error("Error evaluating session answers via Groq: %s", exc, exc_info=True)
-            raise HTTPException(status_code=500, detail="Failed to evaluate interview answers")
+        # --- Write results back to DB ---
+        now = datetime.utcnow()
+        for eval_item in evaluations:
+            idx = eval_item.get("question_index", 1) - 1
+            if not 0 <= idx < len(questions):
+                continue
+            q = questions[idx]
+            q.ai_score = eval_item.get("score")
+            q.ai_verdict = eval_item.get("verdict")
+            q.ai_feedback = eval_item.get("feedback")
+            q.model_answer = eval_item.get("model_answer")
+            q.evaluated_at = now
 
+        db.commit()
+
+        results = [
+            {
+                "question_id": str(q.id),
+                "question": q.question,
+                "topic": q.topic,
+                "difficulty": q.difficulty,
+                "user_answer": q.user_answer,
+                "ai_score": q.ai_score,
+                "ai_verdict": q.ai_verdict,
+                "ai_feedback": q.ai_feedback,
+                "model_answer": q.model_answer,
+            }
+            for q in questions
+        ]
+
+        avg_score = sum(r["ai_score"] or 0 for r in results) / len(results) if results else 0
+        return {
+            "session_id": str(session_id),
+            "total_questions": len(results),
+            "avg_score": round(avg_score, 1),
+            "strong_count": sum(1 for r in results if r["ai_verdict"] == "Strong"),
+            "adequate_count": sum(1 for r in results if r["ai_verdict"] == "Adequate"),
+            "weak_count": sum(1 for r in results if r["ai_verdict"] == "Weak"),
+            "overall_verdict": "Strong" if avg_score >= 7 else "Adequate" if avg_score >= 4 else "Needs Improvement",
+            "questions": results,
+        }
+
+
+# ---------------------------------------------------------------------------
+# Module-level singleton (imported by router)
+# ---------------------------------------------------------------------------
+
+interview_service = InterviewService()

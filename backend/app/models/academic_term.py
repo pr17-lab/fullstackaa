@@ -12,7 +12,7 @@ class AcademicTerm(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     semester = Column(Integer, nullable=False)
     year = Column(Integer, nullable=False)
-    gpa = Column(Numeric(3, 2), nullable=False)
+    gpa = Column(Numeric(3, 2), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     

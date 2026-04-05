@@ -1,0 +1,15 @@
+﻿Department   | Job Role                            | Students   | Avg Score 
+---------------------------------------------------------------------------
+AIML         | Data Engineer                       | 2000       | 66.8      
+AIML         | Software Engineer                   | 2000       | 63.7      
+AIML         | Data Scientist                      | 2000       | 61.6      
+CSE          | Software Engineer                   | 3000       | 72.3      
+CSE          | Data Engineer                       | 3000       | 60.4      
+CSE          | Data Scientist                      | 3000       | 46.6      
+ECE          | Hardware/VLSI Design Engineer       | 2469       | 54.0      
+ECE          | Embedded Systems Engineer           | 2469       | 36.7      
+ECE          | Software Engineer                   | 2296       | 9.2       
+ECE          | Data Scientist                      | 2296       | 4.7       
+MECH         | Data Analyst                        | 1783       | 24.8      
+MECH         | Software Engineer                   | 2491       | 12.9      
+MECH         | Embedded Systems Engineer           | 2094       | 11.4      

@@ -39,48 +39,44 @@ if not DATABASE_URL:
 # --- Improved domain affinity weights ----------------------------------------
 # Format: {department: {job_role: bonus}}
 DEPT_ROLE_BONUS = {
-    "CSE":  {
-        "Software Engineer": 20,
-        "Data Scientist":    18,
-        "Frontend Developer": 15,
-        "Blockchain Developer": 12,
-        "Cybersecurity Analyst": 12,
-        "Technical Product Manager": 10,
-        "DevOps Engineer": 10,
-        "Data Engineer": 10,      # Reduced from 15 — it's a specialisation
-    },
-    "AIML": {
-        "Data Scientist":    22,
-        "Software Engineer": 18,
-        "Data Engineer":     15,
-        "Frontend Developer": 10,
-        "Blockchain Developer": 8,
-    },
-    "AI&ML": {
-        "Data Scientist":    22,
-        "Software Engineer": 18,
-        "Data Engineer":     15,
-        "Frontend Developer": 10,
-    },
-    "ECE": {
-        "Embedded Systems Engineer":      25,
-        "Hardware/VLSI Design Engineer":  22,
-        "Cybersecurity Analyst":          12,
-        "Software Engineer":              10,  # only if they chose it
-        "Data Scientist":                  8,
-    },
-    "MECH": {
-        # Mech students genuinely transitioning — give a smaller boost for chosen roles
-        "Software Engineer": 5,
-        "Data Analyst":      5,
-    },
+  "CSE": {
+    "Software Engineer": 20, "Backend Developer": 22,
+    "Full Stack Developer": 20, "Frontend Developer": 15,
+    "Data Scientist": 15, "Machine Learning Engineer": 14,
+    "Data Engineer": 12, "DevOps Engineer": 12,
+    "Cloud Engineer": 12, "Cybersecurity Analyst": 10,
+    "Blockchain Developer": 10, "QA/Test Engineer": 10,
+    "Data Analyst": 10, "Technical Product Manager": 8,
+  },
+  "AIML": {
+    "Data Scientist": 30, "Machine Learning Engineer": 30,
+    "NLP Engineer": 28, "Data Analyst": 20,
+    "Data Engineer": 10, "Software Engineer": 10,
+    "Backend Developer": 8, "Full Stack Developer": 8,
+  },
+  "ECE": {
+    "Embedded Systems Engineer": 28, 
+    "Hardware/VLSI Design Engineer": 28,
+    "IoT Engineer": 25, "Cybersecurity Analyst": 15,
+    "Cloud Engineer": 10, "Backend Developer": 8,
+    "Software Engineer": 8,
+  },
+  "MECH": {
+    "Data Analyst": 15, "IoT Engineer": 20,
+    "Embedded Systems Engineer": 18, "Software Engineer": 8,
+    "Backend Developer": 8, "QA/Test Engineer": 10,
+    "Cloud Engineer": 8,
+  }
 }
 
-# Penalties: if student dept + role is a bad match and the role was somehow in their targets
 DEPT_ROLE_PENALTY = {
-    # ECE/MECH -> Data Engineer is uncommon
-    ("ECE",  "Data Engineer"): -10,
-    ("MECH", "Data Engineer"): -10,
+  "MECH": ["Data Scientist", "Data Engineer", 
+           "Blockchain Developer", "Frontend Developer"],
+  "ECE":  ["Data Scientist", "Data Engineer", 
+           "Blockchain Developer", "Frontend Developer"],
+  "AIML": ["Hardware/VLSI Design Engineer", 
+           "Embedded Systems Engineer",
+           "Blockchain Developer"],
 }
 
 WEIGHT_MAP = {"must_have": 3, "preferred": 2, "nice_to_have": 1}
@@ -259,9 +255,9 @@ def main():
                 match_score += bonus
 
                 # Department-based penalty
-                penalty_key = (dept, role)
-                penalty = DEPT_ROLE_PENALTY.get(penalty_key, 0)
-                match_score += penalty  # penalty is negative
+                penalties = DEPT_ROLE_PENALTY.get(dept, [])
+                if role in penalties:
+                    match_score = max(0.0, match_score - 15)
 
                 match_score = max(0.0, min(match_score, 100.0))
 

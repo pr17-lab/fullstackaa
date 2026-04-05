@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Award, BookOpen, Target, TrendingUp, Briefcase, ChevronRight, Map } from 'lucide-react';
-import { StudentService, AnalyticsService } from '../services/api';
+import { StudentService, AnalyticsService, SkillsService } from '../services/api';
 import { ErrorDisplay } from '../components/common/Loading';
 import { SkeletonStatCard } from '../components/common/SkeletonStatCard';
 import { StatCard } from '../components/dashboard/StatCard';
 import GPATrendChart from '../components/dashboard/GPATrendChart';
 import { useAuth } from '../contexts/AuthContext';
-import apiClient from '../api/client';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Cell } from 'recharts';
 import { PageTransition } from '../components/layout/PageTransition';
 
@@ -30,10 +29,7 @@ const Dashboard = () => {
 
     const { data: careerRec, isLoading: careerLoading } = useQuery({
         queryKey: ['career-recommendation'],
-        queryFn: async () => {
-            const res = await apiClient.get('/skills/recommendation');
-            return res.data;
-        },
+        queryFn: () => SkillsService.getRecommendation(),
         retry: false,
         staleTime: 5 * 60 * 1000,
     });
@@ -251,12 +247,12 @@ const Dashboard = () => {
                                 <div className="h-6 w-3/4 bg-indigo-100 dark:bg-indigo-900/30 rounded"></div>
                                 <div className="h-4 w-1/2 bg-indigo-50 dark:bg-indigo-900/10 rounded"></div>
                             </div>
-                        ) : careerRec?.primary_role ? (
+                        ) : careerRec?.primary?.job_role ? (
                             <div>
-                                <p className="text-xl font-bold text-gray-900 dark:text-zinc-100 mb-1">{careerRec.primary_role}</p>
-                                {careerRec.match_score != null && (
+                                <p className="text-xl font-bold text-gray-900 dark:text-zinc-100 mb-1">{careerRec.primary.job_role}</p>
+                                {careerRec.primary.match_score != null && (
                                     <span className="inline-flex items-center gap-1 mb-4 px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-400">
-                                        ✨ {Math.round(careerRec.match_score)}% MATCH
+                                        ✨ {Math.round(careerRec.primary.match_score)}% MATCH
                                     </span>
                                 )}
                                 <div className="flex gap-2">

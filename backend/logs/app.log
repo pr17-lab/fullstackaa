@@ -3600,3 +3600,1244 @@ LINE 1: INSERT INTO interview_sessions (id, user_id, branch, topic, ...
 2026-03-25 13:14:43 - app.middleware.logging - INFO - logging.py:15 - api_request
 2026-03-25 13:14:43 - app.middleware.logging - INFO - logging.py:15 - api_request
 2026-03-25 13:14:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:56:01 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-28 20:56:01 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-28 20:56:01 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-28 20:56:02 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-28 20:56:02 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-28 20:56:02 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-28 20:56:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:56:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:57:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:59:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 20:59:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 21:03:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 21:03:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 21:03:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-28 22:59:25 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-28 22:59:25 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-28 22:59:26 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-28 22:59:29 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-28 22:59:30 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-28 22:59:30 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 19:26:39 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 19:26:40 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 19:26:40 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 19:26:42 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 19:26:42 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 19:26:42 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 19:27:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:27:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:28:00 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:28:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:56:27 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 19:56:27 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 19:56:27 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 19:56:29 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 19:56:29 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 19:56:29 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 19:56:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:56:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:56:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:56:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:56:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:56:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:57:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:57:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:57:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 19:57:18 - httpx - INFO - _client.py:1729 - HTTP Request: GET https://jsearch.p.rapidapi.com/search?query=Data%20Engineer%20fresher%20India&page=1&num_pages=1&date_posted=month "HTTP/1.1 200 OK"
+2026-03-29 19:57:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:30 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 20:01:30 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 20:01:30 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 20:01:32 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 20:01:32 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 20:01:32 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 20:01:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:01:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:02:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:02:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:02:14 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:37:47 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:37:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:37:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:38:19 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 20:38:19 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 20:38:19 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 20:38:20 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 20:38:20 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 20:38:20 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 20:51:58 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 20:51:59 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 20:51:59 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 20:52:01 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 20:52:01 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 20:52:01 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 20:52:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:52:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:52:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:00 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:03 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 20:53:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:46:06 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 22:46:07 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 22:46:08 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 22:46:26 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 22:46:26 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 22:46:26 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 22:46:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:46:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:47:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:47:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:47:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:47:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:47:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:47:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:48:59 - app.modules.interview.service - WARNING - service.py:232 - ML service attempt 1 failed () — retrying
+2026-03-29 22:49:08 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-29 22:49:08 - app.modules.interview.service - INFO - service.py:226 - ML service: 9 questions for branch=AIML (attempt 2)
+2026-03-29 22:49:08 - app.modules.interview.service - ERROR - service.py:333 - Failed to create interview session — rolled back
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2113, in _exec_insertmany_context
+    dialect.do_execute(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\service.py", line 323, in create_session
+    db.commit()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4312, in flush
+    self._flush(objects)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4408, in _flush
+    flush_context.execute()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1137, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 517, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_insertmany_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2121, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2344, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2113, in _exec_insertmany_context
+    dialect.do_execute(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+[SQL: INSERT INTO interview_questions (id, session_id, topic, question, difficulty, source, user_answer, ai_score, ai_verdict, ai_feedback, model_answer, evaluated_at) VALUES (%(id__0)s::UUID, %(session_id__0)s::UUID, %(topic__0)s, %(question__0)s, %(diffi ... 1925 characters truncated ... l_answer__8)s, %(evaluated_at__8)s) RETURNING interview_questions.created_at, interview_questions.id]
+[parameters: {'ai_feedback__0': None, 'id__0': UUID('19ec4c9d-5466-4e0c-ba35-69ef2e4b4f69'), 'ai_verdict__0': None, 'question__0': 'What is the difference between a population mean and a sample mean?', 'evaluated_at__0': None, 'source__0': None, 'model_answer__0': None, 'topic__0': 'Statistics & Probability', 'ai_score__0': None, 'difficulty__0': 'easy', 'session_id__0': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__0': None, 'ai_feedback__1': None, 'id__1': UUID('8011639e-1bd8-4bd8-ace3-15c153f03b15'), 'ai_verdict__1': None, 'question__1': 'How do you implement a decorator in Python to add error checking to a function?', 'evaluated_at__1': None, 'source__1': None, 'model_answer__1': None, 'topic__1': 'Python Programming', 'ai_score__1': None, 'difficulty__1': 'medium', 'session_id__1': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__1': None, 'ai_feedback__2': None, 'id__2': UUID('bba140fa-6f9a-41d4-881f-55384379372f'), 'ai_verdict__2': None, 'question__2': 'Solve the differential equation dy/dx = 2x, given the initial condition y(0) = 1.', 'evaluated_at__2': None, 'source__2': None, 'model_answer__2': None, 'topic__2': 'Engineering Maths II', 'ai_score__2': None, 'difficulty__2': 'hard', 'session_id__2': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__2': None, 'ai_feedback__3': None, 'id__3': UUID('90df9944-bf64-489d-8fa5-e2df86ab7ec9'), 'ai_verdict__3': None, 'question__3': 'Find the eigenvalues and eigenvectors of the matrix [[2, 1], [1, 2]].', 'evaluated_at__3': None, 'source__3': None, 'model_answer__3': None, 'topic__3': 'Linear Algebra', 'ai_score__3': None, 'difficulty__3': 'medium', 'session_id__3': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__3': None, 'ai_feedback__4': None, 'id__4': UUID('29d2f891-4953-4910-a848-51238ff1fb76') ... 8 parameters truncated ... 'session_id__4': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__4': None, 'ai_feedback__5': None, 'id__5': UUID('6b79be4f-66a5-4abe-9b54-cbadd77102c1'), 'ai_verdict__5': None, 'question__5': 'A fair six-sided die is rolled. What is the probability that the number rolled is greater than 4?', 'evaluated_at__5': None, 'source__5': None, 'model_answer__5': None, 'topic__5': 'Probability & Random Processes', 'ai_score__5': None, 'difficulty__5': 'easy', 'session_id__5': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__5': None, 'ai_feedback__6': None, 'id__6': UUID('f09e4bce-0319-43b8-902a-819c5fdbd2ac'), 'ai_verdict__6': None, 'question__6': 'What is backpropagation, and why is it necessary for training neural networks?', 'evaluated_at__6': None, 'source__6': None, 'model_answer__6': None, 'topic__6': 'Deep Learning Fundamentals', 'ai_score__6': None, 'difficulty__6': 'medium', 'session_id__6': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__6': None, 'ai_feedback__7': None, 'id__7': UUID('b379029e-3279-4419-8a3f-d5fc2ee5769d'), 'ai_verdict__7': None, 'question__7': 'Explain the concept of tokenization in NLP, and provide an example of its application.', 'evaluated_at__7': None, 'source__7': None, 'model_answer__7': None, 'topic__7': 'Natural Language Processing', 'ai_score__7': None, 'difficulty__7': 'medium', 'session_id__7': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__7': None, 'ai_feedback__8': None, 'id__8': UUID('ecfc1019-34da-4978-89f3-f8b51bec2ffe'), 'ai_verdict__8': None, 'question__8': 'What is a MapReduce operation, and how does it work in the context of Hadoop?', 'evaluated_at__8': None, 'source__8': None, 'model_answer__8': None, 'topic__8': 'Big Data Technologies', 'ai_score__8': None, 'difficulty__8': 'hard', 'session_id__8': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__8': None}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-03-29 22:49:08 - app.modules.interview.router - ERROR - router.py:205 - Error creating interview session: (psycopg2.errors.UndefinedColumn) column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+[SQL: INSERT INTO interview_questions (id, session_id, topic, question, difficulty, source, user_answer, ai_score, ai_verdict, ai_feedback, model_answer, evaluated_at) VALUES (%(id__0)s::UUID, %(session_id__0)s::UUID, %(topic__0)s, %(question__0)s, %(diffi ... 1925 characters truncated ... l_answer__8)s, %(evaluated_at__8)s) RETURNING interview_questions.created_at, interview_questions.id]
+[parameters: {'ai_feedback__0': None, 'id__0': UUID('19ec4c9d-5466-4e0c-ba35-69ef2e4b4f69'), 'ai_verdict__0': None, 'question__0': 'What is the difference between a population mean and a sample mean?', 'evaluated_at__0': None, 'source__0': None, 'model_answer__0': None, 'topic__0': 'Statistics & Probability', 'ai_score__0': None, 'difficulty__0': 'easy', 'session_id__0': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__0': None, 'ai_feedback__1': None, 'id__1': UUID('8011639e-1bd8-4bd8-ace3-15c153f03b15'), 'ai_verdict__1': None, 'question__1': 'How do you implement a decorator in Python to add error checking to a function?', 'evaluated_at__1': None, 'source__1': None, 'model_answer__1': None, 'topic__1': 'Python Programming', 'ai_score__1': None, 'difficulty__1': 'medium', 'session_id__1': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__1': None, 'ai_feedback__2': None, 'id__2': UUID('bba140fa-6f9a-41d4-881f-55384379372f'), 'ai_verdict__2': None, 'question__2': 'Solve the differential equation dy/dx = 2x, given the initial condition y(0) = 1.', 'evaluated_at__2': None, 'source__2': None, 'model_answer__2': None, 'topic__2': 'Engineering Maths II', 'ai_score__2': None, 'difficulty__2': 'hard', 'session_id__2': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__2': None, 'ai_feedback__3': None, 'id__3': UUID('90df9944-bf64-489d-8fa5-e2df86ab7ec9'), 'ai_verdict__3': None, 'question__3': 'Find the eigenvalues and eigenvectors of the matrix [[2, 1], [1, 2]].', 'evaluated_at__3': None, 'source__3': None, 'model_answer__3': None, 'topic__3': 'Linear Algebra', 'ai_score__3': None, 'difficulty__3': 'medium', 'session_id__3': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__3': None, 'ai_feedback__4': None, 'id__4': UUID('29d2f891-4953-4910-a848-51238ff1fb76') ... 8 parameters truncated ... 'session_id__4': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__4': None, 'ai_feedback__5': None, 'id__5': UUID('6b79be4f-66a5-4abe-9b54-cbadd77102c1'), 'ai_verdict__5': None, 'question__5': 'A fair six-sided die is rolled. What is the probability that the number rolled is greater than 4?', 'evaluated_at__5': None, 'source__5': None, 'model_answer__5': None, 'topic__5': 'Probability & Random Processes', 'ai_score__5': None, 'difficulty__5': 'easy', 'session_id__5': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__5': None, 'ai_feedback__6': None, 'id__6': UUID('f09e4bce-0319-43b8-902a-819c5fdbd2ac'), 'ai_verdict__6': None, 'question__6': 'What is backpropagation, and why is it necessary for training neural networks?', 'evaluated_at__6': None, 'source__6': None, 'model_answer__6': None, 'topic__6': 'Deep Learning Fundamentals', 'ai_score__6': None, 'difficulty__6': 'medium', 'session_id__6': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__6': None, 'ai_feedback__7': None, 'id__7': UUID('b379029e-3279-4419-8a3f-d5fc2ee5769d'), 'ai_verdict__7': None, 'question__7': 'Explain the concept of tokenization in NLP, and provide an example of its application.', 'evaluated_at__7': None, 'source__7': None, 'model_answer__7': None, 'topic__7': 'Natural Language Processing', 'ai_score__7': None, 'difficulty__7': 'medium', 'session_id__7': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__7': None, 'ai_feedback__8': None, 'id__8': UUID('ecfc1019-34da-4978-89f3-f8b51bec2ffe'), 'ai_verdict__8': None, 'question__8': 'What is a MapReduce operation, and how does it work in the context of Hadoop?', 'evaluated_at__8': None, 'source__8': None, 'model_answer__8': None, 'topic__8': 'Big Data Technologies', 'ai_score__8': None, 'difficulty__8': 'hard', 'session_id__8': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__8': None}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2113, in _exec_insertmany_context
+    dialect.do_execute(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\router.py", line 190, in create_session
+    session = _interview_svc.create_session(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\service.py", line 323, in create_session
+    db.commit()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4312, in flush
+    self._flush(objects)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4408, in _flush
+    flush_context.execute()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1137, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 517, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_insertmany_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2121, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2344, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2113, in _exec_insertmany_context
+    dialect.do_execute(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+[SQL: INSERT INTO interview_questions (id, session_id, topic, question, difficulty, source, user_answer, ai_score, ai_verdict, ai_feedback, model_answer, evaluated_at) VALUES (%(id__0)s::UUID, %(session_id__0)s::UUID, %(topic__0)s, %(question__0)s, %(diffi ... 1925 characters truncated ... l_answer__8)s, %(evaluated_at__8)s) RETURNING interview_questions.created_at, interview_questions.id]
+[parameters: {'ai_feedback__0': None, 'id__0': UUID('19ec4c9d-5466-4e0c-ba35-69ef2e4b4f69'), 'ai_verdict__0': None, 'question__0': 'What is the difference between a population mean and a sample mean?', 'evaluated_at__0': None, 'source__0': None, 'model_answer__0': None, 'topic__0': 'Statistics & Probability', 'ai_score__0': None, 'difficulty__0': 'easy', 'session_id__0': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__0': None, 'ai_feedback__1': None, 'id__1': UUID('8011639e-1bd8-4bd8-ace3-15c153f03b15'), 'ai_verdict__1': None, 'question__1': 'How do you implement a decorator in Python to add error checking to a function?', 'evaluated_at__1': None, 'source__1': None, 'model_answer__1': None, 'topic__1': 'Python Programming', 'ai_score__1': None, 'difficulty__1': 'medium', 'session_id__1': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__1': None, 'ai_feedback__2': None, 'id__2': UUID('bba140fa-6f9a-41d4-881f-55384379372f'), 'ai_verdict__2': None, 'question__2': 'Solve the differential equation dy/dx = 2x, given the initial condition y(0) = 1.', 'evaluated_at__2': None, 'source__2': None, 'model_answer__2': None, 'topic__2': 'Engineering Maths II', 'ai_score__2': None, 'difficulty__2': 'hard', 'session_id__2': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__2': None, 'ai_feedback__3': None, 'id__3': UUID('90df9944-bf64-489d-8fa5-e2df86ab7ec9'), 'ai_verdict__3': None, 'question__3': 'Find the eigenvalues and eigenvectors of the matrix [[2, 1], [1, 2]].', 'evaluated_at__3': None, 'source__3': None, 'model_answer__3': None, 'topic__3': 'Linear Algebra', 'ai_score__3': None, 'difficulty__3': 'medium', 'session_id__3': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__3': None, 'ai_feedback__4': None, 'id__4': UUID('29d2f891-4953-4910-a848-51238ff1fb76') ... 8 parameters truncated ... 'session_id__4': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__4': None, 'ai_feedback__5': None, 'id__5': UUID('6b79be4f-66a5-4abe-9b54-cbadd77102c1'), 'ai_verdict__5': None, 'question__5': 'A fair six-sided die is rolled. What is the probability that the number rolled is greater than 4?', 'evaluated_at__5': None, 'source__5': None, 'model_answer__5': None, 'topic__5': 'Probability & Random Processes', 'ai_score__5': None, 'difficulty__5': 'easy', 'session_id__5': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__5': None, 'ai_feedback__6': None, 'id__6': UUID('f09e4bce-0319-43b8-902a-819c5fdbd2ac'), 'ai_verdict__6': None, 'question__6': 'What is backpropagation, and why is it necessary for training neural networks?', 'evaluated_at__6': None, 'source__6': None, 'model_answer__6': None, 'topic__6': 'Deep Learning Fundamentals', 'ai_score__6': None, 'difficulty__6': 'medium', 'session_id__6': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__6': None, 'ai_feedback__7': None, 'id__7': UUID('b379029e-3279-4419-8a3f-d5fc2ee5769d'), 'ai_verdict__7': None, 'question__7': 'Explain the concept of tokenization in NLP, and provide an example of its application.', 'evaluated_at__7': None, 'source__7': None, 'model_answer__7': None, 'topic__7': 'Natural Language Processing', 'ai_score__7': None, 'difficulty__7': 'medium', 'session_id__7': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__7': None, 'ai_feedback__8': None, 'id__8': UUID('ecfc1019-34da-4978-89f3-f8b51bec2ffe'), 'ai_verdict__8': None, 'question__8': 'What is a MapReduce operation, and how does it work in the context of Hadoop?', 'evaluated_at__8': None, 'source__8': None, 'model_answer__8': None, 'topic__8': 'Big Data Technologies', 'ai_score__8': None, 'difficulty__8': 'hard', 'session_id__8': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__8': None}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-03-29 22:49:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:53:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:53:29 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 22:53:29 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 22:53:30 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 22:53:31 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 22:53:31 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 22:53:31 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 22:53:49 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 22:53:49 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 22:53:49 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 22:53:51 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 22:53:51 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 22:53:51 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 22:53:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 22:55:47 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 22:55:48 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 22:55:48 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 22:55:49 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 22:55:49 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 22:55:49 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 22:57:54 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 22:57:54 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 22:57:54 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 22:57:57 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 22:57:57 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 22:57:57 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 23:02:51 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 23:02:51 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 23:02:51 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 23:02:53 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 23:02:53 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 23:02:53 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 23:10:32 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 23:10:32 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 23:10:33 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 23:10:35 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 23:10:35 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 23:10:35 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 23:12:50 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 23:12:50 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 23:12:50 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 23:12:52 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 23:12:52 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 23:12:52 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 23:22:19 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-29 23:22:19 - app.modules.interview.service - INFO - service.py:226 - ML service: 10 questions for branch=AIML (attempt 1)
+2026-03-29 23:22:19 - app.modules.interview.service - INFO - service.py:325 - Session 568d5ee6-f92d-410b-9575-ea1af05d375f created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-29 23:22:19 - app.modules.interview.router - INFO - router.py:197 - Session 568d5ee6-f92d-410b-9575-ea1af05d375f created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-03-29 23:22:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:22:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:22:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:24:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:24:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:50:27 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-29 23:50:28 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-29 23:50:28 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-29 23:50:31 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-29 23:50:31 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-29 23:50:31 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-29 23:50:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:50:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:50:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:50:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:50:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:50:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:50:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:51:24 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-29 23:51:24 - app.modules.interview.service - INFO - service.py:226 - ML service: 9 questions for branch=AIML (attempt 1)
+2026-03-29 23:51:25 - app.modules.interview.service - INFO - service.py:325 - Session e2f713cd-3bec-45c3-8f0b-84797e45a229 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=9
+2026-03-29 23:51:25 - app.modules.interview.router - INFO - router.py:197 - Session e2f713cd-3bec-45c3-8f0b-84797e45a229 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-03-29 23:51:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:51:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:51:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:52:07 - app.modules.interview.service - INFO - service.py:446 - Session 568d5ee6-f92d-410b-9575-ea1af05d375f deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-29 23:52:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:52:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:52:09 - app.modules.interview.service - INFO - service.py:446 - Session 40c24612-e98a-4b42-b8b8-1a32fb649a67 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-29 23:52:09 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-29 23:52:09 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:04:43 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 00:04:43 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 00:04:43 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 00:04:46 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 00:04:46 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 00:04:46 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 00:04:56 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-30 00:04:56 - app.modules.interview.service - INFO - service.py:226 - ML service: 10 questions for branch=AIML (attempt 1)
+2026-03-30 00:04:57 - app.modules.interview.service - INFO - service.py:397 - Session cf64f816-757a-426f-a428-ab9424fd9acc created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 00:04:57 - app.modules.interview.router - INFO - router.py:197 - Session cf64f816-757a-426f-a428-ab9424fd9acc created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-03-30 00:04:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:04:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:04:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:05:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:06:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:06:02 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:06:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:14:27 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 00:14:27 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 00:14:27 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 00:14:28 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 00:14:28 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 00:14:28 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 00:14:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:06 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-30 00:15:06 - app.modules.interview.service - INFO - service.py:226 - ML service: 10 questions for branch=AIML (attempt 1)
+2026-03-30 00:15:06 - app.modules.interview.service - INFO - service.py:397 - Session 00584ddf-6bc2-4189-a1dc-c5ef1385dc8b created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 00:15:06 - app.modules.interview.router - INFO - router.py:197 - Session 00584ddf-6bc2-4189-a1dc-c5ef1385dc8b created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-03-30 00:15:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:40 - app.modules.interview.service - INFO - service.py:518 - Session 00584ddf-6bc2-4189-a1dc-c5ef1385dc8b deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 00:15:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:41 - app.modules.interview.service - INFO - service.py:518 - Session cf64f816-757a-426f-a428-ab9424fd9acc deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 00:15:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:15:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:19:49 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 00:19:50 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 00:19:50 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 00:19:53 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 00:19:53 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 00:19:53 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 00:21:46 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-30 00:21:46 - app.modules.interview.service - INFO - service.py:226 - ML service: 10 questions for branch=AIML (attempt 1)
+2026-03-30 00:21:46 - app.modules.interview.service - INFO - service.py:429 - Session 735214ba-3642-404a-bdce-1862e030b0ba created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 00:21:46 - app.modules.interview.router - INFO - router.py:197 - Session 735214ba-3642-404a-bdce-1862e030b0ba created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-03-30 00:21:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:21:47 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:21:47 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:22:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:22:24 - app.modules.interview.service - INFO - service.py:550 - Session 735214ba-3642-404a-bdce-1862e030b0ba deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 00:22:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:22:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:30:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:30:43 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 00:30:43 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 00:30:43 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 00:30:44 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 00:30:44 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 00:30:44 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 00:30:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:30:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:30:48 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-30 00:30:48 - app.modules.interview.service - INFO - service.py:226 - ML service: 10 questions for branch=AIML (attempt 1)
+2026-03-30 00:30:48 - app.modules.interview.service - INFO - service.py:427 - Session 20bc49c0-57e8-49d2-980d-bbd3089a5cb2 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 00:30:48 - app.modules.interview.router - INFO - router.py:197 - Session 20bc49c0-57e8-49d2-980d-bbd3089a5cb2 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-03-30 00:30:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:30:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:30:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:09 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:14 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:49 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-30 00:31:49 - app.modules.interview.service - INFO - service.py:226 - ML service: 10 questions for branch=AIML (attempt 1)
+2026-03-30 00:31:49 - app.modules.interview.service - INFO - service.py:427 - Session 1f968a3a-50cb-442a-91bc-976968d0d7e8 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 00:31:49 - app.modules.interview.router - INFO - router.py:197 - Session 1f968a3a-50cb-442a-91bc-976968d0d7e8 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-03-30 00:31:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:31:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:35:46 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 00:35:47 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 00:35:47 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 00:35:49 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 00:35:49 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 00:35:49 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 00:37:04 - app.modules.interview.service - WARNING - service.py:273 - Groq fallback failed: No module named 'groq'. Trying Gemini.
+2026-03-30 00:37:04 - app.modules.interview.service - ERROR - service.py:305 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 00:37:05 - app.modules.interview.service - INFO - service.py:388 - Session 855aee37-5cb9-48f5-80a6-8e6bb58b82ac created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 00:37:05 - app.modules.interview.router - INFO - router.py:197 - Session 855aee37-5cb9-48f5-80a6-8e6bb58b82ac created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-03-30 00:37:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:37:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:37:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:37:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:37:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:37:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:37:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:40:24 - app.modules.interview.service - INFO - service.py:509 - Session 855aee37-5cb9-48f5-80a6-8e6bb58b82ac deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 00:40:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:40:35 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 00:40:35 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 00:40:35 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 00:40:36 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 00:40:36 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 00:40:36 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 00:40:37 - app.modules.interview.service - INFO - service.py:524 - Session 1f968a3a-50cb-442a-91bc-976968d0d7e8 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 00:40:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:40:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:40:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:40:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:40:52 - app.modules.interview.service - WARNING - service.py:288 - Groq fallback failed: No module named 'groq'. Trying Gemini.
+2026-03-30 00:40:52 - app.modules.interview.service - ERROR - service.py:320 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 00:40:52 - app.modules.interview.service - INFO - service.py:403 - Session 749c8c1d-9258-44c9-987d-e194315e5a12 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 00:40:52 - app.modules.interview.router - INFO - router.py:197 - Session 749c8c1d-9258-44c9-987d-e194315e5a12 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-03-30 00:40:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:40:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:40:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:43:05 - app.modules.interview.service - WARNING - service.py:288 - Groq fallback failed: No module named 'groq'. Trying Gemini.
+2026-03-30 00:43:05 - app.modules.interview.service - ERROR - service.py:320 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 00:43:05 - app.modules.interview.service - INFO - service.py:403 - Session 519c2282-a868-4f6f-ab6f-248bf596ee48 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 00:43:05 - app.modules.interview.router - INFO - router.py:197 - Session 519c2282-a868-4f6f-ab6f-248bf596ee48 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-03-30 00:43:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:43:17 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 00:43:17 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 00:43:17 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 00:43:19 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 00:43:19 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 00:43:19 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 00:43:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:43:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:44:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:44:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:44:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 00:44:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:22:07 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 09:22:07 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 09:22:08 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 09:22:09 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 09:22:09 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 09:22:09 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 09:22:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:22:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:22:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:22:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:22:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:22:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:22:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:22:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:23:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:23:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:23:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:23:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:23:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:23:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:23:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:23:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:24:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 09:29:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:05:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:05:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:05:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:05:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:06:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:06:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:06:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:06:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:06:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 10:06:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:39:48 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 13:39:49 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 13:39:49 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 13:39:50 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 13:39:50 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 13:39:50 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 13:41:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:41:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:41:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:41:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:43:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:43:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:43:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:43:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:43:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:43:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:46:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:49:21 - app.modules.interview.service - WARNING - service.py:292 - Groq fallback failed: No module named 'groq'. Trying Gemini.
+2026-03-30 13:49:21 - app.modules.interview.service - ERROR - service.py:324 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 13:49:22 - app.modules.interview.service - INFO - service.py:407 - Session d7006fa3-bd8b-47c2-9956-154818b21f8a created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 13:49:22 - app.modules.interview.router - INFO - router.py:197 - Session d7006fa3-bd8b-47c2-9956-154818b21f8a created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-03-30 13:49:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:49:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:49:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:50:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:50:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:50:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:50:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 13:50:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:01:28 - app.modules.interview.service - WARNING - service.py:292 - Groq fallback failed: No module named 'groq'. Trying Gemini.
+2026-03-30 14:01:28 - app.modules.interview.service - ERROR - service.py:324 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 14:01:29 - app.modules.interview.service - INFO - service.py:407 - Session dc45d161-0088-4709-8f9c-db27beee21df created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 14:01:29 - app.modules.interview.router - INFO - router.py:197 - Session dc45d161-0088-4709-8f9c-db27beee21df created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-03-30 14:01:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:01:45 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 14:01:46 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 14:01:46 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 14:01:47 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 14:01:47 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 14:01:47 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 14:01:47 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:01:47 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:02:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:02:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:02:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:02:32 - app.modules.interview.service - INFO - service.py:528 - Session 519c2282-a868-4f6f-ab6f-248bf596ee48 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 14:02:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:02:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:02:32 - app.modules.interview.service - INFO - service.py:528 - Session 749c8c1d-9258-44c9-987d-e194315e5a12 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 14:02:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:02:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:11:35 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 14:11:35 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 14:11:35 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 14:11:36 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 14:11:36 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 14:11:36 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 14:30:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:30:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:31:24 - app.modules.interview.service - WARNING - service.py:326 - Groq failed (groq_jd): No module named 'groq' — trying Gemini.
+2026-03-30 14:31:28 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-03-30 14:31:28 - app.modules.interview.service - ERROR - service.py:358 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 — falling back to built-in bank.
+2026-03-30 14:31:28 - app.modules.interview.service - INFO - service.py:443 - Session 055f7fc0-fe12-4c39-8fca-5dcb23b76f20 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-30 14:31:28 - app.modules.interview.router - INFO - router.py:206 - Session 055f7fc0-fe12-4c39-8fca-5dcb23b76f20 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-03-30 14:31:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:31:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:31:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:53 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 14:41:54 - app.main - INFO - main.py:71 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 14:41:54 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 14:41:56 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 14:41:56 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 14:41:56 - app.main - INFO - main.py:73 - CSV data loaded: True
+2026-03-30 14:41:57 - app.modules.interview.service - INFO - service.py:564 - Session 055f7fc0-fe12-4c39-8fca-5dcb23b76f20 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 14:41:58 - app.modules.interview.service - INFO - service.py:564 - Session dc45d161-0088-4709-8f9c-db27beee21df deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 14:41:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:41:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:42:00 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:42:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:42:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:42:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:42:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:42:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:42:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:42:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:43:47 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 14:43:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 22:32:54 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 22:32:55 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 22:32:55 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 22:32:56 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 22:32:56 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 22:32:56 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-30 22:51:22 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 22:58:00 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 22:58:01 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 22:58:01 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 22:58:03 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 22:58:03 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 22:58:03 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-30 22:58:06 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-30 22:58:06 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-30 22:58:06 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-30 22:58:08 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-30 22:58:08 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-30 22:58:08 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-30 23:01:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:19 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:01:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:05:05 - app.modules.interview.service - INFO - service.py:499 - Session d7006fa3-bd8b-47c2-9956-154818b21f8a deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 23:05:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:05:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:05:06 - app.modules.interview.service - INFO - service.py:499 - Session 20bc49c0-57e8-49d2-980d-bbd3089a5cb2 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-03-30 23:05:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-30 23:05:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:57:04 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 11:57:05 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 11:57:05 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 11:57:07 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 11:57:07 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 11:57:07 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 11:57:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:57:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:59:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:59:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:59:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:59:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:59:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:59:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 11:59:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:00:26 - app.modules.interview.service - WARNING - service.py:308 - Groq failed (groq_jd): No module named 'groq' — trying Gemini.
+2026-03-31 12:00:30 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-03-31 12:00:30 - app.modules.interview.service - ERROR - service.py:330 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 — falling back to built-in bank.
+2026-03-31 12:00:30 - app.modules.interview.service - INFO - service.py:395 - Session 129cc86a-3355-4055-8422-04862b05216b created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-31 12:00:30 - app.modules.interview.router - INFO - router.py:197 - Session 129cc86a-3355-4055-8422-04862b05216b created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-03-31 12:00:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:00:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:00:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:06:53 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 12:06:54 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 12:06:54 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 12:06:57 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 12:06:57 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 12:06:57 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 12:11:43 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 12:11:43 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 12:11:43 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 12:11:45 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 12:11:45 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 12:11:45 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 12:47:04 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:47:25 - app.modules.interview.service - INFO - service.py:223 - generate_questions_async — branch=AIML sem=6 jd_present=True resume_present=False limit=10
+2026-03-31 12:47:25 - app.modules.interview.service - INFO - service.py:229 - Attempting ML service at http://localhost:8001/predict/questions
+2026-03-31 12:47:36 - app.modules.interview.service - WARNING - service.py:295 - ML service unavailable: ReadTimeout: 
+2026-03-31 12:47:36 - app.modules.interview.service - INFO - service.py:240 - Falling back to Groq direct — jd_present=True resume_present=False
+2026-03-31 12:47:36 - app.modules.interview.service - ERROR - service.py:392 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-03-31 12:47:54 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-03-31 12:48:00 - app.modules.interview.service - ERROR - service.py:414 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-03-31 12:48:01 - app.modules.interview.service - WARNING - service.py:257 - Both ML service and Groq failed — using built-in question bank
+2026-03-31 12:48:36 - app.modules.interview.service - INFO - service.py:472 - Session 0ba2b515-7586-4fb2-90a2-d167ed14ece3 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-03-31 12:48:36 - app.modules.interview.router - INFO - router.py:197 - Session 0ba2b515-7586-4fb2-90a2-d167ed14ece3 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-03-31 12:48:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:48:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:48:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:49:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:49:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:49:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:49:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:49:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:49:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:50:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:50:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:52:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:52:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:53:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:53:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 12:53:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:07:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:23:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:33:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:33:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:34:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:35:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:35:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:38:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 13:38:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 15:39:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 15:39:58 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 15:39:58 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 15:39:59 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 15:40:01 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 15:40:01 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 15:40:01 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 15:40:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 15:41:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 15:44:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 15:44:42 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 15:44:42 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 15:44:43 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 15:44:45 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 15:44:45 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 15:44:45 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 15:53:05 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 15:53:06 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 15:53:07 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 15:53:13 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 15:53:13 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 15:53:13 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 15:54:38 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 15:54:39 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 15:54:39 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 15:54:51 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 15:54:52 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 15:54:52 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 15:55:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 16:05:43 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 16:05:45 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 16:05:46 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 16:05:54 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 16:05:55 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 16:05:55 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 16:07:17 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 16:07:19 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 16:07:19 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 16:07:24 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 16:07:24 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 16:07:24 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 16:12:13 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-03-31 16:12:14 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-03-31 16:12:14 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-03-31 16:12:21 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-03-31 16:12:21 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-03-31 16:12:21 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-03-31 16:12:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 16:12:44 - app.modules.interview.service - INFO - service.py:223 - generate_questions_async — branch=ECE sem=6 jd_present=True resume_present=False limit=5
+2026-03-31 16:12:44 - app.modules.interview.service - INFO - service.py:229 - Attempting ML service at http://localhost:8001/predict/questions
+2026-03-31 16:12:55 - app.modules.interview.service - WARNING - service.py:295 - ML service unavailable: ReadTimeout: 
+2026-03-31 16:12:55 - app.modules.interview.service - INFO - service.py:240 - Falling back to Groq direct — jd_present=True resume_present=False
+2026-03-31 16:12:55 - app.modules.interview.service - ERROR - service.py:392 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-03-31 16:13:05 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-03-31 16:13:05 - app.modules.interview.service - ERROR - service.py:414 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-03-31 16:13:05 - app.modules.interview.service - WARNING - service.py:257 - Both ML service and Groq failed — using built-in question bank
+2026-03-31 16:13:06 - app.modules.interview.service - INFO - service.py:472 - Session a3e8f13d-dd68-4436-9351-cf0fb9cf5f1b created: user=1137ef61-c79f-4bed-aa5a-2f7b2ac28252 branch=ECE questions=5
+2026-03-31 16:13:07 - app.modules.interview.router - INFO - router.py:197 - Session a3e8f13d-dd68-4436-9351-cf0fb9cf5f1b created for user 1137ef61-c79f-4bed-aa5a-2f7b2ac28252 (5 questions, source=built-in)
+2026-03-31 16:13:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 16:13:25 - app.modules.interview.service - INFO - service.py:223 - generate_questions_async — branch=ECE sem=6 jd_present=False resume_present=False limit=3
+2026-03-31 16:13:25 - app.modules.interview.service - INFO - service.py:229 - Attempting ML service at http://localhost:8001/predict/questions
+2026-03-31 16:13:36 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-03-31 16:13:36 - app.modules.interview.service - INFO - service.py:236 - ML service returned 3 questions
+2026-03-31 16:13:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 16:24:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-03-31 16:24:55 - app.modules.interview.service - INFO - service.py:223 - generate_questions_async — branch=ECE sem=6 jd_present=True resume_present=False limit=5
+2026-03-31 16:24:55 - app.modules.interview.service - INFO - service.py:229 - Attempting ML service at http://localhost:8001/predict/questions
+2026-03-31 16:25:07 - app.modules.interview.service - WARNING - service.py:295 - ML service unavailable: ReadTimeout: 
+2026-03-31 16:25:07 - app.modules.interview.service - INFO - service.py:240 - Falling back to Groq direct — jd_present=True resume_present=False
+2026-03-31 16:25:07 - app.modules.interview.service - ERROR - service.py:392 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-03-31 16:25:18 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-03-31 16:25:18 - app.modules.interview.service - ERROR - service.py:414 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-03-31 16:25:18 - app.modules.interview.service - WARNING - service.py:257 - Both ML service and Groq failed — using built-in question bank
+2026-03-31 16:25:20 - app.modules.interview.service - INFO - service.py:472 - Session 68de2899-05b6-4475-bb46-9973e4e08044 created: user=1137ef61-c79f-4bed-aa5a-2f7b2ac28252 branch=ECE questions=5
+2026-03-31 16:25:20 - app.modules.interview.router - INFO - router.py:197 - Session 68de2899-05b6-4475-bb46-9973e4e08044 created for user 1137ef61-c79f-4bed-aa5a-2f7b2ac28252 (5 questions, source=built-in)
+2026-03-31 16:25:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:43:49 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 10:43:49 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 10:43:49 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 10:43:50 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 10:43:50 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 10:43:50 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 10:45:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:45:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:46:01 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:46:05 - app.modules.interview.service - INFO - service.py:502 - Session 0ba2b515-7586-4fb2-90a2-d167ed14ece3 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 10:46:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:46:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:46:06 - app.modules.interview.service - INFO - service.py:502 - Session 129cc86a-3355-4055-8422-04862b05216b deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 10:46:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:46:06 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:46:58 - app.modules.interview.service - ERROR - service.py:340 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 10:47:05 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-04-02 10:47:05 - app.modules.interview.service - INFO - service.py:398 - Session 212b7179-1ec4-4b81-80b6-71856873ebb9 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-02 10:47:05 - app.modules.interview.router - INFO - router.py:197 - Session 212b7179-1ec4-4b81-80b6-71856873ebb9 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-04-02 10:47:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:47:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:47:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:50:08 - app.modules.interview.service - ERROR - service.py:340 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 10:50:12 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-04-02 10:50:12 - app.modules.interview.service - INFO - service.py:398 - Session ca711a3e-eef5-42d4-824c-28ecde904c0c created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=9
+2026-04-02 10:50:12 - app.modules.interview.router - INFO - router.py:197 - Session ca711a3e-eef5-42d4-824c-28ecde904c0c created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-04-02 10:50:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:50:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:50:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:53:28 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 10:53:28 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 10:53:29 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 10:53:30 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 10:53:30 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 10:53:30 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 10:53:59 - app.modules.interview.service - ERROR - service.py:308 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 10:53:59 - app.modules.interview.service - INFO - service.py:313 - Attempting Gemini fallback for question generation...
+2026-04-02 10:53:59 - app.modules.interview.service - ERROR - service.py:347 - Gemini fallback failed: NameError: name 'prompt' is not defined
+2026-04-02 10:54:05 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-04-02 10:54:05 - app.modules.interview.service - INFO - service.py:405 - Session 75badd7d-9fd9-4b38-a109-67f87dd899f4 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=9
+2026-04-02 10:54:05 - app.modules.interview.router - INFO - router.py:197 - Session 75badd7d-9fd9-4b38-a109-67f87dd899f4 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-04-02 10:54:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:54:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:54:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:54:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:54:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:54:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:54:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 10:58:28 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 10:58:28 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 10:58:28 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 10:58:29 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 10:58:29 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 10:58:29 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 11:08:34 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 11:08:35 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 11:08:35 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 11:08:37 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 11:08:37 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 11:08:37 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 11:11:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:11:42 - app.modules.interview.service - ERROR - service.py:342 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 11:11:42 - app.modules.interview.service - INFO - service.py:347 - Attempting Gemini fallback for question generation...
+2026-04-02 11:11:46 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-02 11:11:46 - app.modules.interview.service - ERROR - service.py:381 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 11:11:51 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-04-02 11:11:51 - app.modules.interview.service - INFO - service.py:439 - Session 7af4afdb-5ec1-4a2e-ad6e-1e59a8a06088 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-02 11:11:51 - app.modules.interview.router - INFO - router.py:197 - Session 7af4afdb-5ec1-4a2e-ad6e-1e59a8a06088 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-04-02 11:11:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:11:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:11:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:30 - app.modules.interview.service - INFO - service.py:543 - Session 7af4afdb-5ec1-4a2e-ad6e-1e59a8a06088 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 11:12:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:31 - app.modules.interview.service - INFO - service.py:543 - Session 75badd7d-9fd9-4b38-a109-67f87dd899f4 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 11:12:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:32 - app.modules.interview.service - INFO - service.py:543 - Session ca711a3e-eef5-42d4-824c-28ecde904c0c deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 11:12:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:33 - app.modules.interview.service - INFO - service.py:543 - Session 212b7179-1ec4-4b81-80b6-71856873ebb9 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 11:12:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:34 - app.modules.interview.service - INFO - service.py:543 - Session e2f713cd-3bec-45c3-8f0b-84797e45a229 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 11:12:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:46 - app.modules.interview.service - ERROR - service.py:342 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 11:12:46 - app.modules.interview.service - INFO - service.py:347 - Attempting Gemini fallback for question generation...
+2026-04-02 11:12:50 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-02 11:12:50 - app.modules.interview.service - ERROR - service.py:381 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 11:12:53 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-04-02 11:12:53 - app.modules.interview.service - INFO - service.py:439 - Session 2c59dbe4-0040-4cea-ac84-1b0b1c6806b5 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=8
+2026-04-02 11:12:53 - app.modules.interview.router - INFO - router.py:197 - Session 2c59dbe4-0040-4cea-ac84-1b0b1c6806b5 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (8 questions, source=ml_service)
+2026-04-02 11:12:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:12:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:13:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:13:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:13:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:13:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:15:27 - app.modules.interview.service - ERROR - service.py:342 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 11:15:27 - app.modules.interview.service - INFO - service.py:347 - Attempting Gemini fallback for question generation...
+2026-04-02 11:15:30 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-02 11:15:30 - app.modules.interview.service - ERROR - service.py:381 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 11:15:34 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-04-02 11:15:34 - app.modules.interview.service - INFO - service.py:439 - Session 3c79a92a-bd8f-4431-b611-f3f765cf9fd9 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-02 11:15:34 - app.modules.interview.router - INFO - router.py:197 - Session 3c79a92a-bd8f-4431-b611-f3f765cf9fd9 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-04-02 11:15:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:15:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:15:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:23:25 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 11:23:25 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 11:23:25 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 11:23:26 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 11:23:26 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 11:23:26 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 11:25:21 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 11:25:21 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 11:25:21 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 11:25:21 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 11:25:21 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 11:25:21 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 11:30:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:19 - app.modules.interview.service - ERROR - service.py:342 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 11:30:19 - app.modules.interview.service - INFO - service.py:347 - Attempting Gemini fallback for question generation...
+2026-04-02 11:30:21 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-02 11:30:21 - app.modules.interview.service - ERROR - service.py:381 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 11:30:23 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-04-02 11:30:23 - app.modules.interview.service - INFO - service.py:439 - Session 5c9c1ac6-dde7-4ffc-8d21-21c8118ae1bd created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=9
+2026-04-02 11:30:23 - app.modules.interview.router - INFO - router.py:197 - Session 5c9c1ac6-dde7-4ffc-8d21-21c8118ae1bd created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (9 questions, source=ml_service)
+2026-04-02 11:30:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:30:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 11:33:39 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 11:33:39 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 11:33:39 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 11:33:40 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 11:33:40 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 11:33:40 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 12:11:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 12:11:29 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 12:11:29 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 12:11:29 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 12:11:29 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 12:11:29 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 12:11:29 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 12:16:28 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 12:16:28 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 12:16:28 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 12:16:29 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 12:16:29 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 12:16:29 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 12:24:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:11:46 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-02 16:11:46 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-02 16:11:46 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-02 16:11:49 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-02 16:11:49 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-02 16:11:49 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-02 16:12:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:12:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:24 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:33 - app.modules.interview.service - INFO - service.py:564 - Session 5c9c1ac6-dde7-4ffc-8d21-21c8118ae1bd deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 16:13:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:33 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:34 - app.modules.interview.service - INFO - service.py:564 - Session 3c79a92a-bd8f-4431-b611-f3f765cf9fd9 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 16:13:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:36 - app.modules.interview.service - INFO - service.py:564 - Session 2c59dbe4-0040-4cea-ac84-1b0b1c6806b5 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-02 16:13:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:13:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:26:59 - app.modules.interview.service - ERROR - service.py:353 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 16:26:59 - app.modules.interview.service - INFO - service.py:363 - Attempting Gemini fallback for question generation...
+2026-04-02 16:27:11 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-02 16:27:11 - app.modules.interview.service - ERROR - service.py:397 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 16:27:21 - app.modules.interview.service - WARNING - service.py:275 - ML service unavailable: 
+2026-04-02 16:27:21 - app.modules.interview.service - WARNING - service.py:247 - Both Groq and ML service failed — using built-in bank
+2026-04-02 16:27:22 - app.modules.interview.service - INFO - service.py:460 - Session 0d23e6fe-0a7f-4854-acdb-cd0787cf8a2b created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-02 16:27:22 - app.modules.interview.router - INFO - router.py:197 - Session 0d23e6fe-0a7f-4854-acdb-cd0787cf8a2b created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-04-02 16:27:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:27:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:27:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:27:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:27:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:27:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-02 16:27:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 10:32:29 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-03 11:54:16 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-03 11:54:16 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-03 11:54:16 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-03 11:54:18 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-03 11:54:18 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-03 11:54:18 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-03 11:55:11 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:55:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:55:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:56:00 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:56:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:56:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:56:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:56:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:56:59 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:57:48 - app.modules.interview.service - ERROR - service.py:349 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-03 11:57:48 - app.modules.interview.service - INFO - service.py:359 - Attempting Gemini fallback for question generation...
+2026-04-03 11:57:55 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-03 11:57:55 - app.modules.interview.service - ERROR - service.py:393 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-03 11:58:02 - app.modules.interview.service - WARNING - service.py:275 - ML service unavailable: 
+2026-04-03 11:58:02 - app.modules.interview.service - WARNING - service.py:247 - Both Groq and ML service failed — using built-in bank
+2026-04-03 11:58:02 - app.modules.interview.service - INFO - service.py:456 - Session 1dde9106-aa24-49af-b74d-4270f2efb263 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-03 11:58:03 - app.modules.interview.router - INFO - router.py:197 - Session 1dde9106-aa24-49af-b74d-4270f2efb263 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-04-03 11:58:03 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:58:03 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 11:58:03 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:01:27 - app.modules.interview.service - ERROR - service.py:349 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-03 12:01:27 - app.modules.interview.service - INFO - service.py:359 - Attempting Gemini fallback for question generation...
+2026-04-03 12:01:33 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-03 12:01:33 - app.modules.interview.service - ERROR - service.py:393 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-03 12:01:37 - httpx - INFO - _client.py:1729 - HTTP Request: POST http://localhost:8001/predict/questions "HTTP/1.1 200 OK"
+2026-04-03 12:01:37 - app.modules.interview.service - INFO - service.py:456 - Session 8a639e25-8f03-4368-b727-d2728373e651 created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-03 12:01:37 - app.modules.interview.router - INFO - router.py:197 - Session 8a639e25-8f03-4368-b727-d2728373e651 created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=ml_service)
+2026-04-03 12:01:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:01:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:01:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:01:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:01:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:01:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:01:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:06:27 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-03 12:06:28 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-03 12:06:28 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-03 12:06:31 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-03 12:06:31 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-03 12:06:31 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-03 12:27:05 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-03 12:27:05 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-03 12:27:06 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-03 12:27:10 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-03 12:27:10 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-03 12:27:10 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-03 12:27:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:27:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:27:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:27:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:27:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:27:26 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:27:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:28:51 - httpx - INFO - _client.py:1013 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 12:28:51 - app.modules.interview.service - INFO - service.py:456 - Session e12b74fe-915f-475c-a269-e480675db2bd created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-03 12:28:51 - app.modules.interview.router - INFO - router.py:197 - Session e12b74fe-915f-475c-a269-e480675db2bd created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=groq_direct)
+2026-04-03 12:28:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:28:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:28:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:29:29 - app.modules.interview.service - INFO - service.py:560 - Session e12b74fe-915f-475c-a269-e480675db2bd deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-03 12:29:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:29:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:29:30 - app.modules.interview.service - INFO - service.py:560 - Session 8a639e25-8f03-4368-b727-d2728373e651 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-03 12:29:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:29:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:29:30 - app.modules.interview.service - INFO - service.py:560 - Session 1dde9106-aa24-49af-b74d-4270f2efb263 deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-03 12:29:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:29:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:29:31 - app.modules.interview.service - INFO - service.py:560 - Session 0d23e6fe-0a7f-4854-acdb-cd0787cf8a2b deleted by user 10547d3f-ad95-4626-a34c-eabde87d5a9a
+2026-04-03 12:29:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:29:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:32:52 - httpx - INFO - _client.py:1013 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 12:32:53 - app.modules.interview.service - INFO - service.py:456 - Session 6f656f5d-b80e-4454-8c97-0cf49d9c69df created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-03 12:32:53 - app.modules.interview.router - INFO - router.py:197 - Session 6f656f5d-b80e-4454-8c97-0cf49d9c69df created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=groq_direct)
+2026-04-03 12:32:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:33:11 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-03 12:33:11 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-03 12:33:12 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-03 12:33:14 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-03 12:33:14 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-03 12:33:14 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-03 12:33:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:33:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:33:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:33:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:34:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:34:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:35:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:35:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:36:07 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-03 12:43:09 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-03 12:43:10 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-03 12:43:10 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-03 12:43:12 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-03 12:43:12 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-03 12:43:12 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-04 12:02:48 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-04 12:02:48 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-04 12:02:48 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-04 12:02:49 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-04 12:02:49 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-04 12:02:49 - app.main - INFO - main.py:44 - CSV data loaded: True
+2026-04-04 12:03:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:03:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:04:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:04:53 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:04:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:05:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:05:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:05:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:05:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:05:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:05:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:05:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:06:51 - httpx - INFO - _client.py:1013 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-04 12:06:51 - app.modules.interview.service - ERROR - service.py:351 - Groq primary attempt failed: JSONDecodeError: Expecting ',' delimiter: line 11 column 166 (char 1503)
+2026-04-04 12:06:51 - app.modules.interview.service - INFO - service.py:361 - Attempting Gemini fallback for question generation...
+2026-04-04 12:06:53 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-04 12:06:53 - app.modules.interview.service - ERROR - service.py:395 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-04 12:06:57 - app.modules.interview.service - WARNING - service.py:275 - ML service unavailable: 
+2026-04-04 12:06:57 - app.modules.interview.service - WARNING - service.py:247 - Both Groq and ML service failed — using built-in bank
+2026-04-04 12:06:58 - app.modules.interview.service - INFO - service.py:458 - Session b325350b-8809-43aa-866f-3d6883e673bd created: user=10547d3f-ad95-4626-a34c-eabde87d5a9a branch=AIML questions=10
+2026-04-04 12:06:58 - app.modules.interview.router - INFO - router.py:197 - Session b325350b-8809-43aa-866f-3d6883e673bd created for user 10547d3f-ad95-4626-a34c-eabde87d5a9a (10 questions, source=built-in)
+2026-04-04 12:06:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:06:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:06:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:07:18 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-04-04 12:07:18 - app.modules.interview.service - WARNING - service.py:648 - Gemini evaluation failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 — trying Groq as fallback.
+2026-04-04 12:07:25 - httpx - INFO - _client.py:1013 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-04 12:07:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:07:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:07:25 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-04-04 12:15:42 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-04-04 12:15:42 - app.main - INFO - main.py:42 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-04-04 12:15:42 - app.services.csv_data_service - INFO - csv_data_service.py:25 - Loaded 10000 student records
+2026-04-04 12:15:43 - app.services.csv_data_service - INFO - csv_data_service.py:34 - Loaded 320000 academic records
+2026-04-04 12:15:44 - app.services.csv_data_service - INFO - csv_data_service.py:40 - CSV data loaded successfully
+2026-04-04 12:15:44 - app.main - INFO - main.py:44 - CSV data loaded: True

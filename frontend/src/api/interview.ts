@@ -4,6 +4,7 @@ import type {
     InterviewSession,
     InterviewSessionSummary,
     AnswerSubmitResponse,
+    EvaluationResult,
 } from '../types/interview';
 
 // Generate questions (does not create a session)
@@ -62,7 +63,7 @@ export const deleteSession = async (sessionId: string): Promise<void> => {
 };
 
 // Evaluate an interview session answers
-export const evaluateSession = async (sessionId: string): Promise<InterviewSession> => {
+export const evaluateSession = async (sessionId: string): Promise<EvaluationResult> => {
     const res = await api.post(`/interview/sessions/${sessionId}/evaluate`);
     return res.data;
 };

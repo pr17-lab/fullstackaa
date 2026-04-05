@@ -1,0 +1,59 @@
+generate_questions_async inputs: jd_text='Frontend
+HTML, CSS, JavaScript
+Experience with frameworks like React / Angular / Vue
+Backend
+Proficiency in Node.js / Python / Java
+Experience with frameworks like Express, Django, Flask, Spring Boot
+Database
+Knowledge of SQL (MySQL/PostgreSQL) and/or NoSQL (MongoDB)
+Other Technical Skills
+REST APIs & API integration
+Version control (Git/GitHub)
+Basic knowledge of cloud platforms (AWS/Azure/GCP)', resume_context='None', branch='AIML'
+Groq exception: ModuleNotFoundError: No module named 'groq'
+Gemini exception: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+generate_questions_async inputs: jd_text='t least one year of experience in building large-scale software applications
+Experience in building web applications
+Experience in designing and integrating RESTful APIs
+Knowledge of Ruby, Java/JRuby, React, and JavaScript
+Excellent debugging and optimization skills
+Experience in unit/integration testing', resume_context='None', branch='AIML'
+Groq exception: ModuleNotFoundError: No module named 'groq'
+Gemini exception: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+generate_questions_async inputs: jd_text='t least one year of experience in building large-scale software applications
+Experience in building web applications
+Experience in designing and integrating RESTful APIs
+Knowledge of Ruby, Java/JRuby, React, and JavaScript
+Excellent debugging and optimization skills
+Experience in unit/integration testing', resume_context='None', branch='AIML'
+Groq exception: ModuleNotFoundError: No module named 'groq'
+Gemini exception: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+generate_questions_async inputs: jd_text='At least one year of experience in building large-scale software applications
+Experience in building web applications
+Experience in designing and integrating RESTful APIs
+Knowledge of Ruby, Java/JRuby, React, and JavaScript
+Excellent debugging and optimization skills
+Experience in unit/integration testing', resume_context='None', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='At least one year of experience in building large-scale software applications
+Experience in building web applications
+Experience in designing and integrating RESTful APIs
+Knowledge of Ruby, Java/JRuby, React, and JavaScript
+Excellent debugging and optimization skills
+Experience in unit/integration testing', resume_context='None', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='Proven experience as a Full Stack Developer or similar role
+Experience developing desktop and mobile applications
+Familiarity with common stacks
+Knowledge of multiple front-end languages and libraries (e.g. HTML/ CSS, JavaScript, XML, jQuery)
+Knowledge of multiple back-end languages (e.g. C#, Java, Python) and JavaScript frameworks (e.g. Angular, React, Node.js)
+Familiarity with databases (e.g. MySQL, MongoDB), web servers (e.g. Apache) and UI/UX design
+Excellent communication and teamwork skills
+Great attention to detail
+Organizational skills', resume_context='None', branch='AIML'
+Groq exception: JSONDecodeError: Expecting ',' delimiter: line 11 column 166 (char 1503)
+Gemini exception: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404

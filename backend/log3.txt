@@ -1,0 +1,127 @@
+﻿python : C:\Users\Admin\Ap
+pData\Roaming\Python\Pytho
+n312\site-packages\pydanti
+c\_internal\_fields.py:149
+: UserWarning: Field 
+"model_answer" has 
+conflict with protected 
+namespace "model_".
+At line:1 char:1
++ python 
+test_e2e_interview.py > 
+log2.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (C  
+  :\Users\Admin\...spac   
+ e "model_".:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+You may be able to 
+resolve this warning by 
+setting `model_config['pro
+tected_namespaces'] = ()`.
+  warnings.warn(
+DEBUG:asyncio:Using 
+proactor: IocpProactor
+DEBUG:httpx:load_ssl_conte
+xt verify=True cert=None 
+trust_env=True http2=False
+DEBUG:httpx:load_verify_lo
+cations cafile='C:\\Users\
+\Admin\\AppData\\Roaming\\
+Python\\Python312\\site-pa
+ckages\\certifi\\cacert.pe
+m'
+ERROR:app.modules.intervie
+w.service:Groq primary 
+attempt failed: 
+NameError: name 'prompt' 
+is not defined
+INFO:app.modules.interview
+.service:Attempting 
+Gemini fallback for 
+question generation...
+ERROR:app.modules.intervie
+w.service:Gemini fallback 
+failed: NameError: name 
+'prompt' is not defined
+DEBUG:httpx:load_ssl_conte
+xt verify=True cert=None 
+trust_env=True http2=False
+DEBUG:httpx:load_verify_lo
+cations cafile='C:\\Users\
+\Admin\\AppData\\Roaming\\
+Python\\Python312\\site-pa
+ckages\\certifi\\cacert.pe
+m'
+DEBUG:httpcore.connection:
+connect_tcp.started 
+host='localhost' 
+port=8001 
+local_address=None 
+timeout=3.0 
+socket_options=None
+DEBUG:httpcore.connection:
+connect_tcp.complete retur
+n_value=<httpcore._backend
+s.anyio.AnyIOStream 
+object at 
+0x000001C1224A6450>
+DEBUG:httpcore.http11:send
+_request_headers.started 
+request=<Request 
+[b'POST']>
+DEBUG:httpcore.http11:send
+_request_headers.complete
+DEBUG:httpcore.http11:send
+_request_body.started 
+request=<Request 
+[b'POST']>
+DEBUG:httpcore.http11:send
+_request_body.complete
+DEBUG:httpcore.http11:rece
+ive_response_headers.start
+ed request=<Request 
+[b'POST']>
+DEBUG:httpcore.http11:rece
+ive_response_headers.compl
+ete return_value=(b'HTTP/1
+.1', 200, b'OK', 
+[(b'date', b'Thu, 02 Apr 
+2026 05:36:40 GMT'), 
+(b'server', b'uvicorn'), 
+(b'content-length', 
+b'891'), 
+(b'content-type', 
+b'application/json')])
+INFO:httpx:HTTP Request: 
+POST http://localhost:8001
+/predict/questions 
+"HTTP/1.1 200 OK"
+DEBUG:httpcore.http11:rece
+ive_response_body.started 
+request=<Request 
+[b'POST']>
+DEBUG:httpcore.http11:rece
+ive_response_body.complete
+DEBUG:httpcore.http11:resp
+onse_closed.started
+DEBUG:httpcore.http11:resp
+onse_closed.complete
+DEBUG:httpcore.connection:
+close.started
+DEBUG:httpcore.connection:
+close.complete
+Source: ml_service
+Questions:
+1. [Data Structures] easy - What is the time complexity of inserting an element into a binary search tree?
+2. [Computer Networks] medium - Explain the difference between TCP and UDP protocols. What are their use cases?
+3. [Database Systems] medium - Design a simple database schema to store user information, including name, email, and password. How would you implement user authentication using this schema?
+4. [Operating Systems] hard - What is the purpose of the page table in virtual memory? How does it map virtual addresses to physical addresses?
+5. [Computer Architecture] hard - Explain the concept of pipelining in CPU design. What are its benefits and limitations?

@@ -1,0 +1,36 @@
+--- OVERALL STATS ---
+Department   | Job Role                            | Students   | Avg Score 
+---------------------------------------------------------------------------
+AIML         | NLP Engineer                        | 650        | 69.4      
+AIML         | Machine Learning Engineer           | 1124       | 67.9      
+AIML         | Data Engineer                       | 2000       | 65.8      
+AIML         | Data Scientist                      | 2000       | 64.8      
+AIML         | Software Engineer                   | 2000       | 63.6      
+AIML         | Data Analyst                        | 533        | 56.9      
+AIML         | Full Stack Developer                | 14         | 56.1      
+AIML         | Backend Developer                   | 77         | 48.4      
+CSE          | Software Engineer                   | 3000       | 72.3      
+CSE          | Full Stack Developer                | 1497       | 68.5      
+CSE          | Backend Developer                   | 1196       | 67.1      
+CSE          | QA/Test Engineer                    | 12         | 60.5      
+CSE          | Data Engineer                       | 3000       | 60.4      
+CSE          | Data Scientist                      | 3000       | 46.6      
+CSE          | Data Analyst                        | 321        | 46.5      
+CSE          | Machine Learning Engineer           | 522        | 43.2      
+CSE          | Cloud Engineer                      | 149        | 42.7      
+ECE          | Hardware/VLSI Design Engineer       | 2469       | 54.0      
+ECE          | Embedded Systems Engineer           | 2469       | 36.7      
+ECE          | Software Engineer                   | 2296       | 9.2       
+ECE          | Data Scientist                      | 2296       | 4.7       
+MECH         | Data Analyst                        | 1783       | 24.8      
+MECH         | Software Engineer                   | 2491       | 12.9      
+MECH         | Embedded Systems Engineer           | 2094       | 11.4      
+
+
+--- TOP RECOMMENDED ROLE PER DEPARTMENT ---
+Department   | Job Role                            | Avg Score 
+-----------------------------------------------------------------
+AIML         | NLP Engineer                        | 69.4      
+CSE          | Software Engineer                   | 72.3      
+ECE          | Hardware/VLSI Design Engineer       | 54.0      
+MECH         | Data Analyst                        | 24.8      

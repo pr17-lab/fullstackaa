@@ -409,8 +409,8 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
   const pct = rm.total_tasks > 0 ? Math.round((rm.completed_tasks / rm.total_tasks) * 100) : 0;
 
   const tasksByStatus = {
-    pending: rm.tasks.filter(t => t.status === 'pending'),
-    in_progress: rm.tasks.filter(t => t.status === 'in_progress'),
+    pending: rm.tasks.filter(t => t.phase === 'learn' && t.status !== 'completed'),
+    in_progress: rm.tasks.filter(t => (t.phase === 'practice' || t.phase === 'apply') && t.status !== 'completed'),
     completed: rm.tasks.filter(t => t.status === 'completed'),
   };
 
@@ -594,7 +594,20 @@ const RoadmapPage = () => {
     },
   });
 
-  const targetRoles = prefs?.target_roles ?? [];
+  // Fetch existing gaps to get the full list of roles with computed analysis
+  const { data: skillGaps } = useQuery({
+    queryKey: ['skill-gaps'],
+    queryFn: () => import('../services/api').then(m => m.SkillsService.getSkillGaps()),
+  });
+
+  // Build the dropdown list: preference roles first (starred), then all gap-computed roles
+  const prefRoles: string[] = prefs?.target_roles ?? [];
+  const gapRoles: string[] = (skillGaps ?? []).map((g: any) => g.job_role);
+  const allDropdownRoles = [
+    ...prefRoles,
+    ...gapRoles.filter(r => !prefRoles.includes(r)),
+  ];
+
   const existingForRole = (roadmaps as Roadmap[] | undefined)?.find(
     r => r.job_role === selectedRole && r.status === 'active'
   );
@@ -636,9 +649,20 @@ const RoadmapPage = () => {
                 className="w-full appearance-none bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-xl px-4 py-2.5 pr-9 text-sm text-gray-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
               >
                 <option value="">— Select a role —</option>
-                {targetRoles.map((r: string) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
+                {prefRoles.length > 0 && (
+                  <optgroup label="⭐ Your Target Roles">
+                    {prefRoles.map((r: string) => (
+                      <option key={r} value={r}>{r}</option>
+                    ))}
+                  </optgroup>
+                )}
+                {gapRoles.filter(r => !prefRoles.includes(r)).length > 0 && (
+                  <optgroup label="All Available Roles">
+                    {gapRoles.filter(r => !prefRoles.includes(r)).map((r: string) => (
+                      <option key={r} value={r}>{r}</option>
+                    ))}
+                  </optgroup>
+                )}
               </select>
               <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>

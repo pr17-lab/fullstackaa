@@ -13,7 +13,7 @@ Improvements over Phase 2 initial:
 import uuid
 from sqlalchemy import (
     Column, String, Text, DateTime, ForeignKey,
-    Index, CheckConstraint,
+    Index, CheckConstraint, SmallInteger
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
@@ -87,10 +87,11 @@ class InterviewQuestion(Base):
     difficulty  = Column(String(20),  nullable=False, default="medium")
     source      = Column(String(50),  nullable=True)
     user_answer  = Column(Text,        nullable=True)
-    ai_score     = Column(String(10),  nullable=True)
+    ai_score     = Column(SmallInteger, nullable=True)
     ai_verdict   = Column(String(20),  nullable=True)
     ai_feedback  = Column(Text,        nullable=True)
     model_answer = Column(Text,        nullable=True)
+    evaluated_at = Column(DateTime(timezone=True), nullable=True)
     created_at   = Column(DateTime(timezone=True), server_default=func.now())
 
     session = relationship("InterviewSession", back_populates="questions")

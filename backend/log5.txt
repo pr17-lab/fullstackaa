@@ -1,0 +1,267 @@
+﻿python : C:\Users\Admin\Ap
+pData\Roaming\Python\Pytho
+n312\site-packages\pydanti
+c\_internal\_fields.py:149
+: UserWarning: Field 
+"model_answer" has 
+conflict with protected 
+namespace "model_".
+At line:1 char:1
++ python 
+test_e2e_interview.py > 
+log4.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (C  
+  :\Users\Admin\...spac   
+ e "model_".:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+You may be able to 
+resolve this warning by 
+setting `model_config['pro
+tected_namespaces'] = ()`.
+  warnings.warn(
+DEBUG:asyncio:Using 
+proactor: IocpProactor
+DEBUG:httpx:load_ssl_conte
+xt verify=True cert=None 
+trust_env=True http2=False
+DEBUG:httpx:load_verify_lo
+cations cafile='C:\\Users\
+\Admin\\AppData\\Roaming\\
+Python\\Python312\\site-pa
+ckages\\certifi\\cacert.pe
+m'
+DEBUG:groq._base_client:Re
+quest options: {'method': 
+'post', 'url': '/openai/v1
+/chat/completions', 
+'files': None, 
+'json_data': {'messages': 
+[{'role': 'user', 
+'content': 'You are a 
+senior technical 
+interviewer.\nGenerate 
+exactly 5 interview 
+questions based on this 
+job description:\n\nJOB 
+DESCRIPTION:\nWe are 
+hiring a React Frontend 
+Developer. Required 
+skills: React, 
+TypeScript, CSS, REST 
+APIs, Git\n\nStudent 
+context (for difficulty 
+only ù do NOT base 
+questions on 
+this):\nBranch: CSE | 
+GPA: 8.5/10 | Weak areas: 
+none\nResume: not 
+provided\n\nSTRICT 
+RULES:\n- Questions MUST 
+test skills from the job 
+description\n- Do NOT ask 
+CSE domain questions 
+unless JD mentions 
+them\n- 40% easy, 40% 
+medium, 20% hard\n- Be 
+specific, not 
+generic\n\nReturn ONLY a 
+JSON array, no markdown, 
+no 
+explanation:\n[{"topic": 
+"skill name", "question": 
+"question text", 
+"difficulty": 
+"easy|medium|hard"}]'}], 
+'model': 
+'llama-3.1-8b-instant', 
+'max_tokens': 2000, 
+'temperature': 0.7}, 
+'idempotency_key': 'stainl
+ess-python-retry-2710e4a0-
+28fe-46e9-a0d5-ae0bb2ead7d
+a'}
+DEBUG:groq._base_client:Se
+nding HTTP Request: POST h
+ttps://api.groq.com/openai
+/v1/chat/completions
+DEBUG:httpcore.connection:
+connect_tcp.started 
+host='api.groq.com' 
+port=443 
+local_address=None 
+timeout=5.0 
+socket_options=None
+DEBUG:httpcore.connection:
+connect_tcp.complete retur
+n_value=<httpcore._backend
+s.sync.SyncStream object 
+at 0x000001D759017DD0>
+DEBUG:httpcore.connection:
+start_tls.started ssl_cont
+ext=<ssl.SSLContext 
+object at 
+0x000001D758EEB550> server
+_hostname='api.groq.com' 
+timeout=5.0
+DEBUG:httpcore.connection:
+start_tls.complete return_
+value=<httpcore._backends.
+sync.SyncStream object at 
+0x000001D759085130>
+DEBUG:httpcore.http11:send
+_request_headers.started 
+request=<Request 
+[b'POST']>
+DEBUG:httpcore.http11:send
+_request_headers.complete
+DEBUG:httpcore.http11:send
+_request_body.started 
+request=<Request 
+[b'POST']>
+DEBUG:httpcore.http11:send
+_request_body.complete
+DEBUG:httpcore.http11:rece
+ive_response_headers.start
+ed request=<Request 
+[b'POST']>
+DEBUG:httpcore.http11:rece
+ive_response_headers.compl
+ete return_value=(b'HTTP/1
+.1', 200, b'OK', 
+[(b'Date', b'Thu, 02 Apr 
+2026 05:38:32 GMT'), 
+(b'Content-Type', 
+b'application/json'), 
+(b'Transfer-Encoding', 
+b'chunked'), 
+(b'Connection', 
+b'keep-alive'), 
+(b'Cache-Control', 
+b'private, max-age=0, 
+no-store, no-cache, 
+must-revalidate'), 
+(b'Server', 
+b'cloudflare'), (b'vary', 
+b'Origin'), 
+(b'x-groq-region', 
+b'bom'), (b'x-ratelimit-li
+mit-requests', b'14400'), 
+(b'x-ratelimit-limit-token
+s', b'6000'), (b'x-ratelim
+it-remaining-requests', 
+b'14399'), (b'x-ratelimit-
+remaining-tokens', 
+b'5570'), (b'x-ratelimit-r
+eset-requests', b'6s'), (b
+'x-ratelimit-reset-tokens'
+, b'4.3s'), 
+(b'x-request-id', b'req_01
+kn6b6jnse3n93vwk1x98bzyy')
+, (b'set-cookie', b'__cf_b
+m=e1r5FOWZuQYKl3LxZcv2YaLW
+uRHr7iUy6OMvOaxvkbo-177510
+8311.7014816-1.0.1.1-MY12q
+wh2358uNgYQ7e9OmgtAF7JW_Jz
+SEuPZrkpvisBWqTHs.maZlo3oI
+.KBLoA6HxN0H.j0tPMgcof_.wu
+B3NghcI_9lBVbL4N6Y7wzozqcc
+uMPRIBsqx1ECwcgMN6O; 
+HttpOnly; Secure; Path=/; 
+Domain=groq.com; 
+Expires=Thu, 02 Apr 2026 
+06:08:32 GMT'), (b'via', 
+b'1.1 google'), (b'Strict-
+Transport-Security', 
+b'max-age=15552000'), 
+(b'cf-cache-status', 
+b'DYNAMIC'), 
+(b'Content-Encoding', 
+b'gzip'), (b'CF-RAY', 
+b'9e5d7ce42fd3e0a1-CNN'), 
+(b'alt-svc', b'h3=":443"; 
+ma=86400')])
+INFO:httpx:HTTP Request: 
+POST https://api.groq.com/
+openai/v1/chat/completions
+ "HTTP/1.1 200 OK"
+DEBUG:httpcore.http11:rece
+ive_response_body.started 
+request=<Request 
+[b'POST']>
+DEBUG:httpcore.http11:rece
+ive_response_body.complete
+DEBUG:httpcore.http11:resp
+onse_closed.started
+DEBUG:httpcore.http11:resp
+onse_closed.complete
+DEBUG:groq._base_client:HT
+TP Response: POST https://
+api.groq.com/openai/v1/cha
+t/completions "200 OK" 
+Headers({'date': 'Thu, 02 
+Apr 2026 05:38:32 GMT', 
+'content-type': 
+'application/json', 
+'transfer-encoding': 
+'chunked', 'connection': 
+'keep-alive', 
+'cache-control': 
+'private, max-age=0, 
+no-store, no-cache, 
+must-revalidate', 
+'server': 'cloudflare', 
+'vary': 'Origin', 
+'x-groq-region': 'bom', 'x
+-ratelimit-limit-requests'
+: '14400', 'x-ratelimit-li
+mit-tokens': '6000', 'x-ra
+telimit-remaining-requests
+': '14399', 'x-ratelimit-r
+emaining-tokens': '5570', 
+'x-ratelimit-reset-request
+s': '6s', 'x-ratelimit-res
+et-tokens': '4.3s', 
+'x-request-id': 'req_01kn6
+b6jnse3n93vwk1x98bzyy', 
+'set-cookie': '__cf_bm=e1r
+5FOWZuQYKl3LxZcv2YaLWuRHr7
+iUy6OMvOaxvkbo-1775108311.
+7014816-1.0.1.1-MY12qwh235
+8uNgYQ7e9OmgtAF7JW_JzSEuPZ
+rkpvisBWqTHs.maZlo3oI.KBLo
+A6HxN0H.j0tPMgcof_.wuB3Ngh
+cI_9lBVbL4N6Y7wzozqccuMPRI
+Bsqx1ECwcgMN6O; HttpOnly; 
+Secure; Path=/; 
+Domain=groq.com; 
+Expires=Thu, 02 Apr 2026 
+06:08:32 GMT', 'via': 
+'1.1 google', 'strict-tran
+sport-security': 
+'max-age=15552000', 
+'cf-cache-status': 
+'DYNAMIC', 
+'content-encoding': 
+'gzip', 'cf-ray': 
+'9e5d7ce42fd3e0a1-CNN', 
+'alt-svc': 'h3=":443"; 
+ma=86400'})
+Source: groq_direct
+Questions:
+1. [React] medium - Create a simple React component that displays a button and an input field. How would you handle the form submission?
+2. [TypeScript] medium - Given the following TypeScript interface, implement a function that validates an object against this interface: interface User { name: string; age: number; }
+3. [CSS] easy - Write a CSS rule to style a paragraph of text with a blue background and white text, but only if the paragraph has a class of 'highlight'.
+4. [REST APIs] hard - Design a REST API endpoint to retrieve a list of users from a database. Use HTTP status codes to indicate success or failure. How would you handle pagination?
+5. [Git] hard - You have a Git repository with multiple branches and commits. Write a Git command to merge the 'feature/new-feature' branch into the 'main' branch, but only if the 'feature/new-feature' branch has been updated within the last week.
+DEBUG:httpcore.connection:
+close.started
+DEBUG:httpcore.connection:
+close.complete

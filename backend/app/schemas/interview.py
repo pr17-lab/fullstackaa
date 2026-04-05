@@ -71,4 +71,14 @@ class GeneratedQuestionsResponse(BaseModel):
     overall_gpa: str
     weak_subjects: list[str]
     questions: list[dict]
-    source: str = "built-in"   # "built-in" | "ml_service"
+    source: str = "built-in"   # "built-in" | "groq_jd" | "groq_resume" | "groq_jd_resume" | *_gemini variants
+
+
+# ---------------------------------------------------------------------------
+# Session create request (used by POST /sessions)
+# ---------------------------------------------------------------------------
+
+class SessionCreateRequest(BaseModel):
+    jd_text: str = ""           # Job description text (optional when resume is provided)
+    resume_context: Optional[str] = None
+    limit: int = 10

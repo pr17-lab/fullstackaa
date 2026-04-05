@@ -39,7 +39,8 @@ export interface GeneratedQuestionsResponse {
     overall_gpa: string;
     weak_subjects: string[];
     questions: InterviewQuestion[];
-    source: 'built-in' | 'ml_service';
+    /** 'built-in' | 'groq_jd' | 'groq_resume' | 'groq_jd_resume' | *_gemini variants */
+    source: string;
 }
 
 export interface AnswerSubmitResponse {
@@ -47,4 +48,27 @@ export interface AnswerSubmitResponse {
     question: string;
     user_answer: string;
     session_completed: boolean;
+}
+
+export interface QuestionEvaluation {
+    question_id: string;
+    question: string;
+    topic: string;
+    difficulty: string;
+    user_answer: string;
+    ai_score: number;
+    ai_verdict: 'Strong' | 'Adequate' | 'Weak';
+    ai_feedback: string;
+    model_answer: string;
+}
+
+export interface EvaluationResult {
+    session_id: string;
+    total_questions: number;
+    avg_score: number;
+    strong_count: number;
+    adequate_count: number;
+    weak_count: number;
+    overall_verdict: string;
+    questions: QuestionEvaluation[];
 }

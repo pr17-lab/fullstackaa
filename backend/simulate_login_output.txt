@@ -1,6 +1,0 @@
-Login attempt:
-  Username: priya.sharma@example.com
-  Password: STU001@123
-  Password length: 10
-
-ERROR: User not found!

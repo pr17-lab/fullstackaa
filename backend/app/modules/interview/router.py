@@ -15,31 +15,32 @@ GET  /api/interview/health                 — module health probe
 """
 from __future__ import annotations
 
+import io
 import uuid
 import logging
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query
-from pydantic import BaseModel
+import PyPDF2
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.api.dependencies.auth import get_current_user
 from app.models.user import User
 from app.modules.academic.service import AcademicService
-from app.modules.interview.service import InterviewService
+from app.modules.interview.service import interview_service as _interview_svc
 from app.schemas.interview import (
     AnswerSubmitRequest,
     AnswerSubmitResponse,
     GeneratedQuestionsResponse,
     InterviewSessionOut,
+    SessionCreateRequest,
 )
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
 _academic_svc = AcademicService()
-_interview_svc = InterviewService()
 
 
 # ---------------------------------------------------------------------------
@@ -68,7 +69,6 @@ async def get_interview_questions(
             semester=profile.semester,
             weak_subjects=[s.subject_name for s in weak_subjects],
             overall_gpa=overall_gpa,
-            topic=topic,
             limit=limit,
         )
 
@@ -126,10 +126,6 @@ async def list_sessions(
     }
 
 
-import io
-import PyPDF2
-from fastapi import UploadFile, File
-
 @router.post("/sessions/parse-resume")
 async def parse_resume(
     file: UploadFile = File(...),
@@ -154,12 +150,6 @@ async def parse_resume(
     except Exception as exc:
         logger.error("Error parsing PDF resume: %s", exc, exc_info=True)
         raise HTTPException(status_code=500, detail="Failed to parse PDF resume")
-
-
-class SessionCreateRequest(BaseModel):
-    jd_text: str
-    resume_context: Optional[str] = None
-    limit: int = 10
 
 
 @router.post("/sessions", status_code=201, response_model=InterviewSessionOut)
@@ -187,11 +177,21 @@ async def create_session(
             limit=body.limit,
         )
 
+        # Build a topic label — prefer JD snippet, fall back to resume snippet
+        if body.jd_text.strip():
+            raw_topic = body.jd_text.strip()
+            topic_label = raw_topic[:80] + ("..." if len(raw_topic) > 80 else "")
+        elif body.resume_context and body.resume_context.strip():
+            raw_topic = body.resume_context.strip()
+            topic_label = "Resume: " + raw_topic[:72] + ("..." if len(raw_topic) > 72 else "")
+        else:
+            topic_label = "General Interview"
+
         session = _interview_svc.create_session(
             db,
             user_id=current_user.id,
             branch=profile.department,
-            topic=body.jd_text[:80] + ("..." if len(body.jd_text) > 80 else ""),  # store JD snippet as topic label
+            topic=topic_label,
             questions=questions,
         )
         logger.info(
@@ -244,22 +244,17 @@ async def submit_answer(
         session_completed=session_completed,
     )
 
-@router.post("/sessions/{session_id}/evaluate", response_model=InterviewSessionOut)
+@router.post("/sessions/{session_id}/evaluate")
 async def evaluate_session(
     session_id: uuid.UUID,
-    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     """
-    Evaluates all answered questions within an interview session using Groq AI.
-    Assigns grades, verdicts, model answers, and concise feedback.
+    Evaluate all answered questions via Groq AI.
+    Assigns scores, verdicts, model answers, and concise feedback.
     """
-    session = await _interview_svc.evaluate_session_answers(
-        db,
-        session_id=session_id,
-        user_id=current_user.id,
-    )
-    return session
+    return await _interview_svc.evaluate_session(db, session_id, current_user.id)
 
 @router.delete("/sessions/{session_id}", status_code=204)
 async def delete_session(

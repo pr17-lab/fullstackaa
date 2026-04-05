@@ -1,0 +1,6 @@
+﻿Source: groq_direct
+[React] Create a simple React component that displays a greeting message with the user's name. How would you handle the state change when the user types in the input field?
+[TypeScript] Given the following TypeScript interface: interface User { name: string; age: number; } What is the type of the expression: user.age + 1 if user is of type User?
+[CSS] Write a CSS rule to center a div element horizontally and vertically within its parent container.
+[REST APIs] Describe the differences between the GET, POST, PUT, and DELETE methods in REST APIs. Provide an example of when you would use each method.
+[Git] Explain the concept of a Git branch and how you would merge two branches using the Git merge command. What are the possible conflicts that may arise during the merge process?

@@ -129,3 +129,206 @@ LINE 1: INSERT INTO interview_sessions (id, user_id, branch, topic, ...
 [SQL: INSERT INTO interview_sessions (id, user_id, branch, topic, status) VALUES (%(id)s::UUID, %(user_id)s::UUID, %(branch)s, %(topic)s, %(status)s) RETURNING interview_sessions.created_at, interview_sessions.updated_at]
 [parameters: {'id': UUID('5baeb8c9-8659-457d-9f5a-45508fe7176d'), 'user_id': UUID('10547d3f-ad95-4626-a34c-eabde87d5a9a'), 'branch': 'IT', 'topic': 'General', 'status': 'active'}]
 (Background on this error at: https://sqlalche.me/e/20/f405)
+2026-03-29 22:49:08 - app.modules.interview.service - ERROR - service.py:333 - Failed to create interview session — rolled back
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2113, in _exec_insertmany_context
+    dialect.do_execute(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\service.py", line 323, in create_session
+    db.commit()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4312, in flush
+    self._flush(objects)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4408, in _flush
+    flush_context.execute()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1137, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 517, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_insertmany_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2121, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2344, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2113, in _exec_insertmany_context
+    dialect.do_execute(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+[SQL: INSERT INTO interview_questions (id, session_id, topic, question, difficulty, source, user_answer, ai_score, ai_verdict, ai_feedback, model_answer, evaluated_at) VALUES (%(id__0)s::UUID, %(session_id__0)s::UUID, %(topic__0)s, %(question__0)s, %(diffi ... 1925 characters truncated ... l_answer__8)s, %(evaluated_at__8)s) RETURNING interview_questions.created_at, interview_questions.id]
+[parameters: {'ai_feedback__0': None, 'id__0': UUID('19ec4c9d-5466-4e0c-ba35-69ef2e4b4f69'), 'ai_verdict__0': None, 'question__0': 'What is the difference between a population mean and a sample mean?', 'evaluated_at__0': None, 'source__0': None, 'model_answer__0': None, 'topic__0': 'Statistics & Probability', 'ai_score__0': None, 'difficulty__0': 'easy', 'session_id__0': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__0': None, 'ai_feedback__1': None, 'id__1': UUID('8011639e-1bd8-4bd8-ace3-15c153f03b15'), 'ai_verdict__1': None, 'question__1': 'How do you implement a decorator in Python to add error checking to a function?', 'evaluated_at__1': None, 'source__1': None, 'model_answer__1': None, 'topic__1': 'Python Programming', 'ai_score__1': None, 'difficulty__1': 'medium', 'session_id__1': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__1': None, 'ai_feedback__2': None, 'id__2': UUID('bba140fa-6f9a-41d4-881f-55384379372f'), 'ai_verdict__2': None, 'question__2': 'Solve the differential equation dy/dx = 2x, given the initial condition y(0) = 1.', 'evaluated_at__2': None, 'source__2': None, 'model_answer__2': None, 'topic__2': 'Engineering Maths II', 'ai_score__2': None, 'difficulty__2': 'hard', 'session_id__2': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__2': None, 'ai_feedback__3': None, 'id__3': UUID('90df9944-bf64-489d-8fa5-e2df86ab7ec9'), 'ai_verdict__3': None, 'question__3': 'Find the eigenvalues and eigenvectors of the matrix [[2, 1], [1, 2]].', 'evaluated_at__3': None, 'source__3': None, 'model_answer__3': None, 'topic__3': 'Linear Algebra', 'ai_score__3': None, 'difficulty__3': 'medium', 'session_id__3': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__3': None, 'ai_feedback__4': None, 'id__4': UUID('29d2f891-4953-4910-a848-51238ff1fb76') ... 8 parameters truncated ... 'session_id__4': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__4': None, 'ai_feedback__5': None, 'id__5': UUID('6b79be4f-66a5-4abe-9b54-cbadd77102c1'), 'ai_verdict__5': None, 'question__5': 'A fair six-sided die is rolled. What is the probability that the number rolled is greater than 4?', 'evaluated_at__5': None, 'source__5': None, 'model_answer__5': None, 'topic__5': 'Probability & Random Processes', 'ai_score__5': None, 'difficulty__5': 'easy', 'session_id__5': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__5': None, 'ai_feedback__6': None, 'id__6': UUID('f09e4bce-0319-43b8-902a-819c5fdbd2ac'), 'ai_verdict__6': None, 'question__6': 'What is backpropagation, and why is it necessary for training neural networks?', 'evaluated_at__6': None, 'source__6': None, 'model_answer__6': None, 'topic__6': 'Deep Learning Fundamentals', 'ai_score__6': None, 'difficulty__6': 'medium', 'session_id__6': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__6': None, 'ai_feedback__7': None, 'id__7': UUID('b379029e-3279-4419-8a3f-d5fc2ee5769d'), 'ai_verdict__7': None, 'question__7': 'Explain the concept of tokenization in NLP, and provide an example of its application.', 'evaluated_at__7': None, 'source__7': None, 'model_answer__7': None, 'topic__7': 'Natural Language Processing', 'ai_score__7': None, 'difficulty__7': 'medium', 'session_id__7': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__7': None, 'ai_feedback__8': None, 'id__8': UUID('ecfc1019-34da-4978-89f3-f8b51bec2ffe'), 'ai_verdict__8': None, 'question__8': 'What is a MapReduce operation, and how does it work in the context of Hadoop?', 'evaluated_at__8': None, 'source__8': None, 'model_answer__8': None, 'topic__8': 'Big Data Technologies', 'ai_score__8': None, 'difficulty__8': 'hard', 'session_id__8': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__8': None}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-03-29 22:49:08 - app.modules.interview.router - ERROR - router.py:205 - Error creating interview session: (psycopg2.errors.UndefinedColumn) column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+[SQL: INSERT INTO interview_questions (id, session_id, topic, question, difficulty, source, user_answer, ai_score, ai_verdict, ai_feedback, model_answer, evaluated_at) VALUES (%(id__0)s::UUID, %(session_id__0)s::UUID, %(topic__0)s, %(question__0)s, %(diffi ... 1925 characters truncated ... l_answer__8)s, %(evaluated_at__8)s) RETURNING interview_questions.created_at, interview_questions.id]
+[parameters: {'ai_feedback__0': None, 'id__0': UUID('19ec4c9d-5466-4e0c-ba35-69ef2e4b4f69'), 'ai_verdict__0': None, 'question__0': 'What is the difference between a population mean and a sample mean?', 'evaluated_at__0': None, 'source__0': None, 'model_answer__0': None, 'topic__0': 'Statistics & Probability', 'ai_score__0': None, 'difficulty__0': 'easy', 'session_id__0': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__0': None, 'ai_feedback__1': None, 'id__1': UUID('8011639e-1bd8-4bd8-ace3-15c153f03b15'), 'ai_verdict__1': None, 'question__1': 'How do you implement a decorator in Python to add error checking to a function?', 'evaluated_at__1': None, 'source__1': None, 'model_answer__1': None, 'topic__1': 'Python Programming', 'ai_score__1': None, 'difficulty__1': 'medium', 'session_id__1': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__1': None, 'ai_feedback__2': None, 'id__2': UUID('bba140fa-6f9a-41d4-881f-55384379372f'), 'ai_verdict__2': None, 'question__2': 'Solve the differential equation dy/dx = 2x, given the initial condition y(0) = 1.', 'evaluated_at__2': None, 'source__2': None, 'model_answer__2': None, 'topic__2': 'Engineering Maths II', 'ai_score__2': None, 'difficulty__2': 'hard', 'session_id__2': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__2': None, 'ai_feedback__3': None, 'id__3': UUID('90df9944-bf64-489d-8fa5-e2df86ab7ec9'), 'ai_verdict__3': None, 'question__3': 'Find the eigenvalues and eigenvectors of the matrix [[2, 1], [1, 2]].', 'evaluated_at__3': None, 'source__3': None, 'model_answer__3': None, 'topic__3': 'Linear Algebra', 'ai_score__3': None, 'difficulty__3': 'medium', 'session_id__3': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__3': None, 'ai_feedback__4': None, 'id__4': UUID('29d2f891-4953-4910-a848-51238ff1fb76') ... 8 parameters truncated ... 'session_id__4': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__4': None, 'ai_feedback__5': None, 'id__5': UUID('6b79be4f-66a5-4abe-9b54-cbadd77102c1'), 'ai_verdict__5': None, 'question__5': 'A fair six-sided die is rolled. What is the probability that the number rolled is greater than 4?', 'evaluated_at__5': None, 'source__5': None, 'model_answer__5': None, 'topic__5': 'Probability & Random Processes', 'ai_score__5': None, 'difficulty__5': 'easy', 'session_id__5': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__5': None, 'ai_feedback__6': None, 'id__6': UUID('f09e4bce-0319-43b8-902a-819c5fdbd2ac'), 'ai_verdict__6': None, 'question__6': 'What is backpropagation, and why is it necessary for training neural networks?', 'evaluated_at__6': None, 'source__6': None, 'model_answer__6': None, 'topic__6': 'Deep Learning Fundamentals', 'ai_score__6': None, 'difficulty__6': 'medium', 'session_id__6': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__6': None, 'ai_feedback__7': None, 'id__7': UUID('b379029e-3279-4419-8a3f-d5fc2ee5769d'), 'ai_verdict__7': None, 'question__7': 'Explain the concept of tokenization in NLP, and provide an example of its application.', 'evaluated_at__7': None, 'source__7': None, 'model_answer__7': None, 'topic__7': 'Natural Language Processing', 'ai_score__7': None, 'difficulty__7': 'medium', 'session_id__7': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__7': None, 'ai_feedback__8': None, 'id__8': UUID('ecfc1019-34da-4978-89f3-f8b51bec2ffe'), 'ai_verdict__8': None, 'question__8': 'What is a MapReduce operation, and how does it work in the context of Hadoop?', 'evaluated_at__8': None, 'source__8': None, 'model_answer__8': None, 'topic__8': 'Big Data Technologies', 'ai_score__8': None, 'difficulty__8': 'hard', 'session_id__8': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__8': None}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2113, in _exec_insertmany_context
+    dialect.do_execute(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\router.py", line 190, in create_session
+    session = _interview_svc.create_session(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\fullstack\backend\app\modules\interview\service.py", line 323, in create_session
+    db.commit()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4312, in flush
+    self._flush(objects)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4408, in _flush
+    flush_context.execute()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1137, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 517, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_insertmany_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2121, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2344, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2113, in _exec_insertmany_context
+    dialect.do_execute(
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "evaluated_at" of relation "interview_questions" does not exist
+LINE 1: ... ai_score, ai_verdict, ai_feedback, model_answer, evaluated_...
+                                                             ^
+
+[SQL: INSERT INTO interview_questions (id, session_id, topic, question, difficulty, source, user_answer, ai_score, ai_verdict, ai_feedback, model_answer, evaluated_at) VALUES (%(id__0)s::UUID, %(session_id__0)s::UUID, %(topic__0)s, %(question__0)s, %(diffi ... 1925 characters truncated ... l_answer__8)s, %(evaluated_at__8)s) RETURNING interview_questions.created_at, interview_questions.id]
+[parameters: {'ai_feedback__0': None, 'id__0': UUID('19ec4c9d-5466-4e0c-ba35-69ef2e4b4f69'), 'ai_verdict__0': None, 'question__0': 'What is the difference between a population mean and a sample mean?', 'evaluated_at__0': None, 'source__0': None, 'model_answer__0': None, 'topic__0': 'Statistics & Probability', 'ai_score__0': None, 'difficulty__0': 'easy', 'session_id__0': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__0': None, 'ai_feedback__1': None, 'id__1': UUID('8011639e-1bd8-4bd8-ace3-15c153f03b15'), 'ai_verdict__1': None, 'question__1': 'How do you implement a decorator in Python to add error checking to a function?', 'evaluated_at__1': None, 'source__1': None, 'model_answer__1': None, 'topic__1': 'Python Programming', 'ai_score__1': None, 'difficulty__1': 'medium', 'session_id__1': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__1': None, 'ai_feedback__2': None, 'id__2': UUID('bba140fa-6f9a-41d4-881f-55384379372f'), 'ai_verdict__2': None, 'question__2': 'Solve the differential equation dy/dx = 2x, given the initial condition y(0) = 1.', 'evaluated_at__2': None, 'source__2': None, 'model_answer__2': None, 'topic__2': 'Engineering Maths II', 'ai_score__2': None, 'difficulty__2': 'hard', 'session_id__2': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__2': None, 'ai_feedback__3': None, 'id__3': UUID('90df9944-bf64-489d-8fa5-e2df86ab7ec9'), 'ai_verdict__3': None, 'question__3': 'Find the eigenvalues and eigenvectors of the matrix [[2, 1], [1, 2]].', 'evaluated_at__3': None, 'source__3': None, 'model_answer__3': None, 'topic__3': 'Linear Algebra', 'ai_score__3': None, 'difficulty__3': 'medium', 'session_id__3': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__3': None, 'ai_feedback__4': None, 'id__4': UUID('29d2f891-4953-4910-a848-51238ff1fb76') ... 8 parameters truncated ... 'session_id__4': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__4': None, 'ai_feedback__5': None, 'id__5': UUID('6b79be4f-66a5-4abe-9b54-cbadd77102c1'), 'ai_verdict__5': None, 'question__5': 'A fair six-sided die is rolled. What is the probability that the number rolled is greater than 4?', 'evaluated_at__5': None, 'source__5': None, 'model_answer__5': None, 'topic__5': 'Probability & Random Processes', 'ai_score__5': None, 'difficulty__5': 'easy', 'session_id__5': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__5': None, 'ai_feedback__6': None, 'id__6': UUID('f09e4bce-0319-43b8-902a-819c5fdbd2ac'), 'ai_verdict__6': None, 'question__6': 'What is backpropagation, and why is it necessary for training neural networks?', 'evaluated_at__6': None, 'source__6': None, 'model_answer__6': None, 'topic__6': 'Deep Learning Fundamentals', 'ai_score__6': None, 'difficulty__6': 'medium', 'session_id__6': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__6': None, 'ai_feedback__7': None, 'id__7': UUID('b379029e-3279-4419-8a3f-d5fc2ee5769d'), 'ai_verdict__7': None, 'question__7': 'Explain the concept of tokenization in NLP, and provide an example of its application.', 'evaluated_at__7': None, 'source__7': None, 'model_answer__7': None, 'topic__7': 'Natural Language Processing', 'ai_score__7': None, 'difficulty__7': 'medium', 'session_id__7': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__7': None, 'ai_feedback__8': None, 'id__8': UUID('ecfc1019-34da-4978-89f3-f8b51bec2ffe'), 'ai_verdict__8': None, 'question__8': 'What is a MapReduce operation, and how does it work in the context of Hadoop?', 'evaluated_at__8': None, 'source__8': None, 'model_answer__8': None, 'topic__8': 'Big Data Technologies', 'ai_score__8': None, 'difficulty__8': 'hard', 'session_id__8': UUID('7f9bdd6a-90a0-4ab9-96bc-8b9f8fe3e409'), 'user_answer__8': None}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-03-30 00:37:04 - app.modules.interview.service - ERROR - service.py:305 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 00:40:52 - app.modules.interview.service - ERROR - service.py:320 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 00:43:05 - app.modules.interview.service - ERROR - service.py:320 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 13:49:21 - app.modules.interview.service - ERROR - service.py:324 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 14:01:28 - app.modules.interview.service - ERROR - service.py:324 - Gemini fallback failed: cannot access local variable 'settings' where it is not associated with a value
+2026-03-30 14:31:28 - app.modules.interview.service - ERROR - service.py:358 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 — falling back to built-in bank.
+2026-03-31 12:00:30 - app.modules.interview.service - ERROR - service.py:330 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 — falling back to built-in bank.
+2026-03-31 12:47:36 - app.modules.interview.service - ERROR - service.py:392 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-03-31 12:48:00 - app.modules.interview.service - ERROR - service.py:414 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-03-31 16:12:55 - app.modules.interview.service - ERROR - service.py:392 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-03-31 16:13:05 - app.modules.interview.service - ERROR - service.py:414 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-03-31 16:25:07 - app.modules.interview.service - ERROR - service.py:392 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-03-31 16:25:18 - app.modules.interview.service - ERROR - service.py:414 - Gemini also failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 10:46:58 - app.modules.interview.service - ERROR - service.py:340 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 10:50:08 - app.modules.interview.service - ERROR - service.py:340 - Groq fallback failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 10:53:59 - app.modules.interview.service - ERROR - service.py:308 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 10:53:59 - app.modules.interview.service - ERROR - service.py:347 - Gemini fallback failed: NameError: name 'prompt' is not defined
+2026-04-02 11:11:42 - app.modules.interview.service - ERROR - service.py:342 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 11:11:46 - app.modules.interview.service - ERROR - service.py:381 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 11:12:46 - app.modules.interview.service - ERROR - service.py:342 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 11:12:50 - app.modules.interview.service - ERROR - service.py:381 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 11:15:27 - app.modules.interview.service - ERROR - service.py:342 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 11:15:30 - app.modules.interview.service - ERROR - service.py:381 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 11:30:19 - app.modules.interview.service - ERROR - service.py:342 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 11:30:21 - app.modules.interview.service - ERROR - service.py:381 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-02 16:26:59 - app.modules.interview.service - ERROR - service.py:353 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-02 16:27:11 - app.modules.interview.service - ERROR - service.py:397 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-03 11:57:48 - app.modules.interview.service - ERROR - service.py:349 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-03 11:57:55 - app.modules.interview.service - ERROR - service.py:393 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-03 12:01:27 - app.modules.interview.service - ERROR - service.py:349 - Groq primary attempt failed: ModuleNotFoundError: No module named 'groq'
+2026-04-03 12:01:33 - app.modules.interview.service - ERROR - service.py:393 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-04 12:06:51 - app.modules.interview.service - ERROR - service.py:351 - Groq primary attempt failed: JSONDecodeError: Expecting ',' delimiter: line 11 column 166 (char 1503)
+2026-04-04 12:06:53 - app.modules.interview.service - ERROR - service.py:395 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404

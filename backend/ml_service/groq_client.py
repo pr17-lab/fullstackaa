@@ -48,76 +48,66 @@ _DEDUP_PREFIX_WORDS = 6  # compare first N words for near-duplicate detection
 # Prompt builder
 # ---------------------------------------------------------------------------
 
-def _build_prompt(
-    branch: str,
-    semester: int,
-    overall_gpa: float,
-    weak_subjects: list[str],
-    jd_text: str,
-    resume_context: Optional[str],
-    limit: int,
-) -> str:
-    weak_str = (
-        f"{', '.join(weak_subjects)}"
-        if weak_subjects else
-        "None identified"
-    )
-    resume_str = (
-        resume_context.strip()[:500]
-        if resume_context else
-        "Not provided"
-    )
-    difficulty_guidance = (
-        "emphasize conceptual clarity and fundamentals"
-        if overall_gpa < 6.5 else
-        "balanced conceptual and applied reasoning"
-        if overall_gpa <= 8.0 else
-        "include deeper system design or optimization trade-offs"
-    )
+def _build_prompt(branch, semester, overall_gpa, weak_subjects, jd_text, resume_context, limit):
+    weak_str = ", ".join(weak_subjects) if weak_subjects else "None"
+    resume_str = resume_context.strip() if resume_context else "Not provided"
 
-    return (
-        f"You are a senior technical interviewer conducting a live mock interview for a job candidate.\n\n"
-        f"Generate exactly {limit} distinct interview questions tailored to the following job description and student profile.\n\n"
-        f"-------------------------\n"
-        f"JOB DESCRIPTION:\n"
-        f"{jd_text.strip()}\n"
-        f"-------------------------\n\n"
-        f"STUDENT PROFILE:\n"
-        f"- Branch: {branch}\n"
-        f"- Semester: {semester}\n"
-        f"- GPA: {overall_gpa:.1f}/10\n"
-        f"- Academically weak subjects: {weak_str}\n"
-        f"- Resume skills: {resume_str}\n\n"
-        f"Instructions:\n\n"
-        f"1. Focus primarily on the core technical skills and technologies explicitly mentioned in the job description.\n"
-        f"2. Prioritize MUST-HAVE skills over nice-to-have skills.\n"
-        f"3. Adapt question difficulty to the student's GPA ({overall_gpa:.1f}/10): {difficulty_guidance}.\n"
-        f"4. Ensure:\n"
-        f"   - At least 3 easy questions\n"
-        f"   - At least 4 medium questions\n"
-        f"   - At least 3 hard questions\n"
-        f"5. Questions must:\n"
-        f"   - Be technical and reasoning-based\n"
-        f"   - Be answerable verbally in ~60-90 seconds\n"
-        f"   - Avoid direct textbook definitions\n"
-        f"   - Avoid repeated themes or structures\n"
-        f"   - Cover different aspects of the JD (architecture, debugging, optimization, trade-offs, fundamentals)\n"
-        f"6. If the job description includes specific technologies (e.g., FastAPI, SQL, Docker, React), include scenario-based questions using those technologies.\n"
-        f"7. Subtly probe weak academic areas when relevant (e.g., logical reasoning, analytical thinking), without explicitly referencing them.\n"
-        f"8. Do NOT generate coding syntax. Focus on explanation and reasoning.\n\n"
-        f"Return ONLY a valid JSON array.\n"
-        f"No markdown.\n"
-        f"No explanations.\n"
-        f"No extra text.\n\n"
-        f"Format:\n"
-        f'[\n'
-        f'  {{\n'
-        f'    "topic": "Skill or technology being tested",\n'
-        f'    "question": "Interview question text here?",\n'
-        f'    "difficulty": "easy|medium|hard"\n'
-        f'  }}\n'
-        f']'
-    )
+    if jd_text and jd_text.strip():
+        # STRICT JD MODE: Omit branch and weak subjects completely to prevent 8B model prompt leakage
+        return f"""JOB DESCRIPTION (THIS IS YOUR PRIMARY FOCUS):
+{jd_text.strip()}
+
+CRITICAL INSTRUCTION: You are an industry technical interviewer.
+Generate exactly {limit} interview questions based ONLY on the technologies, 
+skills, and roles mentioned in the job description above.
+
+STUDENT PROFILE (For difficulty calibration only):
+- GPA: {overall_gpa:.1f}/10
+- Resume skills: {resume_str}
+
+RULES:
+1. ALL questions MUST test technical skills explicitly mentioned in the JOB DESCRIPTION
+2. Absolutely DO NOT ask general university academic questions (like math, stats, general theory) unless specified in the JD
+3. Mix difficulty: 40% easy, 40% medium, 20% hard
+4. Use student's GPA to calibrate: lower GPA = more foundational questions
+5. Each question must be specific, not generic
+
+Return as JSON array:
+[
+  {{
+    "topic": "skill name from JD",
+    "question": "your question here",
+    "difficulty": "easy|medium|hard"
+  }}
+]
+
+Return ONLY the JSON array. No explanation, no markdown fences."""
+
+    else:
+        # NO JD MODE: Use full academic profile
+        profile_section = f"""STUDENT CONTEXT:
+- Academic Branch: {branch}
+- Semester: {semester}
+- GPA: {overall_gpa:.1f}/10
+- Weak subjects: {weak_str}
+- Resume skills: {resume_str}"""
+
+        instruction = f"""Generate exactly {limit} technical interview questions 
+for a {branch} engineering student in semester {semester}.
+Mix of DSA, core CS, and domain topics appropriate for their branch.
+
+Return as JSON array:
+[
+  {{
+    "topic": "topic name",
+    "question": "your question here", 
+    "difficulty": "easy|medium|hard"
+  }}
+]
+
+Return ONLY the JSON array. No explanation, no markdown fences."""
+
+        return f"{profile_section}\n\n{instruction}"
 
 
 # ---------------------------------------------------------------------------

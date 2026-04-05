@@ -3,7 +3,7 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import Layout from './components/layout/Layout';
 import Login from './pages/Login';
-import { Dashboard, Subjects, Settings } from './pages';
+import { Dashboard, Subjects, Settings, Register } from './pages';
 import InterviewPrep from './pages/InterviewPrep';
 import SkillsPage from './pages/SkillsPage';
 import RoadmapPage from './pages/RoadmapPage';
@@ -14,6 +14,7 @@ function App() {
             <Routes>
                 {/* Public Route */}
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
                 {/* Protected Routes */}
                 <Route

@@ -81,6 +81,60 @@ def main():
             "must_have": ["Software Engineering", "REST APIs", "SQL", "Git", "System Design"],
             "preferred": ["Python", "Docker", "Machine Learning", "PostgreSQL"],
             "nice_to_have": ["AWS", "CI/CD", "Kubernetes"]
+        },
+        {
+            "job_role": "Backend Developer",
+            "must_have": ["Python", "Java", "REST APIs", "SQL", "PostgreSQL", "OOP", "Git"],
+            "preferred": ["Docker", "Redis", "MongoDB", "System Design"],
+            "nice_to_have": ["AWS", "Kubernetes", "GraphQL", "CI/CD"]
+        },
+        {
+            "job_role": "Full Stack Developer",
+            "must_have": ["React", "JavaScript", "Python", "Node.js", "REST APIs", "SQL", "Git", "HTML", "CSS"],
+            "preferred": ["TypeScript", "PostgreSQL", "Docker", "MongoDB"],
+            "nice_to_have": ["AWS", "Redis", "CI/CD", "GraphQL"]
+        },
+        {
+            "job_role": "Mobile App Developer",
+            "must_have": ["JavaScript", "React", "TypeScript", "Git", "REST APIs"],
+            "preferred": ["Python", "SQL", "MongoDB", "Docker"],
+            "nice_to_have": ["AWS", "CI/CD", "GraphQL"]
+        },
+        {
+            "job_role": "Machine Learning Engineer",
+            "must_have": ["Python", "Machine Learning", "Deep Learning", "scikit-learn", "pandas", "Git"],
+            "preferred": ["TensorFlow", "PyTorch", "Feature Engineering", "SQL", "Docker"],
+            "nice_to_have": ["AWS", "Kubernetes", "NLP", "Computer Vision"]
+        },
+        {
+            "job_role": "Data Analyst",
+            "must_have": ["SQL", "Python", "pandas", "Data Analysis", "PostgreSQL", "Git"],
+            "preferred": ["Machine Learning", "Feature Engineering", "MongoDB", "Docker"],
+            "nice_to_have": ["AWS", "Tableau", "Redis"]
+        },
+        {
+            "job_role": "Cloud Engineer",
+            "must_have": ["AWS", "Docker", "Linux", "Git", "CI/CD", "Kubernetes"],
+            "preferred": ["Python", "Terraform", "System Design", "PostgreSQL"],
+            "nice_to_have": ["Redis", "MongoDB", "GraphQL"]
+        },
+        {
+            "job_role": "QA/Test Engineer",
+            "must_have": ["Python", "Git", "REST APIs", "SQL", "OOP", "Software Engineering"],
+            "preferred": ["Docker", "PostgreSQL", "CI/CD", "Linux"],
+            "nice_to_have": ["AWS", "MongoDB", "Kubernetes"]
+        },
+        {
+            "job_role": "IoT Engineer",
+            "must_have": ["C Programming", "Embedded C", "Microcontrollers", "Python", "Arduino", "Git"],
+            "preferred": ["RTOS", "Linux", "Docker", "REST APIs"],
+            "nice_to_have": ["AWS", "MongoDB", "CI/CD"]
+        },
+        {
+            "job_role": "NLP Engineer",
+            "must_have": ["Python", "NLP", "Machine Learning", "Deep Learning", "pandas", "Git"],
+            "preferred": ["TensorFlow", "PyTorch", "SQL", "Docker"],
+            "nice_to_have": ["AWS", "MongoDB", "Computer Vision", "Kubernetes"]
         }
     ]
 

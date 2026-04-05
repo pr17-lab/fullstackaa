@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { Home, BookOpen, Settings, Menu, X, GraduationCap, Cpu, Target, Map } from 'lucide-react';
+import { Home, BookOpen, Settings, Menu, X, GraduationCap, Cpu, Target, Map, LogOut } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Layout = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const location = useLocation();
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
 
     // Close mobile menu on route change
     useEffect(() => {
@@ -81,6 +81,17 @@ const Layout = () => {
                                 <settingsNav.icon className={`h-4 w-4 ${location.pathname === settingsNav.href ? settingsNav.accentText : ''}`} />
                                 <span className="hidden lg:block">{settingsNav.name}</span>
                             </NavLink>
+
+                            <div className="w-px h-6 bg-white/10 mx-2"></div>
+
+                            {/* Log Out */}
+                            <button
+                                onClick={logout}
+                                className="relative flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold text-white/50 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+                            >
+                                <LogOut className="h-4 w-4" />
+                                <span className="hidden lg:block">Log Out</span>
+                            </button>
                         </nav>
 
                         {/* Mobile Menu Button */}
@@ -153,6 +164,20 @@ const Layout = () => {
                                     <settingsNav.icon className={`h-5 w-5 ${location.pathname === settingsNav.href ? settingsNav.accentText : ''}`} />
                                     <span>{settingsNav.name}</span>
                                 </NavLink>
+
+                                <div className="h-px w-full bg-white/10 my-4"></div>
+
+                                {/* Log Out */}
+                                <button
+                                    onClick={() => {
+                                        setMobileMenuOpen(false);
+                                        logout();
+                                    }}
+                                    className="relative flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-white/50 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 text-left w-full"
+                                >
+                                    <LogOut className="h-5 w-5" />
+                                    <span>Log Out</span>
+                                </button>
                             </nav>
                         </motion.div>
                     </>

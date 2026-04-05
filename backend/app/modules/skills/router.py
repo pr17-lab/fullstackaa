@@ -51,6 +51,14 @@ def get_my_skill_gap_for_role(
         detail=f"No gap analysis found for role {job_role}"
     )
 
+@router.get("/recommendation")
+def career_recommendation(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Get the primary and alternative career recommendations for the user."""
+    return service.get_career_recommendation(db, current_user.id)
+
 @router.get("/taxonomy/search", response_model=List[schemas.TaxonomySearchResponse])
 def search_skills_taxonomy(
     query: str,

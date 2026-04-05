@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [studentId, setStudentId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -108,13 +110,12 @@ const Login = () => {
                         </button>
                     </form>
 
-                    {/* Footer */}
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-500">
-                            Don't have an account?{' '}
-                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-700">
-                                Contact Admin
-                            </a>
+                            New Student?{' '}
+                            <button onClick={() => navigate('/register')} className="font-medium text-indigo-600 hover:text-indigo-700">
+                                Register here
+                            </button>
                         </p>
                     </div>
                 </div>

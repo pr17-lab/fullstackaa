@@ -21,9 +21,10 @@ def upgrade():
     op.add_column('interview_questions', sa.Column('ai_verdict', sa.String(length=20), nullable=True))
     op.add_column('interview_questions', sa.Column('ai_feedback', sa.Text(), nullable=True))
     op.add_column('interview_questions', sa.Column('model_answer', sa.Text(), nullable=True))
-
+    op.add_column('interview_questions', sa.Column('evaluated_at', sa.TIMESTAMP(timezone=True), nullable=True))
 
 def downgrade():
+    op.drop_column('interview_questions', 'evaluated_at')
     op.drop_column('interview_questions', 'model_answer')
     op.drop_column('interview_questions', 'ai_feedback')
     op.drop_column('interview_questions', 'ai_verdict')

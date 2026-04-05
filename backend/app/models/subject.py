@@ -13,8 +13,8 @@ class Subject(Base):
     subject_name = Column(String(255), nullable=False)
     subject_code = Column(String(50), nullable=False)
     credits = Column(Integer, nullable=False)
-    marks = Column(Numeric(5, 2), nullable=False)
-    grade = Column(String(2), nullable=False)
+    marks = Column(Numeric(5, 2), nullable=True)
+    grade = Column(String(2), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
