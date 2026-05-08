@@ -583,15 +583,26 @@ function InterviewRoom({
     // Typewriter
     const { displayed, done } = useTypewriter(question?.question ?? '', 20);
 
-    // TTS â€” speak the question once typewriter finishes
+    // TTS – speak the question once the typewriter finishes.
+    // IMPORTANT: The cancel effect MUST be declared BEFORE the speak effect.
+    // React runs effects in declaration order, so cancel fires first on currentIndex
+    // change, stopping old speech. Then the speak effect sees done=false (typewriter
+    // has already reset) and does nothing. When the typewriter finishes (done=true),
+    // the speak effect fires and reads the new question exactly once.
     const { speak, cancel } = useTTS();
+    const spokenIndexRef = useRef<number>(-1);
+    // 1. Cancel old speech + reset guard when question changes
     useEffect(() => {
-        if (done && question?.question) {
+        cancel();
+        spokenIndexRef.current = -1;
+    }, [currentIndex, cancel]);
+    // 2. Speak once the typewriter is done, guarded so it only fires once per question
+    useEffect(() => {
+        if (done && question?.question && spokenIndexRef.current !== currentIndex) {
+            spokenIndexRef.current = currentIndex;
             speak(question.question);
         }
-    }, [done, question?.question, speak]);
-    // Cancel TTS when moving away
-    useEffect(() => () => { cancel(); }, [currentIndex, cancel]);
+    }, [done, question?.question, currentIndex, speak]);
 
     // Voice
     const { supported, listening, interimText, finalText, startListening, stopListening, clearFinal } = useVoice();
@@ -664,6 +675,13 @@ function InterviewRoom({
                             )}
                         </div>
                     </div>
+                    {/* Follow-up hint — shown once typewriter finishes */}
+                    {done && question.follow_up && (
+                        <div className="mt-4 flex items-start gap-2 border-t border-gray-200 dark:border-zinc-700 pt-4">
+                            <span className="text-xs font-semibold text-indigo-500 dark:text-indigo-400 flex-shrink-0 mt-0.5">Follow-up:</span>
+                            <p className="text-sm text-gray-500 dark:text-zinc-400 italic">{question.follow_up}</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Timer + Mic */}
@@ -764,6 +782,14 @@ function QuestionCard({ q, i }: { q: any, i: number }) {
                         <span className="text-xs text-gray-500 dark:text-zinc-500 bg-gray-200 dark:bg-zinc-700 px-2 py-0.5 rounded">{q.topic}</span>
                         <span className={`text-xs font-medium ${DIFFICULTY_COLOR[q.difficulty]}`}>{q.difficulty}</span>
                     </div>
+
+                    {/* Follow-up question */}
+                    {q.follow_up && (
+                        <div className="flex items-start gap-2 rounded-lg bg-indigo-50/60 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-800/30 px-3 py-2">
+                            <span className="text-xs font-semibold text-indigo-500 dark:text-indigo-400 flex-shrink-0 mt-0.5">Follow-up:</span>
+                            <p className="text-xs text-indigo-800 dark:text-indigo-300 italic">{q.follow_up}</p>
+                        </div>
+                    )}
                     
                     <div className="rounded-lg bg-gray-100 dark:bg-zinc-900 border border-gray-200/50 dark:border-zinc-700/50 px-3 py-2">
                         <p className="text-xs text-gray-500 dark:text-zinc-500 mb-1">Your Answer:</p>
@@ -776,6 +802,7 @@ function QuestionCard({ q, i }: { q: any, i: number }) {
                     
                     {q.ai_score != null && (
                         <div className="pt-3 border-t border-gray-200 dark:border-zinc-700 space-y-3">
+                            {/* Score + Verdict */}
                             <div className="flex items-center gap-3 flex-wrap">
                                 <div className={`flex items-center justify-center h-8 w-8 rounded-full border-2 ${Number(q.ai_score) >= 7 ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400' : Number(q.ai_score) >= 4 ? 'border-amber-500 text-amber-600 dark:text-amber-400' : 'border-red-500 text-red-600 dark:text-red-400'} font-bold text-xs`}>
                                     {q.ai_score}
@@ -789,9 +816,33 @@ function QuestionCard({ q, i }: { q: any, i: number }) {
                                 </span>
                             </div>
                             
+                            {/* Feedback */}
                             <p className="text-sm text-gray-800 dark:text-zinc-200">
                                 {q.ai_feedback}
                             </p>
+
+                            {/* Mistakes */}
+                            {q.mistakes && q.mistakes.length > 0 && (
+                                <div className="rounded-lg bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-800/30 p-3 space-y-1">
+                                    <p className="text-xs font-semibold text-red-700 dark:text-red-400 uppercase tracking-wide mb-2">Issues Found</p>
+                                    <ul className="space-y-1">
+                                        {q.mistakes.map((m: string, idx: number) => (
+                                            <li key={idx} className="flex items-start gap-2 text-sm text-red-800 dark:text-red-300">
+                                                <span className="mt-1 flex-shrink-0 h-1.5 w-1.5 rounded-full bg-red-500" />
+                                                {m}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {/* Improvement tip */}
+                            {q.improvement && (
+                                <div className="rounded-lg bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-800/30 px-3 py-2.5 flex items-start gap-2">
+                                    <span className="text-amber-500 mt-0.5 flex-shrink-0">💡</span>
+                                    <p className="text-sm text-amber-900 dark:text-amber-200">{q.improvement}</p>
+                                </div>
+                            )}
                             
                             <button
                                 onClick={() => setShowModel(!showModel)}
@@ -845,16 +896,32 @@ function formatExistingEvaluation(session: InterviewSession): EvaluationResult {
         adequate_count,
         weak_count,
         overall_verdict,
+        // Derive weak_skills client-side the same way the backend does (score < 5)
+        weak_skills: (() => {
+            const topicCounts: Record<string, number> = {};
+            session.questions.forEach(q => {
+                if (q.ai_score !== null && q.ai_score !== undefined && Number(q.ai_score) < 5 && q.topic) {
+                    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+                }
+            });
+            return Object.entries(topicCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5)
+                .map(([topic]) => topic);
+        })(),
         questions: session.questions.map(q => ({
             question_id: q.id,
             question: q.question,
             topic: q.topic || '',
             difficulty: q.difficulty,
+            follow_up: q.follow_up,
             user_answer: q.user_answer || '',
             ai_score: Number(q.ai_score || 0),
             ai_verdict: q.ai_verdict as any || 'Weak',
             ai_feedback: q.ai_feedback || '',
-            model_answer: q.model_answer || ''
+            model_answer: q.model_answer || '',
+            mistakes: q.mistakes,
+            improvement: q.improvement,
         }))
     };
 }
@@ -965,6 +1032,27 @@ function ResultsScreen({
                             </div>
                         </div>
 
+                        {/* SECTION 2 - Weak Skills */}
+                        {evaluationData.weak_skills && evaluationData.weak_skills.length > 0 && (
+                            <div className="rounded-xl border border-red-200 dark:border-red-800/40 bg-red-50/60 dark:bg-red-900/10 p-4">
+                                <p className="text-xs font-semibold text-red-700 dark:text-red-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                                    <AlertCircle className="h-3.5 w-3.5" /> Areas Needing Improvement
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    {evaluationData.weak_skills.map((skill, i) => (
+                                        <span
+                                            key={i}
+                                            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 border border-red-200 dark:border-red-700/50"
+                                        >
+                                            {skill}
+                                        </span>
+                                    ))}
+                                </div>
+                                <p className="text-xs text-red-600/70 dark:text-red-400/70 mt-3">
+                                    These topics were identified from your lowest-scored answers. Focus your study on these areas.
+                                </p>
+                            </div>
+                        )}
                         {/* SECTION 2 - Question Cards */}
                         <div className="space-y-4">
                             {evaluationData.questions.map((q, i) => (

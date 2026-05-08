@@ -27,9 +27,9 @@ const Layout = () => {
     const activeNav = [...navigation, settingsNav].find(n => location.pathname === n.href) || { border: 'border-white/5' };
 
     return (
-        <div className="min-h-screen bg-gray-950 text-white font-sans selection:bg-indigo-500/30 transition-colors">
+        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans selection:bg-indigo-500/30 transition-colors">
             {/* Topbar */}
-            <header className={`bg-gray-950/80 backdrop-blur-md sticky top-0 z-50 transition-colors duration-500 border-b ${activeNav.border === 'border-white/5' ? 'border-b-white/5' : `border-b-[3px] ` + activeNav.border}`}>
+            <header className={`bg-[var(--bg-primary)]/80 backdrop-blur-md sticky top-0 z-50 transition-colors duration-500 border-b ${activeNav.border === 'border-white/5' ? 'border-[var(--border-secondary)]' : `border-b-[3px] ` + activeNav.border}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         {/* Logo */}
@@ -38,8 +38,8 @@ const Layout = () => {
                                 <GraduationCap className="h-6 w-6 text-white" />
                             </div>
                             <div>
-                                <h1 className="text-lg font-bold text-white tracking-tight">Academic Portal</h1>
-                                <p className="text-xs text-white/50 hidden sm:block font-medium">{user?.name || 'Student'}</p>
+                                <h1 className="text-lg font-bold text-[var(--text-primary)] tracking-tight">Academic Portal</h1>
+                                <p className="text-xs text-[var(--text-secondary)] hidden sm:block font-medium">{user?.name || 'Student'}</p>
                             </div>
                         </div>
 
@@ -53,8 +53,8 @@ const Layout = () => {
                                         to={item.href}
                                         className={`relative flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 overflow-hidden ${
                                             isActive
-                                                ? 'bg-white/10 text-white'
-                                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+                                                ? 'bg-[var(--brand-primary)] text-white'
+                                                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]'
                                         }`}
                                     >
                                         {isActive && (
@@ -66,15 +66,15 @@ const Layout = () => {
                                 );
                             })}
 
-                            <div className="w-px h-6 bg-white/10 mx-2"></div>
+                            <div className="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
 
                             {/* Settings */}
                             <NavLink
                                 to={settingsNav.href}
                                 className={`relative flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 overflow-hidden ${
                                     location.pathname === settingsNav.href
-                                        ? 'bg-white/10 text-white'
-                                        : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+                                        ? 'bg-[var(--brand-primary)] text-white'
+                                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]'
                                 }`}
                             >
                                 {location.pathname === settingsNav.href && <motion.div layoutId="leftAccent" className={`absolute left-0 top-0 bottom-0 w-[3px] ${settingsNav.accentBg}`} />}
@@ -82,12 +82,12 @@ const Layout = () => {
                                 <span className="hidden lg:block">{settingsNav.name}</span>
                             </NavLink>
 
-                            <div className="w-px h-6 bg-white/10 mx-2"></div>
+                            <div className="w-px h-6 bg-[var(--border-primary)] mx-2"></div>
 
                             {/* Log Out */}
                             <button
                                 onClick={logout}
-                                className="relative flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold text-white/50 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+                                className="relative flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold text-[var(--text-secondary)] hover:text-red-500 hover:bg-red-500/10 transition-all duration-200"
                             >
                                 <LogOut className="h-4 w-4" />
                                 <span className="hidden lg:block">Log Out</span>
@@ -97,7 +97,7 @@ const Layout = () => {
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setMobileMenuOpen(true)}
-                            className="md:hidden p-2 rounded-lg text-white/70 hover:bg-white/10 transition-colors"
+                            className="md:hidden p-2 rounded-lg text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] transition-colors"
                         >
                             <Menu className="h-5 w-5" />
                         </button>
@@ -121,11 +121,11 @@ const Layout = () => {
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed right-0 top-0 bottom-0 w-3/4 max-w-sm bg-gray-950 border-l border-white/5 z-[70] p-6 shadow-2xl flex flex-col md:hidden"
+                            className="fixed right-0 top-0 bottom-0 w-3/4 max-w-sm bg-[var(--bg-elevated)] border-l border-[var(--border-primary)] z-[70] p-6 shadow-2xl flex flex-col md:hidden"
                         >
                             <div className="flex justify-between items-center mb-8">
-                                <h2 className="text-xl font-bold text-white tracking-tight">Navigation</h2>
-                                <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-lg text-white/50 hover:bg-white/10 hover:text-white transition-colors">
+                                <h2 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">Navigation</h2>
+                                <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-lg text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] transition-colors">
                                     <X className="h-6 w-6" />
                                 </button>
                             </div>
@@ -139,8 +139,8 @@ const Layout = () => {
                                             to={item.href}
                                             className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 overflow-hidden ${
                                                 isActive
-                                                    ? 'bg-white/10 text-white'
-                                                    : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+                                                    ? 'bg-[var(--brand-primary)] text-white'
+                                                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]'
                                             }`}
                                         >
                                             {isActive && <div className={`absolute left-0 top-0 bottom-0 w-1 ${item.accentBg}`} />}
@@ -150,14 +150,14 @@ const Layout = () => {
                                     );
                                 })}
 
-                                <div className="h-px w-full bg-white/10 my-4"></div>
+                                <div className="h-px w-full bg-[var(--border-primary)] my-4"></div>
 
                                 <NavLink
                                     to={settingsNav.href}
                                     className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 overflow-hidden ${
                                         location.pathname === settingsNav.href
-                                            ? 'bg-white/10 text-white'
-                                            : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+                                            ? 'bg-[var(--brand-primary)] text-white'
+                                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]'
                                     }`}
                                 >
                                     {location.pathname === settingsNav.href && <div className={`absolute left-0 top-0 bottom-0 w-1 ${settingsNav.accentBg}`} />}
@@ -165,7 +165,7 @@ const Layout = () => {
                                     <span>{settingsNav.name}</span>
                                 </NavLink>
 
-                                <div className="h-px w-full bg-white/10 my-4"></div>
+                                <div className="h-px w-full bg-[var(--border-primary)] my-4"></div>
 
                                 {/* Log Out */}
                                 <button
@@ -173,7 +173,7 @@ const Layout = () => {
                                         setMobileMenuOpen(false);
                                         logout();
                                     }}
-                                    className="relative flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-white/50 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 text-left w-full"
+                                    className="relative flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-[var(--text-secondary)] hover:text-red-500 hover:bg-red-500/10 transition-all duration-200 text-left w-full"
                                 >
                                     <LogOut className="h-5 w-5" />
                                     <span>Log Out</span>

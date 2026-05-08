@@ -25,6 +25,7 @@ import logging
 import random
 import re
 import uuid
+from collections import Counter
 from datetime import datetime
 from decimal import Decimal
 from typing import Optional
@@ -282,32 +283,105 @@ class InterviewService:
         weak_str = ", ".join(weak_subjects) if weak_subjects else "none"
         resume_str = resume_context.strip() if resume_context else "not provided"
         
-        if jd_text and jd_text.strip():
-            resume_section = f"\nResume:\n{resume_str}\n" if resume_context and resume_context.strip() and resume_context.strip() != "None" else ""
+        has_jd     = bool(jd_text and jd_text.strip())
+        has_resume = bool(resume_context and resume_context.strip() and resume_context.strip() != "None")
+
+        if has_jd and has_resume:
+            # Both JD and resume provided — deep probing prompt
+            prompt = f"""You are a senior technical interviewer.
+
+Generate exactly {limit} interview questions tailored to this candidate.
+
+JOB DESCRIPTION:
+{jd_text.strip()}
+
+CANDIDATE RESUME:
+{resume_context.strip()}
+
+STRICT RULES:
+- At least 60% of questions MUST be derived directly from the job description requirements (skills, tools, responsibilities).
+- At least 40% of questions MUST probe the candidate's resume (projects, technologies, tools, or experience).
+
+- Resume-based questions MUST be deep and practical:
+    → Ask how something was implemented
+    → Ask design decisions or trade-offs
+    → Ask challenges faced and solutions
+
+- Questions MUST test real understanding, not definitions:
+    → Prefer "how", "why", "when", "what happens if"
+
+- Difficulty distribution:
+    40% easy, 40% medium, 20% hard
+
+- Questions must:
+    → Sound like a real interviewer (not exam-style)
+    → Be specific and technical
+    → Avoid generic questions
+
+- If the candidate lacks a skill from the JD, ask a fundamental question to test basic understanding.
+
+- Each question MUST be unique
+
+- For EACH question, also generate ONE follow-up question that probes deeper understanding.
+
+Return ONLY a valid JSON object:
+{{
+  "questions": [
+    {{
+      "topic": "specific skill name",
+      "question": "question text",
+      "difficulty": "easy|medium|hard",
+      "follow_up": "deeper probing question"
+    }}
+  ]
+}}"""
+
+        elif has_jd:
+            # JD only — base questions strictly on JD requirements
             prompt = f"""You are a senior technical interviewer.
 Generate exactly {limit} interview questions based STRICTLY on this job description.
 
 JOB DESCRIPTION:
 {jd_text.strip()}
-{resume_section}
-STRICT RULES:
-- Questions MUST test specific technical skills and requirements mapped to the job description.
-- 40% easy, 40% medium, 20% hard.
-- Do NOT generate generic computer science questions. Be highly specific and technical based on the JD.
-- Ensure all {limit} questions are strictly UNIQUE and distinct from one another. You may ask multiple questions about the same topic, but the actual questions MUST NOT be repeated.
 
-Return ONLY a valid JSON object with a 'questions' key containing an array of your questions:
+STRICT RULES:
+- Questions MUST test specific technical skills and requirements mapped to the JD.
+- 40% easy, 40% medium, 20% hard.
+- Do NOT generate generic computer science questions. Be highly specific and technical.
+- Ensure all {limit} questions are strictly UNIQUE and distinct.
+
+Return ONLY a valid JSON object:
 {{"questions": [{{"topic": "specific skill name", "question": "question text", "difficulty": "easy|medium|hard"}}]}}"""
+
+        elif has_resume:
+            # Resume only — probe the candidate's background and skills
+            prompt = f"""You are a senior technical interviewer.
+Generate exactly {limit} interview questions tailored to this candidate's resume.
+
+CANDIDATE RESUME:
+{resume_context.strip()}
+
+STRICT RULES:
+- Questions MUST probe the specific skills, projects, tools, and experiences listed in the resume.
+- Ask about technologies they claim to know, projects they built, and roles they held.
+- 40% easy, 40% medium, 20% hard.
+- Do NOT ask generic questions unrelated to what is on the resume.
+- Ensure all {limit} questions are strictly UNIQUE and distinct.
+
+Return ONLY a valid JSON object:
+{{"questions": [{{"topic": "skill or project from resume", "question": "question text", "difficulty": "easy|medium|hard"}}]}}"""
+
         else:
-            prompt = f"""Generate exactly {limit} technical interview questions 
+            # No JD or resume — fall back to student academic profile
+            prompt = f"""Generate exactly {limit} technical interview questions
 for a {branch} engineering student, semester {semester}, GPA {overall_gpa:.1f}/10.
 Weak subjects: {weak_str}
 
 Cover core technical topics appropriate for their branch and semester.
 Mix difficulties: 40% easy, 40% medium, 20% hard.
-Ensure all {limit} questions are strictly UNIQUE and distinct from one another. You may ask multiple questions about the same topic, but the actual questions MUST NOT be repeated.
+Ensure all {limit} questions are strictly UNIQUE and distinct.
 
-Return ONLY a valid JSON object with a 'questions' key containing an array of your questions:
+Return ONLY a valid JSON object:
 {{"questions": [{{"topic": "topic", "question": "question text", "difficulty": "easy|medium|hard"}}]}}"""
 
         try:
@@ -422,6 +496,7 @@ Return ONLY a valid JSON object with a 'questions' key containing an array of yo
                     question=q.get("question", ""),
                     difficulty=q.get("difficulty", "medium"),
                     source=q.get("source"),
+                    follow_up=q.get("follow_up"),
                 ))
 
             db.commit()
@@ -570,7 +645,7 @@ Return ONLY a valid JSON object with a 'questions' key containing an array of yo
 
         eval_prompt = f"""You are a senior technical interviewer evaluating a student's mock interview answers.
 
-Evaluate each answer and return a JSON array ONLY — no preamble, no markdown, no explanation.
+Evaluate each answer and return ONLY a valid JSON array.
 
 Format:
 [
@@ -578,20 +653,46 @@ Format:
     "question_index": 1,
     "score": 7,
     "verdict": "Adequate",
-    "feedback": "Good understanding of the concept but missed edge cases.",
-    "model_answer": "The ideal answer should cover X, Y, and Z."
+    "feedback": "...",
+    "model_answer": "...",
+    "mistakes": ["...", "..."],
+    "improvement": "..."
   }}
 ]
 
 Rules:
-- score: integer 1-10 (1=very poor, 10=excellent)
-- verdict: exactly one of "Strong" (score>=7), "Adequate" (score>=4), "Weak" (score<4)
-- feedback: one sentence, specific and constructive
-- model_answer: 2-3 sentences covering what an ideal answer includes
-- If student answer is empty or "skipped": score=0, verdict="Weak",
-  feedback="Question was skipped.", model_answer="[provide ideal answer]"
+- score: integer from 1 to 10
+- verdict:
+    Strong (>=7), Adequate (>=4), Weak (<4)
 
-Questions and Answers to evaluate:
+- feedback:
+    1-2 sentences explaining overall quality of the answer
+
+- mistakes:
+    Identify EXACT issues such as:
+    - Missing key concept
+    - Incorrect explanation
+    - Lack of example
+    - Poor structure
+    - Too vague
+
+- improvement:
+    Give a clear, actionable suggestion on how the student can improve their answer
+
+- model_answer:
+    Provide a concise (2-3 sentences) ideal answer
+
+- Keep feedback specific and practical (avoid generic comments)
+
+- If the question is skipped:
+    score = 0
+    verdict = "Weak"
+    feedback = "Question was skipped."
+    mistakes = ["No answer provided"]
+    improvement = "Attempt the question by covering key concepts."
+
+Now evaluate the following:
+
 {qa_text}
 
 Return ONLY the JSON array. No other text."""
@@ -648,9 +749,37 @@ Return ONLY the JSON array. No other text."""
             q.ai_verdict = eval_item.get("verdict")
             q.ai_feedback = eval_item.get("feedback")
             q.model_answer = eval_item.get("model_answer")
+            q.mistakes = eval_item.get("mistakes", [])
+            q.improvement = eval_item.get("improvement")
             q.evaluated_at = now
 
         db.commit()
+
+        # ------------------------------------------------------------------
+        # Post-evaluation: extract weak skills (zero LLM calls)
+        # ------------------------------------------------------------------
+        weak_skills = extract_weak_skills(questions)
+        _penalise_student_skills(db, user_id, weak_skills)
+
+        # ------------------------------------------------------------------
+        # Post-evaluation: roadmap trigger (zero LLM calls)
+        # ------------------------------------------------------------------
+        if weak_skills:
+            try:
+                from app.modules.roadmap.service import get_active_roadmap, update_roadmap_with_weak_skills, generate_roadmap
+                roadmap = get_active_roadmap(db, user_id)
+                if roadmap:
+                    await update_roadmap_with_weak_skills(db, roadmap, weak_skills)
+                    logger.info("Roadmap updated with weak skills for user %s", user_id)
+                else:
+                    from app.modules.skills.service import get_career_recommendation
+                    rec = get_career_recommendation(db, user_id)
+                    job_role = rec.get("primary", {}).get("job_role") if rec.get("primary") else None
+                    if job_role:
+                        await generate_roadmap(db, user_id, job_role)
+                        logger.info("New roadmap generated for user %s", user_id)
+            except Exception as e:
+                logger.error("Failed to trigger roadmap update: %s", e)
 
         results = [
             {
@@ -663,6 +792,8 @@ Return ONLY the JSON array. No other text."""
                 "ai_verdict": q.ai_verdict,
                 "ai_feedback": q.ai_feedback,
                 "model_answer": q.model_answer,
+                "mistakes": q.mistakes or [],
+                "improvement": q.improvement,
             }
             for q in questions
         ]
@@ -676,6 +807,7 @@ Return ONLY the JSON array. No other text."""
             "adequate_count": sum(1 for r in results if r["ai_verdict"] == "Adequate"),
             "weak_count": sum(1 for r in results if r["ai_verdict"] == "Weak"),
             "overall_verdict": "Strong" if avg_score >= 7 else "Adequate" if avg_score >= 4 else "Needs Improvement",
+            "weak_skills": weak_skills,
             "questions": results,
         }
 
@@ -685,3 +817,98 @@ Return ONLY the JSON array. No other text."""
 # ---------------------------------------------------------------------------
 
 interview_service = InterviewService()
+
+
+# ---------------------------------------------------------------------------
+# Post-evaluation helpers — zero LLM calls
+# ---------------------------------------------------------------------------
+
+def extract_weak_skills(
+    questions: list,
+    score_threshold: int = 5,
+    top_n: int = 5,
+) -> list[str]:
+    """
+    Derive weak skill topics purely from scored interview questions.
+
+    Rules:
+    - Only consider questions where ai_score is set and ai_score < score_threshold.
+    - Count topic frequency with Counter.
+    - Return the top_n most frequent topics (deduped, ordered by frequency desc).
+    - Returns [] when no questions qualify (no LLM needed).
+    """
+    weak_topics = [
+        q.topic
+        for q in questions
+        if q.ai_score is not None and int(q.ai_score) < score_threshold and q.topic
+    ]
+    if not weak_topics:
+        return []
+    counts = Counter(weak_topics)
+    return [topic for topic, _ in counts.most_common(top_n)]
+
+
+def _penalise_student_skills(
+    db,
+    user_id: UUID,
+    weak_skills: list[str],
+    penalty: float = 7.0,
+    min_score: float = 5.0,
+) -> None:
+    """
+    Lightweight confidence score update — no recompute, no LLM.
+
+    For each weak skill topic:
+    - If the student already has a StudentSkill entry for a matching taxonomy
+      skill, reduce its confidence_score by `penalty` (floor = min_score).
+    - Skips gracefully if the skill is not in the taxonomy or not mapped
+      to the student — no creates here (keeps it light).
+    """
+    if not weak_skills:
+        return
+
+    try:
+        from app.models.student_skill import StudentSkill
+        from app.models.skill_taxonomy import SkillTaxonomy
+        import sqlalchemy as sa
+
+        for topic in weak_skills:
+            # Fuzzy-match topic name against taxonomy (case-insensitive)
+            tax = (
+                db.query(SkillTaxonomy)
+                .filter(
+                    sa.or_(
+                        sa.func.lower(SkillTaxonomy.skill_name) == topic.lower(),
+                        sa.func.array_to_string(SkillTaxonomy.aliases, ",").ilike(f"%{topic}%"),
+                    )
+                )
+                .first()
+            )
+            if not tax:
+                continue  # Not in taxonomy — skip silently
+
+            ss = (
+                db.query(StudentSkill)
+                .filter(
+                    StudentSkill.user_id == user_id,
+                    StudentSkill.skill_id == tax.id,
+                )
+                .first()
+            )
+            if not ss:
+                continue  # Student doesn't have this skill mapped yet — skip
+
+            current = float(ss.confidence_score) if ss.confidence_score else 0.0
+            ss.confidence_score = max(current - penalty, min_score)
+            # Recalculate level bucket inline (avoids importing score_to_level in a hot path)
+            new_score = float(ss.confidence_score)
+            ss.level = "strong" if new_score >= 70 else "moderate" if new_score >= 40 else "weak"
+
+        db.commit()
+        logger.info(
+            "Confidence penalty applied for user %s weak skills: %s",
+            user_id, weak_skills,
+        )
+    except Exception as exc:
+        logger.warning("_penalise_student_skills skipped due to error: %s", exc)
+        db.rollback()

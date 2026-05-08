@@ -57,3 +57,59 @@ Organizational skills', resume_context='None', branch='AIML'
 Groq exception: JSONDecodeError: Expecting ',' delimiter: line 11 column 166 (char 1503)
 Gemini exception: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+generate_questions_async inputs: jd_text='At least one year of experience in building large-scale software applications
+Experience in building web applications
+Experience in designing and integrating RESTful APIs
+Knowledge of Ruby, Java/JRuby, React, and JavaScript
+Excellent debugging and optimization skills
+Experience in unit/integration testing', resume_context='None', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='', resume_context='None', branch='Computer Science'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='', resume_context='None', branch='Computer Science'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='', resume_context='None', branch='Computer Science'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='', resume_context='None', branch='Computer Science'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='Front-End Development: Create interactive, responsive user interfaces using HTML, CSS, and modern frameworks (React, Angular, Vue).Back-End Development: Build server-side logic and applications using languages such as Java, Python, Node.js, or PHP.Database Management: Design, develop, and manage relational (MySQL, PostgreSQL) or NoSQL (MongoDB) databases.API Development: Create and integrate secure, scalable RESTful APIs and web services.Testing and Debugging: Test software for usability and performance, ensuring responsiveness and fixing bugs.Collaboration: Work with UI/UX designers, product managers, and developers to implement features.', resume_context='None', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='Front-End Development: Create interactive, responsive user interfaces using HTML, CSS, and modern frameworks (React, Angular, Vue).Back-End Development: Build server-side logic and applications using languages such as Java, Python, Node.js, or PHP.Database Management: Design, develop, and manage relational (MySQL, PostgreSQL) or NoSQL (MongoDB) databases.API Development: Create and integrate secure, scalable RESTful APIs and web services.Testing and Debugging: Test software for usability and performance, ensuring responsiveness and fixing bugs.Collaboration: Work with UI/UX designers, product managers, and developers to implement features.', resume_context='None', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='Front-End Development: Create interactive, responsive user interfaces using HTML, CSS, and modern frameworks (React, Angular, Vue).Back-End Development: Build server-side logic and applications using languages such as Java, Python, Node.js, or PHP.Database Management: Design, develop, and manage relational (MySQL, PostgreSQL) or NoSQL (MongoDB) databases.API Development: Create and integrate secure, scalable RESTful APIs and web services.Testing and Debugging: Test software for usability and performance, ensuring responsiveness and fixing bugs.Collaboration: Work with UI/UX designers, product managers, and developers to implement features.', resume_context='None', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='Front-End Development: Create interactive, responsive user interfaces using HTML, CSS, and modern frameworks (React, Angular, Vue).Back-End Development: Build server-side logic and applications using languages such as Java, Python, Node.js, or PHP.Database Management: Design, develop, and manage relational (MySQL, PostgreSQL) or NoSQL (MongoDB) databases.API Development: Create and integrate secure, scalable RESTful APIs and web services.', resume_context='None', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='Front-End Development: Create interactive, responsive user interfaces using HTML, CSS, and modern frameworks (React, Angular, Vue).Back-End Development: Build server-side logic and applications using languages such as Java, Python, Node.js, or PHP.Database Management: Design, develop, and manage relational (MySQL, PostgreSQL) or NoSQL (MongoDB) databases.API Development: Create and integrate secure, scalable RESTful APIs and web services.', resume_context='ANAKHA R ARYAN
+anakhareghu21@gmail.com  | +91 8714307346  |  Palakkad, Kerala
+LinkedIn: http://linkedin.com/in/anakha-r-aryan-229a0a26a
+PROJECTS
+AI IMPLEMENTED TRAFFIC CONTROL
+Developed an AI-powered traffic control system leveraging computer vision and machine learning to
+optimize traffic flow. Integrated real-time data analysis to manage congestion, prioritize emergency
+vehicles, and enhance overall road safety.
+VITLIGO DETECTION USING CNN
+Built a CNN-based model to detect vitiligo from skin i', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='FRONTEND DEVELOPER', resume_context='ANAKHA R ARYAN
+anakhareghu21@gmail.com  | +91 8714307346  |  Palakkad, Kerala
+LinkedIn: http://linkedin.com/in/anakha-r-aryan-229a0a26a
+PROJECTS
+AI IMPLEMENTED TRAFFIC CONTROL
+Developed an AI-powered traffic control system leveraging computer vision and machine learning to
+optimize traffic flow. Integrated real-time data analysis to manage congestion, prioritize emergency
+vehicles, and enhance overall road safety.
+VITLIGO DETECTION USING CNN
+Built a CNN-based model to detect vitiligo from skin i', branch='AIML'
+AI Success: groq_direct
+generate_questions_async inputs: jd_text='Front-End Development: Creating visually appealing, user-friendly, and responsive web pages using HTML, CSS, JavaScript, and frameworks like React, Angular, or Vue.Back-End Development: Building server-side logic and robust applications using languages like Node.js, Python, Java, or Ruby.', resume_context='ANAKHA R ARYAN
+anakhareghu21@gmail.com  | +91 8714307346  |  Palakkad, Kerala
+LinkedIn: http://linkedin.com/in/anakha-r-aryan-229a0a26a
+PROJECTS
+AI IMPLEMENTED TRAFFIC CONTROL
+Developed an AI-powered traffic control system leveraging computer vision and machine learning to
+optimize traffic flow. Integrated real-time data analysis to manage congestion, prioritize emergency
+vehicles, and enhance overall road safety.
+VITLIGO DETECTION USING CNN
+Built a CNN-based model to detect vitiligo from skin i', branch='AIML'
+AI Success: groq_direct

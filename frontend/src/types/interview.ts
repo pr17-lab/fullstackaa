@@ -6,11 +6,14 @@ export interface InterviewQuestion {
     question: string;
     difficulty: 'easy' | 'medium' | 'hard';
     source?: string;
+    follow_up?: string;
     user_answer?: string;
     ai_score?: string;
     ai_verdict?: string;
     ai_feedback?: string;
     model_answer?: string;
+    mistakes?: string[];
+    improvement?: string;
     created_at?: string;
 }
 
@@ -55,11 +58,14 @@ export interface QuestionEvaluation {
     question: string;
     topic: string;
     difficulty: string;
+    follow_up?: string;
     user_answer: string;
     ai_score: number;
     ai_verdict: 'Strong' | 'Adequate' | 'Weak';
     ai_feedback: string;
     model_answer: string;
+    mistakes?: string[];
+    improvement?: string;
 }
 
 export interface EvaluationResult {
@@ -70,5 +76,6 @@ export interface EvaluationResult {
     adequate_count: number;
     weak_count: number;
     overall_verdict: string;
+    weak_skills: string[];
     questions: QuestionEvaluation[];
 }

@@ -9,12 +9,14 @@ import {
 } from 'lucide-react';
 
 const DEPARTMENTS = ["CSE", "ECE", "AIML", "MECH", "AI&ML"];
-const DOMAINS = ["Software", "Hardware", "UI/UX", "AI/ML", "Data", "Embedded systems"];
+const DOMAINS = ["Software", "Hardware", "UI/UX", "AI/ML", "Data", "Embedded systems", "Mechanical", "Manufacturing", "Automotive"];
 const TARGET_ROLES = [
   "Software Engineer", "Data Scientist", "Data Engineer",
   "Frontend Developer", "Backend Developer", "Full Stack Developer",
   "DevOps Engineer", "Cybersecurity Analyst", "Embedded Systems Engineer",
-  "Hardware/VLSI Design Engineer", "Machine Learning Engineer"
+  "Hardware/VLSI Design Engineer", "Machine Learning Engineer",
+  "Mechanical Design Engineer", "Manufacturing Engineer", "Automotive Engineer",
+  "HVAC Engineer", "Robotics/Mechatronics Engineer"
 ];
 
 export default function Register() {
@@ -28,7 +30,6 @@ export default function Register() {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    studentId: '',
     password: '',
     department: '',
     batchYear: new Date().getFullYear(),
@@ -111,7 +112,7 @@ export default function Register() {
   const validateStep = () => {
     setError('');
     if (step === 1) {
-      if (!formData.fullName || !formData.email || !formData.studentId || !formData.password || !formData.department) {
+      if (!formData.fullName || !formData.email || !formData.password || !formData.department) {
         setError('Please fill in all required fields.');
         return false;
       }
@@ -168,7 +169,6 @@ export default function Register() {
       const payload = {
         full_name: formData.fullName,
         email: formData.email,
-        student_id: formData.studentId,
         password: formData.password,
         department: formData.department,
         batch_year: formData.batchYear,
@@ -180,7 +180,7 @@ export default function Register() {
 
       // Auto-login
       if (res.data.student_id) {
-        await login(formData.studentId, formData.password);
+        await login(res.data.student_id, formData.password);
         
         // POST Preferences (will use token from login)
         try {
@@ -216,20 +216,16 @@ export default function Register() {
     <div className="space-y-4">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-        <input type="text" className="w-full p-2.5 border rounded-lg" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} placeholder="Jane Doe" />
+        <input type="text" className="w-full p-2.5 border rounded-lg text-gray-900 placeholder:text-gray-400" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} placeholder="Jane Doe" />
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-        <input type="email" className="w-full p-2.5 border rounded-lg" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} placeholder="jane@example.com" />
+        <input type="email" className="w-full p-2.5 border rounded-lg text-gray-900 placeholder:text-gray-400" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} placeholder="jane@example.com" />
       </div>
       <div className="flex gap-4">
-        <div className="w-1/2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Student ID (Roll No)</label>
-          <input type="text" className="w-full p-2.5 border rounded-lg" value={formData.studentId} onChange={e => setFormData({...formData, studentId: e.target.value.toUpperCase()})} placeholder="S123456" />
-        </div>
-        <div className="w-1/2">
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
-          <select className="w-full p-2.5 border rounded-lg" value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
+          <select className="w-full p-2.5 border rounded-lg text-gray-900" value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
             <option value="">Select Dept</option>
             {DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
           </select>
@@ -238,18 +234,18 @@ export default function Register() {
       <div className="flex gap-4">
         <div className="w-1/2">
           <label className="block text-sm font-medium text-gray-700 mb-1">Batch Year</label>
-          <input type="number" className="w-full p-2.5 border rounded-lg" value={formData.batchYear} onChange={e => setFormData({...formData, batchYear: parseInt(e.target.value)})} />
+          <input type="number" className="w-full p-2.5 border rounded-lg text-gray-900" value={formData.batchYear} onChange={e => setFormData({...formData, batchYear: parseInt(e.target.value)})} />
         </div>
         <div className="w-1/2">
           <label className="block text-sm font-medium text-gray-700 mb-1">Current Semester</label>
-          <select className="w-full p-2.5 border rounded-lg" value={formData.currentSemester} onChange={e => setFormData({...formData, currentSemester: parseInt(e.target.value)})}>
+          <select className="w-full p-2.5 border rounded-lg text-gray-900" value={formData.currentSemester} onChange={e => setFormData({...formData, currentSemester: parseInt(e.target.value)})}>
             {[1,2,3,4,5,6,7,8].map(s => <option key={s} value={s}>Semester {s}</option>)}
           </select>
         </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-        <input type="password" className="w-full p-2.5 border rounded-lg" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} placeholder="Minimum 8 characters with numbers" />
+        <input type="password" className="w-full p-2.5 border rounded-lg text-gray-900 placeholder:text-gray-400" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} placeholder="Minimum 8 characters with numbers" />
       </div>
     </div>
   );
@@ -298,7 +294,7 @@ export default function Register() {
                 <input 
                   type="number"
                   placeholder="-"
-                  className="w-full p-2 border rounded bg-white text-center text-sm"
+                  className="w-full p-2 border rounded bg-white text-center text-sm text-gray-900 placeholder:text-gray-400"
                   value={sub.marks_obtained}
                   onChange={(e) => handleSubjectMarkChange(activeSemTab - 1, idx, e.target.value)}
                   min="0"
@@ -309,7 +305,7 @@ export default function Register() {
                 <label className="text-xs text-gray-500 block mb-1">Total</label>
                 <input 
                   type="number"
-                  className="w-full p-2 border rounded bg-gray-100 text-center text-sm text-gray-500"
+                  className="w-full p-2 border rounded bg-gray-100 text-center text-sm text-gray-900 font-medium"
                   value={sub.total_marks}
                   readOnly
                 />
@@ -392,7 +388,6 @@ export default function Register() {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div><span className="text-gray-500">Name:</span> <span className="font-medium text-gray-900">{formData.fullName}</span></div>
             <div><span className="text-gray-500">Email:</span> <span className="font-medium text-gray-900">{formData.email}</span></div>
-            <div><span className="text-gray-500">Student ID:</span> <span className="font-medium text-gray-900">{formData.studentId}</span></div>
             <div><span className="text-gray-500">Department:</span> <span className="font-medium text-gray-900">{formData.department} ({formData.batchYear})</span></div>
           </div>
           

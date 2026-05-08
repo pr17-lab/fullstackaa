@@ -166,6 +166,10 @@ export const RoadmapService = {
     deleteTask: async (task_id: string) => {
         await api.delete(`/roadmap/tasks/${task_id}`);
     },
+
+    deleteRoadmap: async (roadmap_id: string) => {
+        await api.delete(`/roadmap/${roadmap_id}`);
+    },
 };
 
 export const PreferencesService = {
@@ -185,5 +189,49 @@ export const JobListingsService = {
         const response = await api.get<JobListingsResponse>(`/jobs/listings/${encodeURIComponent(job_role)}`);
         return response.data;
     }
+};
+
+export const ProfileService = {
+    /** Update the current student's name and/or semester. Returns refreshed user data. */
+    updateProfile: async (data: { name?: string; semester?: number }) => {
+        const response = await api.patch<{
+            id: string;
+            email: string;
+            student_id: string;
+            name: string;
+            branch: string;
+            semester: number;
+        }>('/auth/me', data);
+        return response.data;
+    },
+
+    /** Change the current student's password. */
+    changePassword: async (current_password: string, new_password: string) => {
+        const response = await api.put<{ message: string }>('/auth/change-password', {
+            current_password,
+            new_password,
+        });
+        return response.data;
+    },
+};
+
+export interface SubjectUpdateResult {
+    id: string;
+    subject_name: string;
+    subject_code: string;
+    credits: number;
+    marks: number;
+    grade: string;
+    pass_fail: string;
+    term_id: string;
+    term_gpa: number;
+}
+
+export const SubjectService = {
+    /** Update a subject's marks (and optionally name) for the authenticated student. */
+    updateSubject: async (subjectId: string, data: { marks?: number; subject_name?: string }) => {
+        const response = await api.patch<SubjectUpdateResult>(`/academic/subjects/${subjectId}`, data);
+        return response.data;
+    },
 };
 

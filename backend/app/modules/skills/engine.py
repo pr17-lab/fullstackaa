@@ -204,10 +204,16 @@ def compute_gaps_for_student(db: Session, user_id: str):
             "Embedded Systems Engineer", "Hardware/VLSI Design Engineer",
             "Cybersecurity Analyst"
         ]
+        mech_bonus = [
+            "Mechanical Design Engineer", "Manufacturing Engineer", "Automotive Engineer",
+            "HVAC Engineer", "Robotics/Mechatronics Engineer"
+        ]
         
         if student_dept in ("CSE", "AIML", "AI&ML") and role in dept_bonus:
             match_score += 15
         elif student_dept == "ECE" and role in ece_bonus:
+            match_score += 15
+        elif student_dept == "MECH" and role in mech_bonus:
             match_score += 15
             
         match_score = min(match_score, 100.0)

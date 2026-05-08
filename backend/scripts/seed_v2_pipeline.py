@@ -244,15 +244,20 @@ def main():
                     t_from = "Electronics"
                     t_to = "Software Engineering"
             elif dept == "MECH":
-                if random.random() < 0.7:
+                rand_val = random.random()
+                if rand_val < 0.4:
                     target_roles = ["Software Engineer", "Data Analyst"]
                     pref_doms = ["Software", "Data"]
                     c_trans = True
                     t_from = "Mechanical"
                     t_to = "Software/Data"
+                elif rand_val < 0.7:
+                    target_roles = ["Mechanical Design Engineer", "Robotics/Mechatronics Engineer"]
+                    pref_doms = ["Mechanical", "Embedded systems"]
+                    c_trans = False
                 else:
-                    target_roles = ["Embedded Systems Engineer"]
-                    pref_doms = ["Embedded systems"]
+                    target_roles = ["Automotive Engineer", "Manufacturing Engineer"]
+                    pref_doms = ["Automotive", "Manufacturing"]
                     c_trans = False
             else:
                 target_roles = ["Software Engineer"]
@@ -505,9 +510,15 @@ def main():
                         "Embedded Systems Engineer", "Hardware/VLSI Design Engineer",
                         "Cybersecurity Analyst"
                     ]
+                    mech_bonus = [
+                        "Mechanical Design Engineer", "Manufacturing Engineer", "Automotive Engineer",
+                        "HVAC Engineer", "Robotics/Mechatronics Engineer"
+                    ]
                     if student_dept in ("CSE", "AIML", "AI&ML") and role in dept_bonus:
                         match_score += 15
                     elif student_dept == "ECE" and role in ece_bonus:
+                        match_score += 15
+                    elif student_dept == "MECH" and role in mech_bonus:
                         match_score += 15
                         
                     match_score = min(match_score, 100.0)

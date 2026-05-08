@@ -15,7 +15,7 @@ from sqlalchemy import (
     Column, String, Text, DateTime, ForeignKey,
     Index, CheckConstraint, SmallInteger
 )
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -86,11 +86,14 @@ class InterviewQuestion(Base):
     question    = Column(Text,        nullable=False)
     difficulty  = Column(String(20),  nullable=False, default="medium")
     source      = Column(String(50),  nullable=True)
+    follow_up    = Column(Text,        nullable=True)
     user_answer  = Column(Text,        nullable=True)
     ai_score     = Column(SmallInteger, nullable=True)
     ai_verdict   = Column(String(20),  nullable=True)
     ai_feedback  = Column(Text,        nullable=True)
     model_answer = Column(Text,        nullable=True)
+    mistakes     = Column(JSONB,       nullable=True, default=list)
+    improvement  = Column(Text,        nullable=True)
     evaluated_at = Column(DateTime(timezone=True), nullable=True)
     created_at   = Column(DateTime(timezone=True), server_default=func.now())
 

@@ -135,6 +135,36 @@ def main():
             "must_have": ["Python", "NLP", "Machine Learning", "Deep Learning", "pandas", "Git"],
             "preferred": ["TensorFlow", "PyTorch", "SQL", "Docker"],
             "nice_to_have": ["AWS", "MongoDB", "Computer Vision", "Kubernetes"]
+        },
+        {
+            "job_role": "Mechanical Design Engineer",
+            "must_have": ["CAD Design", "Strength of Materials"],
+            "preferred": ["Manufacturing Processes", "Thermodynamics", "Heat Transfer"],
+            "nice_to_have": ["Fluid Mechanics", "Python"]
+        },
+        {
+            "job_role": "Manufacturing Engineer",
+            "must_have": ["Manufacturing Processes", "CAD Design"],
+            "preferred": ["Strength of Materials", "Data Analysis"],
+            "nice_to_have": ["Python", "Machine Learning"]
+        },
+        {
+            "job_role": "Automotive Engineer",
+            "must_have": ["Thermodynamics", "Strength of Materials", "Fluid Mechanics"],
+            "preferred": ["CAD Design", "Manufacturing Processes"],
+            "nice_to_have": ["Heat Transfer", "Microcontrollers"]
+        },
+        {
+            "job_role": "HVAC Engineer",
+            "must_have": ["Thermodynamics", "Heat Transfer", "Fluid Mechanics"],
+            "preferred": ["CAD Design", "Strength of Materials"],
+            "nice_to_have": ["Manufacturing Processes"]
+        },
+        {
+            "job_role": "Robotics/Mechatronics Engineer",
+            "must_have": ["C Programming", "Microcontrollers", "Python", "CAD Design"],
+            "preferred": ["Machine Learning", "Embedded C", "Manufacturing Processes"],
+            "nice_to_have": ["Computer Vision", "Linux"]
         }
     ]
 

@@ -594,6 +594,16 @@ const RoadmapPage = () => {
     },
   });
 
+  const deleteRoadmapMutation = useMutation({
+    mutationFn: (id: string) => RoadmapService.deleteRoadmap(id),
+    onSuccess: (_, deletedId) => {
+      qc.invalidateQueries({ queryKey: ['roadmaps'] });
+      if (selectedRoadmapId === deletedId) {
+        setSelectedRoadmapId(null);
+      }
+    },
+  });
+
   // Fetch existing gaps to get the full list of roles with computed analysis
   const { data: skillGaps } = useQuery({
     queryKey: ['skill-gaps'],
@@ -714,33 +724,49 @@ const RoadmapPage = () => {
           ) : (
             <div className="space-y-2">
               {(roadmaps as Roadmap[]).map(rm => (
-                <button key={rm.id}
-                  onClick={() => setSelectedRoadmapId(rm.id)}
-                  className={`w-full text-left rounded-xl border px-4 py-3 transition-all ${
-                    selectedRoadmapId === rm.id
-                      ? 'bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800'
-                      : 'bg-white dark:bg-zinc-900 border-gray-100 dark:border-zinc-800 hover:border-indigo-200 dark:hover:border-indigo-800'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-semibold text-gray-900 dark:text-zinc-100 truncate mr-2">
-                      {rm.job_role}
-                    </span>
-                    <span className={`flex-shrink-0 px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${STATUS_STYLES[rm.status] ?? STATUS_STYLES.archived}`}>
-                      {rm.status}
-                    </span>
-                  </div>
-                  {/* Mini progress bar */}
-                  <div className="h-1.5 rounded-full bg-gray-100 dark:bg-zinc-800">
-                    <div
-                      className="h-1.5 rounded-full bg-indigo-500 transition-all"
-                      style={{ width: `${rm.completion_percentage ?? 0}%` }}
-                    />
-                  </div>
-                  <p className="text-[10px] text-gray-400 dark:text-zinc-500 mt-1">
-                    {Math.round(rm.completion_percentage ?? 0)}% complete
-                  </p>
-                </button>
+                <div key={rm.id} className="relative group">
+                  <button
+                    onClick={() => setSelectedRoadmapId(rm.id)}
+                    className={`w-full text-left rounded-xl border px-4 py-3 transition-all ${
+                      selectedRoadmapId === rm.id
+                        ? 'bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800'
+                        : 'bg-white dark:bg-zinc-900 border-gray-100 dark:border-zinc-800 hover:border-indigo-200 dark:hover:border-indigo-800'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-semibold text-gray-900 dark:text-zinc-100 truncate mr-2">
+                        {rm.job_role}
+                      </span>
+                      <span className={`flex-shrink-0 px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${STATUS_STYLES[rm.status] ?? STATUS_STYLES.archived}`}>
+                        {rm.status}
+                      </span>
+                    </div>
+                    {/* Mini progress bar */}
+                    <div className="h-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 pr-6">
+                      <div
+                        className="h-1.5 rounded-full bg-indigo-500 transition-all"
+                        style={{ width: `${rm.completion_percentage ?? 0}%` }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-gray-400 dark:text-zinc-500 mt-1">
+                      {Math.round(rm.completion_percentage ?? 0)}% complete
+                    </p>
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteRoadmapMutation.mutate(rm.id);
+                    }}
+                    disabled={deleteRoadmapMutation.isPending && deleteRoadmapMutation.variables === rm.id}
+                    className="absolute bottom-3 right-3 p-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 rounded-lg opacity-0 group-hover:opacity-100 transition-all focus:opacity-100 disabled:opacity-50"
+                  >
+                    {deleteRoadmapMutation.isPending && deleteRoadmapMutation.variables === rm.id ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Trash2 className="w-3.5 h-3.5" />
+                    )}
+                  </button>
+                </div>
               ))}
             </div>
           )}

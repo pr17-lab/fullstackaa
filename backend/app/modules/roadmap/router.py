@@ -20,13 +20,13 @@ def list_roadmaps(
     return service.get_roadmaps(db, current_user.id)
 
 @router.post("/generate", response_model=schemas.RoadmapResponse)
-def generate_my_roadmap(
+async def generate_my_roadmap(
     req: schemas.GenerateRoadmapRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """Generate a dynamic roadmap matching current skills gap"""
-    return service.generate_roadmap(db, current_user.id, req.job_role)
+    return await service.generate_roadmap(db, current_user.id, req.job_role)
 
 @router.get("/{roadmap_id}", response_model=schemas.RoadmapResponse)
 def get_roadmap_details(
@@ -91,4 +91,14 @@ def delete_custom_roadmap_task(
 ):
     """Delete a custom task from the roadmap"""
     service.delete_custom_task(db, current_user.id, task_id)
+    return None
+
+@router.delete("/{roadmap_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_roadmap(
+    roadmap_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Delete a roadmap and all its tasks"""
+    service.delete_roadmap(db, current_user.id, roadmap_id)
     return None

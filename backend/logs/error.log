@@ -332,3 +332,18 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-04-04 12:06:51 - app.modules.interview.service - ERROR - service.py:351 - Groq primary attempt failed: JSONDecodeError: Expecting ',' delimiter: line 11 column 166 (char 1503)
 2026-04-04 12:06:53 - app.modules.interview.service - ERROR - service.py:395 - Gemini fallback failed: HTTPStatusError: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-04-06 10:06:26 - app.modules.roadmap.service - ERROR - service.py:44 - Groq roadmap failed: Connection error.
+2026-04-06 10:06:29 - app.modules.roadmap.service - ERROR - service.py:63 - Gemini roadmap failed: [Errno 11001] getaddrinfo failed
+2026-04-06 10:06:33 - app.modules.roadmap.service - ERROR - service.py:44 - Groq roadmap failed: Connection error.
+2026-04-06 10:06:35 - app.modules.roadmap.service - ERROR - service.py:63 - Gemini roadmap failed: [Errno 11001] getaddrinfo failed
+2026-04-06 10:06:39 - app.modules.roadmap.service - ERROR - service.py:44 - Groq roadmap failed: Connection error.
+2026-04-06 10:07:00 - app.modules.roadmap.service - ERROR - service.py:63 - Gemini roadmap failed: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-05-05 01:54:57 - app.modules.roadmap.service - ERROR - service.py:79 - Gemini resource generation failed for React: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-05-06 09:09:02 - app.modules.roadmap.service - ERROR - service.py:82 - Gemini resource generation failed for JavaScript: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-05-06 14:33:26 - app.modules.roadmap.service - ERROR - service.py:82 - Gemini resource generation failed for HTML: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-05-06 14:33:30 - app.modules.roadmap.service - ERROR - service.py:82 - Gemini resource generation failed for Node.js: Client error '404 Not Found' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404

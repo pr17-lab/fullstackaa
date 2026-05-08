@@ -17,7 +17,7 @@ from app.models.user import User
 from app.models.student_profile import StudentProfile
 from app.api.dependencies.database import get_db
 from app.api.dependencies.auth import get_current_user
-from app.schemas.auth import Token, UserResponse, StudentRegistration
+from app.schemas.auth import Token, UserResponse, StudentRegistration, UpdateProfileRequest, ChangePasswordRequest
 from app.utils.academic import calculate_grade, calculate_grade_points
 
 router = APIRouter(tags=["Authentication"])
@@ -88,12 +88,24 @@ async def register_student(
     if db.query(User).filter(User.email == payload.email).first():
         raise HTTPException(status_code=422, detail="An account with this email already exists")
 
-    safe_student_id = payload.student_id.strip().upper()
-    if db.query(User).filter(User.student_id == safe_student_id).first():
-        raise HTTPException(
-            status_code=422,
-            detail="This Student ID is already taken. Try adding your batch year e.g. S2024001",
-        )
+    if payload.student_id and payload.student_id.strip():
+        safe_student_id = payload.student_id.strip().upper()
+        if db.query(User).filter(User.student_id == safe_student_id).first():
+            raise HTTPException(
+                status_code=422,
+                detail="This Student ID is already taken. Try adding your batch year e.g. S2024001",
+            )
+    else:
+        last_user = db.query(User).filter(User.student_id.like(f"S{payload.batch_year}%")).order_by(User.student_id.desc()).first()
+        if last_user and last_user.student_id:
+            try:
+                # Extract the last 3 digits
+                last_num = int(last_user.student_id[-3:])
+                safe_student_id = f"S{payload.batch_year}{last_num + 1:03d}"
+            except ValueError:
+                safe_student_id = f"S{payload.batch_year}001"
+        else:
+            safe_student_id = f"S{payload.batch_year}001"
 
     # --- Create user ---
     new_user = User(
@@ -272,3 +284,77 @@ async def get_me(
         "branch": profile.department if profile else None,
         "semester": profile.semester if profile else None,
     }
+
+
+# ---------------------------------------------------------------------------
+# Update own profile (name / semester)
+# ---------------------------------------------------------------------------
+
+@router.patch("/me", response_model=UserResponse)
+async def update_my_profile(
+    payload: UpdateProfileRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Allow the authenticated student to update their own name and/or semester.
+    Returns the refreshed UserResponse so the frontend can update its auth context.
+    """
+    profile = db.query(StudentProfile).filter(
+        StudentProfile.user_id == current_user.id
+    ).first()
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Student profile not found")
+
+    if payload.name is not None:
+        profile.name = payload.name.strip()
+    if payload.semester is not None:
+        profile.semester = payload.semester
+
+    db.commit()
+    db.refresh(profile)
+
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "student_id": current_user.student_id,
+        "name": profile.name,
+        "branch": profile.department,
+        "semester": profile.semester,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Change own password
+# ---------------------------------------------------------------------------
+
+@router.put("/change-password")
+async def change_password(
+    payload: ChangePasswordRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Allow the authenticated student to change their password.
+    Verifies the current password before applying the update.
+    """
+    from app.core.security import verify_password, get_password_hash
+
+    if not verify_password(payload.current_password, current_user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Current password is incorrect",
+        )
+
+    if len(payload.new_password) < 8 or not any(c.isdigit() for c in payload.new_password):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="New password must be at least 8 characters and contain a number",
+        )
+
+    current_user.password_hash = get_password_hash(payload.new_password)
+    current_user.reset_failed_attempts()
+    db.commit()
+
+    return {"message": "Password updated successfully"}

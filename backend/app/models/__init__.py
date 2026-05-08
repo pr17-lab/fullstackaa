@@ -13,6 +13,7 @@ from .skill_gap import SkillGap
 from .roadmap import Roadmap, RoadmapTask
 from .behavior_summary import BehaviorSummary
 from .job_cache import JobCache
+from .skill_resource import SkillResource
 
 __all__ = [
     "User",
@@ -31,4 +32,5 @@ __all__ = [
     "RoadmapTask",
     "BehaviorSummary",
     "JobCache",
+    "SkillResource",
 ]
