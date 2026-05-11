@@ -5,7 +5,7 @@ Authentication API routes: login, registration, and current-user lookup.
 import math
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, status, Request, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, Request, BackgroundTasks, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from slowapi import Limiter
@@ -215,10 +215,11 @@ async def register_student(
 # Login
 # ---------------------------------------------------------------------------
 
-@router.post("/login", response_model=Token)
+@router.post("/login")
 @limiter.limit("5/minute")
 async def login(
     request: Request,
+    response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
@@ -259,7 +260,31 @@ async def login(
         data={"sub": user.email, "user_id": str(user.id), "student_id": user.student_id},
         expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    
+    response.set_cookie(
+        key="access_token",
+        value=f"Bearer {access_token}",
+        httponly=True,
+        secure=True,
+        samesite="strict",
+        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+    )
+    
+    return {"message": "Login successful"}
+
+
+@router.post("/logout")
+async def logout(response: Response):
+    """
+    Clear the HttpOnly cookie to logout the user.
+    """
+    response.delete_cookie(
+        key="access_token",
+        httponly=True,
+        secure=True,
+        samesite="strict",
+    )
+    return {"message": "Logout successful"}
 
 
 # ---------------------------------------------------------------------------

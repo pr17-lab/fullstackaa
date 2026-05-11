@@ -46,93 +46,36 @@ logger = logging.getLogger(__name__)
 # Built-in question bank — fallback when ML service is unavailable
 # ---------------------------------------------------------------------------
 
-_QUESTION_BANK: dict[str, list[dict]] = {
-    "Computer Science": [
-        # DSA
-        {"topic": "DSA",  "question": "Explain the difference between BFS and DFS.", "difficulty": "medium"},
-        {"topic": "DSA",  "question": "What is the time complexity of quicksort in the worst case?", "difficulty": "medium"},
-        {"topic": "DSA",  "question": "How does a hash table handle collisions?", "difficulty": "medium"},
-        {"topic": "DSA",  "question": "Explain dynamic programming with a classic example.", "difficulty": "hard"},
-        {"topic": "DSA",  "question": "What is the difference between a stack and a queue?", "difficulty": "easy"},
-        {"topic": "DSA",  "question": "Explain binary search and its time complexity.", "difficulty": "easy"},
-        {"topic": "DSA",  "question": "What is a balanced binary search tree? Give an example.", "difficulty": "medium"},
-        {"topic": "DSA",  "question": "Explain graph shortest path algorithms (Dijkstra vs Bellman-Ford).", "difficulty": "hard"},
-        # DBMS
-        {"topic": "DBMS", "question": "What is database normalisation? Explain 1NF, 2NF, 3NF.", "difficulty": "medium"},
-        {"topic": "DBMS", "question": "Explain ACID properties with examples.", "difficulty": "medium"},
-        {"topic": "DBMS", "question": "Explain the difference between SQL JOINs.", "difficulty": "medium"},
-        {"topic": "DBMS", "question": "What is a database index and how does it speed up queries?", "difficulty": "medium"},
-        {"topic": "DBMS", "question": "What is the difference between a primary key and a foreign key?", "difficulty": "easy"},
-        {"topic": "DBMS", "question": "Explain what a transaction is and why rollback matters.", "difficulty": "medium"},
-        {"topic": "DBMS", "question": "What is the difference between SQL and NoSQL databases?", "difficulty": "easy"},
-        # OS
-        {"topic": "OS",   "question": "What is a deadlock? How can it be prevented?", "difficulty": "hard"},
-        {"topic": "OS",   "question": "Difference between process and thread?", "difficulty": "easy"},
-        {"topic": "OS",   "question": "What is virtual memory and how does paging work?", "difficulty": "hard"},
-        {"topic": "OS",   "question": "What is a context switch and when does it happen?", "difficulty": "medium"},
-        {"topic": "OS",   "question": "Explain the producer-consumer problem and a solution.", "difficulty": "hard"},
-        {"topic": "OS",   "question": "What is the difference between preemptive and non-preemptive scheduling?", "difficulty": "medium"},
-        # CN
-        {"topic": "CN",   "question": "Explain the OSI model and its layers.", "difficulty": "easy"},
-        {"topic": "CN",   "question": "What is TCP vs UDP? When would you use each?", "difficulty": "medium"},
-        {"topic": "CN",   "question": "What is the difference between HTTP and HTTPS?", "difficulty": "easy"},
-        {"topic": "CN",   "question": "What is DNS and how does name resolution work?", "difficulty": "easy"},
-        {"topic": "CN",   "question": "Explain the three-way handshake in TCP.", "difficulty": "medium"},
-        {"topic": "CN",   "question": "What is subnetting and why is it used?", "difficulty": "medium"},
-        # SE
-        {"topic": "SE",   "question": "What is the Agile methodology?", "difficulty": "easy"},
-        {"topic": "SE",   "question": "What is the difference between unit and integration testing?", "difficulty": "easy"},
-        {"topic": "SE",   "question": "What is the SOLID principle in object-oriented design?", "difficulty": "medium"},
-        {"topic": "SE",   "question": "Explain the concept of design patterns. Give two examples.", "difficulty": "medium"},
-        {"topic": "SE",   "question": "What is CI/CD and why is it important?", "difficulty": "easy"},
-        {"topic": "SE",   "question": "What is the difference between REST and GraphQL APIs?", "difficulty": "medium"},
+FALLBACK_QUESTION_BANK: dict[str, list[dict]] = {
+    "CSE": [
+        {"topic": "Data Structures", "question": "Explain the difference between a stack and a queue, and provide a real-world software use case for each.", "difficulty": "medium"},
+        {"topic": "Databases", "question": "What is the purpose of database normalization, and how does it prevent data anomalies?", "difficulty": "medium"},
+        {"topic": "Operating Systems", "question": "Describe the concept of virtual memory and how paging mechanisms work in a modern OS.", "difficulty": "medium"},
+        {"topic": "Networking", "question": "Explain the differences between TCP and UDP protocols, highlighting scenarios where one is preferred over the other.", "difficulty": "medium"},
+        {"topic": "Software Engineering", "question": "What are the core principles of RESTful API design?", "difficulty": "medium"},
     ],
-    "Electronics": [
-        {"topic": "Circuits",  "question": "Explain Kirchhoff's voltage and current laws.", "difficulty": "easy"},
-        {"topic": "Signals",   "question": "What is the Nyquist theorem?", "difficulty": "medium"},
-        {"topic": "Embedded",  "question": "Difference between microprocessor and microcontroller?", "difficulty": "easy"},
-        {"topic": "VLSI",      "question": "Explain the CMOS fabrication process.", "difficulty": "hard"},
-        {"topic": "Signals",   "question": "What is the Z-transform used for?", "difficulty": "hard"},
-        {"topic": "Circuits",  "question": "What is an op-amp and its ideal characteristics?", "difficulty": "medium"},
-        {"topic": "Embedded",  "question": "Explain the difference between RISC and CISC.", "difficulty": "medium"},
-        {"topic": "Circuits",  "question": "What is the difference between AC and DC circuits?", "difficulty": "easy"},
-        {"topic": "Signals",   "question": "Explain the concept of Fourier Transform and its applications.", "difficulty": "hard"},
-        {"topic": "Embedded",  "question": "What is interrupt handling in embedded systems?", "difficulty": "medium"},
-        {"topic": "VLSI",      "question": "What is the difference between combinational and sequential circuits?", "difficulty": "medium"},
+    "ECE": [
+        {"topic": "Digital Logic", "question": "Explain the difference between combinational and sequential logic circuits.", "difficulty": "medium"},
+        {"topic": "Signals", "question": "What is the Nyquist-Shannon sampling theorem, and why is it critical in digital signal processing?", "difficulty": "medium"},
+        {"topic": "Embedded Systems", "question": "Describe the function of an interrupt in a microcontroller architecture and how it differs from polling.", "difficulty": "medium"},
+        {"topic": "Circuits", "question": "Explain the operational principles of an ideal operational amplifier (Op-Amp).", "difficulty": "medium"},
+        {"topic": "Communication", "question": "What are the key differences between amplitude modulation (AM) and frequency modulation (FM)?", "difficulty": "medium"},
     ],
-    "Mechanical": [
-        {"topic": "Thermo",    "question": "State and explain the laws of thermodynamics.", "difficulty": "medium"},
-        {"topic": "Mechanics", "question": "Explain Newton's laws of motion with examples.", "difficulty": "easy"},
-        {"topic": "Fluid",     "question": "What is Bernoulli's principle?", "difficulty": "medium"},
-        {"topic": "Materials", "question": "Explain stress-strain curve for a ductile material.", "difficulty": "medium"},
-        {"topic": "Thermo",    "question": "What is the Carnot cycle and its significance?", "difficulty": "hard"},
-        {"topic": "Mechanics", "question": "Explain the difference between static and dynamic friction.", "difficulty": "easy"},
-        {"topic": "Fluid",     "question": "What is Reynolds number and what does it indicate?", "difficulty": "medium"},
-        {"topic": "Materials", "question": "What is the difference between a ductile and brittle material?", "difficulty": "easy"},
-    ],
-    "Civil": [
-        {"topic": "Structures", "question": "Explain the difference between beams, columns, and slabs.", "difficulty": "easy"},
-        {"topic": "Soil",       "question": "What is the bearing capacity of soil?", "difficulty": "medium"},
-        {"topic": "Concrete",   "question": "What are the properties of good concrete?", "difficulty": "easy"},
-        {"topic": "Structures", "question": "What is the difference between a simply supported and cantilever beam?", "difficulty": "easy"},
-        {"topic": "Soil",       "question": "Explain the different types of soil consolidation.", "difficulty": "hard"},
-        {"topic": "Concrete",   "question": "What is the water-cement ratio and how does it affect concrete strength?", "difficulty": "medium"},
+    "MECH": [
+        {"topic": "Thermodynamics", "question": "State the second law of thermodynamics and explain its implications for heat engine efficiency.", "difficulty": "medium"},
+        {"topic": "Fluid Mechanics", "question": "Explain Bernoulli's principle and describe one of its practical engineering applications.", "difficulty": "medium"},
+        {"topic": "Materials Science", "question": "Describe the typical stress-strain curve for a ductile material, identifying the yield point and ultimate tensile strength.", "difficulty": "medium"},
+        {"topic": "Manufacturing", "question": "What are the primary differences between casting and forging manufacturing processes?", "difficulty": "medium"},
+        {"topic": "Mechanics", "question": "Explain the concept of fatigue failure in mechanical components and how it can be mitigated.", "difficulty": "medium"},
     ],
     "default": [
-        {"topic": "General", "question": "Tell me about yourself and your key academic strengths.", "difficulty": "easy"},
-        {"topic": "General", "question": "How do you prioritise tasks when studying multiple subjects?", "difficulty": "easy"},
-        {"topic": "General", "question": "Describe a challenging project you worked on.", "difficulty": "medium"},
-        {"topic": "General", "question": "Where do you see yourself in 5 years?", "difficulty": "easy"},
-        {"topic": "General", "question": "What is your greatest professional strength?", "difficulty": "easy"},
-        {"topic": "General", "question": "How do you handle failure or poor exam results?", "difficulty": "easy"},
-        {"topic": "General", "question": "Describe a time you worked effectively in a team.", "difficulty": "easy"},
-    ],
+        {"topic": "General Engineering", "question": "Describe a challenging technical problem you encountered and the analytical steps you took to solve it.", "difficulty": "medium"},
+        {"topic": "General Engineering", "question": "How do you approach learning a completely new tool or technology required for a project?", "difficulty": "medium"},
+        {"topic": "General Engineering", "question": "Explain a complex engineering concept to someone without a technical background.", "difficulty": "medium"},
+        {"topic": "General Engineering", "question": "Discuss the importance of version control in collaborative engineering projects.", "difficulty": "medium"},
+        {"topic": "General Engineering", "question": "What strategies do you use to ensure the quality and reliability of your technical deliverables?", "difficulty": "medium"},
+    ]
 }
-
-_WEAK_SUBJECT_TEMPLATE = (
-    "Your performance in {subject} has room for improvement. "
-    "Can you explain the core concepts of {subject} in simple terms?"
-)
 
 
 # ---------------------------------------------------------------------------
@@ -165,40 +108,7 @@ class InterviewService:
     """Business logic for the Interview module (v2.0 — DB-backed)."""
 
     # ------------------------------------------------------------------
-    # Question generation — sync fallback (built-in bank)
-    # ------------------------------------------------------------------
-
-    def generate_questions(
-        self,
-        *,
-        branch: str,
-        semester: int,
-        weak_subjects: list[str],
-        overall_gpa: Decimal,
-        topic: Optional[str] = None,
-        limit: int = 10,
-    ) -> list[dict]:
-        """Synchronous question generation from the built-in bank."""
-        bank = list(_QUESTION_BANK.get(branch, _QUESTION_BANK["default"]))
-        if topic:
-            filtered = [q for q in bank if q["topic"].lower() == topic.lower()]
-            bank = filtered if filtered else bank
-
-        random.shuffle(bank)
-
-        follow_ups = [
-            {
-                "topic": subj,
-                "question": _WEAK_SUBJECT_TEMPLATE.format(subject=subj),
-                "difficulty": "medium",
-                "source": "weak_subject_personalisation",
-            }
-            for subj in weak_subjects[:3]
-        ]
-        return (follow_ups + bank)[:limit]
-
-    # ------------------------------------------------------------------
-    # Question generation — async pipeline (ML service → Groq → bank)
+    # Question generation — async pipeline (3-Tier Fallback)
     # ------------------------------------------------------------------
 
     async def generate_questions_async(
@@ -212,239 +122,104 @@ class InterviewService:
         resume_context: Optional[str] = None,
         limit: int = 10,
     ) -> tuple[list[dict], str]:
-        # Groq / Gemini is the PRIMARY path
-        if settings.GROQ_API_KEY or settings.GEMINI_API_KEY:
-            try:
-                with open("log_api_inputs.txt", "a", encoding="utf-8") as f:
-                    f.write(f"generate_questions_async inputs: jd_text='{jd_text}', resume_context='{resume_context}', branch='{branch}'\n")
-            except:
-                pass
-                
-            ai_result, source_tag = await self._groq_fallback(
-                branch=branch, semester=semester,
-                weak_subjects=weak_subjects, overall_gpa=overall_gpa,
-                jd_text=jd_text, resume_context=resume_context or "",
-                limit=limit
-            )
-            if ai_result:
-                try:
-                    with open("log_api_inputs.txt", "a", encoding="utf-8") as f:
-                        f.write(f"AI Success: {source_tag}\n")
-                except:
-                    pass
-                return ai_result, source_tag
-
-        # Try ML service as fallback
-        ml_result = await self._try_ml_service(
-            branch=branch, semester=semester,
-            weak_subjects=weak_subjects, overall_gpa=overall_gpa,
-            jd_text=jd_text, resume_context=resume_context or "",
-            limit=limit
-        )
-        if ml_result:
-            return ml_result, "ml_service"
-        
-        # Built-in is last resort ONLY
-        logger.warning("Both Groq and ML service failed — using built-in bank")
-        return self.generate_questions(
-            branch=branch, semester=semester,
-            weak_subjects=weak_subjects, overall_gpa=overall_gpa,
-            topic=jd_text if jd_text else None,
-            limit=limit
-        ), "built-in"
-
-    async def _try_ml_service(self, **kwargs):
-        try:
-            async with httpx.AsyncClient(timeout=3.0) as client:
-                resp = await client.post(
-                    f"{settings.ML_SERVICE_URL}/predict/questions",
-                    json={
-                        "branch": kwargs["branch"],
-                        "semester": kwargs["semester"],
-                        "weak_subjects": kwargs["weak_subjects"],
-                        "overall_gpa": float(kwargs["overall_gpa"]),
-                        "jd_text": kwargs.get("jd_text", ""),
-                        "resume_context": kwargs.get("resume_context", ""),
-                        "limit": kwargs.get("limit", 10)
-                    }
-                )
-                resp.raise_for_status()
-                questions = resp.json().get("questions", [])
-                if questions:
-                    return questions
-        except Exception as e:
-            logger.warning(f"ML service unavailable: {e}")
-        return None
-
-    async def _groq_fallback(self, *, branch, semester, 
-        weak_subjects, overall_gpa, jd_text, 
-        resume_context, limit):
-        
         weak_str = ", ".join(weak_subjects) if weak_subjects else "none"
-        resume_str = resume_context.strip() if resume_context else "not provided"
         
-        has_jd     = bool(jd_text and jd_text.strip())
-        has_resume = bool(resume_context and resume_context.strip() and resume_context.strip() != "None")
-
-        if has_jd and has_resume:
-            # Both JD and resume provided — deep probing prompt
-            prompt = f"""You are a senior technical interviewer.
-
+        prompt = f"""You are a senior technical interviewer.
 Generate exactly {limit} interview questions tailored to this candidate.
 
-JOB DESCRIPTION:
-{jd_text.strip()}
+Candidate Branch: {branch}
+Candidate Semester: {semester}
+Candidate Overall GPA: {overall_gpa:.1f}/10
+Weak Subjects: {weak_str}
+"""
+        if jd_text and jd_text.strip():
+            prompt += f"\nJOB DESCRIPTION:\n{jd_text.strip()}\n"
+        if resume_context and resume_context.strip() and resume_context.strip() != "None":
+            prompt += f"\nCANDIDATE RESUME:\n{resume_context.strip()}\n"
 
-CANDIDATE RESUME:
-{resume_context.strip()}
-
+        prompt += """
 STRICT RULES:
-- At least 60% of questions MUST be derived directly from the job description requirements (skills, tools, responsibilities).
-- At least 40% of questions MUST probe the candidate's resume (projects, technologies, tools, or experience).
-
-- Resume-based questions MUST be deep and practical:
-    → Ask how something was implemented
-    → Ask design decisions or trade-offs
-    → Ask challenges faced and solutions
-
-- Questions MUST test real understanding, not definitions:
-    → Prefer "how", "why", "when", "what happens if"
-
-- Difficulty distribution:
-    40% easy, 40% medium, 20% hard
-
-- Questions must:
-    → Sound like a real interviewer (not exam-style)
-    → Be specific and technical
-    → Avoid generic questions
-
-- If the candidate lacks a skill from the JD, ask a fundamental question to test basic understanding.
-
-- Each question MUST be unique
-
-- For EACH question, also generate ONE follow-up question that probes deeper understanding.
-
-Return ONLY a valid JSON object:
-{{
+- Generate technical questions appropriate for the candidate's background.
+- If Job Description is provided, heavily base questions on its requirements.
+- If Resume is provided, probe their listed skills and projects.
+- Difficulty distribution: 40% easy, 40% medium, 20% hard.
+- Return ONLY a valid JSON object matching this schema exactly:
+{
   "questions": [
-    {{
-      "topic": "specific skill name",
-      "question": "question text",
+    {
+      "topic": "string",
+      "question": "string",
       "difficulty": "easy|medium|hard",
-      "follow_up": "deeper probing question"
-    }}
+      "follow_up": "string"
+    }
   ]
-}}"""
+}
+"""
 
-        elif has_jd:
-            # JD only — base questions strictly on JD requirements
-            prompt = f"""You are a senior technical interviewer.
-Generate exactly {limit} interview questions based STRICTLY on this job description.
-
-JOB DESCRIPTION:
-{jd_text.strip()}
-
-STRICT RULES:
-- Questions MUST test specific technical skills and requirements mapped to the JD.
-- 40% easy, 40% medium, 20% hard.
-- Do NOT generate generic computer science questions. Be highly specific and technical.
-- Ensure all {limit} questions are strictly UNIQUE and distinct.
-
-Return ONLY a valid JSON object:
-{{"questions": [{{"topic": "specific skill name", "question": "question text", "difficulty": "easy|medium|hard"}}]}}"""
-
-        elif has_resume:
-            # Resume only — probe the candidate's background and skills
-            prompt = f"""You are a senior technical interviewer.
-Generate exactly {limit} interview questions tailored to this candidate's resume.
-
-CANDIDATE RESUME:
-{resume_context.strip()}
-
-STRICT RULES:
-- Questions MUST probe the specific skills, projects, tools, and experiences listed in the resume.
-- Ask about technologies they claim to know, projects they built, and roles they held.
-- 40% easy, 40% medium, 20% hard.
-- Do NOT ask generic questions unrelated to what is on the resume.
-- Ensure all {limit} questions are strictly UNIQUE and distinct.
-
-Return ONLY a valid JSON object:
-{{"questions": [{{"topic": "skill or project from resume", "question": "question text", "difficulty": "easy|medium|hard"}}]}}"""
-
-        else:
-            # No JD or resume — fall back to student academic profile
-            prompt = f"""Generate exactly {limit} technical interview questions
-for a {branch} engineering student, semester {semester}, GPA {overall_gpa:.1f}/10.
-Weak subjects: {weak_str}
-
-Cover core technical topics appropriate for their branch and semester.
-Mix difficulties: 40% easy, 40% medium, 20% hard.
-Ensure all {limit} questions are strictly UNIQUE and distinct.
-
-Return ONLY a valid JSON object:
-{{"questions": [{{"topic": "topic", "question": "question text", "difficulty": "easy|medium|hard"}}]}}"""
-
-        try:
-            if settings.GROQ_API_KEY:
-                from groq import Groq
-                client = Groq(api_key=settings.GROQ_API_KEY)
-                
-                response = client.chat.completions.create(
+        # Tier 1: Groq
+        if settings.GROQ_API_KEY:
+            try:
+                from groq import AsyncGroq
+                client = AsyncGroq(api_key=settings.GROQ_API_KEY)
+                response = await client.chat.completions.create(
                     model="llama-3.1-8b-instant",
                     messages=[{"role": "user", "content": prompt}],
                     temperature=0.7,
                     max_tokens=2000,
                     response_format={"type": "json_object"}
                 )
-                
                 raw = response.choices[0].message.content.strip()
-                
                 import json
                 parsed = json.loads(raw)
                 questions = parsed.get("questions", [])
-                
                 if isinstance(questions, list) and len(questions) > 0:
-                    return questions, "groq_direct"
-                    
-        except Exception as e:
-            logger.error(f"Groq primary attempt failed: {type(e).__name__}: {e}")
-            try:
-                with open("log_api_inputs.txt", "a", encoding="utf-8") as f:
-                    f.write(f"Groq exception: {type(e).__name__}: {e}\n")
-            except:
-                pass
+                    return questions[:limit], "groq"
+            except Exception as e:
+                logger.error(f"Tier 1 (Groq) failed: {type(e).__name__}: {e}")
 
-        # --- Gemini Fallback ---
+        # Tier 2: Gemini
         if settings.GEMINI_API_KEY:
             try:
-                logger.info("Attempting Gemini fallback for question generation...")
                 url = (
                     "https://generativelanguage.googleapis.com/v1beta/models/"
                     f"gemini-1.5-flash:generateContent?key={settings.GEMINI_API_KEY}"
                 )
                 payload = {
                     "contents": [{"parts": [{"text": prompt}]}],
-                    "generationConfig": {"temperature": 0.7, "response_mime_type": "application/json"},
+                    "generationConfig": {
+                        "temperature": 0.7, 
+                        "response_mime_type": "application/json"
+                    },
                 }
                 async with httpx.AsyncClient(timeout=30.0) as http_client:
                     resp = await http_client.post(url, json=payload)
                     resp.raise_for_status()
                     raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
-                    
                     import json
                     parsed = json.loads(raw)
                     questions = parsed.get("questions", [])
                     if isinstance(questions, list) and len(questions) > 0:
-                        return questions, "gemini_fallback"
+                        return questions[:limit], "gemini"
             except Exception as e:
-                logger.error(f"Gemini fallback failed: {type(e).__name__}: {e}")
-                try:
-                    with open("log_api_inputs.txt", "a", encoding="utf-8") as f:
-                        f.write(f"Gemini exception: {type(e).__name__}: {e}\n")
-                except:
-                    pass
+                logger.error(f"Tier 2 (Gemini) failed: {type(e).__name__}: {e}")
 
-        return None, "ai_failed"
+        # Tier 3: Static Fallback
+        logger.warning("Tier 1 and 2 failed. Falling back to Tier 3 (Static Fallback).")
+        bank = list(FALLBACK_QUESTION_BANK.get(branch.upper(), FALLBACK_QUESTION_BANK["default"]))
+        random.shuffle(bank)
+        
+        # Add a weak subject personalization if applicable
+        follow_ups = [
+            {
+                "topic": subj,
+                "question": f"Your performance in {subj} has room for improvement. Can you explain the core concepts of {subj} in simple terms?",
+                "difficulty": "medium",
+                "source": "weak_subject_personalisation",
+            }
+            for subj in weak_subjects[:3]
+        ]
+        
+        return (follow_ups + bank)[:limit], "static_fallback"
 
     # ------------------------------------------------------------------
     # Session management

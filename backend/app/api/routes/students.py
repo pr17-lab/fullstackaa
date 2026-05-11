@@ -15,7 +15,9 @@ from app.schemas import (
     AcademicTermResponse
 )
 
-router = APIRouter()
+from app.api.dependencies.auth import RequireRole
+
+router = APIRouter(dependencies=[Depends(RequireRole(['admin', 'faculty']))])
 
 @router.get("/students", response_model=StudentListResponse)
 async def list_students(

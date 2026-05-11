@@ -12,7 +12,6 @@ interface User {
 
 interface AuthContextType {
     user: User | null;
-    token: string | null;
     login: (studentId: string, password: string) => Promise<void>;
     logout: () => void;
     updateUser: (updated: Partial<User>) => void;
@@ -24,41 +23,29 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [token, setToken] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
-    // Load token from localStorage on mount
+    // Check authentication on mount
     useEffect(() => {
-        const storedToken = localStorage.getItem('auth_token');
-        if (storedToken) {
-            setToken(storedToken);
-            fetchCurrentUser(storedToken);
-        } else {
-            setIsLoading(false);
-        }
+        fetchCurrentUser();
     }, []);
 
-    const fetchCurrentUser = async (authToken: string) => {
+    const fetchCurrentUser = async () => {
         try {
             const response = await fetch('/api/auth/me', {
-                headers: {
-                    'Authorization': `Bearer ${authToken}`
-                }
+                credentials: 'include',
             });
 
             if (response.ok) {
                 const userData = await response.json();
                 setUser(userData);
             } else {
-                // Token invalid, clear it
-                localStorage.removeItem('auth_token');
-                setToken(null);
+                setUser(null);
             }
         } catch (error) {
             console.error('Failed to fetch user:', error);
-            localStorage.removeItem('auth_token');
-            setToken(null);
+            setUser(null);
         } finally {
             setIsLoading(false);
         }
@@ -72,6 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const response = await fetch('/api/auth/login', {
             method: 'POST',
             body: formData,
+            credentials: 'include',
         });
 
         if (!response.ok) {
@@ -79,19 +67,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             throw new Error(error.detail || 'Login failed');
         }
 
-        const data = await response.json();
-        const newToken = data.access_token;
-
-        localStorage.setItem('auth_token', newToken);
-        setToken(newToken);
-
-        await fetchCurrentUser(newToken);
+        await fetchCurrentUser();
         navigate('/');
     };
 
-    const logout = () => {
-        localStorage.removeItem('auth_token');
-        setToken(null);
+    const logout = async () => {
+        try {
+            await fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include',
+            });
+        } catch (error) {
+            console.error('Failed to logout on server:', error);
+        }
         setUser(null);
         navigate('/login');
     };
@@ -104,11 +92,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         <AuthContext.Provider
             value={{
                 user,
-                token,
                 login,
                 logout,
                 updateUser,
-                isAuthenticated: !!token && !!user,
+                isAuthenticated: !!user,
                 isLoading,
             }}
         >

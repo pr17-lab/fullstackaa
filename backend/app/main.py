@@ -9,7 +9,6 @@ from slowapi.errors import RateLimitExceeded
 from app.core.config import settings
 from app.core.logging import setup_logging
 from app.middleware.logging import log_requests
-from app.services.csv_data_service import csv_data_loader
 
 # Routers
 from app.api.routes import auth, health
@@ -40,8 +39,6 @@ limiter = Limiter(key_func=get_remote_address)
 async def lifespan(app: FastAPI):
     """Load startup resources, then clean up on shutdown."""
     logger.info("Starting Student Academic Tracker API v1.0 (modular monolith)")
-    csv_data_loader.load_data()
-    logger.info("CSV data loaded: %s", csv_data_loader.is_loaded)
     yield
 
 # ---------------------------------------------------------------------------

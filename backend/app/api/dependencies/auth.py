@@ -2,19 +2,15 @@
 Authentication dependencies for protecting routes.
 """
 
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from jose import JWTError
 from app.core.security import decode_access_token
-from app.models.user import User
+from app.models.user import User, UserRole
 from app.api.dependencies.database import get_db
 
-# OAuth2 scheme
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
-
 async def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    request: Request,
     db: Session = Depends(get_db)
 ) -> User:
     """
@@ -25,6 +21,14 @@ async def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    
+    # Get token from cookies
+    token = request.cookies.get("access_token")
+    if not token:
+        raise credentials_exception
+        
+    if token.startswith("Bearer "):
+        token = token[7:]
     
     # Decode token
     payload = decode_access_token(token)
@@ -41,3 +45,15 @@ async def get_current_user(
         raise credentials_exception
     
     return user
+
+class RequireRole:
+    def __init__(self, allowed_roles: list[str]):
+        self.allowed_roles = allowed_roles
+
+    async def __call__(self, current_user: User = Depends(get_current_user)) -> User:
+        if current_user.role.value not in self.allowed_roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not enough permissions"
+            )
+        return current_user

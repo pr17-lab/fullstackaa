@@ -1,12 +1,14 @@
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import QueuePool
 from app.core.config import settings
 
 # Create database engine with connection pooling
-engine = create_engine(
-    settings.DATABASE_URL,
+# Ensure we use the asyncpg driver
+async_db_url = settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
+
+engine = create_async_engine(
+    async_db_url,
     poolclass=QueuePool,
     pool_size=settings.DB_POOL_SIZE,           # Number of connections to keep open
     max_overflow=settings.DB_MAX_OVERFLOW,     # Additional connections when needed
@@ -16,16 +18,22 @@ engine = create_engine(
 )
 
 # Create session factory
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = async_sessionmaker(
+    bind=engine,
+    class_=AsyncSession,
+    autocommit=False,
+    autoflush=False,
+    expire_on_commit=False
+)
 
 # Base class for models
 Base = declarative_base()
 
 # Dependency for getting database session
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def get_db():
+    async with SessionLocal() as db:
+        try:
+            yield db
+        finally:
+            await db.close()
 

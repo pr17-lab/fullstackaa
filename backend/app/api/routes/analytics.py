@@ -9,7 +9,8 @@ import uuid
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from sqlalchemy import func, desc
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import func, desc, select, case
 
 from app.core.database import get_db
 from app.models import StudentProfile, User, AcademicTerm, Subject
@@ -27,7 +28,9 @@ from app.schemas import (
     StudentProfileResponse,
 )
 
-router = APIRouter()
+from app.api.dependencies.auth import RequireRole
+
+router = APIRouter(dependencies=[Depends(RequireRole(['admin', 'faculty']))])
 
 
 # ---------------------------------------------------------------------------
@@ -337,70 +340,107 @@ async def get_cohort_statistics(
 @router.get("/overview", response_model=AnalyticsOverview)
 async def get_analytics_overview(
     limit: int = Query(10, ge=1, le=50, description="Top performers limit"),
-    db: Session = Depends(get_db),
+    db: AsyncSession = Depends(get_db),
 ):
     """Get overall analytics overview across all students."""
-    all_students = db.query(StudentProfile).all()
-    if not all_students:
+    
+    # 1. Total students
+    stmt_total = select(func.count(StudentProfile.id))
+    total_students_result = await db.execute(stmt_total)
+    total_students = total_students_result.scalar() or 0
+
+    if total_students == 0:
         raise HTTPException(status_code=404, detail="No students found")
 
-    all_gpas: list[float] = []
-    student_summaries: list[dict] = []
+    # 2. Overall average GPA
+    stmt_avg_gpa = select(func.avg(AcademicTerm.gpa))
+    avg_gpa_result = await db.execute(stmt_avg_gpa)
+    overall_avg_gpa = avg_gpa_result.scalar() or 0.0
 
-    for student in all_students:
-        terms = db.query(AcademicTerm).filter(AcademicTerm.user_id == student.user_id).all()
-        if terms:
-            avg_gpa = sum(float(t.gpa) for t in terms) / len(terms)
-            all_gpas.append(avg_gpa)
-            student_summaries.append({"student": student, "gpa": avg_gpa})
+    # 3. Grade distribution & student averages
+    student_gpa_cte = (
+        select(
+            AcademicTerm.user_id,
+            func.avg(AcademicTerm.gpa).label('avg_gpa')
+        )
+        .group_by(AcademicTerm.user_id)
+        .cte('student_gpa')
+    )
 
-    overall_avg_gpa = sum(all_gpas) / len(all_gpas) if all_gpas else 0.0
-
+    stmt_dist = select(
+        func.sum(case((student_gpa_cte.c.avg_gpa >= 9.5, 1), else_=0)).label('A+'),
+        func.sum(case((student_gpa_cte.c.avg_gpa >= 9.0) & (student_gpa_cte.c.avg_gpa < 9.5), 1, else_=0)).label('A'),
+        func.sum(case((student_gpa_cte.c.avg_gpa >= 8.5) & (student_gpa_cte.c.avg_gpa < 9.0), 1, else_=0)).label('B+'),
+        func.sum(case((student_gpa_cte.c.avg_gpa >= 8.0) & (student_gpa_cte.c.avg_gpa < 8.5), 1, else_=0)).label('B'),
+        func.sum(case((student_gpa_cte.c.avg_gpa >= 7.5) & (student_gpa_cte.c.avg_gpa < 8.0), 1, else_=0)).label('C+'),
+        func.sum(case((student_gpa_cte.c.avg_gpa >= 7.0) & (student_gpa_cte.c.avg_gpa < 7.5), 1, else_=0)).label('C'),
+        func.sum(case((student_gpa_cte.c.avg_gpa < 7.0, 1), else_=0)).label('Below C')
+    )
+    
+    dist_result = await db.execute(stmt_dist)
+    dist_row = dist_result.fetchone()
+    
     grade_ranges = [
-        ("A+ (9.5-10.0)", 9.5, 10.0),
-        ("A (9.0-9.4)", 9.0, 9.5),
-        ("B+ (8.5-8.9)", 8.5, 9.0),
-        ("B (8.0-8.4)", 8.0, 8.5),
-        ("C+ (7.5-7.9)", 7.5, 8.0),
-        ("C (7.0-7.4)", 7.0, 7.5),
-        ("Below C (<7.0)", 0, 7.0),
+        ("A+ (9.5-10.0)", dist_row[0] or 0),
+        ("A (9.0-9.4)", dist_row[1] or 0),
+        ("B+ (8.5-8.9)", dist_row[2] or 0),
+        ("B (8.0-8.4)", dist_row[3] or 0),
+        ("C+ (7.5-7.9)", dist_row[4] or 0),
+        ("C (7.0-7.4)", dist_row[5] or 0),
+        ("Below C (<7.0)", dist_row[6] or 0),
     ]
+    
+    total_with_gpa = sum(count for _, count in grade_ranges)
     grade_dist = [
         GradeDistribution(
             grade=label,
-            count=(c := sum(1 for g in all_gpas if low <= g < high or (high == 10.0 and g == 10.0))),
-            percentage=Decimal(str((c / len(all_gpas) * 100) if all_gpas else 0)),
+            count=count,
+            percentage=Decimal(str((count / total_with_gpa * 100) if total_with_gpa > 0 else 0))
         )
-        for label, low, high in grade_ranges
+        for label, count in grade_ranges
     ]
 
-    top_students = sorted(student_summaries, key=lambda x: x["gpa"], reverse=True)[:limit]
-    top_performers = []
-    for item in top_students:
-        student = item["student"]
-        total_subjects = (
-            db.query(func.count(Subject.id)).join(AcademicTerm)
-            .filter(AcademicTerm.user_id == student.user_id).scalar() or 0
+    # 4. Top performers with window functions
+    stmt_top = (
+        select(
+            StudentProfile,
+            student_gpa_cte.c.avg_gpa,
+            func.count(Subject.id).label('total_subjects'),
+            func.sum(Subject.credits).label('total_credits'),
+            func.percent_rank().over(
+                partition_by=StudentProfile.department,
+                order_by=student_gpa_cte.c.avg_gpa
+            ).label('cohort_percentile')
         )
-        total_credits = (
-            db.query(func.sum(Subject.credits)).join(AcademicTerm)
-            .filter(AcademicTerm.user_id == student.user_id).scalar() or 0
-        )
-        top_performers.append(StudentAnalyticsSummary(
-            student_id=student.id,
-            student_name=student.name,
-            branch=student.department,
-            current_semester=student.semester,
-            overall_gpa=Decimal(str(item["gpa"])),
-            total_credits=total_credits,
-            total_subjects=total_subjects,
+        .join(student_gpa_cte, StudentProfile.user_id == student_gpa_cte.c.user_id)
+        .outerjoin(AcademicTerm, AcademicTerm.user_id == StudentProfile.user_id)
+        .outerjoin(Subject, Subject.term_id == AcademicTerm.id)
+        .group_by(StudentProfile.id, student_gpa_cte.c.avg_gpa)
+        .order_by(student_gpa_cte.c.avg_gpa.desc())
+        .limit(limit)
+    )
+    
+    top_result = await db.execute(stmt_top)
+    top_rows = top_result.all()
+
+    top_performers = [
+        StudentAnalyticsSummary(
+            student_id=row.StudentProfile.id,
+            student_name=row.StudentProfile.name,
+            branch=row.StudentProfile.department,
+            current_semester=row.StudentProfile.semester,
+            overall_gpa=Decimal(str(round(row.avg_gpa or 0.0, 2))),
+            total_credits=row.total_credits or 0,
+            total_subjects=row.total_subjects or 0,
             gpa_trend="stable",
-            performance_percentile=Decimal("95.0"),
-        ))
+            performance_percentile=Decimal(str(round((row.cohort_percentile or 0.0) * 100, 1)))
+        )
+        for row in top_rows
+    ]
 
     return AnalyticsOverview(
-        total_students=len(all_students),
-        average_gpa=Decimal(str(overall_avg_gpa)),
+        total_students=total_students,
+        average_gpa=Decimal(str(round(overall_avg_gpa, 2))),
         grade_distribution=grade_dist,
         top_performers=top_performers,
     )

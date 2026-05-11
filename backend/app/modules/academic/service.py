@@ -18,8 +18,9 @@ import uuid
 from typing import Optional
 from decimal import Decimal
 
-from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import func
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
+from sqlalchemy import func, select
 from fastapi import HTTPException
 
 from app.models import StudentProfile, User, AcademicTerm, Subject
@@ -36,32 +37,31 @@ class AcademicService:
     # Student / Profile
     # ------------------------------------------------------------------
 
-    def get_student_profile(
-        self, db: Session, user_id: uuid.UUID
+    async def get_student_profile(
+        self, db: AsyncSession, user_id: uuid.UUID
     ) -> StudentProfile:
         """Return the StudentProfile for *user_id*.
 
         Raises HTTP 404 if none exists.
         """
-        profile = (
-            db.query(StudentProfile)
-            .filter(StudentProfile.user_id == user_id)
-            .first()
-        )
+        stmt = select(StudentProfile).filter(StudentProfile.user_id == user_id)
+        result = await db.execute(stmt)
+        profile = result.scalar_one_or_none()
         if not profile:
             raise HTTPException(status_code=404, detail="Student profile not found")
         return profile
 
-    def get_student_by_student_id(
-        self, db: Session, student_id: str
+    async def get_student_by_student_id(
+        self, db: AsyncSession, student_id: str
     ) -> StudentProfile:
         """Return the StudentProfile whose linked User has the given student_id string."""
-        profile = (
-            db.query(StudentProfile)
+        stmt = (
+            select(StudentProfile)
             .join(User)
             .filter(User.student_id == student_id)
-            .first()
         )
+        result = await db.execute(stmt)
+        profile = result.scalar_one_or_none()
         if not profile:
             raise HTTPException(
                 status_code=404,
@@ -73,9 +73,9 @@ class AcademicService:
     # Academic Terms
     # ------------------------------------------------------------------
 
-    def get_academic_terms(
+    async def get_academic_terms(
         self,
-        db: Session,
+        db: AsyncSession,
         user_id: uuid.UUID,
         *,
         completed_only: bool = True,
@@ -83,53 +83,57 @@ class AcademicService:
         """Return academic terms for a student, optionally filtered to
         completed semesters only (i.e., semester <= profile.semester).
         """
-        profile = self.get_student_profile(db, user_id)
+        profile = await self.get_student_profile(db, user_id)
 
-        query = db.query(AcademicTerm).filter(
-            AcademicTerm.user_id == user_id
-        )
+        stmt = select(AcademicTerm).filter(AcademicTerm.user_id == user_id)
         if completed_only:
-            query = query.filter(AcademicTerm.semester <= profile.semester)
+            stmt = stmt.filter(AcademicTerm.semester <= profile.semester)
 
-        return (
-            query.options(joinedload(AcademicTerm.subjects))
+        stmt = (
+            stmt.options(joinedload(AcademicTerm.subjects))
             .order_by(AcademicTerm.year, AcademicTerm.semester)
-            .all()
         )
+        
+        result = await db.execute(stmt)
+        # Using unique() is necessary when using joinedload with select
+        return list(result.scalars().unique().all())
 
     # ------------------------------------------------------------------
     # Subjects / Performance
     # ------------------------------------------------------------------
 
-    def get_subject_performance(
-        self, db: Session, user_id: uuid.UUID
+    async def get_subject_performance(
+        self, db: AsyncSession, user_id: uuid.UUID
     ) -> list[Subject]:
         """Return all Subject rows across completed academic terms."""
-        terms = self.get_academic_terms(db, user_id, completed_only=True)
+        terms = await self.get_academic_terms(db, user_id, completed_only=True)
         term_ids = [t.id for t in terms]
         if not term_ids:
             return []
-        return db.query(Subject).filter(Subject.term_id.in_(term_ids)).all()
+        stmt = select(Subject).filter(Subject.term_id.in_(term_ids))
+        result = await db.execute(stmt)
+        return list(result.scalars().all())
 
-    def get_weak_subjects(
+    async def get_weak_subjects(
         self,
-        db: Session,
+        db: AsyncSession,
         user_id: uuid.UUID,
         *,
         threshold_marks: float = 60.0,
     ) -> list[Subject]:
         """Return subjects where the student scored below *threshold_marks*."""
-        subjects = self.get_subject_performance(db, user_id)
+        subjects = await self.get_subject_performance(db, user_id)
         return [s for s in subjects if float(s.marks) < threshold_marks]
 
-    def get_overall_gpa(self, db: Session, user_id: uuid.UUID) -> Decimal:
+    async def get_overall_gpa(self, db: AsyncSession, user_id: uuid.UUID) -> Decimal:
         """Return the simple mean GPA across completed terms."""
-        terms = self.get_academic_terms(db, user_id, completed_only=True)
+        terms = await self.get_academic_terms(db, user_id, completed_only=True)
         if not terms:
             return Decimal("0.00")
         avg = sum(float(t.gpa) for t in terms) / len(terms)
         return Decimal(str(round(avg, 2)))
 
-    def get_branch(self, db: Session, user_id: uuid.UUID) -> str:
+    async def get_branch(self, db: AsyncSession, user_id: uuid.UUID) -> str:
         """Convenience: return the student's branch string."""
-        return self.get_student_profile(db, user_id).department
+        profile = await self.get_student_profile(db, user_id)
+        return profile.department

@@ -3,22 +3,11 @@ import axios from 'axios';
 // Create axios instance with base configuration
 const api = axios.create({
     baseURL: '/api', // Proxy will handle forwarding to backend
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
     },
 });
-
-// Request interceptor to add JWT token
-api.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('auth_token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
 
 // Response interceptor for error handling
 api.interceptors.response.use(
