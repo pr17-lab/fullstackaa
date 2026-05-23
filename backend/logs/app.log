@@ -13010,3 +13010,513 @@ RuntimeError: Event loop is closed
 2026-05-24 01:05:09 - app.modules.interview.service - ERROR - service.py:828 - Gemini real-time evaluation failed: object MagicMock can't be used in 'await' expression
 2026-05-24 01:06:04 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
 2026-05-24 01:06:04 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:16:58 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-05-24 01:17:10 - httpx - INFO - _client.py:1027 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:17:17 - httpx - INFO - _client.py:1027 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-05-24 01:17:19 - httpx - INFO - _client.py:1027 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-05-24 01:17:21 - httpx - INFO - _client.py:1027 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-05-24 01:17:24 - httpx - INFO - _client.py:1027 - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyDWlMGPO5K4N9kiJ3H_gActQ4PTC84oFZc "HTTP/1.1 404 Not Found"
+2026-05-24 01:18:38 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-05-24 01:18:38 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:18:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:39 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:18:39 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:18:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:40 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:18:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:40 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:18:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:41 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:41 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:41 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 403 Forbidden"
+2026-05-24 01:18:42 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:18:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:43 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:18:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:43 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 200 OK"
+2026-05-24 01:18:43 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:18:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:43 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:44 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:18:44 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:44 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/skills/recommendations "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:18:44 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:18:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:45 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:18:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:18:45 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/skills/recommendations "HTTP/1.1 200 OK"
+2026-05-24 01:18:48 - httpx - INFO - _client.py:1758 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:18:51 - httpx - INFO - _client.py:1758 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:18:52 - httpx - INFO - _client.py:1758 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-05-24 01:18:52 - groq._base_client - INFO - _base_client.py:1603 - Retrying request to /openai/v1/chat/completions in 22.000000 seconds
+2026-05-24 01:19:14 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-164' coro=<AsyncClient.aclose() done, defined at C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py:1996> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 2003, in aclose
+    await self._transport.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_transports\default.py", line 383, in aclose
+    await self._pool.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:19:15 - httpx - INFO - _client.py:1758 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:19:18 - httpx - INFO - _client.py:1758 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:19:18 - app.modules.interview.service - ERROR - service.py:218 - Tier 2 (Gemini) failed: ConnectError: refused
+2026-05-24 01:19:18 - app.modules.interview.service - WARNING - service.py:221 - Tier 1 and 2 failed. Falling back to Tier 3 (Static Fallback).
+2026-05-24 01:19:18 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-169' coro=<AsyncClient.aclose() done, defined at C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py:1996> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 2003, in aclose
+    await self._transport.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_transports\default.py", line 383, in aclose
+    await self._pool.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:19:18 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-05-24 01:19:18 - ml_service.groq_client - INFO - groq_client.py:215 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-05-24 01:19:18 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-05-24 01:19:18 - ml_service.groq_client - INFO - groq_client.py:215 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-05-24 01:19:18 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-05-24 01:19:18 - ml_service.groq_client - INFO - groq_client.py:215 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-05-24 01:19:18 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-05-24 01:19:18 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-05-24 01:19:18 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-05-24 01:19:18 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:19 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:20 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:20 - app.modules.interview.router - INFO - router.py:497 - WebSocket disconnected for session: 94f33094-e474-401a-8157-f4320a9b1937
+2026-05-24 01:19:20 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:21 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:21 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:22 - httpx - INFO - _client.py:1758 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-05-24 01:19:22 - groq._base_client - INFO - _base_client.py:1603 - Retrying request to /openai/v1/chat/completions in 10.000000 seconds
+2026-05-24 01:19:32 - httpx - INFO - _client.py:1758 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:19:34 - app.modules.interview.router - INFO - router.py:497 - WebSocket disconnected for session: 67b9b9d1-553d-4185-af7b-812b130d3256
+2026-05-24 01:19:34 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:34 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:34 - app.modules.interview.router - INFO - router.py:497 - WebSocket disconnected for session: 2b3c7730-73ff-48d8-ac7c-7447788bc7ea
+2026-05-24 01:19:34 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:34 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/skills/project/verify "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:19:34 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:35 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:36 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/skills/project/verify "HTTP/1.1 422 Unprocessable Entity"
+2026-05-24 01:19:36 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:36 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:37 - httpx - INFO - _client.py:1758 - HTTP Request: GET https://api.github.com/repos/student/sata-platform "HTTP/1.1 404 Not Found"
+2026-05-24 01:19:37 - app.modules.skills.project_service - WARNING - project_service.py:102 - GitHub repository base check failed for student/sata-platform (Status 404)
+2026-05-24 01:19:37 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/skills/project/verify "HTTP/1.1 202 Accepted"
+2026-05-24 01:19:38 - app.modules.skills.project_service - INFO - project_service.py:267 - GitHub Repository Ingested successfully: user=fc691d3e-ac79-4b5f-9876-bace01901457, repo=student/sata-platform, complexity=100, skills=['FastAPI', 'React', 'Docker']
+2026-05-24 01:19:38 - app.modules.skills.project_service - INFO - project_service.py:274 - Synchronizing GitHub extracted skills to user fc691d3e-ac79-4b5f-9876-bace01901457 skill matrix
+2026-05-24 01:19:38 - app.modules.skills.project_service - INFO - project_service.py:357 - Successfully completed composite calibration loop for user fc691d3e-ac79-4b5f-9876-bace01901457
+2026-05-24 01:19:39 - app.modules.skills.project_service - INFO - project_service.py:267 - GitHub Repository Ingested successfully: user=e9bd4bf7-8c78-4fc0-8933-accfefea7389, repo=student/fastapi-app, complexity=35, skills=['FastAPI']
+2026-05-24 01:19:39 - app.modules.skills.project_service - INFO - project_service.py:274 - Synchronizing GitHub extracted skills to user e9bd4bf7-8c78-4fc0-8933-accfefea7389 skill matrix
+2026-05-24 01:19:39 - app.modules.skills.project_service - INFO - project_service.py:357 - Successfully completed composite calibration loop for user e9bd4bf7-8c78-4fc0-8933-accfefea7389
+2026-05-24 01:19:39 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:39 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/roadmap/tasks/627fb517-7ae7-4ef9-a9b1-88ce6cc19016/complete "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:19:39 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:40 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/roadmap/tasks/c96a879f-c40f-4c25-a5ae-a0c3c493b91b/complete "HTTP/1.1 404 Not Found"
+2026-05-24 01:19:40 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:41 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:42 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/roadmap/tasks/b29593ef-c288-4339-be65-921212513854/complete "HTTP/1.1 200 OK"
+2026-05-24 01:19:42 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:43 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:43 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/roadmap/tasks/a74f61e1-3fa1-4804-9b03-923d43e8c09f/complete "HTTP/1.1 400 Bad Request"
+2026-05-24 01:19:43 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:45 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:45 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:45 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/roadmap/tasks/284350ee-2617-48d8-976c-2873540e0ce5/complete "HTTP/1.1 400 Bad Request"
+2026-05-24 01:19:45 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:46 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:46 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:46 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/roadmap/tasks/841e135c-8a06-4ead-aff8-0ae127a09c65/complete "HTTP/1.1 200 OK"
+2026-05-24 01:19:47 - app.modules.skills.project_service - INFO - project_service.py:267 - GitHub Repository Ingested successfully: user=e5672430-a2bd-4a64-9977-d8d6bcd5f8b2, repo=student/fastapi-app, complexity=45, skills=['FastAPI']
+2026-05-24 01:19:47 - app.modules.skills.project_service - INFO - project_service.py:274 - Synchronizing GitHub extracted skills to user e5672430-a2bd-4a64-9977-d8d6bcd5f8b2 skill matrix
+2026-05-24 01:19:47 - app.modules.skills.project_service - INFO - project_service.py:357 - Successfully completed composite calibration loop for user e5672430-a2bd-4a64-9977-d8d6bcd5f8b2
+2026-05-24 01:19:47 - app.modules.skills.project_service - INFO - project_service.py:381 - Successfully updated RoadmapTask e7b59801-4bc6-4181-bec3-347fb0065381 to verified and completed
+2026-05-24 01:19:48 - app.modules.skills.project_service - WARNING - project_service.py:102 - GitHub repository base check failed for student/nonexistent-app (Status 404)
+2026-05-24 01:19:48 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:49 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:49 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-05-24 01:19:49 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:50 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:50 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:50 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?branch=CSE "HTTP/1.1 200 OK"
+2026-05-24 01:19:50 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:51 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:51 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students?semester=3 "HTTP/1.1 200 OK"
+2026-05-24 01:19:51 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:52 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:52 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:52 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=Test&page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-05-24 01:19:52 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:54 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:54 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:54 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=TEST001 "HTTP/1.1 200 OK"
+2026-05-24 01:19:54 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:55 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:55 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:55 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/62735086-40f7-410b-8ee7-5e94a941f14c "HTTP/1.1 200 OK"
+2026-05-24 01:19:55 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:56 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:57 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:57 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:57 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/c8cee9ac-e2ad-4f5c-a877-6c49898e4b34 "HTTP/1.1 404 Not Found"
+2026-05-24 01:19:57 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:19:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:58 - httpx - INFO - _client.py:1027 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:19:58 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:19:58 - httpx - INFO - _client.py:1027 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-05-24 01:20:00 - httpx - INFO - _client.py:1758 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:20:00 - app.modules.interview.service - INFO - service.py:383 - Micro-Interview session 43e8694f-9c28-4530-957a-0ec05cb95134 created: user=43d42f45-5ef3-4aa9-80b8-bfa09751ef18 skill=React
+2026-05-24 01:20:01 - app.modules.interview.service - INFO - service.py:967 - Micro-interview successful! RoadmapTask 7d44e1c4-b482-4c54-a24d-e552585f4d51 completed and verified
+2026-05-24 01:20:01 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-605' coro=<AsyncClient.aclose() done, defined at C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py:1996> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 2003, in aclose
+    await self._transport.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_transports\default.py", line 383, in aclose
+    await self._pool.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:20:02 - app.modules.interview.service - ERROR - service.py:829 - Gemini real-time evaluation failed: object MagicMock can't be used in 'await' expression
+2026-05-24 01:24:12 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-05-24 01:24:13 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:14 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:14 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:14 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:14 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:14 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:14 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:14 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:14 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:14 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:15 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:15 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:15 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:16 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:16 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:16 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:16 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:16 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 403 Forbidden"
+2026-05-24 01:24:16 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:17 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:17 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 200 OK"
+2026-05-24 01:24:17 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:17 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/auth/me "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:17 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:17 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:17 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/skills/recommendations "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:17 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:18 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:18 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:18 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/skills/recommendations "HTTP/1.1 200 OK"
+2026-05-24 01:24:20 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:24:22 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:24:24 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:24:25 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-165' coro=<AsyncClient.aclose() done, defined at c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py:1967> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py", line 1974, in aclose
+    await self._transport.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_transports\default.py", line 378, in aclose
+    await self._pool.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:24:25 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-166' coro=<AsyncClient.aclose() done, defined at c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py:1967> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py", line 1974, in aclose
+    await self._transport.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_transports\default.py", line 378, in aclose
+    await self._pool.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:24:26 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:24:26 - app.modules.interview.service - ERROR - service.py:218 - Tier 2 (Gemini) failed: ConnectError: refused
+2026-05-24 01:24:26 - app.modules.interview.service - WARNING - service.py:221 - Tier 1 and 2 failed. Falling back to Tier 3 (Static Fallback).
+2026-05-24 01:24:26 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/predict/health "HTTP/1.1 200 OK"
+2026-05-24 01:24:26 - ml_service.groq_client - INFO - groq_client.py:215 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-05-24 01:24:26 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-05-24 01:24:26 - ml_service.groq_client - INFO - groq_client.py:215 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-05-24 01:24:26 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-05-24 01:24:26 - ml_service.groq_client - INFO - groq_client.py:215 - Groq: GROQ_API_KEY not set — skipping LLM path
+2026-05-24 01:24:26 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/predict/questions "HTTP/1.1 200 OK"
+2026-05-24 01:24:26 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-05-24 01:24:26 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/predict/performance "HTTP/1.1 200 OK"
+2026-05-24 01:24:26 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:27 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:27 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:27 - app.modules.interview.router - INFO - router.py:497 - WebSocket disconnected for session: 9c2f4dc3-49fd-4cfa-b1cb-0f30e01f54fa
+2026-05-24 01:24:27 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:28 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:29 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:24:30 - app.modules.interview.router - INFO - router.py:497 - WebSocket disconnected for session: 00bdef0d-0cf8-4f16-a79d-2aa4d64fe0cf
+2026-05-24 01:24:30 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:30 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:30 - app.modules.interview.router - INFO - router.py:497 - WebSocket disconnected for session: f6bd25ef-a356-428b-9db6-eb806bb20794
+2026-05-24 01:24:30 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:30 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:30 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/skills/project/verify "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:30 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:31 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:31 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:31 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/skills/project/verify "HTTP/1.1 422 Unprocessable Entity"
+2026-05-24 01:24:31 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:32 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:32 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:32 - httpx - INFO - _client.py:1729 - HTTP Request: GET https://api.github.com/repos/student/sata-platform "HTTP/1.1 404 Not Found"
+2026-05-24 01:24:32 - app.modules.skills.project_service - WARNING - project_service.py:102 - GitHub repository base check failed for student/sata-platform (Status 404)
+2026-05-24 01:24:32 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/skills/project/verify "HTTP/1.1 202 Accepted"
+2026-05-24 01:24:33 - app.modules.skills.project_service - INFO - project_service.py:267 - GitHub Repository Ingested successfully: user=2a381154-3804-4989-805d-a580459919f8, repo=student/sata-platform, complexity=100, skills=['FastAPI', 'React', 'Docker']
+2026-05-24 01:24:33 - app.modules.skills.project_service - INFO - project_service.py:274 - Synchronizing GitHub extracted skills to user 2a381154-3804-4989-805d-a580459919f8 skill matrix
+2026-05-24 01:24:33 - app.modules.skills.project_service - INFO - project_service.py:357 - Successfully completed composite calibration loop for user 2a381154-3804-4989-805d-a580459919f8
+2026-05-24 01:24:33 - app.modules.skills.project_service - INFO - project_service.py:267 - GitHub Repository Ingested successfully: user=e15d52b4-e466-4681-831d-fecaf7ad6345, repo=student/fastapi-app, complexity=35, skills=['FastAPI']
+2026-05-24 01:24:33 - app.modules.skills.project_service - INFO - project_service.py:274 - Synchronizing GitHub extracted skills to user e15d52b4-e466-4681-831d-fecaf7ad6345 skill matrix
+2026-05-24 01:24:33 - app.modules.skills.project_service - INFO - project_service.py:357 - Successfully completed composite calibration loop for user e15d52b4-e466-4681-831d-fecaf7ad6345
+2026-05-24 01:24:33 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:34 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/roadmap/tasks/315109e0-b37a-425e-a228-d7b38ba51e16/complete "HTTP/1.1 401 Unauthorized"
+2026-05-24 01:24:34 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:34 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:34 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:34 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/roadmap/tasks/69fa1142-f2e2-49b8-8a1d-3e34a04ce79d/complete "HTTP/1.1 404 Not Found"
+2026-05-24 01:24:34 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:35 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:35 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:35 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/roadmap/tasks/2cbef830-51ef-40db-a315-291363a9eac7/complete "HTTP/1.1 200 OK"
+2026-05-24 01:24:35 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:36 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:36 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/roadmap/tasks/db8ca550-5859-4a9f-bd41-513a3b2ee2bf/complete "HTTP/1.1 400 Bad Request"
+2026-05-24 01:24:36 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:36 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:36 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/roadmap/tasks/909aa12f-3139-42ad-be1e-2ff542832e30/complete "HTTP/1.1 400 Bad Request"
+2026-05-24 01:24:36 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:37 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:37 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/roadmap/tasks/60ba4347-d2db-4088-b523-80a68d20b5c1/complete "HTTP/1.1 200 OK"
+2026-05-24 01:24:37 - app.modules.skills.project_service - INFO - project_service.py:267 - GitHub Repository Ingested successfully: user=878b0495-26db-4bbc-8f7d-00210b78287b, repo=student/fastapi-app, complexity=45, skills=['FastAPI']
+2026-05-24 01:24:37 - app.modules.skills.project_service - INFO - project_service.py:274 - Synchronizing GitHub extracted skills to user 878b0495-26db-4bbc-8f7d-00210b78287b skill matrix
+2026-05-24 01:24:37 - app.modules.skills.project_service - INFO - project_service.py:357 - Successfully completed composite calibration loop for user 878b0495-26db-4bbc-8f7d-00210b78287b
+2026-05-24 01:24:37 - app.modules.skills.project_service - INFO - project_service.py:381 - Successfully updated RoadmapTask 8579cbcc-62fd-4fac-ac6e-a9b424bfc937 to verified and completed
+2026-05-24 01:24:38 - app.modules.skills.project_service - WARNING - project_service.py:102 - GitHub repository base check failed for student/nonexistent-app (Status 404)
+2026-05-24 01:24:38 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:38 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:38 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/students?page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-05-24 01:24:38 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:39 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:39 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:39 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/students?branch=CSE "HTTP/1.1 200 OK"
+2026-05-24 01:24:39 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:40 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:40 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/students?semester=3 "HTTP/1.1 200 OK"
+2026-05-24 01:24:40 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:40 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:40 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/students/search?q=Test&page=1&page_size=10 "HTTP/1.1 200 OK"
+2026-05-24 01:24:40 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:41 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:41 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/students/search?q=TEST001 "HTTP/1.1 200 OK"
+2026-05-24 01:24:41 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:41 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:41 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:41 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/students/63e5b9e3-3211-4b9e-a41f-27cf864508ce "HTTP/1.1 200 OK"
+2026-05-24 01:24:41 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:42 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:42 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/students/d49ca722-d69c-44c3-a10d-ba32cc45a80c "HTTP/1.1 404 Not Found"
+2026-05-24 01:24:42 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-05-24 01:24:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:43 - httpx - INFO - _client.py:1013 - HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-05-24 01:24:43 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-05-24 01:24:43 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/students/search?q=a "HTTP/1.1 422 Unprocessable Entity"
+2026-05-24 01:24:44 - httpx - INFO - _client.py:1729 - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-24 01:24:44 - app.modules.interview.service - INFO - service.py:383 - Micro-Interview session a36c6d5e-1b5f-4f54-845c-f6c656ecc81b created: user=dc02836d-9cc0-4c0b-8788-148c54e5b2db skill=React
+2026-05-24 01:24:45 - app.modules.interview.service - INFO - service.py:967 - Micro-interview successful! RoadmapTask 4ba6f149-09b5-4abc-b3ac-00e550196dbf completed and verified
+2026-05-24 01:24:45 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-603' coro=<AsyncClient.aclose() done, defined at c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py:1967> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py", line 1974, in aclose
+    await self._transport.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_transports\default.py", line 378, in aclose
+    await self._pool.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:24:45 - app.modules.interview.service - ERROR - service.py:829 - Gemini real-time evaluation failed: object MagicMock can't be used in 'await' expression

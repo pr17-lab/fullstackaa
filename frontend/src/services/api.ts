@@ -142,11 +142,21 @@ export const RoadmapService = {
         return response.data;
     },
 
-    completeTask: async (task_id: string, feedback_score?: number) => {
+    completeTask: async (task_id: string, feedback_score?: number, submission_link?: string) => {
         const response = await api.post<{ status: string; message: string }>(
             `/roadmap/tasks/${task_id}/complete`,
-            { feedback_score: feedback_score ?? null }
+            {
+                feedback_score: feedback_score ?? null,
+                submission_link: submission_link ?? null
+            }
         );
+        return response.data;
+    },
+
+    createMicroSession: async (skill_id: string, roadmap_task_id?: string) => {
+        const params: Record<string, string> = { skill_id };
+        if (roadmap_task_id) params.roadmap_task_id = roadmap_task_id;
+        const response = await api.post<any>('/interview/sessions/micro', null, { params });
         return response.data;
     },
 

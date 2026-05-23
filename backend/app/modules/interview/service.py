@@ -229,6 +229,7 @@ STRICT RULES:
         db: Session,
         user_id: uuid.UUID,
         skill_id: uuid.UUID,
+        roadmap_task_id: Optional[uuid.UUID] = None,
     ) -> InterviewSession:
         """
         Create a shortened interview session (capped strictly at 3 questions)
@@ -246,17 +247,17 @@ STRICT RULES:
         skill = db.query(SkillTaxonomy).filter(SkillTaxonomy.id == skill_id).first()
         skill_name = skill.skill_name if skill else "Software Engineering"
         
-        # Find corresponding roadmap task to associate
-        roadmap = db.query(Roadmap).filter(Roadmap.user_id == user_id, Roadmap.status == "active").first()
-        roadmap_task_id = None
-        if roadmap:
-            task = db.query(RoadmapTask).filter(
-                RoadmapTask.roadmap_id == roadmap.id,
-                RoadmapTask.skill_id == skill_id,
-                RoadmapTask.phase == "apply"
-            ).first()
-            if task:
-                roadmap_task_id = task.id
+        # Find corresponding roadmap task to associate if not provided
+        if not roadmap_task_id:
+            roadmap = db.query(Roadmap).filter(Roadmap.user_id == user_id, Roadmap.status == "active").first()
+            if roadmap:
+                task = db.query(RoadmapTask).filter(
+                    RoadmapTask.roadmap_id == roadmap.id,
+                    RoadmapTask.skill_id == skill_id,
+                    RoadmapTask.phase == "apply"
+                ).first()
+                if task:
+                    roadmap_task_id = task.id
                 
         # Specialized prompt for micro-interviews
         prompt = f"""You are a senior technical interviewer.
@@ -983,9 +984,9 @@ Return ONLY a valid JSON object matching this schema exactly:
 interview_service = InterviewService()
 
 
-async def create_micro_interview_session(user_id: uuid.UUID, skill_id: uuid.UUID, db: Session) -> InterviewSession:
+async def create_micro_interview_session(user_id: uuid.UUID, skill_id: uuid.UUID, db: Session, roadmap_task_id: Optional[uuid.UUID] = None) -> InterviewSession:
     """Module-level initializer for micro-interview sessions."""
-    return await interview_service.create_micro_interview_session(db, user_id, skill_id)
+    return await interview_service.create_micro_interview_session(db, user_id, skill_id, roadmap_task_id)
 
 
 # ---------------------------------------------------------------------------

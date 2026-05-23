@@ -261,6 +261,26 @@ async def delete_session(
         raise HTTPException(status_code=404, detail="Session not found")
 
 
+@router.post("/sessions/micro", status_code=201, response_model=InterviewSessionOut)
+async def create_micro_session(
+    skill_id: uuid.UUID,
+    roadmap_task_id: Optional[uuid.UUID] = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Start a specialized micro-interview session focused explicitly on the provided skill_id.
+    """
+    try:
+        session = await _interview_svc.create_micro_interview_session(
+            db, current_user.id, skill_id, roadmap_task_id
+        )
+        return session
+    except Exception as exc:
+        logger.error("Error creating micro-interview session: %s", exc, exc_info=True)
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
 # ---------------------------------------------------------------------------
 # Real-Time WebSocket technical screen & evaluation
 # ---------------------------------------------------------------------------

@@ -3349,3 +3349,175 @@ Traceback (most recent call last):
     raise RuntimeError('Event loop is closed')
 RuntimeError: Event loop is closed
 2026-05-24 01:05:09 - app.modules.interview.service - ERROR - service.py:828 - Gemini real-time evaluation failed: object MagicMock can't be used in 'await' expression
+2026-05-24 01:19:14 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-164' coro=<AsyncClient.aclose() done, defined at C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py:1996> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 2003, in aclose
+    await self._transport.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_transports\default.py", line 383, in aclose
+    await self._pool.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:19:18 - app.modules.interview.service - ERROR - service.py:218 - Tier 2 (Gemini) failed: ConnectError: refused
+2026-05-24 01:19:18 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-169' coro=<AsyncClient.aclose() done, defined at C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py:1996> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 2003, in aclose
+    await self._transport.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_transports\default.py", line 383, in aclose
+    await self._pool.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:20:01 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-605' coro=<AsyncClient.aclose() done, defined at C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py:1996> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 2003, in aclose
+    await self._transport.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpx\_transports\default.py", line 383, in aclose
+    await self._pool.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:20:02 - app.modules.interview.service - ERROR - service.py:829 - Gemini real-time evaluation failed: object MagicMock can't be used in 'await' expression
+2026-05-24 01:24:25 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-165' coro=<AsyncClient.aclose() done, defined at c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py:1967> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py", line 1974, in aclose
+    await self._transport.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_transports\default.py", line 378, in aclose
+    await self._pool.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:24:25 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-166' coro=<AsyncClient.aclose() done, defined at c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py:1967> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py", line 1974, in aclose
+    await self._transport.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_transports\default.py", line 378, in aclose
+    await self._pool.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:24:26 - app.modules.interview.service - ERROR - service.py:218 - Tier 2 (Gemini) failed: ConnectError: refused
+2026-05-24 01:24:45 - asyncio - ERROR - base_events.py:1821 - Task exception was never retrieved
+future: <Task finished name='Task-603' coro=<AsyncClient.aclose() done, defined at c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py:1967> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_client.py", line 1974, in aclose
+    await self._transport.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpx\_transports\default.py", line 378, in aclose
+    await self._pool.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 353, in aclose
+    await self._close_connections(closing_connections)
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 345, in _close_connections
+    await connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\connection.py", line 173, in aclose
+    await self._connection.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\streams\tls.py", line 241, in aclose
+    await self.transport_stream.aclose()
+  File "c:\Users\Admin\Desktop\fullstack\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1329, in aclose
+    self._transport.close()
+  File "C:\Program Files\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "C:\Program Files\Python312\Lib\asyncio\base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-05-24 01:24:45 - app.modules.interview.service - ERROR - service.py:829 - Gemini real-time evaluation failed: object MagicMock can't be used in 'await' expression
