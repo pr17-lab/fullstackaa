@@ -71,8 +71,6 @@ class GeneratedQuestionsResponse(BaseModel):
     student_id: str
     branch: str
     semester: int
-    overall_gpa: str
-    weak_subjects: list[str]
     questions: list[dict]
     source: str = "built-in"   # "built-in" | "groq_jd" | "groq_resume" | "groq_jd_resume" | *_gemini variants
 

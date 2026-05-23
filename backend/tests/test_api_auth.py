@@ -14,8 +14,8 @@ def test_login_success(client, sample_user):
     
     assert response.status_code == 200
     data = response.json()
-    assert "access_token" in data
-    assert data["token_type"] == "bearer"
+    assert data["message"] == "Login successful"
+    assert "access_token" in response.cookies
 
 def test_login_invalid_credentials(client, sample_user):
     """Test login with invalid credentials."""
@@ -94,13 +94,10 @@ def test_get_current_user(client, sample_user, sample_student_profile):
     assert login_response.status_code == 200, (
         f"Login failed with {login_response.status_code}: {login_response.json()}"
     )
-    token = login_response.json()["access_token"]
+    client.cookies.set("access_token", login_response.cookies.get("access_token"))
     
-    # Get current user
-    response = client.get(
-        "/api/auth/me",
-        headers={"Authorization": f"Bearer {token}"}
-    )
+    # Get current user (no need to manually pass header, client sends the cookie)
+    response = client.get("/api/auth/me")
     
     assert response.status_code == 200
     data = response.json()

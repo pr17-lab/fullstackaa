@@ -47,19 +47,6 @@ class ChangePasswordRequest(BaseModel):
 # Registration payload schemas
 # ---------------------------------------------------------------------------
 
-class SubjectRecord(BaseModel):
-    subject_name: str
-    subject_code: str
-    credits: int
-    marks_obtained: int | None = None
-    total_marks: int = 100
-
-
-class SemesterRecord(BaseModel):
-    semester: int
-    subjects: list[SubjectRecord]
-
-
 class StudentRegistration(BaseModel):
     full_name: str
     email: EmailStr
@@ -68,4 +55,3 @@ class StudentRegistration(BaseModel):
     department: str
     batch_year: int
     current_semester: int
-    academic_records: list[SemesterRecord]

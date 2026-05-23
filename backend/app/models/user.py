@@ -31,7 +31,6 @@ class User(Base):
     
     # Relationships
     profile = relationship("StudentProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
-    academic_terms = relationship("AcademicTerm", back_populates="user", cascade="all, delete-orphan")
     interview_sessions = relationship("InterviewSession", back_populates="user", cascade="all, delete-orphan")
     
     # V2 Career Intelligence Relationships

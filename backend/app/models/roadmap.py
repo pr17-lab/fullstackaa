@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Integer, Boolean, Text, DateTime, SmallInteger, ForeignKey
+from sqlalchemy import Column, String, Integer, Boolean, Text, DateTime, SmallInteger, ForeignKey, CheckConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -31,6 +31,7 @@ class RoadmapTask(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     roadmap_id = Column(UUID(as_uuid=True), ForeignKey("roadmaps.id", ondelete="CASCADE"), nullable=False)
     skill_id = Column(UUID(as_uuid=True), ForeignKey("skill_taxonomy.id"), nullable=True)
+    associated_skill_id = Column(UUID(as_uuid=True), ForeignKey("skill_taxonomy.id"), nullable=True)
     phase = Column(String(20), nullable=False)
     task_type = Column(String(30))
     title = Column(String(255), nullable=False)
@@ -42,9 +43,23 @@ class RoadmapTask(Base):
     status = Column(String(20), default='pending')
     completed_at = Column(DateTime(timezone=True))
     feedback_score = Column(SmallInteger)
+    submission_link = Column(String(500), nullable=True)
+    validation_status = Column(String(20), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
+    __table_args__ = (
+        CheckConstraint(
+            "task_type IN ('learn', 'practice', 'apply', 'custom', 'course', 'exercise', 'project')",
+            name="ck_roadmap_tasks_task_type"
+        ),
+        CheckConstraint(
+            "validation_status IN ('pending', 'verified', 'failed')",
+            name="ck_roadmap_tasks_validation_status"
+        ),
+    )
+
     # Relationships
     roadmap = relationship("Roadmap", back_populates="roadmap_tasks")
-    skill = relationship("SkillTaxonomy", back_populates="roadmap_tasks")
+    skill = relationship("SkillTaxonomy", back_populates="roadmap_tasks", foreign_keys=[skill_id])
+    associated_skill = relationship("SkillTaxonomy", foreign_keys=[associated_skill_id])

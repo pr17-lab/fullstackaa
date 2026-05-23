@@ -19,6 +19,7 @@ export interface SkillGap {
   missing_skills: Array<{ skill_id: string; skill_name?: string; importance: string; gap: boolean }>;
   weak_skills: Array<{ skill_id: string; skill_name?: string; score: number; required: number }>;
   strong_skills: Array<{ skill_id: string; skill_name?: string; score: number }>;
+  high_potential_skills: Array<{ skill_id: string; skill_name?: string; parent_id?: string; parent_name?: string }>;
   computed_at: string | null;
 }
 

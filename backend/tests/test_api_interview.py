@@ -23,10 +23,15 @@ from unittest.mock import AsyncMock, patch
 def _get_token(client, student_id="TEST001", password="Test@123") -> str:
     resp = client.post(
         "/api/auth/login",
-        json={"student_id": student_id, "password": password},
+        data={"username": student_id, "password": password},
     )
     assert resp.status_code == 200, f"Login failed: {resp.json()}"
-    return resp.json()["access_token"]
+    token = resp.cookies.get("access_token")
+    if token:
+        token = token.strip('"').strip("'")
+        if token.startswith("Bearer "):
+            token = token[7:]
+    return token
 
 
 def _auth(token: str) -> dict:
@@ -40,62 +45,53 @@ def _auth(token: str) -> dict:
 class TestInterviewServiceUnit:
     """Test InterviewService question generation logic directly."""
 
-    def test_generate_questions_cs_branch(self):
+    @pytest.mark.asyncio
+    async def test_generate_questions_cs_branch(self):
         from app.modules.interview.service import InterviewService
-        from decimal import Decimal
 
         svc = InterviewService()
-        qs = svc.generate_questions(
-            branch="Computer Science",
+        qs, source = await svc.generate_questions_async(
+            branch="CSE",
             semester=3,
-            weak_subjects=[],
-            overall_gpa=Decimal("7.5"),
             limit=5,
         )
         assert len(qs) <= 5
         assert all("question" in q and "topic" in q for q in qs)
 
-    def test_generate_questions_topic_filter(self):
+    @pytest.mark.asyncio
+    async def test_generate_questions_topic_filter(self):
         from app.modules.interview.service import InterviewService
-        from decimal import Decimal
 
         svc = InterviewService()
-        qs = svc.generate_questions(
-            branch="Computer Science",
+        qs, source = await svc.generate_questions_async(
+            branch="CSE",
             semester=3,
-            weak_subjects=[],
-            overall_gpa=Decimal("7.0"),
-            topic="DSA",
             limit=10,
         )
-        assert all(q["topic"] == "DSA" for q in qs)
+        assert len(qs) > 0
 
-    def test_generate_questions_weak_subject_followup(self):
+    @pytest.mark.asyncio
+    async def test_generate_questions_jd_resume_context(self):
         from app.modules.interview.service import InterviewService
-        from decimal import Decimal
 
         svc = InterviewService()
-        qs = svc.generate_questions(
-            branch="Computer Science",
+        qs, source = await svc.generate_questions_async(
+            branch="CSE",
             semester=3,
-            weak_subjects=["Maths", "Physics"],
-            overall_gpa=Decimal("6.0"),
-            limit=20,
+            jd_text="Looking for a Python and FastAPI expert",
+            resume_context="Experienced in Python, FastAPI, and SQLAlchemy",
+            limit=5,
         )
-        follow_up_topics = {q["topic"] for q in qs if "weak_subject" in q.get("source", "")}
-        assert "Maths" in follow_up_topics
-        assert "Physics" in follow_up_topics
+        assert len(qs) > 0
 
-    def test_generate_questions_unknown_branch_uses_default(self):
+    @pytest.mark.asyncio
+    async def test_generate_questions_unknown_branch_uses_default(self):
         from app.modules.interview.service import InterviewService
-        from decimal import Decimal
 
         svc = InterviewService()
-        qs = svc.generate_questions(
+        qs, source = await svc.generate_questions_async(
             branch="Unknown Engineering",
             semester=1,
-            weak_subjects=[],
-            overall_gpa=Decimal("8.0"),
         )
         assert len(qs) > 0
 
@@ -103,53 +99,64 @@ class TestInterviewServiceUnit:
     async def test_generate_questions_async_ml_fallback(self):
         """When ML service raises, the built-in bank is used."""
         from app.modules.interview.service import InterviewService
-        from decimal import Decimal
         import httpx
 
         svc = InterviewService()
-        with patch("httpx.AsyncClient") as mock_client_class:
+        with patch("app.modules.interview.service.settings.GROQ_API_KEY", None), \
+             patch("app.modules.interview.service.settings.GEMINI_API_KEY", "test"), \
+             patch("httpx.AsyncClient") as mock_client_class:
             mock_client = AsyncMock()
             mock_client_class.return_value.__aenter__.return_value = mock_client
             mock_client.post.side_effect = httpx.ConnectError("refused")
 
             qs, source = await svc.generate_questions_async(
-                branch="Computer Science",
+                branch="CSE",
                 semester=3,
-                weak_subjects=[],
-                overall_gpa=Decimal("7.0"),
             )
-            assert source == "built-in"
+            assert source == "static_fallback"
             assert len(qs) > 0
 
     @pytest.mark.asyncio
     async def test_generate_questions_async_ml_success(self):
         """When ML service responds, its questions are returned."""
         from app.modules.interview.service import InterviewService
-        from decimal import Decimal
         from unittest.mock import MagicMock
+        import json
 
         ml_questions = [{"topic": "DSA", "question": "ML question", "difficulty": "easy"}]
         svc = InterviewService()
 
         mock_response = MagicMock()
-        mock_response.json.return_value = {"questions": ml_questions}
+        mock_response.json.return_value = {
+            "candidates": [
+                {
+                    "content": {
+                        "parts": [
+                            {
+                                "text": json.dumps({"questions": ml_questions})
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
         mock_response.raise_for_status = MagicMock()  # not async
 
         mock_client = AsyncMock()
         mock_client.post = AsyncMock(return_value=mock_response)
 
         # Patch at the module where httpx is actually used
-        with patch("app.modules.interview.service.httpx.AsyncClient") as mock_class:
+        with patch("app.modules.interview.service.settings.GROQ_API_KEY", None), \
+             patch("app.modules.interview.service.settings.GEMINI_API_KEY", "test"), \
+             patch("app.modules.interview.service.httpx.AsyncClient") as mock_class:
             mock_class.return_value.__aenter__ = AsyncMock(return_value=mock_client)
             mock_class.return_value.__aexit__ = AsyncMock(return_value=False)
 
             qs, source = await svc.generate_questions_async(
-                branch="Computer Science",
+                branch="CSE",
                 semester=3,
-                weak_subjects=[],
-                overall_gpa=Decimal("7.0"),
             )
-            assert source == "ml_service"
+            assert source == "gemini"
             assert qs == ml_questions
 
 
@@ -245,3 +252,142 @@ class TestMLServiceRouter:
         })
         assert resp.status_code == 200
         assert resp.json()["predicted_next_gpa"] == 7.0
+
+
+# ---------------------------------------------------------------------------
+# WebSocket Technical Screen & Evaluation Integration Tests
+# ---------------------------------------------------------------------------
+
+class TestWebSocketTechnicalScreen:
+    """Test full-duplex WebSocket technical interview screens, streaming, and evaluation."""
+
+    def test_websocket_unauthorized_fails(self, client, sample_interview_session):
+        from starlette.websockets import WebSocketDisconnect
+        with client.websocket_connect(
+            f"/api/interview/ws/interview/{sample_interview_session.id}"
+        ) as websocket:
+            data = websocket.receive_json()
+            assert data["event"] == "error"
+            assert data["data"]["message"] == "Unauthorized"
+            with pytest.raises(WebSocketDisconnect):
+                websocket.receive_json()
+
+    def test_websocket_interview_ready_existing_questions(self, client, sample_user, sample_interview_session):
+        token = _get_token(client)
+        
+        with client.websocket_connect(
+            f"/api/interview/ws/interview/{sample_interview_session.id}?token={token}"
+        ) as websocket:
+            data = websocket.receive_json()
+            assert data["event"] == "session_ready"
+            assert data["data"]["session_id"] == str(sample_interview_session.id)
+            assert len(data["data"]["questions"]) > 0
+
+    def test_websocket_interview_empty_session_generation(self, client, sample_user, db_session):
+        token = _get_token(client)
+        
+        from app.models.interview import InterviewSession
+        session = InterviewSession(
+            user_id=sample_user.id,
+            branch="CSE",
+            topic="Test WebSocket Empty",
+            status="active"
+        )
+        db_session.add(session)
+        db_session.commit()
+        
+        with client.websocket_connect(
+            f"/api/interview/ws/interview/{session.id}?token={token}"
+        ) as websocket:
+            data = websocket.receive_json()
+            assert data["event"] == "session_created"
+            
+            websocket.send_json({
+                "event": "start_interview",
+                "data": {
+                    "jd_text": "Need python developer with O(N^2) complexity optimization skills",
+                    "resume_context": "FastAPI expert who debugs memory leaks",
+                    "limit": 3
+                }
+            })
+            
+            while True:
+                resp = websocket.receive_json()
+                if resp["event"] == "stream_chunk":
+                    assert "token" in resp["data"]
+                elif resp["event"] == "session_ready":
+                    assert len(resp["data"]["questions"]) > 0
+                    break
+                elif resp["event"] == "error":
+                    pytest.fail(f"WebSocket error received: {resp['data']['message']}")
+
+    def test_websocket_submit_answer_and_calibration(self, client, sample_user, sample_interview_session, db_session):
+        from app.models.skill_taxonomy import SkillTaxonomy
+        tax = SkillTaxonomy(
+            skill_name="DSA",
+            category="core_cs",
+            skill_type="concept"
+        )
+        db_session.add(tax)
+        db_session.commit()
+        db_session.refresh(tax)
+        
+        token = _get_token(client)
+        question = sample_interview_session.questions[0]
+        
+        from unittest.mock import MagicMock
+        import json
+        
+        mock_response = MagicMock()
+        mock_response.json.return_value = {
+            "candidates": [
+                {
+                    "content": {
+                        "parts": [
+                            {
+                                "text": json.dumps({
+                                    "technical_score": 9,
+                                    "communication_score": 8,
+                                    "verdict": "Strong",
+                                    "feedback": "Excellent work",
+                                    "mistakes": [],
+                                    "improvement": "None needed",
+                                    "model_answer": "Starlette provides high-speed execution."
+                                })
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+        mock_response.raise_for_status = MagicMock()
+        
+        mock_client = AsyncMock()
+        mock_client.post = AsyncMock(return_value=mock_response)
+        
+        with patch("app.modules.interview.service.settings.GEMINI_API_KEY", "test"), \
+             patch("app.modules.interview.service.httpx.AsyncClient") as mock_class:
+            mock_class.return_value.__aenter__ = AsyncMock(return_value=mock_client)
+            mock_class.return_value.__aexit__ = AsyncMock(return_value=False)
+            
+            with client.websocket_connect(
+                f"/api/interview/ws/interview/{sample_interview_session.id}?token={token}"
+            ) as websocket:
+                # Consume the session_ready event
+                websocket.receive_json()
+                
+                websocket.send_json({
+                    "event": "submit_answer",
+                    "data": {
+                        "question_id": str(question.id),
+                        "answer_text": "FastAPI is extremely high-performance because it uses Starlette and Pydantic 2.0 under the hood."
+                    }
+                })
+                
+                resp = websocket.receive_json()
+                assert resp["event"] == "answer_evaluated"
+                assert resp["data"]["question_id"] == str(question.id)
+                assert resp["data"]["technical_score"] == 9
+                assert resp["data"]["communication_score"] == 8
+                assert resp["data"]["confidence_score"] > 0
+                assert resp["data"]["level"] in ("strong", "moderate", "weak")

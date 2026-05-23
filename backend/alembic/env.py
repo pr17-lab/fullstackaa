@@ -30,7 +30,7 @@ from app.core.database import Base
 from app.core.config import settings
 
 # Import all models so they are registered with SQLAlchemy
-from app.models import User, StudentProfile, AcademicTerm, Subject
+from app.models import User, StudentProfile
 
 # Set target metadata for autogenerate
 target_metadata = Base.metadata

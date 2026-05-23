@@ -22,6 +22,7 @@ class SkillGapResponse(BaseModel):
     missing_skills: List[dict]
     weak_skills: List[dict]
     strong_skills: List[dict]
+    high_potential_skills: List[dict] = []
     computed_at: Optional[datetime]
     
     class Config:

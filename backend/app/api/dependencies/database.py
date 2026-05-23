@@ -2,7 +2,7 @@
 Database dependency for FastAPI routes.
 """
 
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 from app.core.database import get_db
 
 __all__ = ["get_db"]

@@ -1,7 +1,5 @@
 from .user import User
 from .student_profile import StudentProfile
-from .academic_term import AcademicTerm
-from .subject import Subject
 from .interview import InterviewSession, InterviewQuestion
 
 from .skill_taxonomy import SkillTaxonomy
@@ -18,8 +16,6 @@ from .skill_resource import SkillResource
 __all__ = [
     "User",
     "StudentProfile",
-    "AcademicTerm",
-    "Subject",
     "InterviewSession",
     "InterviewQuestion",
     "SkillTaxonomy",

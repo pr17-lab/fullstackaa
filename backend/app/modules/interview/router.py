@@ -21,7 +21,7 @@ import logging
 from typing import Optional
 
 import PyPDF2
-from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -60,15 +60,11 @@ async def get_interview_questions(
     The `source` field indicates which path was used.
     """
     try:
-        profile       = _academic_svc.get_student_profile(db, current_user.id)
-        weak_subjects = _academic_svc.get_weak_subjects(db, current_user.id)
-        overall_gpa   = _academic_svc.get_overall_gpa(db, current_user.id)
+        profile = _academic_svc.get_student_profile(db, current_user.id)
 
         questions, source = await _interview_svc.generate_questions_async(
             branch=profile.department,
             semester=profile.semester,
-            weak_subjects=[s.subject_name for s in weak_subjects],
-            overall_gpa=overall_gpa,
             limit=limit,
         )
 
@@ -76,8 +72,6 @@ async def get_interview_questions(
             student_id=str(current_user.id),
             branch=profile.department,
             semester=profile.semester,
-            overall_gpa=str(overall_gpa),
-            weak_subjects=[s.subject_name for s in weak_subjects],
             questions=questions,
             source=source,
         )
@@ -163,15 +157,11 @@ async def create_session(
     Generates questions, atomically persists session + questions, returns full session.
     """
     try:
-        profile       = _academic_svc.get_student_profile(db, current_user.id)
-        weak_subjects = _academic_svc.get_weak_subjects(db, current_user.id)
-        overall_gpa   = _academic_svc.get_overall_gpa(db, current_user.id)
+        profile = _academic_svc.get_student_profile(db, current_user.id)
 
         questions, source = await _interview_svc.generate_questions_async(
             branch=profile.department,
             semester=profile.semester,
-            weak_subjects=[s.subject_name for s in weak_subjects],
-            overall_gpa=overall_gpa,
             jd_text=body.jd_text,
             resume_context=body.resume_context,
             limit=body.limit,
@@ -269,6 +259,226 @@ async def delete_session(
     deleted = _interview_svc.delete_session(db, session_id, current_user.id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Session not found")
+
+
+# ---------------------------------------------------------------------------
+# Real-Time WebSocket technical screen & evaluation
+# ---------------------------------------------------------------------------
+
+import json
+
+async def get_websocket_user(websocket: WebSocket, db: Session) -> Optional[User]:
+    token = websocket.query_params.get("token")
+    print("DEBUG get_websocket_user: token from query params =", token)
+    if not token:
+        token = websocket.cookies.get("access_token")
+        print("DEBUG get_websocket_user: token from cookies =", token)
+    if not token:
+        print("DEBUG get_websocket_user: no token found")
+        return None
+    
+    # Strip enclosing quotes if present (e.g. Starlette TestClient cookie format)
+    token = token.strip('"').strip("'")
+    
+    if token.startswith("Bearer "):
+        token = token[7:]
+        print("DEBUG get_websocket_user: stripped Bearer, raw =", token)
+    
+    try:
+        from app.core.security import decode_access_token
+        payload = decode_access_token(token)
+        print("DEBUG get_websocket_user: decoded payload =", payload)
+        if payload is None:
+            return None
+        email = payload.get("sub")
+        print("DEBUG get_websocket_user: email =", email)
+        if email is None:
+            return None
+        user = db.query(User).filter(User.email == email).first()
+        print("DEBUG get_websocket_user: user =", user)
+        return user
+    except Exception as exc:
+        print("DEBUG get_websocket_user: exception =", exc)
+        return None
+
+
+@router.websocket("/ws/interview/{session_id}")
+async def websocket_interview(
+    websocket: WebSocket,
+    session_id: uuid.UUID,
+    db: Session = Depends(get_db),
+):
+    await websocket.accept()
+    
+    try:
+        user = await get_websocket_user(websocket, db)
+        if not user:
+            await websocket.send_json({"event": "error", "data": {"message": "Unauthorized"}})
+            await websocket.close()
+            return
+            
+        from app.models.interview import InterviewSession
+        session = (
+            db.query(InterviewSession)
+            .filter(
+                InterviewSession.id == session_id,
+                InterviewSession.user_id == user.id,
+            )
+            .first()
+        )
+        if not session:
+            await websocket.send_json({"event": "error", "data": {"message": "Session not found"}})
+            await websocket.close()
+            return
+            
+        if len(session.questions) > 0:
+            await websocket.send_json({
+                "event": "session_ready",
+                "data": {
+                    "session_id": str(session.id),
+                    "questions": [
+                        {
+                            "question_id": str(q.id),
+                            "topic": q.topic,
+                            "question": q.question,
+                            "difficulty": q.difficulty,
+                            "user_answer": q.user_answer,
+                            "ai_score": q.ai_score,
+                            "ai_verdict": q.ai_verdict,
+                        }
+                        for q in session.questions
+                    ]
+                }
+            })
+        else:
+            await websocket.send_json({
+                "event": "session_created",
+                "data": {
+                    "session_id": str(session.id),
+                    "message": "Session is active. Send 'start_interview' event to generate code review questions."
+                }
+            })
+            
+        while True:
+            try:
+                data = await websocket.receive_json()
+                event = data.get("event")
+                payload = data.get("data", {})
+                
+                if event == "start_interview":
+                    jd_text = payload.get("jd_text", "")
+                    resume_context = payload.get("resume_context", "")
+                    limit = int(payload.get("limit", 5))
+                    
+                    async def on_chunk(token: str):
+                        await websocket.send_json({
+                            "event": "stream_chunk",
+                            "data": {"token": token}
+                        })
+                    
+                    try:
+                        questions, source = await _interview_svc.generate_questions_async(
+                            branch=session.branch,
+                            semester=user.profile.semester if user.profile else 1,
+                            jd_text=jd_text,
+                            resume_context=resume_context,
+                            limit=limit,
+                            on_chunk=on_chunk
+                        )
+                        
+                        from app.models.interview import InterviewQuestion
+                        for q in questions:
+                            db.add(InterviewQuestion(
+                                session_id=session.id,
+                                topic=q.get("topic", "General"),
+                                question=q.get("question", ""),
+                                difficulty=q.get("difficulty", "medium"),
+                                source=source,
+                                follow_up=q.get("follow_up"),
+                            ))
+                        db.commit()
+                        db.refresh(session)
+                        
+                        await websocket.send_json({
+                            "event": "session_ready",
+                            "data": {
+                                "session_id": str(session.id),
+                                "questions": [
+                                    {
+                                        "question_id": str(q.id),
+                                        "topic": q.topic,
+                                        "question": q.question,
+                                        "difficulty": q.difficulty,
+                                    }
+                                    for q in session.questions
+                                ]
+                            }
+                        })
+                    except Exception as e:
+                        logger.error("Error generating questions in WebSocket: %s", e)
+                        await websocket.send_json({
+                            "event": "error",
+                            "data": {"message": f"Question generation failed: {str(e)}"}
+                        })
+                        
+                elif event == "submit_answer":
+                    question_id_str = payload.get("question_id")
+                    answer_text = payload.get("answer_text", "")
+                    
+                    try:
+                        question_id = uuid.UUID(question_id_str)
+                        
+                        result = await _interview_svc.evaluate_single_answer_async(
+                            db,
+                            user_id=user.id,
+                            session_id=session.id,
+                            question_id=question_id,
+                            user_answer=answer_text
+                        )
+                        
+                        await websocket.send_json({
+                            "event": "answer_evaluated",
+                            "data": result
+                        })
+                        
+                        from app.models.interview import SessionStatus
+                        sibling_questions = session.questions
+                        all_answered = all(
+                            (q.user_answer is not None and q.user_answer.strip())
+                            for q in sibling_questions
+                        )
+                        if all_answered and session.status == SessionStatus.ACTIVE:
+                            session.status = SessionStatus.COMPLETED
+                            db.commit()
+                            await websocket.send_json({
+                                "event": "session_completed",
+                                "data": {
+                                    "session_id": str(session.id),
+                                    "message": "All interview questions answered. Session completed."
+                                }
+                            })
+                    except Exception as e:
+                        logger.error("Error submitting answer in WebSocket: %s", e)
+                        await websocket.send_json({
+                            "event": "error",
+                            "data": {"message": f"Answer submission failed: {str(e)}"}
+                        })
+                        
+                else:
+                    await websocket.send_json({
+                        "event": "error",
+                        "data": {"message": f"Unknown event: {event}"}
+                    })
+                    
+            except json.JSONDecodeError:
+                await websocket.send_json({"event": "error", "data": {"message": "Invalid JSON frame"}})
+                
+    except WebSocketDisconnect:
+        logger.info("WebSocket disconnected for session: %s", session_id)
+    except Exception as e:
+        logger.error("Error in WebSocket session %s: %s", session_id, e)
+    finally:
+        db.close()
 
 
 # ---------------------------------------------------------------------------

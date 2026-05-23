@@ -101,6 +101,11 @@ export const SkillsService = {
         return response.data;
     },
 
+    getCareerRecommendations: async () => {
+        const response = await api.get<any>('/skills/recommendations');
+        return response.data;
+    },
+
     getRecommendation: async () => {
         const response = await api.get<CareerRecommendation>('/skills/recommendation');
         return response.data;

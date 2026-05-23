@@ -39,6 +39,28 @@ function matchLabelColor(label: string) {
   return 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400';
 }
 
+function MatchBadge({ score, highPotentialCount }: { score: number; highPotentialCount: number }) {
+  if (score >= 75) {
+    return (
+      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50">
+        Excellent Match (Job Ready)
+      </span>
+    );
+  }
+  if (score >= 45 && highPotentialCount > 0) {
+    return (
+      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50">
+        High Potential (Bridgeable)
+      </span>
+    );
+  }
+  return (
+    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50">
+      Gaps Identified
+    </span>
+  );
+}
+
 function progressBarColor(score: number) {
   if (score >= 45) return 'bg-emerald-500';
   if (score >= 25) return 'bg-amber-500';
@@ -167,11 +189,10 @@ function SkillsSummarySection() {
 // ─── Section 2: Career Recommendation Banner ──────────────────────────────────
 
 function CareerRecommendationSection() {
-  // Derive recommendation from gaps data — use top gap as primary
   const { isAuthenticated, isLoading: authLoading } = useAuth();
-  const { data: gaps, isLoading, isError } = useQuery({
-    queryKey: ['skill-gaps'],
-    queryFn: SkillsService.getSkillGaps,
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['career-recommendations'],
+    queryFn: SkillsService.getCareerRecommendations,
     enabled: isAuthenticated && !authLoading,
     retry: 1,
     staleTime: 5 * 60 * 1000,
@@ -194,16 +215,27 @@ function CareerRecommendationSection() {
       </div>
     );
   }
-  if (isError || !gaps || gaps.length === 0) {
+  if (isError || !data || !data.recommendations || !data.recommendations.primary) {
     return (
       <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 p-6 text-center text-gray-500 dark:text-zinc-400">
-        No career gap data available yet.
+        No career recommendations data available yet.
       </div>
     );
   }
 
-  const primary = gaps[0];
-  const alternatives = gaps.slice(1, 3);
+  const primary = data.recommendations.primary;
+  const alternatives = data.recommendations.alternatives || [];
+
+  // Find primary gap record in tiers to look up high_potential_skills
+  const allGaps = [
+    ...(data.tiers?.excellent || []),
+    ...(data.tiers?.good || []),
+    ...(data.tiers?.potential || []),
+    ...(data.tiers?.low || []),
+  ];
+  const primaryGap = allGaps.find((g: any) => g.job_role === primary.job_role);
+  const hpCount = primaryGap?.high_potential_skills?.length || 0;
+  const totalRoles = allGaps.length;
 
   return (
     <motion.div variants={cardVariants} initial="hidden" animate="visible">
@@ -228,14 +260,14 @@ function CareerRecommendationSection() {
             <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100 mb-2">
               {primary.job_role}
             </h2>
-            <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${matchLabelColor(primary.match_label)}`}>
-              {primary.match_label}
-            </span>
+            <div className="mb-3 inline-block">
+              <MatchBadge score={primary.match_score} highPotentialCount={hpCount} />
+            </div>
 
             {alternatives.length > 0 && (
               <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                 <span className="text-xs text-gray-500 dark:text-zinc-400 self-center">Also consider:</span>
-                {alternatives.map(alt => (
+                {alternatives.map((alt: any) => (
                   <span key={alt.job_role}
                     className="px-3 py-1 rounded-full text-xs font-medium bg-white/70 dark:bg-zinc-800/70 text-gray-700 dark:text-zinc-300 border border-gray-200 dark:border-zinc-700">
                     {alt.job_role} · {Math.round(alt.match_score)}%
@@ -249,7 +281,7 @@ function CareerRecommendationSection() {
           <div className="hidden lg:flex flex-col items-center gap-1 text-center">
             <Briefcase className="w-6 h-6 text-indigo-400" />
             <span className="text-xs text-gray-500 dark:text-zinc-400">
-              {gaps.length} roles analysed
+              {totalRoles} roles analysed
             </span>
           </div>
         </div>
@@ -294,9 +326,7 @@ function GapCard({ gap }: { gap: SkillGap }) {
             <span className="font-semibold text-gray-900 dark:text-zinc-100 text-sm truncate">
               {gap.job_role}
             </span>
-            <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-semibold ${matchLabelColor(gap.match_label)}`}>
-              {gap.match_label}
-            </span>
+            <MatchBadge score={gap.match_score} highPotentialCount={gap.high_potential_skills?.length || 0} />
           </div>
           <div className="flex items-center gap-3">
             <div className="flex-1 h-2 rounded-full bg-gray-100 dark:bg-zinc-700">
@@ -332,6 +362,23 @@ function GapCard({ gap }: { gap: SkillGap }) {
                     {gap.missing_skills.slice(0, 8).map((m, i) => (
                       <span key={i} className="px-2 py-0.5 rounded-md text-xs bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800/50">
                         {m.importance === 'must_have' ? '🔴' : m.importance === 'preferred' ? '🟡' : '⚪'} {m.skill_name ?? m.skill_id ?? `Skill ${i + 1}`}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {gap.high_potential_skills && gap.high_potential_skills.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wider mb-2">
+                    Potential Bridging Opportunities ({gap.high_potential_skills.length})
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-zinc-400 mb-2 italic">
+                    ⚡ Foundation Verified: You possess the theoretical baseline for these tools. Click 'Generate Roadmap' to quickly master the syntax.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {gap.high_potential_skills.map((hp, i) => (
+                      <span key={i} className="px-2.5 py-1 rounded-md text-xs bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 border border-purple-100 dark:border-purple-800/30 font-medium">
+                        ✨ {hp.skill_name || `Skill ${i + 1}`} (Parent: {hp.parent_name || 'Verified Concept'})
                       </span>
                     ))}
                   </div>
@@ -461,9 +508,9 @@ function GapCard({ gap }: { gap: SkillGap }) {
 
 function SkillGapsSection() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
-  const { data: gaps, isLoading, isError, refetch } = useQuery({
-    queryKey: ['skill-gaps'],
-    queryFn: SkillsService.getSkillGaps,
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ['career-recommendations'],
+    queryFn: SkillsService.getCareerRecommendations,
     enabled: isAuthenticated && !authLoading,
     retry: 1,
     staleTime: 5 * 60 * 1000,
@@ -476,8 +523,18 @@ function SkillGapsSection() {
       </div>
     );
   }
-  if (isError) return <ErrorDisplay message="Failed to load skill gaps" onRetry={() => refetch()} />;
-  if (!gaps || gaps.length === 0) {
+  if (isError || !data || !data.tiers) return <ErrorDisplay message="Failed to load skill gaps" onRetry={() => refetch()} />;
+
+  const excellent = data.tiers.excellent || [];
+  const good = data.tiers.good || [];
+  const potential = data.tiers.potential || [];
+  const low = data.tiers.low || [];
+
+  const gaps: SkillGap[] = [...excellent, ...good, ...potential, ...low].sort(
+    (a, b) => b.match_score - a.match_score
+  );
+
+  if (gaps.length === 0) {
     return (
       <div className="text-center py-10 text-gray-500 dark:text-zinc-400 text-sm">
         No skill gap data available yet.
@@ -536,6 +593,7 @@ function SkillsListSection() {
       qc.invalidateQueries({ queryKey: ['my-skills'] });
       qc.invalidateQueries({ queryKey: ['skills-summary'] });
       qc.invalidateQueries({ queryKey: ['skill-gaps'] });
+      qc.invalidateQueries({ queryKey: ['career-recommendations'] });
       setIsAdding(false);
       setSearchQuery('');
       setSelectedSkill(null);
@@ -549,6 +607,7 @@ function SkillsListSection() {
       qc.invalidateQueries({ queryKey: ['my-skills'] });
       qc.invalidateQueries({ queryKey: ['skills-summary'] });
       qc.invalidateQueries({ queryKey: ['skill-gaps'] });
+      qc.invalidateQueries({ queryKey: ['career-recommendations'] });
     }
   });
 

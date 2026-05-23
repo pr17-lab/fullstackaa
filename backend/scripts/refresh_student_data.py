@@ -126,29 +126,7 @@ def truncate_tables(session, engine):
     print("[*] Backup has been created. Proceeding with truncation...")
     
     try:
-        # Delete in reverse FK dependency order: subjects -> academic_terms -> student_profiles -> users
-        
-        # Delete subjects first (has FK to academic_terms)
-        print("\n[*] Deleting all records from subjects...")
-        try:
-            result = session.execute(text('DELETE FROM subjects'))
-            session.commit()
-            print(f"    [+] Deleted {result.rowcount} subject records")
-        except Exception as e:
-            # Table might not exist or be empty
-            print(f"    [*] Subjects deletion: {e}")
-            session.rollback()
-        
-        # Delete academic_terms (has FK to users)
-        print("\n[*] Deleting all records from academic_terms...")
-        try:
-            result = session.execute(text('DELETE FROM academic_terms'))
-            session.commit()
-            print(f"    [+] Deleted {result.rowcount} academic term records")
-        except Exception as e:
-            # Table might not exist or be empty
-            print(f"    [*] Academic terms deletion: {e}")
-            session.rollback()
+        # Delete in reverse FK dependency order: student_profiles -> users
         
         # Delete student_profiles (has FK to users)
         print("\n[*] Deleting all records from student_profiles...")
