@@ -22,6 +22,36 @@ import { ErrorDisplay } from '../components/common/Loading';
 import type { Roadmap, RoadmapDetail, RoadmapTask } from '../types/career';
 import { PageTransition } from '../components/layout/PageTransition';
 
+// ─── Toast Types & Component ──────────────────────────────────────────────────
+
+type ToastVariant = 'success' | 'error' | 'info' | 'warning';
+interface ToastMsg { variant: ToastVariant; text: string; }
+
+function Toast({ toast, onClose }: { toast: ToastMsg; onClose: () => void }) {
+  const styles: Record<ToastVariant, string> = {
+    success: 'bg-emerald-600 text-white',
+    error:   'bg-red-600 text-white',
+    info:    'bg-indigo-600 text-white',
+    warning: 'bg-amber-500 text-white',
+  };
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
+      className={`fixed top-4 right-4 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl text-sm font-semibold ${
+        styles[toast.variant]
+      }`}
+    >
+      <span>{toast.text}</span>
+      <button onClick={onClose} className="ml-2 opacity-80 hover:opacity-100">
+        <X className="w-4 h-4" />
+      </button>
+    </motion.div>
+  );
+}
+
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const PLATFORM_COLORS: Record<string, string> = {
@@ -703,7 +733,7 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
                     if (!microInterviewModalTask) return;
                     setMicroInterviewLoading(true);
                     RoadmapService.createMicroSession(
-                      microInterviewModalTask.associated_skill_id || microInterviewModalTask.skill_id,
+                      (microInterviewModalTask.associated_skill_id ?? microInterviewModalTask.skill_id ?? ''),
                       microInterviewModalTask.id
                     )
                       .then(session => {

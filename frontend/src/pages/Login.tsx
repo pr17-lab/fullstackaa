@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
+import { LogIn, User, Lock, AlertCircle, Zap } from 'lucide-react';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -15,47 +15,93 @@ const Login = () => {
         e.preventDefault();
         setError('');
         setIsLoading(true);
-
         try {
             await login(studentId, password);
         } catch (err: any) {
-            setError(err.message || 'Invalid email or password');
+            setError(err.message || 'Invalid credentials');
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-violet-50 flex items-center justify-center p-4">
-            <div className="max-w-md w-full">
-                {/* Logo and Title */}
+        <div
+            className="min-h-screen flex items-center justify-center p-4"
+            style={{ background: 'var(--bg-page)', position: 'relative', overflow: 'hidden' }}
+        >
+            {/* Background glow blobs */}
+            <div
+                style={{
+                    position: 'absolute', top: '-10%', left: '-10%',
+                    width: '500px', height: '500px', borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(0,212,180,0.06) 0%, transparent 70%)',
+                    pointerEvents: 'none',
+                }}
+            />
+            <div
+                style={{
+                    position: 'absolute', bottom: '-10%', right: '-10%',
+                    width: '400px', height: '400px', borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)',
+                    pointerEvents: 'none',
+                }}
+            />
+
+            <div className="max-w-md w-full animate-fade-in-up">
+                {/* Header */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 mb-4 shadow-lg">
-                        <LogIn className="w-8 h-8 text-white" />
+                    <div
+                        className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5"
+                        style={{
+                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            boxShadow: '0 0 40px rgba(99,102,241,0.4)',
+                        }}
+                    >
+                        <Zap className="w-8 h-8" style={{ color: '#ffffff' }} />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-                    <p className="text-gray-500">Sign in to your Academic Portal</p>
+                    <p className="section-label mb-2">Career Intelligence Portal</p>
+                    <h1
+                        className="text-3xl font-black tracking-tight mb-2"
+                        style={{ color: 'var(--text-primary)' }}
+                    >
+                        Welcome back
+                    </h1>
+                    <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9375rem' }}>
+                        Sign in to your career dashboard
+                    </p>
                 </div>
 
-                {/* Login Form */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Error Message */}
+                {/* Form Card */}
+                <div
+                    className="rounded-2xl p-8"
+                    style={{
+                        background: 'var(--bg-surface)',
+                        border: '1px solid var(--border-primary)',
+                        boxShadow: '0 24px 48px rgba(0,0,0,0.4)',
+                    }}
+                >
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         {error && (
-                            <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl">
-                                <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
-                                <p className="text-sm text-red-700">{error}</p>
+                            <div
+                                className="flex items-center gap-2.5 p-3.5 rounded-xl"
+                                style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)' }}
+                            >
+                                <AlertCircle className="h-4 w-4 flex-shrink-0" style={{ color: '#f87171' }} />
+                                <p className="text-sm" style={{ color: '#f87171' }}>{error}</p>
                             </div>
                         )}
 
-                        {/* Student ID Field */}
                         <div>
-                            <label htmlFor="studentId" className="block text-sm font-medium text-gray-700 mb-2">
-                                Student ID
+                            <label
+                                htmlFor="studentId"
+                                className="block text-sm font-semibold mb-2"
+                                style={{ color: 'var(--text-secondary)' }}
+                            >
+                                User ID
                             </label>
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400" />
+                                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                    <User className="h-4 w-4" style={{ color: 'var(--text-tertiary)' }} />
                                 </div>
                                 <input
                                     id="studentId"
@@ -63,20 +109,37 @@ const Login = () => {
                                     required
                                     value={studentId}
                                     onChange={(e) => setStudentId(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                                     placeholder="S00001"
+                                    className="block w-full pl-10 pr-4 py-3 rounded-xl text-sm transition-all"
+                                    style={{
+                                        background: 'rgba(255,255,255,0.04)',
+                                        border: '1px solid var(--border-primary)',
+                                        color: 'var(--text-primary)',
+                                        outline: 'none',
+                                    }}
+                                    onFocus={(e) => {
+                                        e.target.style.borderColor = 'rgba(0,212,180,0.5)';
+                                        e.target.style.boxShadow = '0 0 0 3px rgba(0,212,180,0.08)';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.borderColor = 'var(--border-primary)';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
                                 />
                             </div>
                         </div>
 
-                        {/* Password Field */}
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label
+                                htmlFor="password"
+                                className="block text-sm font-semibold mb-2"
+                                style={{ color: 'var(--text-secondary)' }}
+                            >
                                 Password
                             </label>
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400" />
+                                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                    <Lock className="h-4 w-4" style={{ color: 'var(--text-tertiary)' }} />
                                 </div>
                                 <input
                                     id="password"
@@ -84,47 +147,78 @@ const Login = () => {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                                     placeholder="••••••••"
+                                    className="block w-full pl-10 pr-4 py-3 rounded-xl text-sm transition-all"
+                                    style={{
+                                        background: 'rgba(255,255,255,0.04)',
+                                        border: '1px solid var(--border-primary)',
+                                        color: 'var(--text-primary)',
+                                        outline: 'none',
+                                    }}
+                                    onFocus={(e) => {
+                                        e.target.style.borderColor = 'rgba(0,212,180,0.5)';
+                                        e.target.style.boxShadow = '0 0 0 3px rgba(0,212,180,0.08)';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.borderColor = 'var(--border-primary)';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
                                 />
                             </div>
                         </div>
 
-                        {/* Submit Button */}
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md"
+                            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-all"
+                            style={{
+                                    background: isLoading ? 'rgba(99,102,241,0.5)' : 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                    color: '#ffffff',
+                                    boxShadow: '0 4px 20px rgba(99,102,241,0.35)',
+                                    cursor: isLoading ? 'not-allowed' : 'pointer',
+                                }}
                         >
                             {isLoading ? (
                                 <>
-                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    <div
+                                        className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin"
+                                        style={{ borderColor: '#0a0e1a', borderTopColor: 'transparent' }}
+                                    />
                                     <span>Signing in...</span>
                                 </>
                             ) : (
                                 <>
-                                    <LogIn className="w-5 h-5" />
+                                    <LogIn className="w-4 h-4" />
                                     <span>Sign In</span>
                                 </>
                             )}
                         </button>
                     </form>
 
-                    <div className="mt-6 text-center">
-                        <p className="text-sm text-gray-500">
-                            New Student?{' '}
-                            <button onClick={() => navigate('/register')} className="font-medium text-indigo-600 hover:text-indigo-700">
+                    <div className="mt-5 text-center">
+                        <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                            New user?{' '}
+                            <button
+                                onClick={() => navigate('/register')}
+                                className="font-semibold transition-colors"
+                                style={{ color: 'var(--brand-primary)' }}
+                            >
                                 Register here
                             </button>
                         </p>
                     </div>
                 </div>
 
-                {/* Demo Credentials (Development Only) */}
-                <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                    <p className="text-xs font-medium text-blue-900 mb-2">Demo Credentials:</p>
-                    <p className="text-xs text-blue-700">Student ID: S00001</p>
-                    <p className="text-xs text-blue-700">Password: S00001@123</p>
+                {/* Demo Credentials */}
+                <div
+                    className="mt-4 p-4 rounded-xl"
+                    style={{ background: 'rgba(99,102,241,0.05)', border: '1px solid rgba(99,102,241,0.15)' }}
+                >
+                    <p className="text-xs font-bold mb-1.5" style={{ color: 'var(--brand-primary)' }}>
+                        Demo Credentials
+                    </p>
+                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>User ID: S00001</p>
+                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Password: S00001@123</p>
                 </div>
             </div>
         </div>

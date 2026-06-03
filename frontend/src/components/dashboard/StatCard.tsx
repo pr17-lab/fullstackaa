@@ -6,34 +6,31 @@ interface StatCardProps {
     title: string;
     value: string | number;
     icon: LucideIcon;
-    color?: 'indigo' | 'violet' | 'blue' | 'emerald' | 'teal';
+    color?: 'teal' | 'blue' | 'purple' | 'amber' | 'indigo' | 'emerald';
     subtitle?: string;
+    progress?: number;
 }
 
-const colorClasses = {
-    indigo: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400',
-    violet: 'bg-violet-50 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400',
-    blue: 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
-    emerald: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
-    teal: 'bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400',
-};
-
-const borderClasses = {
-    indigo: 'border-l-4 border-l-indigo-500',
-    violet: 'border-l-4 border-l-violet-500',
-    blue: 'border-l-4 border-l-blue-500',
-    emerald: 'border-l-4 border-l-emerald-500',
-    teal: 'border-l-4 border-l-teal-500',
+const colorMap: Record<string, string> = {
+    indigo:  '#818cf8',
+    blue:    '#3b82f6',
+    purple:  '#8b5cf6',
+    amber:   '#f59e0b',
+    teal:    '#818cf8', // remapped to indigo
+    emerald: '#10b981',
+    violet:  '#a78bfa',
 };
 
 export const StatCard: React.FC<StatCardProps> = ({
     title,
     value,
     icon: Icon,
-    color = 'indigo',
-    subtitle
+    color = 'teal',
+    subtitle,
+    progress,
 }) => {
-    // If it's a string, try extracting numeric part (e.g. '92%')
+    const accentColor = colorMap[color] || colorMap.teal;
+
     const numericStr = typeof value === 'string' ? value.replace(/[^0-9.]/g, '') : value;
     const numericValue = parseFloat(numericStr as string);
     const isAnimated = !isNaN(numericValue);
@@ -43,45 +40,63 @@ export const StatCard: React.FC<StatCardProps> = ({
     const [displayValue, setDisplayValue] = useState(value);
 
     useEffect(() => {
-        if (isAnimated) {
-            motionValue.set(numericValue);
-        }
+        if (isAnimated) motionValue.set(numericValue);
     }, [numericValue, isAnimated, motionValue]);
 
     useEffect(() => {
         if (isAnimated) {
             return springValue.on('change', (latest) => {
-                if (title.toLowerCase().includes('gpa')) {
-                    setDisplayValue(latest.toFixed(2));
-                } else if (title.toLowerCase().includes('rate') || typeof value === 'string' && value.includes('%')) {
+                if (typeof value === 'string' && value.includes('%')) {
                     setDisplayValue(Math.round(latest) + '%');
                 } else {
                     setDisplayValue(Math.round(latest));
                 }
             });
         }
-    }, [springValue, isAnimated, title, value]);
+    }, [springValue, isAnimated, value]);
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' as const }}
-            whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            className={`bg-white dark:bg-zinc-900 rounded-2xl shadow-sm hover:shadow-lg hover:border-white/10 hover:shadow-black/20 p-6 border border-gray-100 dark:border-zinc-800 transition-all duration-200 ${borderClasses[color]}`}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            whileHover={{ y: -3, transition: { duration: 0.2 } }}
+            className="stat-card"
         >
-            <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-xl ${colorClasses[color]} transition-colors`}>
-                    <Icon className="h-6 w-6" />
+            {/* Icon */}
+            <div className="flex items-start justify-between mb-3">
+                <div
+                    className="h-9 w-9 rounded-xl flex items-center justify-center"
+                    style={{ background: `${accentColor}18`, border: `1px solid ${accentColor}28` }}
+                >
+                    <Icon className="h-4 w-4" style={{ color: accentColor }} />
                 </div>
             </div>
-            <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-zinc-400 mb-1">{title}</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-zinc-100">{displayValue}</p>
-                {subtitle && (
-                    <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">{subtitle}</p>
-                )}
-            </div>
+
+            {/* Value */}
+            <p
+                className="text-2xl font-black tracking-tight mb-0.5"
+                style={{ color: accentColor, lineHeight: 1.1 }}
+            >
+                {displayValue}
+            </p>
+            <p className="text-xs font-semibold mb-0.5" style={{ color: 'var(--text-primary)', opacity: 0.85 }}>
+                {title}
+            </p>
+            {subtitle && (
+                <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
+                    {subtitle}
+                </p>
+            )}
+
+            {progress !== undefined && (
+                <div className="mt-2.5 progress-track">
+                    <div
+                        className="progress-fill"
+                        style={{ width: `${progress}%`, background: `linear-gradient(90deg, ${accentColor}, ${accentColor}99)` }}
+                    />
+                </div>
+            )}
         </motion.div>
     );
 };

@@ -62,6 +62,12 @@ export interface RoadmapTask {
   completed_at: string | null;
   feedback_score: number | null;
   skill_name: string | null;
+  /** Backend validation fields for project tasks */
+  validation_status?: string | null;   // 'pending' | 'verified' | 'failed'
+  submission_link?: string | null;
+  /** Skill linkage for micro-interview triggering */
+  associated_skill_id?: string | null;
+  skill_id?: string | null;
 }
 
 export interface Roadmap {
