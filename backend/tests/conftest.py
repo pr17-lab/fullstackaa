@@ -21,7 +21,7 @@ from fastapi.testclient import TestClient
 from app.core.database import Base, get_db
 from app.main import app
 from app.models import (
-    User, StudentProfile, AcademicTerm, Subject,
+    User, StudentProfile,
     InterviewSession, InterviewQuestion,
 )
 from app.core.security import get_password_hash
@@ -35,7 +35,15 @@ from sqlalchemy.dialects.sqlite import base as _sqlite_base
 def _visit_UUID(self, type_, **kw):          # noqa: N802
     return "VARCHAR(36)"
 
+def _visit_ARRAY(self, type_, **kw):
+    return "JSON"
+
+def _visit_JSONB(self, type_, **kw):
+    return "JSON"
+
 _sqlite_base.SQLiteTypeCompiler.visit_UUID = _visit_UUID   # type: ignore[attr-defined]
+_sqlite_base.SQLiteTypeCompiler.visit_ARRAY = _visit_ARRAY
+_sqlite_base.SQLiteTypeCompiler.visit_JSONB = _visit_JSONB
 
 
 # ---------------------------------------------------------------------------
@@ -61,18 +69,13 @@ def engine():
 
 @pytest.fixture(autouse=True)
 def reset_rate_limiter():
-    """Clear slowapi in-memory rate-limit counters before every test."""
+    """Disable rate limiting during tests."""
+    app.state.limiter.enabled = False
     try:
-        limiter = app.state.limiter
-        storage = limiter._storage
-        # Depending on slowapi/limits version the internal dict lives here:
-        for attr in ("storage", "_storage", "STORAGE"):
-            backend = getattr(storage, attr, None)
-            if isinstance(backend, dict):
-                backend.clear()
-                break
+        from app.api.routes.auth import limiter as auth_limiter
+        auth_limiter.enabled = False
     except Exception:
-        pass  # best-effort; tests still run, some may see 429 if reset fails
+        pass
     yield
 
 
@@ -92,8 +95,6 @@ def db_session(engine):
     with engine.connect() as conn:
         conn.execute(text("DELETE FROM interview_questions"))
         conn.execute(text("DELETE FROM interview_sessions"))
-        conn.execute(text("DELETE FROM subjects"))
-        conn.execute(text("DELETE FROM academic_terms"))
         conn.execute(text("DELETE FROM student_profiles"))
         conn.execute(text("DELETE FROM users"))
         conn.commit()
@@ -131,8 +132,7 @@ def auth_client(client, sample_user):
         data={"username": "TEST001", "password": "Test@123"},
     )
     assert resp.status_code == 200, f"auth fixture login failed: {resp.json()}"
-    token = resp.json()["access_token"]
-    client.headers.update({"Authorization": f"Bearer {token}"})
+    client.cookies.set("access_token", resp.cookies.get("access_token"))
     return client
 
 
@@ -142,12 +142,14 @@ def auth_client(client, sample_user):
 
 @pytest.fixture
 def sample_user(db_session):
+    from app.models.user import UserRole
     user = User(
         student_id="TEST001",
         email="test@example.com",
         password_hash=get_password_hash("Test@123"),
         is_active=True,
         failed_login_attempts=0,
+        role=UserRole.admin,
     )
     db_session.add(user)
     db_session.commit()
@@ -160,7 +162,7 @@ def sample_student_profile(db_session, sample_user):
     profile = StudentProfile(
         user_id=sample_user.id,
         name="Test Student",
-        branch="CSE",
+        department="CSE",
         semester=3,
         interests="Testing, Python, FastAPI",
     )
@@ -169,35 +171,6 @@ def sample_student_profile(db_session, sample_user):
     db_session.refresh(profile)
     return profile
 
-
-@pytest.fixture
-def sample_academic_term(db_session, sample_user):
-    term = AcademicTerm(
-        user_id=sample_user.id,
-        semester=1,
-        year=2023,
-        gpa=8.5,
-    )
-    db_session.add(term)
-    db_session.commit()
-    db_session.refresh(term)
-    return term
-
-
-@pytest.fixture
-def sample_subject(db_session, sample_academic_term):
-    subject = Subject(
-        term_id=sample_academic_term.id,
-        subject_name="Database Systems",
-        subject_code="CS301",
-        credits=4,
-        marks=85.0,
-        grade="A",
-    )
-    db_session.add(subject)
-    db_session.commit()
-    db_session.refresh(subject)
-    return subject
 
 
 @pytest.fixture

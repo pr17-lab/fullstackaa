@@ -15,6 +15,7 @@ class SkillGap(Base):
     missing_skills = Column(JSONB)
     weak_skills = Column(JSONB)
     strong_skills = Column(JSONB)
+    high_potential_skills = Column(JSONB, default=list)
     computed_at = Column(DateTime(timezone=True))
 
     __table_args__ = (

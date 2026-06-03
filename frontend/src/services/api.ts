@@ -35,51 +35,6 @@ export const StudentService = {
     getStudent: async (id: string) => {
         const response = await api.get<Student>(`/students/${id}`);
         return response.data;
-    },
-
-    getAcademicRecords: async (id: string) => {
-        const response = await api.get<AcademicRecordSummary>(`/students/${id}/academic-records`);
-        return response.data;
-    }
-};
-
-export const AnalyticsService = {
-    getGPATrend: async (studentId: string) => {
-        const response = await api.get<GPATrend>(`/analytics/gpa-trend/${studentId}`);
-        return response.data;
-    },
-
-    getSubjectPerformance: async (studentId: string) => {
-        const response = await api.get<SubjectPerformance>('/analytics/subject-performance', {
-            params: { student_id: studentId }
-        });
-        return response.data;
-    },
-
-    getSemesterComparison: async (studentId: string) => {
-        const response = await api.get<SemesterComparison>('/analytics/semester-comparison', {
-            params: { student_id: studentId }
-        });
-        return response.data;
-    },
-
-    getStudentSummary: async (studentId: string) => {
-        const response = await api.get<StudentAnalyticsSummary>(`/analytics/student/${studentId}/summary`);
-        return response.data;
-    },
-
-    getCohortStats: async (branch: string, semester: number) => {
-        const response = await api.get<CohortStats>('/analytics/cohort-stats', {
-            params: { branch, semester }
-        });
-        return response.data;
-    },
-
-    getOverview: async (limit = 10) => {
-        const response = await api.get<AnalyticsOverview>('/analytics/overview', {
-            params: { limit }
-        });
-        return response.data;
     }
 };
 
@@ -98,6 +53,11 @@ export const SkillsService = {
 
     getSkillGaps: async () => {
         const response = await api.get<SkillGap[]>('/skills/gaps');
+        return response.data;
+    },
+
+    getCareerRecommendations: async () => {
+        const response = await api.get<any>('/skills/recommendations');
         return response.data;
     },
 
@@ -137,11 +97,21 @@ export const RoadmapService = {
         return response.data;
     },
 
-    completeTask: async (task_id: string, feedback_score?: number) => {
+    completeTask: async (task_id: string, feedback_score?: number, submission_link?: string) => {
         const response = await api.post<{ status: string; message: string }>(
             `/roadmap/tasks/${task_id}/complete`,
-            { feedback_score: feedback_score ?? null }
+            {
+                feedback_score: feedback_score ?? null,
+                submission_link: submission_link ?? null
+            }
         );
+        return response.data;
+    },
+
+    createMicroSession: async (skill_id: string, roadmap_task_id?: string) => {
+        const params: Record<string, string> = { skill_id };
+        if (roadmap_task_id) params.roadmap_task_id = roadmap_task_id;
+        const response = await api.post<any>('/interview/sessions/micro', null, { params });
         return response.data;
     },
 
@@ -215,23 +185,5 @@ export const ProfileService = {
     },
 };
 
-export interface SubjectUpdateResult {
-    id: string;
-    subject_name: string;
-    subject_code: string;
-    credits: number;
-    marks: number;
-    grade: string;
-    pass_fail: string;
-    term_id: string;
-    term_gpa: number;
-}
 
-export const SubjectService = {
-    /** Update a subject's marks (and optionally name) for the authenticated student. */
-    updateSubject: async (subjectId: string, data: { marks?: number; subject_name?: string }) => {
-        const response = await api.patch<SubjectUpdateResult>(`/academic/subjects/${subjectId}`, data);
-        return response.data;
-    },
-};
 

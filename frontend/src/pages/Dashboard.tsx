@@ -1,338 +1,632 @@
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
-import { Award, BookOpen, Target, TrendingUp, Briefcase, ChevronRight, Map } from 'lucide-react';
-import { StudentService, AnalyticsService, SkillsService } from '../services/api';
+import { Link, useLocation } from 'react-router-dom';
+import {
+    Award, Target, Briefcase, ChevronRight, Map,
+    Cpu, CheckSquare, Zap, AlertCircle, TrendingUp,
+    Bell, Plus, Info, Star
+} from 'lucide-react';
+import { SkillsService, RoadmapService, JobListingsService } from '../services/api';
+import { listSessions } from '../api/interview';
 import { ErrorDisplay } from '../components/common/Loading';
 import { SkeletonStatCard } from '../components/common/SkeletonStatCard';
-import { StatCard } from '../components/dashboard/StatCard';
-import GPATrendChart from '../components/dashboard/GPATrendChart';
 import { useAuth } from '../contexts/AuthContext';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Cell } from 'recharts';
 import { PageTransition } from '../components/layout/PageTransition';
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function CircularProgress({ value, size = 56, stroke = 4, color = '#818cf8' }: {
+    value: number; size?: number; stroke?: number; color?: string;
+}) {
+    const r = (size - stroke * 2) / 2;
+    const circ = 2 * Math.PI * r;
+    const dash = (value / 100) * circ;
+    return (
+        <svg width={size} height={size} className="-rotate-90">
+            <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={stroke} />
+            <circle
+                cx={size / 2} cy={size / 2} r={r} fill="none"
+                stroke={color} strokeWidth={stroke}
+                strokeDasharray={`${dash} ${circ}`}
+                strokeLinecap="round"
+                style={{ transition: 'stroke-dasharray 1s cubic-bezier(0.4,0,0.2,1)' }}
+            />
+        </svg>
+    );
+}
+
+function StatCard({ title, value, subtitle, icon: Icon, accentColor = '#818cf8', badge, progress }: {
+    title: string;
+    value: string | number;
+    subtitle?: string;
+    icon: any;
+    accentColor?: string;
+    badge?: string;
+    progress?: number;
+}) {
+    return (
+        <div className="stat-card animate-fade-in-up">
+            {/* Icon row */}
+            <div className="flex items-start justify-between mb-3">
+                <div
+                    className="h-9 w-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: `${accentColor}18`, border: `1px solid ${accentColor}25` }}
+                >
+                    <Icon className="h-4 w-4" style={{ color: accentColor }} />
+                </div>
+                {badge && (
+                    <span
+                        className="px-2 py-0.5 rounded-full text-xs font-bold"
+                        style={{ background: `${accentColor}18`, color: accentColor, border: `1px solid ${accentColor}25` }}
+                    >
+                        {badge}
+                    </span>
+                )}
+            </div>
+
+            {/* Value */}
+            <p
+                className="text-2xl font-black tracking-tight mb-0.5 animate-number"
+                style={{ color: accentColor, lineHeight: 1.1 }}
+            >
+                {value}
+            </p>
+            <p className="text-xs font-semibold mb-1" style={{ color: 'var(--text-primary)', opacity: 0.9 }}>
+                {title}
+            </p>
+            {subtitle && (
+                <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
+                    {subtitle}
+                </p>
+            )}
+
+            {/* Optional progress bar */}
+            {progress !== undefined && (
+                <div className="mt-2.5 progress-track">
+                    <div
+                        className="progress-fill"
+                        style={{ width: `${progress}%`, background: `linear-gradient(90deg, ${accentColor}, ${accentColor}cc)` }}
+                    />
+                </div>
+            )}
+        </div>
+    );
+}
+
+function SkillBar({ label, value, color = '#818cf8' }: { label: string; value: number; color?: string }) {
+    return (
+        <div className="space-y-1.5">
+            <div className="flex justify-between items-center">
+                <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+                    {label}
+                </span>
+                <span className="text-xs font-bold" style={{ color }}>
+                    {value}%
+                </span>
+            </div>
+            <div className="progress-track">
+                <div
+                    className="progress-fill"
+                    style={{ width: `${value}%`, background: `linear-gradient(90deg, ${color}, ${color}cc)` }}
+                />
+            </div>
+        </div>
+    );
+}
+
+// ─── Dashboard Component ───────────────────────────────────────────────────────
 
 const Dashboard = () => {
     const { user } = useAuth();
 
-    const { data: records, isLoading: recordsLoading, error: recordsError, refetch: refetchRecords } = useQuery({
-        queryKey: ['academic-records', user?.id],
-        queryFn: () => StudentService.getAcademicRecords(user!.id),
-        enabled: !!user?.id,
+    const {
+        data: careerData,
+        isLoading: careerLoading,
+        error: careerError,
+        refetch: refetchCareer
+    } = useQuery({
+        queryKey: ['career-recommendations'],
+        queryFn: SkillsService.getCareerRecommendations,
         staleTime: 5 * 60 * 1000,
     });
 
-    const { data: summary, isLoading: summaryLoading, error: summaryError } = useQuery({
-        queryKey: ['analytics-summary', user?.id],
-        queryFn: () => AnalyticsService.getStudentSummary(user!.id),
-        enabled: !!user?.id,
+    const {
+        data: skills,
+        isLoading: skillsLoading,
+    } = useQuery({
+        queryKey: ['my-skills'],
+        queryFn: SkillsService.getMySkills,
         staleTime: 5 * 60 * 1000,
     });
 
-    const { data: careerRec, isLoading: careerLoading } = useQuery({
-        queryKey: ['career-recommendation'],
-        queryFn: () => SkillsService.getRecommendation(),
-        retry: false,
+    const {
+        data: roadmaps,
+        isLoading: roadmapsLoading,
+    } = useQuery({
+        queryKey: ['roadmaps'],
+        queryFn: RoadmapService.listRoadmaps,
         staleTime: 5 * 60 * 1000,
     });
 
-    const loading = recordsLoading || summaryLoading;
-    const error = recordsError || summaryError;
+    const {
+        data: sessionsData,
+        isLoading: sessionsLoading,
+        error: sessionsError
+    } = useQuery({
+        queryKey: ['interview-sessions'],
+        queryFn: listSessions,
+        staleTime: 5 * 60 * 1000,
+    });
+
+    const primaryRec = careerData?.recommendations?.primary;
+    const activeRole = primaryRec?.job_role || 'Developer';
+
+    const {
+        data: jobListings,
+        isLoading: jobsLoading
+    } = useQuery({
+        queryKey: ['job-listings', activeRole],
+        queryFn: () => JobListingsService.getJobListings(activeRole),
+        enabled: !!activeRole && !careerLoading,
+        staleTime: 5 * 60 * 1000,
+    });
+
+    const loading = careerLoading || skillsLoading || roadmapsLoading || sessionsLoading;
+    const error = careerError || sessionsError;
 
     if (loading) {
         return (
-            <div className="space-y-5">
+            <div className="space-y-5 animate-fade-in">
+                {/* Header skeleton */}
                 <div>
-                    <div className="h-9 w-64 bg-gray-200 dark:bg-zinc-800/50 rounded animate-pulse mb-2"></div>
-                    <div className="h-4 w-48 bg-gray-200 dark:bg-zinc-800/50 rounded animate-pulse"></div>
+                    <div className="h-4 w-32 skeleton mb-1.5" />
+                    <div className="h-7 w-52 skeleton mb-1" />
+                    <div className="h-3 w-36 skeleton" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <SkeletonStatCard /><SkeletonStatCard /><SkeletonStatCard /><SkeletonStatCard />
+                {/* Stat cards skeleton */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {[...Array(4)].map((_, i) => (
+                        <div key={i} className="stat-card space-y-2">
+                            <div className="h-9 w-9 skeleton rounded-xl" />
+                            <div className="h-6 w-16 skeleton" />
+                            <div className="h-3 w-24 skeleton" />
+                        </div>
+                    ))}
                 </div>
             </div>
         );
     }
 
-    if (error) return <ErrorDisplay message={(error as Error).message || 'Failed to fetch your academic data'} onRetry={() => refetchRecords()} />;
-    if (!records || !summary) return null;
+    if (error) {
+        return (
+            <ErrorDisplay
+                message={(error as Error).message || 'Failed to fetch career intelligence data'}
+                onRetry={() => refetchCareer()}
+            />
+        );
+    }
 
-    const allSubjects = records.terms.flatMap(term =>
-        term.subjects?.map(subject => ({
-            id: subject.id,
-            name: subject.subject_name.length > 25 ? subject.subject_name.substring(0, 25) + '...' : subject.subject_name,
-            code: subject.subject_code,
-            marks: Number(subject.marks),
-            credits: subject.credits,
-            grade: subject.grade
-        })) || []
-    );
-
-    const passRate = allSubjects.length > 0
-        ? Math.round((allSubjects.filter(s => s.grade !== 'F').length / allSubjects.length) * 100)
+    // --- Compute metrics ---
+    const primaryMatchScore = primaryRec?.match_score ? Math.round(primaryRec.match_score) : 0;
+    const verifiedSkillsCount = skills ? skills.filter((s: any) => Number(s.confidence_score) >= 70).length : 0;
+    const completedInterviews = sessionsData?.sessions
+        ? sessionsData.sessions.filter((s: any) => s.status === 'completed').length
+        : 0;
+    const activeRoadmap = roadmaps ? roadmaps.find((r: any) => r.status === 'active') : null;
+    const roadmapProgressPct = activeRoadmap && activeRoadmap.total_tasks > 0
+        ? Math.round((activeRoadmap.completed_tasks / activeRoadmap.total_tasks) * 100)
         : 0;
 
-    const subjectAverages = allSubjects.reduce((acc, subject) => {
-        if (!acc[subject.name]) {
-            acc[subject.name] = { name: subject.name, totalMarks: 0, count: 0 };
-        }
-        acc[subject.name].totalMarks += subject.marks;
-        acc[subject.name].count += 1;
-        return acc;
-    }, {} as Record<string, { name: string; totalMarks: number; count: number }>);
+    // --- Skill proficiency bars ---
+    let avgTechnical = 65;
+    let avgProject = 70;
+    let avgCommunication = 60;
+    let avgInterview = 75;
 
-    const uniqueSubjects = Object.values(subjectAverages).map(s => ({
-        name: s.name,
-        averageMarks: s.totalMarks / s.count,
-    }));
+    if (skills && skills.length > 0) {
+        const total = skills.length;
+        const strong = skills.filter((s: any) => s.level === 'strong');
+        const moderate = skills.filter((s: any) => s.level === 'moderate');
+        avgTechnical = Math.round((strong.length / total) * 100);
+        avgProject = Math.round(skills.reduce((sum: number, s: any) => sum + s.confidence_score, 0) / total);
+        avgInterview = strong.length > 0
+            ? Math.round(strong.reduce((sum: number, s: any) => sum + s.confidence_score, 0) / strong.length)
+            : 0;
+        avgCommunication = moderate.length > 0
+            ? Math.round(moderate.reduce((sum: number, s: any) => sum + s.confidence_score, 0) / moderate.length)
+            : 0;
+    }
 
-    const sortedByMarks = [...uniqueSubjects].sort((a, b) => a.averageMarks - b.averageMarks);
-    const weakestSubjects = sortedByMarks.slice(0, 3);
-    const strongestSubjects = sortedByMarks.slice(-3).reverse();
-    const topSubjectsChart = [...allSubjects].sort((a, b) => b.marks - a.marks).slice(0, 5);
-
-    const creditData = records.terms.map(term => ({
-        semester: `S${term.semester}`,
-        credits: term.subjects?.reduce((sum, subject) => sum + (subject.credits || 0), 0) || 0
-    }));
-
-    const coursesList = allSubjects.map(subject => ({
-        id: subject.id,
-        name: subject.name,
-        code: subject.code,
-        credits: subject.credits
-    }));
-
-    const overallGPA10 = Number(records.overall_gpa) || 0;
+    // --- Skill gaps ---
+    const allGaps = [
+        ...(careerData?.tiers?.excellent || []),
+        ...(careerData?.tiers?.good || []),
+        ...(careerData?.tiers?.potential || []),
+        ...(careerData?.tiers?.low || []),
+    ];
+    const activeGap = allGaps.find((g: any) => g.job_role === activeRole);
+    const missingSkills = activeGap?.missing_skills || [];
+    const highPotentialSkills = activeGap?.high_potential_skills || [];
+    const weakSkills = activeGap?.weak_skills || [];
 
     return (
         <PageTransition className="space-y-5">
-            {/* SECTION 1 - Header Strip */}
-            <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-zinc-100 tracking-tight">Welcome back, {user?.name?.split(' ')[0] || 'Student'}! 👋</h1>
-                <p className="text-gray-500 dark:text-zinc-400 mt-1.5 text-sm font-medium">
-                    {user?.branch || 'Department'} • Semester {user?.semester || 'N/A'}
-                </p>
-            </div>
 
-            {/* SECTION 2 - Stats Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                <StatCard title="Overall GPA" value={overallGPA10.toFixed(2)} icon={Award} color="indigo" subtitle="Cumulative" />
-                <StatCard title="Credits Earned" value={records.total_credits} icon={BookOpen} color="blue" subtitle={`${records.total_terms} semesters`} />
-                <StatCard title="Subjects" value={summary.total_subjects} icon={TrendingUp} color="teal" subtitle="Completed" />
-                <StatCard title="Pass Rate" value={`${passRate}%`} icon={Target} color="emerald" subtitle="All cleared" />
-            </div>
-
-            {/* SECTION 3 - Two column layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {/* LEFT COLUMN (65%) */}
-                <div className="lg:col-span-2 space-y-5">
-                    <GPATrendChart studentId={user!.id} />
-
-                    {/* Semester Summary Table */}
-                    <div className="bg-white/50 dark:bg-zinc-900/30 rounded-xl p-5 border border-gray-100 dark:border-white/5 transition-colors">
-                        <h3 className="text-sm font-semibold text-gray-500 dark:text-white/60 uppercase tracking-wider mb-4">Semester Summary</h3>
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm text-left whitespace-nowrap">
-                                <thead>
-                                    <tr className="text-gray-500 dark:text-zinc-400 border-b border-gray-100 dark:border-zinc-800">
-                                        <th className="pb-3 font-medium px-2">Semester</th>
-                                        <th className="pb-3 font-medium px-2">Year</th>
-                                        <th className="pb-3 font-medium px-2">GPA</th>
-                                        <th className="pb-3 font-medium px-2">Subjects</th>
-                                        <th className="pb-3 font-medium px-2">Credits</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {records.terms.map((term, i) => {
-                                        const gpaNum = Number(term.gpa);
-                                        const bgClass = i % 2 === 0 ? 'bg-gray-50/50 dark:bg-white/[0.02]' : '';
-                                        return (
-                                            <tr key={term.id} className={`${bgClass} border-b border-gray-50 dark:border-zinc-800/50 last:border-0`}>
-                                                <td className="py-2.5 px-2 text-gray-900 dark:text-zinc-100">Sem {term.semester}</td>
-                                                <td className="py-2.5 px-2 text-gray-600 dark:text-zinc-400">{term.year}</td>
-                                                <td className="py-2.5 px-2">
-                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold ${
-                                                        gpaNum >= 7.5 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
-                                                        gpaNum >= 6.0 ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400' :
-                                                        gpaNum >= 5.0 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                                                        'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                                                    }`}>
-                                                        {gpaNum.toFixed(2)}
-                                                    </span>
-                                                </td>
-                                                <td className="py-2.5 px-2 text-gray-600 dark:text-zinc-400">{term.subjects?.length || 0}</td>
-                                                <td className="py-2.5 px-2 text-gray-600 dark:text-zinc-400">{term.subjects?.reduce((sum, s) => sum + (s.credits || 0), 0) || 0}</td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            {/* ── HEADER ────────────────────────────────────────────────── */}
+            <div className="flex items-start justify-between animate-fade-in-up">
+                <div>
+                    <p className="section-label mb-1">Active Intelligence</p>
+                    <h1 className="text-2xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                        Welcome back, {user?.name?.split(' ')[0] || 'Alex'}
+                    </h1>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-tertiary)' }}>
+                        {user?.branch || 'B.Tech'} · Career Tracker Active
+                    </p>
                 </div>
+                <button
+                    className="p-2 rounded-xl transition-colors"
+                    style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-primary)', color: 'var(--text-secondary)' }}
+                >
+                    <Bell className="h-5 w-5" />
+                </button>
+            </div>
 
-                {/* RIGHT COLUMN (35%) */}
-                <div className="space-y-5">
-                    {/* Quick Stats Compact */}
-                    <div className="bg-white/50 dark:bg-zinc-900/30 rounded-xl p-5 border border-gray-100 dark:border-white/5 flex flex-col justify-center transition-colors shadow-[0_4px_24px_-8px_rgba(0,0,0,0.1)]">
-                        <h3 className="text-sm font-semibold text-gray-500 dark:text-white/60 uppercase tracking-wider mb-4">Academic Progress</h3>
-                        <div className="w-full bg-gray-100 dark:bg-zinc-800 rounded-full h-2 mb-2">
-                            <div className="bg-indigo-500 h-2 rounded-full" style={{ width: `${Math.min(100, ((summary.current_semester - 1) / 8) * 100)}%` }}></div>
+            {/* ── STAT CARDS ────────────────────────────────────────────── */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 stagger">
+                <StatCard
+                    title="Match Score"
+                    value={`${primaryMatchScore}%`}
+                    icon={Award}
+                    accentColor="#818cf8"
+                    badge="+2%"
+                    progress={primaryMatchScore}
+                />
+                <StatCard
+                    title="Verified Skills"
+                    value={verifiedSkillsCount}
+                    icon={Target}
+                    accentColor="#3b82f6"
+                    subtitle={`${skills?.length || 0} total`}
+                />
+                <StatCard
+                    title="Screenings"
+                    value={String(completedInterviews).padStart(2, '0')}
+                    icon={Cpu}
+                    accentColor="#8b5cf6"
+                    subtitle="AI screens done"
+                />
+                <StatCard
+                    title="Roadmap"
+                    value={`${roadmapProgressPct}%`}
+                    icon={Map}
+                    accentColor="#f59e0b"
+                    progress={roadmapProgressPct}
+                    subtitle={activeRoadmap ? `${activeRoadmap.completed_tasks}/${activeRoadmap.total_tasks} tasks` : 'No active roadmap'}
+                />
+            </div>
+
+            {/* ── MAIN GRID ─────────────────────────────────────────────── */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+                {/* LEFT COLUMN (2/3) */}
+                <div className="lg:col-span-2 space-y-4">
+
+                    {/* SKILL PROFICIENCY CARD */}
+                    <div
+                        className="rounded-2xl p-5 animate-fade-in-up"
+                        style={{
+                            background: 'var(--bg-surface)',
+                            border: '1px solid var(--border-primary)',
+                        }}
+                    >
+                        <div className="flex items-center justify-between mb-4">
+                            <p className="section-label">Skill Proficiency</p>
+                            <button style={{ color: 'var(--text-tertiary)' }}>
+                                <Info className="h-4 w-4" />
+                            </button>
                         </div>
-                        <p className="text-sm text-gray-600 dark:text-zinc-300 font-medium mb-4">
-                            Semester {summary.current_semester} of 8
-                        </p>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <p className="text-xs text-gray-500 dark:text-zinc-500">Total Credits</p>
-                                <p className="text-lg font-bold text-gray-900 dark:text-zinc-100">{records.total_credits}</p>
-                            </div>
-                            <div>
-                                <p className="text-xs text-gray-500 dark:text-zinc-500">Completed</p>
-                                <p className="text-lg font-bold text-gray-900 dark:text-zinc-100">{records.total_terms} Terms</p>
-                            </div>
+                        <div className="space-y-4">
+                            <SkillBar label="Technical"     value={avgTechnical}     color="#818cf8" />
+                            <SkillBar label="Project"       value={avgProject}       color="#3b82f6" />
+                            <SkillBar label="Communication" value={avgCommunication} color="#8b5cf6" />
+                            <SkillBar label="Interview"     value={avgInterview}     color="#f59e0b" />
                         </div>
                     </div>
 
-                    {/* Unified Subject Performance */}
-                    <div className="bg-white/50 dark:bg-zinc-900/30 rounded-xl p-5 border border-gray-100 dark:border-white/5 transition-colors">
-                        <h3 className="text-sm font-semibold text-gray-500 dark:text-white/60 uppercase tracking-wider mb-4">Subject Performance</h3>
-                        <div className="grid grid-cols-2 gap-5 divide-x divide-gray-100 dark:divide-white/5">
-                            {/* Weak */}
-                            <div className="pr-1">
-                                <p className="text-[11px] font-semibold text-gray-500 dark:text-zinc-500 uppercase tracking-widest mb-3">Needs Polish</p>
-                                <div className="space-y-4">
-                                    {weakestSubjects.map((s, i) => (
-                                        <div key={i}>
-                                            <div className="flexjustify-between text-xs mb-1">
-                                                <span className="text-gray-700 dark:text-zinc-300 truncate block max-w-full" title={s.name}>{s.name}</span>
-                                                <span className="font-bold text-gray-900 dark:text-zinc-100">{Math.round(s.averageMarks)}%</span>
-                                            </div>
-                                            <div className="w-full bg-red-50 dark:bg-red-900/20 rounded-full h-1.5">
-                                                <div className="bg-red-500 dark:bg-red-400 h-1.5 rounded-full" style={{ width: `${s.averageMarks}%` }}></div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            {/* Strong */}
-                            <div className="pl-5">
-                                <p className="text-[11px] font-semibold text-gray-500 dark:text-zinc-500 uppercase tracking-widest mb-3">Strongest</p>
-                                <div className="space-y-4">
-                                    {strongestSubjects.map((s, i) => (
-                                        <div key={i}>
-                                            <div className="flexjustify-between text-xs mb-1">
-                                                <span className="text-gray-700 dark:text-zinc-300 truncate block max-w-full" title={s.name}>{s.name}</span>
-                                                <span className="font-bold text-gray-900 dark:text-zinc-100">{Math.round(s.averageMarks)}%</span>
-                                            </div>
-                                            <div className="w-full bg-emerald-50 dark:bg-emerald-900/20 rounded-full h-1.5">
-                                                <div className="bg-emerald-500 dark:bg-emerald-400 h-1.5 rounded-full" style={{ width: `${s.averageMarks}%` }}></div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Career Intelligence */}
-                    <div className="bg-gradient-to-br from-indigo-50/50 to-white/50 dark:from-indigo-950/20 dark:to-zinc-900/30 rounded-xl p-5 border border-indigo-100/50 dark:border-indigo-500/10 shadow-[0_4px_24px_-8px_rgba(99,102,241,0.15)] relative overflow-hidden transition-colors">
-                        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                            <Briefcase size={80} />
-                        </div>
-                        <h3 className="text-sm font-semibold text-indigo-700/80 dark:text-indigo-400/80 uppercase tracking-wider mb-4 flex items-center gap-2">
-                            <Briefcase className="h-4 w-4" /> Career Intelligence
-                        </h3>
-                        
-                        {careerLoading ? (
-                            <div className="animate-pulse space-y-2">
-                                <div className="h-6 w-3/4 bg-indigo-100 dark:bg-indigo-900/30 rounded"></div>
-                                <div className="h-4 w-1/2 bg-indigo-50 dark:bg-indigo-900/10 rounded"></div>
-                            </div>
-                        ) : careerRec?.primary?.job_role ? (
+                    {/* TARGET INTELLIGENCE CARD */}
+                    <div className="target-card animate-fade-in-up">
+                        <div className="flex items-start justify-between">
                             <div>
-                                <p className="text-xl font-bold text-gray-900 dark:text-zinc-100 mb-1">{careerRec.primary.job_role}</p>
-                                {careerRec.primary.match_score != null && (
-                                    <span className="inline-flex items-center gap-1 mb-4 px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-400">
-                                        ✨ {Math.round(careerRec.primary.match_score)}% MATCH
+                                <p className="section-label mb-1">Target Intelligence</p>
+                                <p className="text-xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                                    {activeRole}
+                                </p>
+                                <div className="flex items-center gap-2 mt-2">
+                                    <span className="tag tag-indigo">
+                                        <TrendingUp className="h-3 w-3 mr-1" />
+                                        High Market Demand
                                     </span>
-                                )}
-                                <div className="flex gap-2">
-                                    <Link to="/skills" className="flex-1 flex items-center justify-center gap-1 text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg py-2 transition-colors">
-                                        Analysis <ChevronRight className="h-3 w-3" />
-                                    </Link>
-                                    <Link to="/roadmap" className="flex items-center justify-center text-xs font-semibold bg-white dark:bg-zinc-800 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-700 rounded-lg px-3 transition-colors">
-                                        <Map className="h-3.5 w-3.5" />
-                                    </Link>
+                                    {primaryMatchScore >= 70 && (
+                                        <span className="tag tag-blue">
+                                            <Star className="h-3 w-3 mr-1" />
+                                            Strong Fit
+                                        </span>
+                                    )}
                                 </div>
+                            </div>
+                            <Link
+                                to="/roadmap"
+                                className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all hover:scale-110"
+                                style={{
+                                    background: 'linear-gradient(135deg, #818cf8, #6366f1)',
+                                    boxShadow: '0 0 16px rgba(99,102,241,0.4)',
+                                    color: '#0a0e1a',
+                                }}
+                            >
+                                <Plus className="h-5 w-5" />
+                            </Link>
+                        </div>
+
+                        {/* Match score bar */}
+                        <div className="mt-4">
+                            <div className="flex justify-between text-xs mb-1.5" style={{ color: 'var(--text-tertiary)' }}>
+                                <span>Role Match</span>
+                                <span style={{ color: 'var(--brand-primary)' }}>{primaryMatchScore}%</span>
+                            </div>
+                            <div className="progress-track" style={{ height: '6px' }}>
+                                <div
+                                    className="progress-fill"
+                                    style={{ width: `${primaryMatchScore}%` }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* SKILL GAPS CARD */}
+                    <div
+                        className="rounded-2xl p-5 animate-fade-in-up"
+                        style={{
+                            background: 'var(--bg-surface)',
+                            border: '1px solid var(--border-primary)',
+                        }}
+                    >
+                        <div className="flex items-center justify-between mb-4">
+                            <p className="section-label">Skill Gaps · {activeRole}</p>
+                            <Link
+                                to="/skills"
+                                className="text-xs font-semibold flex items-center gap-0.5 transition-colors"
+                                style={{ color: 'var(--brand-primary)' }}
+                            >
+                                View all <ChevronRight className="h-3.5 w-3.5" />
+                            </Link>
+                        </div>
+
+                        {missingSkills.length === 0 && highPotentialSkills.length === 0 && weakSkills.length === 0 ? (
+                            <div
+                                className="rounded-xl p-4 text-sm"
+                                style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.15)', color: 'var(--brand-primary)' }}
+                            >
+                                ✓ No major skill gaps identified — you're job-ready for this role!
                             </div>
                         ) : (
-                            <div>
-                                <p className="text-sm text-gray-600 dark:text-zinc-400 mb-4 line-clamp-2">Complete your academic profile to unlock personalized AI career insights.</p>
-                                <div className="flex gap-2">
-                                    <Link to="/skills" className="flex-1 flex items-center justify-center gap-1 text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg py-2 transition-colors">
-                                        View Skills <ChevronRight className="h-3 w-3" />
-                                    </Link>
+                            <div className="space-y-3">
+                                {highPotentialSkills.length > 0 && (
+                                    <div
+                                        className="rounded-xl p-3 space-y-2"
+                                        style={{ background: 'rgba(99,102,241,0.07)', border: '1px solid rgba(99,102,241,0.15)' }}
+                                    >
+                                        <p className="text-xs font-bold flex items-center gap-1.5" style={{ color: '#a78bfa' }}>
+                                            <Zap className="h-3.5 w-3.5" /> High Potential ({highPotentialSkills.length})
+                                        </p>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {highPotentialSkills.slice(0, 5).map((s: any, idx: number) => (
+                                                <span key={idx} className="tag tag-purple text-xs">
+                                                    {s.skill_name}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {missingSkills.length > 0 && (
+                                        <div className="space-y-2">
+                                            <p className="text-xs font-bold" style={{ color: '#f87171' }}>
+                                                Missing ({missingSkills.length})
+                                            </p>
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {missingSkills.slice(0, 6).map((s: any, idx: number) => (
+                                                    <span key={idx} className="tag tag-red text-xs">{s.skill_name}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {weakSkills.length > 0 && (
+                                        <div className="space-y-2">
+                                            <p className="text-xs font-bold" style={{ color: '#fbbf24' }}>
+                                                To Improve ({weakSkills.length})
+                                            </p>
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {weakSkills.slice(0, 6).map((s: any, idx: number) => (
+                                                    <span key={idx} className="tag tag-amber text-xs">
+                                                        {s.skill_name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}
                     </div>
                 </div>
-            </div>
 
-            {/* SECTION 4 - Full Width 3 Columns */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {/* Credit Distribution (From Performance.tsx) */}
-                <div className="bg-white/50 dark:bg-zinc-900/30 rounded-xl p-5 border border-gray-100 dark:border-white/5 transition-colors">
-                    <h3 className="text-sm font-semibold text-gray-500 dark:text-white/60 uppercase tracking-wider mb-4">Credit Distribution</h3>
-                    <div className="h-[220px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={creditData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(156, 163, 175, 0.1)" vertical={false} />
-                                <XAxis dataKey="semester" stroke="rgba(156, 163, 175, 0.5)" tick={{fill: 'rgba(156, 163, 175, 0.8)', fontSize: 11}} axisLine={false} tickLine={false} />
-                                <YAxis stroke="rgba(156, 163, 175, 0.5)" tick={{fill: 'rgba(156, 163, 175, 0.8)', fontSize: 11}} axisLine={false} tickLine={false} />
-                                <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{ backgroundColor: 'rgba(24,24,27,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} itemStyle={{ color: '#fff' }} />
-                                <Bar dataKey="credits" fill="#8b5cf6" radius={[4, 4, 0, 0]}>
-                                    {creditData.map((_, index) => (
-                                        <Cell key={`cell-${index}`} fill={index === creditData.length - 1 ? '#6366f1' : '#8b5cf6'} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
+                {/* RIGHT COLUMN (1/3) */}
+                <div className="space-y-4">
 
-                {/* Top Subjects (From Performance.tsx) */}
-                <div className="bg-white/50 dark:bg-zinc-900/30 rounded-xl p-5 border border-gray-100 dark:border-white/5 transition-colors">
-                    <h3 className="text-sm font-semibold text-gray-500 dark:text-white/60 uppercase tracking-wider mb-4">Top Scores</h3>
-                    <div className="h-[220px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={topSubjectsChart} layout="vertical">
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(156, 163, 175, 0.1)" horizontal={false} />
-                                <XAxis type="number" domain={[0, 100]} stroke="rgba(156, 163, 175, 0.5)" tick={{fill: 'rgba(156, 163, 175, 0.8)', fontSize: 11}} axisLine={false} tickLine={false} />
-                                <YAxis type="category" dataKey="name" width={110} stroke="rgba(156, 163, 175, 0.5)" tick={{fill: 'rgba(156, 163, 175, 0.8)', fontSize: 10}} axisLine={false} tickLine={false} />
-                                <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{ backgroundColor: 'rgba(24,24,27,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} itemStyle={{ color: '#fff' }} />
-                                <Bar dataKey="marks" fill="#10b981" radius={[0, 4, 4, 0]} barSize={16}>
-                                    {topSubjectsChart.map((_, index) => (
-                                        <Cell key={`cell-${index}`} fill={index === 0 ? '#10b981' : 'rgba(16, 185, 129, 0.6)'} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
+                    {/* CAREER RECOMMENDATION */}
+                    <div
+                        className="rounded-2xl p-5 animate-fade-in-up relative overflow-hidden"
+                        style={{
+                            background: 'linear-gradient(145deg, #0f0f1e 0%, #0b0d1a 100%)',
+                            border: '1px solid rgba(99,102,241,0.2)',
+                        }}
+                    >
+                        {/* Glow orb */}
+                        <div
+                            className="absolute -top-8 -right-8 w-24 h-24 rounded-full pointer-events-none"
+                            style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)' }}
+                        />
+                        <div className="flex items-center gap-2 mb-3">
+                            <Briefcase className="h-4 w-4" style={{ color: 'var(--brand-primary)' }} />
+                            <p className="section-label">Career Rec.</p>
+                        </div>
 
-                {/* My Courses */}
-                <div className="bg-white/50 dark:bg-zinc-900/30 rounded-xl p-5 border border-gray-100 dark:border-white/5 transition-colors">
-                    <h3 className="text-sm font-semibold text-gray-500 dark:text-white/60 uppercase tracking-wider mb-4">My Courses</h3>
-                    <div className="space-y-2.5 overflow-y-auto max-h-[220px] pr-1">
-                        {coursesList.slice(0, 5).map(course => (
-                            <div key={course.id} className="flex justify-between items-center p-3 bg-white/60 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 rounded-lg">
-                                <div>
-                                    <p className="text-xs font-semibold text-gray-900 dark:text-zinc-100 truncate w-48">{course.name}</p>
-                                    <p className="text-[10px] text-gray-500 mt-0.5">{course.code} • {course.credits} cr</p>
+                        {primaryRec ? (
+                            <div>
+                                <p className="text-xl font-black tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>
+                                    {primaryRec.job_role}
+                                </p>
+                                <div className="flex items-center gap-2 mb-4">
+                                    <CircularProgress value={primaryMatchScore} size={44} stroke={4} color="#818cf8" />
+                                    <div>
+                                        <p className="text-lg font-black" style={{ color: '#818cf8' }}>{primaryMatchScore}%</p>
+                                        <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Fit Score</p>
+                                    </div>
                                 </div>
-                                <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
+                                <div className="space-y-2">
+                                    <Link
+                                        to="/skills"
+                                        className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-xs font-bold transition-all hover:opacity-90"
+                                        style={{
+                                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                            color: '#ffffff',
+                                            boxShadow: '0 4px 14px rgba(99,102,241,0.35)',
+                                        }}
+                                    >
+                                        Skill Bridge <ChevronRight className="h-3.5 w-3.5" />
+                                    </Link>
+                                    <Link
+                                        to="/roadmap"
+                                        className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-xs font-bold transition-all"
+                                        style={{
+                                            background: 'rgba(255,255,255,0.05)',
+                                            color: 'var(--text-secondary)',
+                                            border: '1px solid var(--border-primary)',
+                                        }}
+                                    >
+                                        <Map className="h-3.5 w-3.5" /> View Roadmap
+                                    </Link>
+                                </div>
                             </div>
-                        ))}
+                        ) : (
+                            <div className="space-y-3">
+                                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                                    Configure career targets to calculate your personalized match score.
+                                </p>
+                                <Link
+                                    to="/settings"
+                                    className="flex items-center justify-center w-full py-2.5 rounded-xl text-xs font-bold"
+                                    style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: '#ffffff' }}
+                                >
+                                    Set Preferences
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* LIVE JOB LISTINGS */}
+                    <div
+                        className="rounded-2xl p-5 animate-fade-in-up"
+                        style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-primary)' }}
+                    >
+                        <div className="flex items-center justify-between mb-3">
+                            <p className="section-label">Live Opportunities</p>
+                            {jobListings?.source && (
+                                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>
+                                    {jobListings.source}
+                                </span>
+                            )}
+                        </div>
+
+                        {jobsLoading ? (
+                            <div className="flex flex-col items-center justify-center py-6 gap-2">
+                                <div
+                                    className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin"
+                                    style={{ borderColor: 'var(--brand-primary)', borderTopColor: 'transparent' }}
+                                />
+                                <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Scanning listings...</p>
+                            </div>
+                        ) : jobListings?.jobs && jobListings.jobs.length > 0 ? (
+                            <div className="space-y-2.5 max-h-[280px] overflow-y-auto pr-1">
+                                {jobListings.jobs.slice(0, 4).map((job: any) => (
+                                    <div
+                                        key={job.job_id}
+                                        className="p-3 rounded-xl transition-all"
+                                        style={{
+                                            background: 'rgba(255,255,255,0.03)',
+                                            border: '1px solid var(--border-primary)',
+                                        }}
+                                    >
+                                        <h4 className="text-xs font-bold truncate mb-0.5" style={{ color: 'var(--text-primary)' }}>
+                                            {job.job_title}
+                                        </h4>
+                                        <p className="text-xs truncate mb-2" style={{ color: 'var(--text-tertiary)' }}>
+                                            {job.employer_name} · {job.job_city || job.job_country || 'Remote'}
+                                        </p>
+                                        <div className="flex items-center justify-between">
+                                            <span className="tag tag-indigo" style={{ fontSize: '0.625rem' }}>Active</span>
+                                            <a
+                                                href={job.job_apply_link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-xs font-bold flex items-center gap-0.5 transition-colors"
+                                                style={{ color: 'var(--brand-primary)' }}
+                                            >
+                                                Apply <ChevronRight className="h-3 w-3" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center py-6 gap-2">
+                                <AlertCircle className="h-6 w-6" style={{ color: 'var(--text-muted)' }} />
+                                <p className="text-xs text-center" style={{ color: 'var(--text-tertiary)' }}>
+                                    No active job matches found right now.
+                                </p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* QUICK ACTIONS */}
+                    <div
+                        className="rounded-2xl p-4 animate-fade-in-up"
+                        style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-primary)' }}
+                    >
+                        <p className="section-label mb-3">Quick Actions</p>
+                        <div className="grid grid-cols-2 gap-2">
+                            {[
+                                { label: 'Interview Prep', href: '/interview', icon: Cpu, color: '#8b5cf6' },
+                                { label: 'Skill Audit',    href: '/skills',    icon: Target, color: '#3b82f6' },
+                                { label: 'Roadmap',        href: '/roadmap',   icon: Map,    color: '#818cf8' },
+                                { label: 'Settings',       href: '/settings',  icon: CheckSquare, color: '#f59e0b' },
+                            ].map((action) => (
+                                <Link
+                                    key={action.href}
+                                    to={action.href}
+                                    className="flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all hover:scale-105"
+                                    style={{
+                                        background: `${action.color}10`,
+                                        border: `1px solid ${action.color}20`,
+                                        textDecoration: 'none',
+                                    }}
+                                >
+                                    <action.icon className="h-5 w-5" style={{ color: action.color }} />
+                                    <span className="text-xs font-semibold text-center leading-tight" style={{ color: 'var(--text-secondary)' }}>
+                                        {action.label}
+                                    </span>
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

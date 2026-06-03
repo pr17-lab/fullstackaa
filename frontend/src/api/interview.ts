@@ -80,3 +80,14 @@ export const parseResumePdf = async (file: File): Promise<{ text: string }> => {
     });
     return res.data;
 };
+
+// Create a micro-interview session
+export const createMicroSession = async (
+    skillId: string,
+    roadmapTaskId?: string,
+): Promise<InterviewSession> => {
+    const params: Record<string, string> = { skill_id: skillId };
+    if (roadmapTaskId) params.roadmap_task_id = roadmapTaskId;
+    const res = await api.post('/interview/sessions/micro', null, { params });
+    return res.data;
+};

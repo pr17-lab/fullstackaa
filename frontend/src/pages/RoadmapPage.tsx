@@ -1,4 +1,5 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -20,6 +21,36 @@ import { RoadmapService, PreferencesService } from '../services/api';
 import { ErrorDisplay } from '../components/common/Loading';
 import type { Roadmap, RoadmapDetail, RoadmapTask } from '../types/career';
 import { PageTransition } from '../components/layout/PageTransition';
+
+// ─── Toast Types & Component ──────────────────────────────────────────────────
+
+type ToastVariant = 'success' | 'error' | 'info' | 'warning';
+interface ToastMsg { variant: ToastVariant; text: string; }
+
+function Toast({ toast, onClose }: { toast: ToastMsg; onClose: () => void }) {
+  const styles: Record<ToastVariant, string> = {
+    success: 'bg-emerald-600 text-white',
+    error:   'bg-red-600 text-white',
+    info:    'bg-indigo-600 text-white',
+    warning: 'bg-amber-500 text-white',
+  };
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
+      className={`fixed top-4 right-4 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl text-sm font-semibold ${
+        styles[toast.variant]
+      }`}
+    >
+      <span>{toast.text}</span>
+      <button onClick={onClose} className="ml-2 opacity-80 hover:opacity-100">
+        <X className="w-4 h-4" />
+      </button>
+    </motion.div>
+  );
+}
+
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -108,7 +139,7 @@ function SkeletonPhaseCol() {
 
 // ─── Task Card ───────────────────────────────────────────────────────────────
 
-export function SortableTaskCard({ task, onComplete, onStart, onSkip, onDelete, isUpdating }: any) {
+export function SortableTaskCard({ task, onComplete, onStart, onSkip, onDelete, isUpdating, onMicroInterviewTrigger }: any) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: task.id, data: { status: task.status } });
   
   const style = {
@@ -124,18 +155,22 @@ export function SortableTaskCard({ task, onComplete, onStart, onSkip, onDelete, 
 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
-      <TaskCardContent task={task} onComplete={onComplete} onStart={onStart} onSkip={onSkip} onDelete={onDelete} isUpdating={isUpdating} dragListeners={listeners} />
+      <TaskCardContent task={task} onComplete={onComplete} onStart={onStart} onSkip={onSkip} onDelete={onDelete} isUpdating={isUpdating} dragListeners={listeners} onMicroInterviewTrigger={onMicroInterviewTrigger} />
     </div>
   );
 }
 
-export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, isUpdating, dragListeners, isOverlay = false }: any) {
+export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, isUpdating, dragListeners, isOverlay = false, onMicroInterviewTrigger }: any) {
   const [showRating, setShowRating] = useState(false);
   const [rating, setRating] = useState(0);
+  const [githubUrl, setGithubUrl] = useState(task.submission_link || '');
 
   const isDone = task.status === 'completed';
   const isSkipped = task.status === 'skipped';
   const isCustom = task.task_type === 'custom';
+
+  const isApply = task.task_type === 'apply' || task.phase === 'apply' || task.task_type === 'project';
+  const isLearnOrPractice = task.task_type === 'learn' || task.phase === 'learn' || task.task_type === 'practice' || task.phase === 'practice';
 
   const handleSubmitComplete = () => {
     onComplete(rating || undefined);
@@ -200,6 +235,11 @@ export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, i
             Open <ExternalLink className="w-3 h-3" />
           </a>
         )}
+        {task.validation_status === 'verified' && (
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+            ✓ Verified
+          </span>
+        )}
       </div>
 
       {/* Completed info */}
@@ -224,7 +264,52 @@ export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, i
       {/* Actions */}
       {!isDone && !isSkipped && (
         <div className="pl-6 pt-1">
-          {!showRating ? (
+          {task.validation_status === 'pending' ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin text-indigo-500" />
+              <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400 text-xs font-semibold rounded-lg border border-indigo-100 dark:border-indigo-900/30 flex items-center gap-1 animate-pulse">
+                ⚙️ Analysis Pending
+              </span>
+            </div>
+          ) : isApply ? (
+            <div className="space-y-2">
+              {task.validation_status === 'failed' && (
+                <p className="text-[10px] text-red-500 font-semibold mb-1">❌ Verification Failed. Please submit a valid GitHub repository.</p>
+              )}
+              {task.status === 'pending' ? (
+                <button
+                  onClick={onStart}
+                  disabled={isUpdating}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20 transition-colors disabled:opacity-50"
+                >
+                  {isUpdating ? <Loader2 className="w-3 h-3 animate-spin" /> : <PlayCircle className="w-3 h-3" />}
+                  Start Project
+                </button>
+              ) : (
+                <div className="bg-gray-50 dark:bg-zinc-800/40 rounded-xl p-3 border border-gray-100 dark:border-zinc-700/50 space-y-2 max-w-sm">
+                  <label className="block text-[10px] font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wide">GitHub Repository URL</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="https://github.com/user/repo"
+                      value={githubUrl}
+                      onChange={e => setGithubUrl(e.target.value)}
+                      disabled={isUpdating}
+                      className="flex-1 text-xs bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-700 rounded-lg px-2.5 py-1.5 text-gray-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                    <button
+                      onClick={() => onComplete(undefined, githubUrl)}
+                      disabled={isUpdating || !githubUrl.toLowerCase().includes('github.com')}
+                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg disabled:opacity-40 transition-colors flex items-center gap-1 shrink-0"
+                    >
+                      {isUpdating ? <Loader2 className="w-3 h-3 animate-spin" /> : <CheckCircle2 className="w-3 h-3" />}
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : !showRating ? (
             <div className="flex flex-wrap gap-2">
               {task.status === 'pending' && (
                 <button
@@ -238,7 +323,13 @@ export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, i
               )}
               {task.status === 'in_progress' && (
                 <button
-                  onClick={() => setShowRating(true)}
+                  onClick={() => {
+                    if (isLearnOrPractice) {
+                      onMicroInterviewTrigger(task);
+                    } else {
+                      setShowRating(true);
+                    }
+                  }}
                   disabled={isUpdating}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-colors disabled:opacity-50"
                 >
@@ -280,7 +371,7 @@ export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, i
 
 // ─── Kanban Column & Custom Task Form ────────────────────────────────────────
 
-function KanbanColumn({ id, title, tasks, onStart, onComplete, onSkip, onDelete, isUpdating, onAddClick, showAddForm, children }: any) {
+function KanbanColumn({ id, title, tasks, onStart, onComplete, onSkip, onDelete, isUpdating, onAddClick, showAddForm, onMicroInterviewTrigger, children }: any) {
   const { setNodeRef } = useSortable({ id, data: { isColumn: true } });
 
   return (
@@ -296,7 +387,7 @@ function KanbanColumn({ id, title, tasks, onStart, onComplete, onSkip, onDelete,
       <div ref={setNodeRef} className="flex-1 space-y-3 pb-4">
         <SortableContext items={tasks.map((t: any) => t.id)} strategy={verticalListSortingStrategy}>
           {tasks.map((task: any) => (
-            <SortableTaskCard key={task.id} task={task} onStart={() => onStart(task.id)} onComplete={(score: any) => onComplete(task.id, score)} onSkip={() => onSkip(task.id)} onDelete={() => onDelete(task.id)} isUpdating={isUpdating} />
+            <SortableTaskCard key={task.id} task={task} onStart={() => onStart(task.id)} onComplete={(score: any, subLink: any) => onComplete(task.id, score, subLink)} onSkip={() => onSkip(task.id)} onDelete={() => onDelete(task.id)} isUpdating={isUpdating} onMicroInterviewTrigger={onMicroInterviewTrigger} />
           ))}
         </SortableContext>
         {children}
@@ -352,15 +443,29 @@ function AddCustomTaskForm({ roadmapId, phase, onCancel, onSuccess }: any) {
 // ─── Roadmap Detail View ──────────────────────────────────────────────────────
 
 function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
+  const navigate = useNavigate();
   const qc = useQueryClient();
+  const [microInterviewModalTask, setMicroInterviewModalTask] = useState<RoadmapTask | null>(null);
+  const [microInterviewLoading, setMicroInterviewLoading] = useState(false);
+  const [toast, setToast] = useState<ToastMsg | null>(null);
+
+  const showToast = (variant: ToastVariant, text: string) => {
+    setToast({ variant, text });
+    setTimeout(() => setToast(null), 4000);
+  };
+
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['roadmap', roadmapId],
     queryFn: () => RoadmapService.getRoadmap(roadmapId),
-  });
+    refetchInterval: (query: any) => {
+      const tasks = query?.state?.data?.tasks;
+      return tasks?.some((t: any) => t.validation_status === 'pending') ? 3000 : false;
+    }
+  } as any);
 
   const completeMutation = useMutation({
-    mutationFn: ({ taskId, score }: { taskId: string; score?: number }) =>
-      RoadmapService.completeTask(taskId, score),
+    mutationFn: ({ taskId, score, submissionLink }: { taskId: string; score?: number; submissionLink?: string }) =>
+      RoadmapService.completeTask(taskId, score, submissionLink),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['roadmap', roadmapId] }),
   });
 
@@ -390,6 +495,31 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
 
   const [activeDragTask, setActiveDragTask] = useState<RoadmapTask | null>(null);
 
+  const rm = data as RoadmapDetail | undefined;
+
+  const prevPendingTasksRef = useRef<string[]>([]);
+  useEffect(() => {
+    if (rm?.tasks) {
+      const currentPending = rm.tasks.filter(t => t.validation_status === 'pending').map(t => t.id);
+      const previouslyPending = prevPendingTasksRef.current;
+      
+      previouslyPending.forEach(id => {
+        if (!currentPending.includes(id)) {
+          const task = rm.tasks.find(t => t.id === id);
+          if (task) {
+            if (task.validation_status === 'verified') {
+              showToast('success', '🎉 Project Verified! Your project weight has been upgraded!');
+            } else if (task.validation_status === 'failed') {
+              showToast('error', '❌ Project verification failed. Please check your submission link.');
+            }
+          }
+        }
+      });
+      
+      prevPendingTasksRef.current = currentPending;
+    }
+  }, [rm?.tasks]);
+
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -403,9 +533,8 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
       </div>
     );
   }
-  if (isError || !data) return <ErrorDisplay message="Failed to load roadmap" onRetry={() => refetch()} />;
+  if (isError || !rm) return <ErrorDisplay message="Failed to load roadmap" onRetry={() => refetch()} />;
 
-  const rm = data as RoadmapDetail;
   const pct = rm.total_tasks > 0 ? Math.round((rm.completed_tasks / rm.total_tasks) * 100) : 0;
 
   const tasksByStatus = {
@@ -443,12 +572,14 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
   };
 
   const startTask = (taskId: string) => updateStatusMutation.mutate({ taskId, status: 'in_progress' });
-  const completeTaskStatus = (taskId: string, score?: number) => completeMutation.mutate({ taskId, score });
+  const completeTaskStatus = (taskId: string, score?: number, submissionLink?: string) => completeMutation.mutate({ taskId, score, submissionLink });
   const skipTaskAction = (taskId: string) => skipMutation.mutate(taskId);
   const deleteTaskAction = (taskId: string) => deleteMutation.mutate(taskId);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {toast && <Toast toast={toast} onClose={() => setToast(null)} />}
+
       {/* Header Card */}
       <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 p-6 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
@@ -512,19 +643,19 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
         <div className="hidden lg:grid grid-cols-3 gap-5">
            <KanbanColumn id="pending" title="To Learn" tasks={tasksByStatus.pending} 
              onStart={startTask} onComplete={completeTaskStatus} onSkip={skipTaskAction} onDelete={deleteTaskAction} 
-             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('learn')} showAddForm={addFormPhase === 'learn'}>
+             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('learn')} showAddForm={addFormPhase === 'learn'} onMicroInterviewTrigger={setMicroInterviewModalTask}>
              {addFormPhase === 'learn' && <AddCustomTaskForm roadmapId={roadmapId} phase="learn" onCancel={() => setAddFormPhase(null)} onSuccess={() => setAddFormPhase(null)} />}
            </KanbanColumn>
 
            <KanbanColumn id="in_progress" title="Practicing" tasks={tasksByStatus.in_progress} 
              onStart={startTask} onComplete={completeTaskStatus} onSkip={skipTaskAction} onDelete={deleteTaskAction} 
-             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('practice')} showAddForm={addFormPhase === 'practice'}>
+             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('practice')} showAddForm={addFormPhase === 'practice'} onMicroInterviewTrigger={setMicroInterviewModalTask}>
              {addFormPhase === 'practice' && <AddCustomTaskForm roadmapId={roadmapId} phase="practice" onCancel={() => setAddFormPhase(null)} onSuccess={() => setAddFormPhase(null)} />}
            </KanbanColumn>
 
            <KanbanColumn id="completed" title="Completed" tasks={tasksByStatus.completed} 
              onStart={startTask} onComplete={completeTaskStatus} onSkip={skipTaskAction} onDelete={deleteTaskAction} 
-             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('apply')} showAddForm={addFormPhase === 'apply'}>
+             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('apply')} showAddForm={addFormPhase === 'apply'} onMicroInterviewTrigger={setMicroInterviewModalTask}>
              {addFormPhase === 'apply' && <AddCustomTaskForm roadmapId={roadmapId} phase="apply" onCancel={() => setAddFormPhase(null)} onSuccess={() => setAddFormPhase(null)} />}
            </KanbanColumn>
         </div>
@@ -542,6 +673,7 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
                  isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} 
                  onAddClick={() => setAddFormPhase(activeTab === 'pending' ? 'learn' : activeTab === 'in_progress' ? 'practice' : 'apply')} 
                  showAddForm={addFormPhase !== null}
+                 onMicroInterviewTrigger={setMicroInterviewModalTask}
                >
                  {addFormPhase && <AddCustomTaskForm roadmapId={roadmapId} phase={addFormPhase} onCancel={() => setAddFormPhase(null)} onSuccess={() => setAddFormPhase(null)} />}
                </KanbanColumn>
@@ -553,6 +685,80 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
           {activeDragTask ? <TaskCardContent task={activeDragTask} isOverlay={true} /> : null}
         </DragOverlay>
       </DndContext>
+
+      {/* Micro-interview Modal */}
+      <AnimatePresence>
+        {microInterviewModalTask && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 p-6 shadow-2xl max-w-md w-full relative overflow-hidden"
+            >
+              {/* Decorative accent */}
+              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-indigo-500 to-blue-500" />
+              
+              <button 
+                onClick={() => setMicroInterviewModalTask(null)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2.5 bg-indigo-50 dark:bg-indigo-500/10 rounded-xl text-indigo-600 dark:text-indigo-400">
+                  <Zap className="w-6 h-6 animate-pulse" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-zinc-100">Verify Skill Progress</h3>
+                  <p className="text-xs text-gray-500 dark:text-zinc-400 uppercase tracking-wide font-semibold mt-0.5">3-Minute Quick Screen</p>
+                </div>
+              </div>
+
+              <p className="text-sm text-gray-600 dark:text-zinc-300 leading-relaxed mb-6">
+                "Ready to lock in your progress? Take a 3-minute quick screen to officially unlock this skill badge."
+              </p>
+
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setMicroInterviewModalTask(null)}
+                  className="px-4 py-2 border border-gray-200 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 rounded-xl text-xs font-semibold text-gray-600 dark:text-zinc-300 transition-colors"
+                >
+                  Maybe Later
+                </button>
+                <button
+                  onClick={() => {
+                    if (!microInterviewModalTask) return;
+                    setMicroInterviewLoading(true);
+                    RoadmapService.createMicroSession(
+                      (microInterviewModalTask.associated_skill_id ?? microInterviewModalTask.skill_id ?? ''),
+                      microInterviewModalTask.id
+                    )
+                      .then(session => {
+                        setMicroInterviewModalTask(null);
+                        navigate(`/interview?session_id=${session.id}&websocket=true`);
+                      })
+                      .catch(err => {
+                        console.error("Failed to create micro interview session:", err);
+                        showToast('error', 'Failed to initialize quick screen. Try again.');
+                      })
+                      .finally(() => {
+                        setMicroInterviewLoading(false);
+                      });
+                  }}
+                  disabled={microInterviewLoading}
+                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 shadow-lg shadow-indigo-100 dark:shadow-indigo-950/40"
+                >
+                  {microInterviewLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <PlayCircle className="w-3.5 h-3.5" />}
+                  Start Quick Screen
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

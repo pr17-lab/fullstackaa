@@ -226,8 +226,9 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
             id=uuid.uuid4(),
             roadmap_id=new_roadmap_id,
             skill_id=sid,
+            associated_skill_id=sid,
             phase="learn",
-            task_type="course",
+            task_type="learn",
             title=f"Learn {sname} Fundamentals",
             resource_url=learn_res.resource_url,
             platform=learn_res.platform,
@@ -241,8 +242,9 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
             id=uuid.uuid4(),
             roadmap_id=new_roadmap_id,
             skill_id=sid,
+            associated_skill_id=sid,
             phase="practice",
-            task_type="exercise",
+            task_type="practice",
             title=f"Practice {sname} Concepts",
             resource_url=prac_res.resource_url,
             platform=prac_res.platform,
@@ -256,8 +258,9 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
             id=uuid.uuid4(),
             roadmap_id=new_roadmap_id,
             skill_id=sid,
+            associated_skill_id=sid,
             phase="apply",
-            task_type="project",
+            task_type="apply",
             title=f"Build a {sname} project and push to GitHub",
             resource_url="https://github.com",
             platform="GitHub",
@@ -300,18 +303,21 @@ def _update_skill_on_task_completion(db: Session, user_id: UUID, skill_id: UUID)
     ).first()
     
     bump_amount = 15.0 # Boost score upon completing a roadmap task
+    is_sqlite = db.bind.dialect.name == "sqlite"
     
     if not student_skill:
         new_score = 50.0 + bump_amount
         student_skill = StudentSkill(
+            id=uuid.uuid4(),
             user_id=user_id,
             skill_id=skill_id,
             confidence_score=new_score,
             level=score_to_level(new_score),
-            source=["roadmap"],
-            academic_weight=0,
-            project_weight=0,
-            behavior_weight=0
+            source=["roadmap"] if not is_sqlite else None,
+            resume_weight=0.0,
+            project_weight=0.0,
+            interview_weight=0.0,
+            communication_weight=0.0
         )
         db.add(student_skill)
     else:
@@ -322,7 +328,8 @@ def _update_skill_on_task_completion(db: Session, user_id: UUID, skill_id: UUID)
         sources = list(student_skill.source) if student_skill.source else []
         if "roadmap" not in sources:
             sources.append("roadmap")
-        student_skill.source = sources
+        if not is_sqlite:
+            student_skill.source = sources
         
     db.commit()
     compute_gaps_for_student(db, str(user_id))
@@ -493,8 +500,9 @@ async def update_roadmap_with_weak_skills(db: Session, roadmap: Roadmap, weak_sk
             id=uuid.uuid4(),
             roadmap_id=roadmap.id,
             skill_id=sid,
+            associated_skill_id=sid,
             phase="learn",
-            task_type="course",
+            task_type="learn",
             title=f"Learn {sname} fundamentals",
             resource_url=learn_res.resource_url,
             platform=learn_res.platform,
@@ -508,8 +516,9 @@ async def update_roadmap_with_weak_skills(db: Session, roadmap: Roadmap, weak_sk
             id=uuid.uuid4(),
             roadmap_id=roadmap.id,
             skill_id=sid,
+            associated_skill_id=sid,
             phase="practice",
-            task_type="exercise",
+            task_type="practice",
             title=f"Practice {sname} problems",
             resource_url=prac_res.resource_url,
             platform=prac_res.platform,
@@ -523,8 +532,9 @@ async def update_roadmap_with_weak_skills(db: Session, roadmap: Roadmap, weak_sk
             id=uuid.uuid4(),
             roadmap_id=roadmap.id,
             skill_id=sid,
+            associated_skill_id=sid,
             phase="apply",
-            task_type="project",
+            task_type="apply",
             title=f"Build a mini project using {sname}",
             resource_url="https://github.com",
             platform="GitHub",

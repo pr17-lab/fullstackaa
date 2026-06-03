@@ -6,29 +6,7 @@ from .student import (
     StudentProfileResponse,
     StudentListResponse
 )
-from .academic import (
-    SubjectBase,
-    SubjectCreate,
-    SubjectUpdate,
-    SubjectResponse,
-    AcademicTermBase,
-    AcademicTermCreate,
-    AcademicTermUpdate,
-    AcademicTermResponse,
-    AcademicRecordSummary
-)
-from .analytics import (
-    GPATrendPoint,
-    GPATrend,
-    SubjectPerformanceItem,
-    SubjectPerformance,
-    SemesterStats,
-    SemesterComparison,
-    StudentAnalyticsSummary,
-    CohortStats,
-    GradeDistribution,
-    AnalyticsOverview
-)
+
 
 __all__ = [
     # User schemas
@@ -43,25 +21,5 @@ __all__ = [
     "StudentProfileUpdate",
     "StudentProfileResponse",
     "StudentListResponse",
-    # Academic schemas
-    "SubjectBase",
-    "SubjectCreate",
-    "SubjectUpdate",
-    "SubjectResponse",
-    "AcademicTermBase",
-    "AcademicTermCreate",
-    "AcademicTermUpdate",
-    "AcademicTermResponse",
-    "AcademicRecordSummary",
-    # Analytics schemas
-    "GPATrendPoint",
-    "GPATrend",
-    "SubjectPerformanceItem",
-    "SubjectPerformance",
-    "SemesterStats",
-    "SemesterComparison",
-    "StudentAnalyticsSummary",
-    "CohortStats",
-    "GradeDistribution",
-    "AnalyticsOverview",
+
 ]

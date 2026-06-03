@@ -12,12 +12,10 @@ URL prefixes are applied when this router is included in main.py:
 """
 from fastapi import APIRouter
 
-from app.api.routes import academic, students, analytics, profile
+from app.api.routes import students, profile
 
 router = APIRouter()
 
 # Re-mount existing route modules under the academic module
 router.include_router(students.router,  prefix="",           tags=["Students"])
-router.include_router(academic.router,  prefix="/academic",  tags=["Academic Records"])
-router.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
 router.include_router(profile.router,   prefix="/profile",   tags=["Profile"])

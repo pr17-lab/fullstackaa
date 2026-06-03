@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/client';
 import {
-  User, BookOpen, Briefcase, CheckCircle,
+  User, Briefcase, CheckCircle,
   ChevronRight, ChevronLeft, AlertCircle, Loader2, Plus, X
 } from 'lucide-react';
 
@@ -26,22 +26,16 @@ export default function Register() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Standard form inputs
+  // Standard form inputs (Step 1)
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
     department: '',
     batchYear: new Date().getFullYear(),
-    currentSemester: 1
   });
 
-  // Academic Records logic
-  const [academicRecords, setAcademicRecords] = useState<any[]>([]);
-  const [activeSemTab, setActiveSemTab] = useState(1);
-  const [fetchingTemplates, setFetchingTemplates] = useState(false);
-
-  // Preference logic
+  // Preference logic (Step 2)
   const [preferences, setPreferences] = useState({
     targetRoles: [] as string[],
     preferredDomains: [] as string[],
@@ -49,54 +43,6 @@ export default function Register() {
     openToRemote: true,
     experienceLevel: "fresher"
   });
-
-  // Handle initialization of academic records when semester/department changes
-  useEffect(() => {
-    if (step === 2 && formData.department && formData.currentSemester > 0) {
-      if (academicRecords.length !== formData.currentSemester) {
-        initAcademicRecords();
-      }
-    }
-  }, [step, formData.department, formData.currentSemester]);
-
-  const initAcademicRecords = async () => {
-    setFetchingTemplates(true);
-    try {
-      const records = [];
-      for (let s = 1; s <= formData.currentSemester; s++) {
-        // Fetch existing subjects for placeholder template
-        const { data } = await api.get(`/auth/subject-templates?department=${formData.department}&semester=${s}`);
-        
-        let subjects = data || [];
-        // Map templates to the input shape
-        subjects = subjects.map((sub: any) => ({
-          subject_name: sub.subject_name,
-          subject_code: sub.subject_code,
-          credits: sub.credits,
-          marks_obtained: '', // Allow empty for 'unpublished'
-          total_marks: 100
-        }));
-
-        records.push({
-          semester: s,
-          subjects: subjects
-        });
-      }
-      setAcademicRecords(records);
-      setActiveSemTab(1);
-    } catch (err) {
-      console.error("Template fetch error", err);
-    } finally {
-      setFetchingTemplates(false);
-    }
-  };
-
-  const handleSubjectMarkChange = (semIndex: number, subIndex: number, val: string) => {
-    const updated = [...academicRecords];
-    const parsed = val === '' ? '' : parseInt(val);
-    updated[semIndex].subjects[subIndex].marks_obtained = parsed;
-    setAcademicRecords(updated);
-  };
 
   const togglePrefArray = (key: 'targetRoles' | 'preferredDomains', value: string) => {
     setPreferences(prev => {
@@ -123,18 +69,6 @@ export default function Register() {
       return true;
     }
     if (step === 2) {
-      // Validate marks (must be <= 100 if filled)
-      for (let r of academicRecords) {
-        for (let sub of r.subjects) {
-          if (sub.marks_obtained !== '' && (sub.marks_obtained < 0 || sub.marks_obtained > sub.total_marks)) {
-            setError(`Invalid marks for ${sub.subject_name}. Must be 0 - ${sub.total_marks}.`);
-            return false;
-          }
-        }
-      }
-      return true;
-    }
-    if (step === 3) {
       if (preferences.targetRoles.length === 0) {
         setError('Select at least one target role.');
         return false;
@@ -145,7 +79,7 @@ export default function Register() {
   };
 
   const nextStep = () => {
-    if (validateStep()) setStep(s => Math.min(s + 1, 4));
+    if (validateStep()) setStep(s => Math.min(s + 1, 3));
   };
   const prevStep = () => setStep(s => Math.max(s - 1, 1));
 
@@ -154,33 +88,22 @@ export default function Register() {
     setError('');
 
     try {
-      // Sanitize academic records
-      const sanitizedRecords = academicRecords.map(r => ({
-        semester: r.semester,
-        subjects: r.subjects.map((sub: any) => ({
-          subject_name: sub.subject_name.trim(),
-          subject_code: sub.subject_code.trim() || 'NA',
-          credits: parseInt(sub.credits) || 3,
-          marks_obtained: sub.marks_obtained === '' ? null : parseInt(sub.marks_obtained),
-          total_marks: parseInt(sub.total_marks) || 100
-        }))
-      }));
-
       const payload = {
         full_name: formData.fullName,
         email: formData.email,
         password: formData.password,
         department: formData.department,
         batch_year: formData.batchYear,
-        current_semester: formData.currentSemester,
-        academic_records: sanitizedRecords
+        current_semester: 1, // Defaulting as backend requires it, but UI ignores it
       };
 
       const res = await api.post('/auth/register', payload);
 
       // Auto-login
-      if (res.data.student_id) {
-        await login(res.data.student_id, formData.password);
+      if (res.data.student_id || res.data.id) {
+        // use student_id or email for login
+        const loginId = res.data.student_id || res.data.email;
+        await login(loginId, formData.password);
         
         // POST Preferences (will use token from login)
         try {
@@ -215,115 +138,61 @@ export default function Register() {
   const renderStep1 = () => (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-        <input type="text" className="w-full p-2.5 border rounded-lg text-gray-900 placeholder:text-gray-400" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} placeholder="Jane Doe" />
+        <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Full Name</label>
+        <input type="text" className="w-full p-2.5 rounded-xl text-sm transition-all" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-primary)', color: 'var(--text-primary)', outline: 'none' }} value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} placeholder="Jane Doe" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-        <input type="email" className="w-full p-2.5 border rounded-lg text-gray-900 placeholder:text-gray-400" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} placeholder="jane@example.com" />
-      </div>
-      <div className="flex gap-4">
-        <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
-          <select className="w-full p-2.5 border rounded-lg text-gray-900" value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
-            <option value="">Select Dept</option>
-            {DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
-          </select>
-        </div>
+        <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Email Address</label>
+        <input type="email" className="w-full p-2.5 rounded-xl text-sm transition-all" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-primary)', color: 'var(--text-primary)', outline: 'none' }} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} placeholder="jane@example.com" />
       </div>
       <div className="flex gap-4">
         <div className="w-1/2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Batch Year</label>
-          <input type="number" className="w-full p-2.5 border rounded-lg text-gray-900" value={formData.batchYear} onChange={e => setFormData({...formData, batchYear: parseInt(e.target.value)})} />
+          <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Department</label>
+          <select className="w-full p-2.5 rounded-xl text-sm transition-all" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-primary)', color: 'var(--text-primary)', outline: 'none' }} value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
+            <option value="" style={{ background: '#151e2d' }}>Select Dept</option>
+            {DEPARTMENTS.map(d => <option key={d} value={d} style={{ background: '#151e2d' }}>{d}</option>)}
+          </select>
         </div>
         <div className="w-1/2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Current Semester</label>
-          <select className="w-full p-2.5 border rounded-lg text-gray-900" value={formData.currentSemester} onChange={e => setFormData({...formData, currentSemester: parseInt(e.target.value)})}>
-            {[1,2,3,4,5,6,7,8].map(s => <option key={s} value={s}>Semester {s}</option>)}
-          </select>
+          <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Batch Year</label>
+          <input type="number" className="w-full p-2.5 rounded-xl text-sm" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-primary)', color: 'var(--text-primary)', outline: 'none' }} value={formData.batchYear} onChange={e => setFormData({...formData, batchYear: parseInt(e.target.value)})} />
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-        <input type="password" className="w-full p-2.5 border rounded-lg text-gray-900 placeholder:text-gray-400" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} placeholder="Minimum 8 characters with numbers" />
+        <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Password</label>
+        <input type="password" className="w-full p-2.5 rounded-xl text-sm" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-primary)', color: 'var(--text-primary)', outline: 'none' }} value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} placeholder="Minimum 8 characters with numbers" />
       </div>
     </div>
   );
 
-  const renderStep2 = () => {
-    if (fetchingTemplates) {
-      return (
-        <div className="py-12 flex flex-col items-center justify-center text-gray-500">
-          <Loader2 className="w-8 h-8 animate-spin mb-4" />
-          <p>Generating academic templates...</p>
-        </div>
-      );
-    }
-    
-    return (
-      <div className="space-y-6">
-        <p className="text-sm text-gray-500">Enter your marks for each semester. Leave blank if results are not yet published.</p>
-        
-        {/* Semester Tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-2 border-b">
-          {academicRecords.map((r, i) => (
-            <button
-              key={r.semester}
-              onClick={() => setActiveSemTab(i + 1)}
-              className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors whitespace-nowrap ${
-                activeSemTab === r.semester
-                  ? 'bg-indigo-50 text-indigo-700 border-b-2 border-indigo-600'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Sem {r.semester}
-            </button>
-          ))}
-        </div>
-
-        {/* Subjects list for active tab */}
-        <div className="space-y-4">
-          {academicRecords[activeSemTab - 1]?.subjects.map((sub: any, idx: number) => (
-            <div key={idx} className="flex items-center gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-              <div className="flex-1">
-                <p className="font-medium text-sm text-gray-900">{sub.subject_name}</p>
-                <p className="text-xs text-gray-500">{sub.subject_code} • {sub.credits} Credits</p>
-              </div>
-              <div className="w-24">
-                <label className="text-xs text-gray-500 block mb-1">Marks</label>
-                <input 
-                  type="number"
-                  placeholder="-"
-                  className="w-full p-2 border rounded bg-white text-center text-sm text-gray-900 placeholder:text-gray-400"
-                  value={sub.marks_obtained}
-                  onChange={(e) => handleSubjectMarkChange(activeSemTab - 1, idx, e.target.value)}
-                  min="0"
-                  max={sub.total_marks}
-                />
-              </div>
-              <div className="w-16">
-                <label className="text-xs text-gray-500 block mb-1">Total</label>
-                <input 
-                  type="number"
-                  className="w-full p-2 border rounded bg-gray-100 text-center text-sm text-gray-900 font-medium"
-                  value={sub.total_marks}
-                  readOnly
-                />
-              </div>
-            </div>
-          ))}
-          {academicRecords[activeSemTab - 1]?.subjects.length === 0 && (
-            <p className="text-sm text-gray-500 italic py-4">No predefined templates for this semester. In a real app, you would be able to manually add subjects here.</p>
-          )}
+  const renderStep2 = () => (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Experience Level</h3>
+        <div className="flex gap-3">
+          {["Fresher", "Intern", "Junior"].map(level => {
+            const val = level.toLowerCase();
+            const isSelected = preferences.experienceLevel === val;
+            return (
+              <button
+                key={level}
+                onClick={() => setPreferences({ ...preferences, experienceLevel: val })}
+                className="flex-1 py-2 rounded-xl text-sm font-semibold transition-all"
+                style={{ 
+                  background: isSelected ? 'rgba(129,140,248,0.12)' : 'rgba(255,255,255,0.03)',
+                  border: isSelected ? '1px solid #818cf8' : '1px solid var(--border-primary)',
+                  color: isSelected ? '#818cf8' : 'var(--text-secondary)'
+                }}
+              >
+                {level}
+              </button>
+            )
+          })}
         </div>
       </div>
-    );
-  };
 
-  const renderStep3 = () => (
-    <div className="space-y-8">
       <div>
-        <h3 className="text-sm font-medium text-gray-900 mb-3">Preferred Target Roles</h3>
+        <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Target Roles</h3>
         <div className="flex flex-wrap gap-2">
           {TARGET_ROLES.map(role => {
             const isSelected = preferences.targetRoles.includes(role);
@@ -331,13 +200,14 @@ export default function Register() {
               <button
                 key={role}
                 onClick={() => togglePrefArray('targetRoles', role)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                  isSelected 
-                    ? 'bg-indigo-600 text-white shadow-md' 
-                    : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
-                }`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
+                style={{
+                  background: isSelected ? 'rgba(129,140,248,0.12)' : 'rgba(255,255,255,0.03)',
+                  color: isSelected ? '#818cf8' : 'var(--text-secondary)',
+                  border: isSelected ? '1px solid #818cf8' : '1px solid var(--border-primary)'
+                }}
               >
-                {isSelected ? <CheckCircle className="w-4 h-4" /> : <Plus className="w-4 h-4 text-gray-400" />}
+                {isSelected ? <CheckCircle className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" style={{ color: 'var(--text-tertiary)' }} />}
                 {role}
               </button>
             );
@@ -346,7 +216,7 @@ export default function Register() {
       </div>
 
       <div>
-        <h3 className="text-sm font-medium text-gray-900 mb-3">Preferred Domains</h3>
+        <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Preferred Domains</h3>
         <div className="flex flex-wrap gap-2">
           {DOMAINS.map(domain => {
             const isSelected = preferences.preferredDomains.includes(domain);
@@ -354,13 +224,14 @@ export default function Register() {
               <button
                 key={domain}
                 onClick={() => togglePrefArray('preferredDomains', domain)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                  isSelected 
-                    ? 'bg-violet-600 text-white shadow-md' 
-                    : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
-                }`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
+                style={{
+                  background: isSelected ? 'rgba(139,92,246,0.12)' : 'rgba(255,255,255,0.03)',
+                  color: isSelected ? '#a78bfa' : 'var(--text-secondary)',
+                  border: isSelected ? '1px solid #8b5cf6' : '1px solid var(--border-primary)'
+                }}
               >
-                {isSelected ? <CheckCircle className="w-4 h-4" /> : <Plus className="w-4 h-4 text-gray-400" />}
+                {isSelected ? <CheckCircle className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" style={{ color: 'var(--text-tertiary)' }} />}
                 {domain}
               </button>
             );
@@ -368,85 +239,95 @@ export default function Register() {
         </div>
       </div>
 
-      <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
-        <p className="text-sm text-blue-800">
-          This data will immediately be used to generate your personalized skill gaps and career roadmap after registration.
+      <div className="rounded-xl p-4 flex gap-3" style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', color: '#a5b4fc' }}>
+        <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+        <p className="text-sm">
+          Your career intent drives the AI analysis. The system will match your verified GitHub projects and live interview performance directly against these targets.
         </p>
       </div>
     </div>
   );
 
-  const renderStep4 = () => {
-    // Calculate simple stats
-    const filledSubjects = academicRecords.reduce((acc, r) => acc + r.subjects.filter((s:any) => s.marks_obtained !== '').length, 0);
-    const totalSubjects = academicRecords.reduce((acc, r) => acc + r.subjects.length, 0);
-
+  const renderStep3 = () => {
     return (
       <div className="space-y-6">
-        <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 space-y-4">
-          <h3 className="font-semibold text-gray-900 border-b pb-2">Profile Summary</h3>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div><span className="text-gray-500">Name:</span> <span className="font-medium text-gray-900">{formData.fullName}</span></div>
-            <div><span className="text-gray-500">Email:</span> <span className="font-medium text-gray-900">{formData.email}</span></div>
-            <div><span className="text-gray-500">Department:</span> <span className="font-medium text-gray-900">{formData.department} ({formData.batchYear})</span></div>
+        <div className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-primary)' }}>
+          <h3 className="font-semibold pb-2 mb-3 text-sm" style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--border-primary)' }}>Your Identity</h3>
+          <div className="grid grid-cols-2 gap-3 text-sm mb-4">
+            <div><span style={{ color: 'var(--text-tertiary)' }}>Name:</span> <span className="font-medium ml-1" style={{ color: 'var(--text-primary)' }}>{formData.fullName}</span></div>
+            <div><span style={{ color: 'var(--text-tertiary)' }}>Email:</span> <span className="font-medium ml-1" style={{ color: 'var(--text-primary)' }}>{formData.email}</span></div>
+            <div><span style={{ color: 'var(--text-tertiary)' }}>Department:</span> <span className="font-medium ml-1" style={{ color: 'var(--text-primary)' }}>{formData.department} ({formData.batchYear})</span></div>
+            <div><span style={{ color: 'var(--text-tertiary)' }}>Experience:</span> <span className="font-medium ml-1 capitalize" style={{ color: 'var(--text-primary)' }}>{preferences.experienceLevel}</span></div>
           </div>
-          
-          <h3 className="font-semibold text-gray-900 border-b pb-2 pt-4">Academic Import</h3>
-          <p className="text-sm text-gray-700">Importing <span className="font-medium">{filledSubjects} / {totalSubjects}</span> subjects with grades across {formData.currentSemester} semesters.</p>
 
-          <h3 className="font-semibold text-gray-900 border-b pb-2 pt-4">Career Targets</h3>
-          <div className="flex flex-wrap gap-2">
+          <h3 className="font-semibold pb-2 mb-3 text-sm pt-3" style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--border-primary)', borderTop: '1px solid var(--border-primary)', paddingTop: '0.75rem' }}>Career Targets</h3>
+          <div className="flex flex-wrap gap-2 mb-4">
             {preferences.targetRoles.map(r => (
-              <span key={r} className="text-xs font-medium px-2 py-1 bg-indigo-100 text-indigo-700 rounded-md">{r}</span>
+              <span key={r} className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: 'rgba(129,140,248,0.12)', color: '#818cf8', border: '1px solid rgba(129,140,248,0.22)' }}>{r}</span>
+            ))}
+          </div>
+
+          <h3 className="font-semibold pb-2 mb-3 text-sm" style={{ color: 'var(--text-primary)', borderBottom: '1px solid var(--border-primary)' }}>Domains</h3>
+          <div className="flex flex-wrap gap-2">
+            {preferences.preferredDomains.map(r => (
+              <span key={r} className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: 'rgba(139,92,246,0.12)', color: '#a78bfa', border: '1px solid rgba(139,92,246,0.22)' }}>{r}</span>
             ))}
           </div>
         </div>
 
-        <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex gap-3 text-indigo-800">
-          <AlertCircle className="w-5 h-5 flex-shrink-0" />
-          <p className="text-sm">Clicking "Submit & Compute" will create your SATA portal account and trigger our AI to analyze your academic background against your career targets.</p>
+        <div className="rounded-xl p-4 flex gap-3 mt-4" style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)' }}>
+          <AlertCircle className="w-5 h-5 flex-shrink-0" style={{ color: '#818cf8' }} />
+          <p className="text-sm" style={{ color: '#a5b4fc' }}>
+            Clicking "Launch My Career Profile" will create your account. After launching, upload your resume and connect your GitHub to begin AI skill calibration.
+          </p>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 py-12 px-4 sm:px-6 flex items-center justify-center">
-      <div className="max-w-3xl w-full">
+    <div className="min-h-screen py-10 px-4 sm:px-6 flex items-center justify-center" style={{ background: 'var(--bg-page)', position: 'relative', overflow: 'hidden' }}>
+      {/* Background glow blobs */}
+      <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      <div className="max-w-3xl w-full animate-fade-in">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            SATA Initial Setup
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4" style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 0 32px rgba(99,102,241,0.4)' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <p className="section-label mb-1">Career Intelligence Portal</p>
+          <h1 className="text-3xl font-black tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+            Create Your Career Profile
           </h1>
-          <p className="mt-2 text-lg leading-8 text-gray-600">
-            Welcome! Let's build your AI career tracking profile.
-          </p>
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9375rem' }}>Your AI-powered career engine starts here.</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 overflow-hidden border border-gray-100 flex flex-col sm:flex-row min-h-[500px]">
+        <div className="rounded-2xl overflow-hidden flex flex-col sm:flex-row" style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-primary)', boxShadow: '0 24px 48px rgba(0,0,0,0.4)', minHeight: '520px' }}>
           {/* Progress Sidebar */}
-          <div className="bg-gray-50 w-full sm:w-64 p-6 sm:border-r border-b sm:border-b-0 border-gray-100 flex-shrink-0">
+          <div className="w-full sm:w-60 p-6 flex-shrink-0" style={{ background: 'var(--bg-sidebar)', borderRight: '1px solid var(--border-primary)' }}>
+            <p className="section-label mb-5">Setup Progress</p>
             <nav aria-label="Progress">
-              <ol role="list" className="space-y-6">
+              <ol role="list" className="space-y-5">
                 {[
-                  { id: 1, name: 'Personal Details', icon: User },
-                  { id: 2, name: 'Academic Record', icon: BookOpen },
-                  { id: 3, name: 'Career Preference', icon: Briefcase },
-                  { id: 4, name: 'Review', icon: CheckCircle },
+                  { id: 1, name: 'Your Identity', icon: User },
+                  { id: 2, name: 'Career Intent', icon: Briefcase },
+                  { id: 3, name: 'Review & Launch', icon: CheckCircle },
                 ].map((s) => (
                   <li key={s.id}>
                     <div className="flex items-center">
-                      <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-colors ${
-                        step === s.id ? 'border-indigo-600 bg-indigo-50 text-indigo-600' : 
-                        step > s.id ? 'border-indigo-600 bg-indigo-600 text-white' : 
-                        'border-gray-200 bg-white text-gray-400'
-                      }`}>
+                      <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all ${
+                        step === s.id ? 'border-[#818cf8] text-[#818cf8]' :
+                        step > s.id ? 'border-[#6366f1] text-white' :
+                        'border-[rgba(255,255,255,0.1)] text-[var(--text-tertiary)]'
+                      }`} style={step > s.id ? { background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' } : step === s.id ? { background: 'rgba(129,140,248,0.1)' } : { background: 'rgba(255,255,255,0.03)' }}>
                         <s.icon className="w-4 h-4" />
                       </div>
                       <span className={`ml-3 text-sm font-medium transition-colors ${
-                        step === s.id ? 'text-indigo-600' : 
-                        step > s.id ? 'text-gray-900' : 
-                        'text-gray-500'
+                        step === s.id ? 'text-[#818cf8]' :
+                        step > s.id ? 'text-[var(--text-primary)]' :
+                        'text-[var(--text-tertiary)]'
                       }`}>{s.name}</span>
                     </div>
                   </li>
@@ -456,7 +337,7 @@ export default function Register() {
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 flex flex-col p-8 bg-white relative">
+          <div className="flex-1 flex flex-col p-7" style={{ background: 'var(--bg-surface)' }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={step}
@@ -467,7 +348,7 @@ export default function Register() {
                 className="flex-1"
               >
                 {error && (
-                  <div className="mb-6 bg-red-50 text-red-600 px-4 py-3 rounded-lg flex items-center gap-2 text-sm border border-red-100">
+                  <div className="mb-5 px-4 py-3 rounded-xl flex items-center gap-2 text-sm" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#f87171' }}>
                     <AlertCircle className="w-4 h-4 flex-shrink-0" />
                     <span>{error}</span>
                   </div>
@@ -476,30 +357,31 @@ export default function Register() {
                 {step === 1 && renderStep1()}
                 {step === 2 && renderStep2()}
                 {step === 3 && renderStep3()}
-                {step === 4 && renderStep4()}
               </motion.div>
             </AnimatePresence>
 
             {/* Navigation Footer */}
-            <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
+            <div className="mt-8 pt-5 flex items-center justify-between" style={{ borderTop: '1px solid var(--border-primary)' }}>
               {step > 1 ? (
                 <button
                   type="button"
                   onClick={prevStep}
                   disabled={loading}
-                  className="flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors bg-white px-4 py-2 rounded-lg border hover:bg-gray-50"
+                  className="flex items-center text-sm font-semibold px-4 py-2 rounded-xl transition-all"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-primary)', color: 'var(--text-secondary)' }}
                 >
                   <ChevronLeft className="w-4 h-4 mr-1" /> Back
                 </button>
               ) : (
-                <div /> // Placeholder
+                <div />
               )}
 
-              {step < 4 ? (
+              {step < 3 ? (
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="flex items-center text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-colors px-6 py-2 rounded-lg shadow-sm"
+                  className="flex items-center text-sm font-bold text-white px-6 py-2.5 rounded-xl transition-all"
+                  style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 4px 14px rgba(99,102,241,0.35)' }}
                 >
                   Next <ChevronRight className="w-4 h-4 ml-1" />
                 </button>
@@ -508,11 +390,12 @@ export default function Register() {
                   type="button"
                   onClick={submitRegistration}
                   disabled={loading}
-                  className="flex items-center text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all px-6 py-2 rounded-lg shadow-md disabled:opacity-70"
+                  className="flex items-center text-sm font-bold text-white px-6 py-2.5 rounded-xl transition-all disabled:opacity-60"
+                  style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 4px 14px rgba(99,102,241,0.3)' }}
                 >
                   {loading ? (
-                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...</>
-                  ) : 'Submit & Compute Profiles'}
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Launching...</>
+                  ) : 'Launch My Career Profile'}
                 </button>
               )}
             </div>
@@ -520,10 +403,10 @@ export default function Register() {
         </div>
         
         {/* Helper Link */}
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-500">
+        <div className="mt-5 text-center">
+          <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
             Already have an account?{' '}
-            <button onClick={() => navigate('/login')} className="font-medium text-indigo-600 hover:text-indigo-500">
+            <button onClick={() => navigate('/login')} className="font-semibold transition-colors" style={{ color: 'var(--brand-primary)' }}>
               Sign in instead
             </button>
           </p>

@@ -6,7 +6,7 @@ import {
     Cpu, CheckCircle2, Clock, Sparkles,
     BookOpen, AlertCircle, Mic, MicOff, Square,
     Upload, FileText, X, SkipForward, Trophy,
-    RotateCcw, Volume2, Trash2, ChevronDown, ChevronUp, RefreshCw
+    RotateCcw, Volume2, Trash2, ChevronDown, ChevronUp, RefreshCw, Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -1076,6 +1076,335 @@ function ResultsScreen({
 }
 
 // ---------------------------------------------------------------------------
+// WEB SOCKET INTERVIEW ROOM
+// ---------------------------------------------------------------------------
+interface WebSocketInterviewRoomProps {
+    sessionId: string;
+    onCompleted: () => void;
+}
+
+function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRoomProps) {
+    const [socket, setSocket] = useState<WebSocket | null>(null);
+    const [connected, setConnected] = useState(false);
+    const [questions, setQuestions] = useState<any[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [secondsLeft, setSecondsLeft] = useState(QUESTION_TIME_SEC);
+    const [isEvaluating, setIsEvaluating] = useState(false);
+    const [evalResult, setEvalResult] = useState<any>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    const activeQuestion = questions[currentIndex];
+    const total = questions.length;
+
+    // Speech & TTS
+    const { supported, listening, interimText, finalText, startListening, stopListening, clearFinal } = useVoice();
+    const { speak, cancel } = useTTS();
+    
+    // Typewriter
+    const { displayed, done } = useTypewriter(activeQuestion?.question ?? '', 20);
+
+    // Speak active question
+    const spokenIndexRef = useRef<number>(-1);
+    useEffect(() => {
+        cancel();
+        spokenIndexRef.current = -1;
+        setSecondsLeft(QUESTION_TIME_SEC);
+        setEvalResult(null);
+        setIsEvaluating(false);
+    }, [currentIndex, cancel]);
+
+    useEffect(() => {
+        if (done && activeQuestion?.question && spokenIndexRef.current !== currentIndex) {
+            spokenIndexRef.current = currentIndex;
+            speak(activeQuestion.question);
+        }
+    }, [done, activeQuestion?.question, currentIndex, speak]);
+
+    // WebSocket connection
+    useEffect(() => {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws';
+        const wsUrl = `${protocol}://${window.location.host}/api/interview/ws/interview/${sessionId}`;
+        console.log("Connecting WebSocket to URL:", wsUrl);
+        const ws = new WebSocket(wsUrl);
+
+        ws.onopen = () => {
+            console.log("WebSocket connection established");
+            setConnected(true);
+            setError(null);
+        };
+
+        ws.onmessage = (event) => {
+            try {
+                const msg = JSON.parse(event.data);
+                console.log("WebSocket event received:", msg.event, msg.data);
+                
+                if (msg.event === 'session_ready') {
+                    setQuestions(msg.data.questions);
+                    // Find first unanswered question
+                    const unansweredIdx = msg.data.questions.findIndex((q: any) => !q.user_answer);
+                    if (unansweredIdx !== -1) {
+                        setCurrentIndex(unansweredIdx);
+                    }
+                } else if (msg.event === 'answer_evaluated') {
+                    setIsEvaluating(false);
+                    setEvalResult(msg.data);
+                    // Advance to next question after a 3 second delay showing results
+                    setTimeout(() => {
+                        setCurrentIndex(idx => {
+                            if (idx < questions.length - 1) {
+                                return idx + 1;
+                            }
+                            return idx;
+                        });
+                    }, 3000);
+                } else if (msg.event === 'session_completed') {
+                    console.log("WebSocket session completed!");
+                    onCompleted();
+                } else if (msg.event === 'error') {
+                    setError(msg.data.message || 'An error occurred during interview generation');
+                }
+            } catch (err) {
+                console.error("Failed to parse WebSocket message:", err);
+            }
+        };
+
+        ws.onerror = (err) => {
+            console.error("WebSocket connection error:", err);
+            setError("Connection to interview server failed. Make sure server is running.");
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket connection closed");
+            setConnected(false);
+        };
+
+        setSocket(ws);
+
+        return () => {
+            ws.close();
+        };
+    }, [sessionId, onCompleted, questions.length]);
+
+    // Timer
+    useEffect(() => {
+        if (secondsLeft <= 0) {
+            handleSkip();
+            return;
+        }
+        if (isEvaluating) return;
+        const timer = setTimeout(() => setSecondsLeft(s => s - 1), 1000);
+        return () => clearTimeout(timer);
+    }, [secondsLeft, isEvaluating]);
+
+    const handleSkip = () => {
+        stopListening();
+        clearFinal();
+        if (currentIndex >= total - 1) {
+            onCompleted();
+        } else {
+            setCurrentIndex(i => i + 1);
+        }
+    };
+
+    const handleSubmit = () => {
+        if (!socket || !activeQuestion) return;
+        stopListening();
+        setIsEvaluating(true);
+        
+        socket.send(JSON.stringify({
+            event: "submit_answer",
+            data: {
+                question_id: activeQuestion.question_id || activeQuestion.id,
+                answer_text: finalText.trim()
+            }
+        }));
+        
+        clearFinal();
+    };
+
+    if (error) {
+        return (
+            <div className="min-h-[50vh] flex flex-col items-center justify-center gap-4 text-center">
+                <AlertCircle className="h-12 w-12 text-red-500 animate-bounce" />
+                <h3 className="text-lg font-bold text-gray-900 dark:text-zinc-100">Interview Setup Error</h3>
+                <p className="text-sm text-gray-500 dark:text-zinc-400 max-w-md">{error}</p>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="mt-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-xs shadow-md transition-colors"
+                >
+                    Retry Connection
+                </button>
+            </div>
+        );
+    }
+
+    if (!connected || questions.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+                <div className="h-12 w-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" />
+                <p className="text-gray-600 dark:text-zinc-400 text-sm font-semibold animate-pulse">⚙️ Connecting Real-Time Screen...</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-[70vh] flex flex-col">
+            {/* Top bar */}
+            <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3 animate-slide-in">
+                    <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest flex items-center gap-1.5">
+                        <span className="h-2.5 w-2.5 rounded-full bg-red-500 inline-block animate-pulse shrink-0" />
+                        Live WebSocket Screen
+                    </span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${DIFFICULTY_COLOR[activeQuestion.difficulty] ?? 'text-gray-600 dark:text-zinc-400'} bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700`}>
+                        {activeQuestion.difficulty}
+                    </span>
+                    <span className="text-[10px] text-gray-500 dark:text-zinc-400 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                        {activeQuestion.topic}
+                    </span>
+                </div>
+                <span className="text-sm font-semibold text-gray-700 dark:text-zinc-300 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 px-3 py-1 rounded-full">
+                    Q {currentIndex + 1} / {total}
+                </span>
+            </div>
+
+            {/* Progress bar */}
+            <div className="h-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 mb-8 overflow-hidden">
+                <div
+                    className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-500"
+                    style={{ width: `${((currentIndex) / total) * 100}%` }}
+                />
+            </div>
+
+            {/* Main card */}
+            <div className="flex-1 flex flex-col items-center justify-center gap-8">
+                {/* Question */}
+                <div className="w-full max-w-3xl rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white/60 dark:bg-zinc-900/60 p-8 shadow-sm">
+                    <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 h-9 w-9 rounded-full bg-indigo-50 dark:bg-indigo-950 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-sm font-bold">
+                            {currentIndex + 1}
+                        </div>
+                        <div className="flex-1">
+                            <p className="text-lg text-gray-900 dark:text-zinc-100 leading-relaxed font-medium min-h-[3rem]">
+                                {displayed}
+                                {!done && <span className="inline-block w-0.5 h-5 bg-indigo-400 animate-pulse ml-0.5 align-middle" />}
+                            </p>
+                            {done && (
+                                <button
+                                    type="button"
+                                    onClick={() => speak(activeQuestion.question)}
+                                    title="Replay question"
+                                    className="mt-3 flex items-center gap-1.5 text-xs text-gray-500 dark:text-zinc-500 hover:text-indigo-400 transition"
+                                >
+                                    <Volume2 className="h-3.5 w-3.5" /> Replay question
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Score panel if evaluated */}
+                <AnimatePresence>
+                    {evalResult && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className={`w-full max-w-2xl p-4 rounded-xl border flex items-center gap-4 bg-white/80 dark:bg-zinc-900/80 shadow-md ${
+                                Number(evalResult.technical_score ?? evalResult.ai_score) >= 7 ? 'border-emerald-500/30' : 'border-amber-500/30'
+                            }`}
+                        >
+                            <div className={`h-10 w-10 shrink-0 rounded-full border-2 flex items-center justify-center font-bold text-sm ${
+                                Number(evalResult.technical_score ?? evalResult.ai_score) >= 7 ? 'border-emerald-500 text-emerald-500' : 'border-amber-500 text-amber-500'
+                            }`}>
+                                {evalResult.technical_score ?? evalResult.ai_score}
+                            </div>
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2">
+                                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                                        evalResult.verdict === 'Strong' || evalResult.ai_verdict === 'Strong' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400' : 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400'
+                                    }`}>
+                                        {evalResult.verdict ?? evalResult.ai_verdict ?? 'Adequate'}
+                                    </span>
+                                    <span className="text-[10px] text-gray-400 dark:text-zinc-500">Live calibration complete</span>
+                                </div>
+                                <p className="text-xs text-gray-600 dark:text-zinc-300 mt-1 italic">"{evalResult.feedback || evalResult.ai_feedback || 'Well analyzed answer.'}"</p>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Timer + Mic */}
+                <div className="flex flex-col items-center gap-6">
+                    <TimerRing seconds={secondsLeft} total={QUESTION_TIME_SEC} />
+
+                    <MicButton
+                        listening={listening}
+                        onStart={startListening}
+                        onStop={stopListening}
+                        supported={supported}
+                    />
+
+                    {/* Live caption */}
+                    <div className="w-full max-w-2xl min-h-[3.5rem] rounded-xl border border-gray-200 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 px-5 py-3 text-sm shadow-inner">
+                        {finalText ? (
+                            <p className="text-gray-800 dark:text-zinc-200">{finalText}</p>
+                        ) : interimText ? (
+                            <p className="text-indigo-400 italic">{interimText}</p>
+                        ) : (
+                            <p className="text-gray-500 dark:text-zinc-500 italic">
+                                {listening ? 'Listening... speak your answer' : 'Press Speak to record your answer'}
+                            </p>
+                        )}
+                        {listening && (
+                            <span className="inline-flex items-center gap-1 text-xs text-red-500 mt-1 font-semibold animate-pulse">
+                                <span className="h-1.5 w-1.5 rounded-full bg-red-500" /> Live Streaming Voice
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Action row */}
+                    <div className="flex items-center gap-4">
+                        <button
+                          type="button"
+                          onClick={handleSkip}
+                          disabled={isEvaluating}
+                          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 text-sm font-medium transition"
+                        >
+                            <SkipForward className="h-4 w-4" /> Skip
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={!finalText.trim() || isEvaluating}
+                          onClick={handleSubmit}
+                          className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition disabled:opacity-40 shadow-lg shadow-indigo-100 dark:shadow-indigo-950/30"
+                        >
+                            {isEvaluating ? (
+                                <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing...</>
+                            ) : (
+                                <><CheckCircle2 className="h-4 w-4" /> Lock In Answer</>
+                            )}
+                        </button>
+
+                        {finalText && !isEvaluating && (
+                            <button
+                                type="button"
+                                onClick={() => { clearFinal(); if (listening) stopListening(); }}
+                                className="p-2 rounded-xl text-gray-500 dark:text-zinc-500 hover:text-red-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                                title="Clear recording"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// ---------------------------------------------------------------------------
 // Main page
 // ---------------------------------------------------------------------------
 const InterviewPrep: React.FC = () => {
@@ -1089,6 +1418,22 @@ const InterviewPrep: React.FC = () => {
     const [localAnswers, setLocalAnswers] = useState<Record<string, string>>({});
     // Evaluation state
     const [evaluationData, setEvaluationData] = useState<EvaluationResult | null>(null);
+    const [isWebSocketMode, setIsWebSocketMode] = useState(false);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const urlSessionId = params.get('session_id');
+        const isWs = params.get('websocket') === 'true';
+        if (urlSessionId) {
+            setActiveSessionId(urlSessionId);
+            if (isWs) {
+                setIsWebSocketMode(true);
+                setPhase('interview');
+            } else {
+                setPhase('results');
+            }
+        }
+    }, [qc]);
 
     // Session list
     const { data: sessionsData, isLoading: sessionsLoading } = useQuery({
@@ -1125,7 +1470,7 @@ const InterviewPrep: React.FC = () => {
         }
     }, [mergedSession, phase, evaluationData]);
 
-    // Create session mutation â€” JD-based: pass jd_text + optional resume context
+    // Create session mutation — JD-based: pass jd_text + optional resume context
     const createMutation = useMutation({
         mutationFn: () => {
             const resumeSnippet = resumeText.trim().slice(0, 500) || undefined;
@@ -1208,6 +1553,7 @@ const InterviewPrep: React.FC = () => {
         setLocalAnswers({});
         setEvaluationData(null);
         setPhase('lobby');
+        setIsWebSocketMode(false);
     };
 
     return (
@@ -1232,7 +1578,16 @@ const InterviewPrep: React.FC = () => {
                 )}
 
                 {phase === 'interview' && (
-                    sessionLoading || !mergedSession ? (
+                    isWebSocketMode ? (
+                        <WebSocketInterviewRoom
+                            sessionId={activeSessionId!}
+                            onCompleted={() => {
+                                setIsWebSocketMode(false);
+                                setPhase('results');
+                                qc.invalidateQueries({ queryKey: ['interview-session', activeSessionId] });
+                            }}
+                        />
+                    ) : sessionLoading || !mergedSession ? (
                         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
                             <div className="h-12 w-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" />
                             <p className="text-gray-600 dark:text-zinc-400 text-sm">Preparing your interview...</p>

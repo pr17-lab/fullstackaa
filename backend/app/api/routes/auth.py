@@ -45,20 +45,6 @@ def _run_skill_extraction(user_id: str) -> None:
         db.close()
 
 
-# ---------------------------------------------------------------------------
-# Subject-template helper (no logic change — thin pass-through)
-# ---------------------------------------------------------------------------
-
-from .subject_templates import SUBJECT_TEMPLATES  # noqa: E402
-
-
-@router.get("/subject-templates")
-async def get_subject_templates_api(department: str, semester: int):
-    """Return an array of subjects for a given department and semester."""
-    if department not in SUBJECT_TEMPLATES:
-        return []
-    return SUBJECT_TEMPLATES[department].get(semester, [])
-
 
 # ---------------------------------------------------------------------------
 # Registration
@@ -70,8 +56,6 @@ async def register_student(
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
 ):
-    from app.models.academic_term import AcademicTerm
-    from app.models.subject import Subject
 
     # --- Validation ---
     if len(payload.password) < 8 or not any(c.isdigit() for c in payload.password):
@@ -130,73 +114,6 @@ async def register_student(
     db.add(new_profile)
     db.flush()
 
-    # --- Academic records ---
-    total_gpa_sum = 0.0
-    valid_semesters = 0
-    total_sems_recorded = 0
-
-    for record in payload.academic_records:
-        sem_year = payload.batch_year + math.floor((record.semester - 1) / 2)
-        term = AcademicTerm(
-            user_id=new_user.id,
-            semester=record.semester,
-            year=sem_year,
-            gpa=0.0,
-        )
-        db.add(term)
-        db.flush()
-
-        sem_credits = 0
-        sem_points = 0
-        has_grades = False
-
-        for sub in record.subjects:
-            pf = gr = None
-            if sub.marks_obtained is not None:
-                if not 0 <= sub.marks_obtained <= sub.total_marks:
-                    raise HTTPException(status_code=422, detail="Marks must be between 0 and total marks")
-                has_grades = True
-                pf = "Pass" if sub.marks_obtained >= 40 else "F"
-                gr = calculate_grade(sub.marks_obtained)
-                sem_credits += sub.credits
-                sem_points += calculate_grade_points(gr) * sub.credits
-
-            db.add(Subject(
-                term_id=term.id,
-                subject_name=sub.subject_name,
-                subject_code=sub.subject_code,
-                credits=sub.credits,
-                marks=sub.marks_obtained,
-                total_marks=sub.total_marks,
-                grade=gr,
-                pass_fail=pf,
-            ))
-
-        if has_grades and sem_credits > 0:
-            term.gpa = round(sem_points / sem_credits, 2)
-            total_gpa_sum += term.gpa
-            valid_semesters += 1
-        else:
-            term.gpa = None
-
-        total_sems_recorded += 1
-
-    # --- CGPA and performance status ---
-    cgpa = None
-    if valid_semesters > 0:
-        cgpa = round(total_gpa_sum / valid_semesters, 2)
-        new_profile.cgpa = cgpa
-        new_profile.cgpa_10scale = cgpa
-
-        if cgpa >= 8.5:
-            new_profile.performance_status = "Excellent"
-        elif cgpa >= 6.5:
-            new_profile.performance_status = "Good"
-        elif cgpa >= 5.0:
-            new_profile.performance_status = "Average"
-        else:
-            new_profile.performance_status = "At Risk"
-
     db.commit()
     db.refresh(new_profile)
 
@@ -206,8 +123,8 @@ async def register_student(
         "message": "Registration successful",
         "student_id": safe_student_id,
         "user_id": str(new_user.id),
-        "cgpa": float(cgpa) if cgpa else None,
-        "semesters_recorded": total_sems_recorded,
+        "cgpa": None,
+        "semesters_recorded": 0,
     }
 
 

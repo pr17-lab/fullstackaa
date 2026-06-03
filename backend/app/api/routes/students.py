@@ -5,14 +5,12 @@ from sqlalchemy import func
 import uuid
 
 from app.core.database import get_db
-from app.models import StudentProfile, User, AcademicTerm, Subject
+from app.models import StudentProfile, User
 from app.schemas import (
     StudentProfileCreate,
     StudentProfileUpdate,
     StudentProfileResponse,
-    StudentListResponse,
-    AcademicRecordSummary,
-    AcademicTermResponse
+    StudentListResponse
 )
 
 from app.api.dependencies.auth import RequireRole
@@ -182,68 +180,6 @@ async def delete_student(
     
     return None
 
-@router.get("/students/{student_id}/academic-records", response_model=AcademicRecordSummary)
-async def get_student_academic_records(
-    student_id: uuid.UUID,
-    db: Session = Depends(get_db)
-):
-    """Get complete academic history for a student."""
-    try:
-        # Try to find student by user_id first (common case from auth)
-        student = db.query(StudentProfile).filter(StudentProfile.user_id == student_id).first()
-        
-        # Fall back to profile id
-        if not student:
-            student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
-        
-        if not student:
-            raise HTTPException(
-                status_code=404,
-                detail=f"Student with ID {student_id} not found"
-            )
-        
-        # Get academic terms up to current semester only (eager loading)
-        terms = db.query(AcademicTerm).options(
-            joinedload(AcademicTerm.subjects)
-        ).filter(
-            AcademicTerm.user_id == student.user_id,
-            AcademicTerm.semester <= student.semester  # Only completed semesters
-        ).order_by(AcademicTerm.year, AcademicTerm.semester).all()
-        
-        # Calculate overall statistics with defensive handling
-        if terms and len(terms) > 0:
-            # Safe GPA calculation
-            overall_gpa = sum(float(term.gpa) for term in terms) / len(terms)
-            
-            # Safe credits calculation
-            total_credits = 0
-            for term in terms:
-                if term.subjects:
-                    # Ensure credits exist and are valid before summing
-                    total_credits += sum(
-                        subject.credits for subject in term.subjects 
-                        if subject.credits is not None
-                    )
-        else:
-            # Return empty academic record for students with no data
-            overall_gpa = 0.0
-            total_credits = 0
-        
-        return AcademicRecordSummary(
-            student_id=student_id,
-            total_terms=len(terms),
-            overall_gpa=overall_gpa,
-            total_credits=total_credits,
-            terms=terms
-        )
-    except HTTPException:
-        # Re-raise HTTP exceptions (like 404)
-        raise
-    except Exception as e:
-        # Log and return the actual error for debugging
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error fetching academic records: {str(e)}"
-        )
+
 
 

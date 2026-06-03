@@ -50,13 +50,16 @@ DEPARTMENT_PRIMARY_ROLES: dict[str, list[str]] = {
 # ---------------------------------------------------------------------------
 
 def _enrich_skill_list(items: list, skill_name_map: dict[str, str]) -> list:
-    """Inject skill_name into each skill-reference dict using the taxonomy map."""
+    """Inject skill_name and optional parent_name into each skill-reference dict."""
     enriched = []
     for item in items:
         entry = dict(item)
         sid = entry.get("skill_id")
         if sid:
             entry["skill_name"] = skill_name_map.get(str(sid))
+        pid = entry.get("parent_id")
+        if pid:
+            entry["parent_name"] = skill_name_map.get(str(pid))
         enriched.append(entry)
     return enriched
 
@@ -77,6 +80,8 @@ def _make_match_label(score: float) -> str:
 
 def get_student_skills(db: Session, user_id: UUID) -> list[SkillResponse]:
     """Return all mapped skills for a student, ordered by confidence score desc."""
+    if isinstance(user_id, str):
+        user_id = UUID(user_id)
     rows = (
         db.query(StudentSkill, SkillTaxonomy)
         .join(SkillTaxonomy, StudentSkill.skill_id == SkillTaxonomy.id)
@@ -100,6 +105,8 @@ def get_student_skills(db: Session, user_id: UUID) -> list[SkillResponse]:
 
 def get_student_gaps(db: Session, user_id: UUID) -> list[SkillGapResponse]:
     """Return all skill-gap records for a student, ordered by match score desc."""
+    if isinstance(user_id, str):
+        user_id = UUID(user_id)
     gaps = (
         db.query(SkillGap)
         .filter(SkillGap.user_id == user_id)
@@ -120,6 +127,7 @@ def get_student_gaps(db: Session, user_id: UUID) -> list[SkillGapResponse]:
             missing_skills=_enrich_skill_list(g.missing_skills or [], skill_name_map),
             weak_skills=_enrich_skill_list(g.weak_skills or [], skill_name_map),
             strong_skills=_enrich_skill_list(g.strong_skills or [], skill_name_map),
+            high_potential_skills=_enrich_skill_list(g.high_potential_skills or [], skill_name_map),
             computed_at=g.computed_at,
         ))
     return results
@@ -141,6 +149,8 @@ def get_skill_summary(db: Session, user_id: UUID) -> StudentSkillSummary:
 
 def get_career_recommendation(db: Session, user_id: UUID) -> dict:
     """Return primary and alternative career recommendations based on gap scores."""
+    if isinstance(user_id, str):
+        user_id = UUID(user_id)
     from app.models.student_profile import StudentProfile
     from app.models.student_preference import StudentPreference
 
@@ -292,8 +302,11 @@ def remove_manual_skill(db: Session, user_id: UUID, skill_id: UUID) -> None:
         db.delete(ss)
     else:
         ss.source = srcs
-        base_score = float(ss.academic_weight) if ss.academic_weight else 0.0
+        base_score = float(ss.resume_weight) if ss.resume_weight else 0.0
         ss.confidence_score = base_score
         ss.level = score_to_level(base_score)
 
     db.commit()
+
+
+from .project_service import verify_github_complexity_async

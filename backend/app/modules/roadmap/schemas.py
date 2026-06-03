@@ -18,6 +18,9 @@ class RoadmapTaskResponse(BaseModel):
     completed_at: Optional[datetime]
     feedback_score: Optional[int]
     skill_name: Optional[str] = None
+    associated_skill_id: Optional[UUID] = None
+    submission_link: Optional[str] = None
+    validation_status: Optional[str] = None
     
     class Config:
         from_attributes = True
@@ -36,7 +39,7 @@ class RoadmapSummary(BaseModel):
 class RoadmapResponse(RoadmapSummary):
     user_id: UUID
     is_transition: bool
-    generated_by: str
+    generated_by: Optional[str] = None
     total_tasks: int
     completed_tasks: int
     updated_at: datetime
@@ -47,6 +50,7 @@ class GenerateRoadmapRequest(BaseModel):
 
 class TaskCompleteRequest(BaseModel):
     feedback_score: Optional[int] = None
+    submission_link: Optional[str] = None
 
 class CustomTaskCreate(BaseModel):
     title: str

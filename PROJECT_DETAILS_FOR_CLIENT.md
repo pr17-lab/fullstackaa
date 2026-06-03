@@ -1,64 +1,58 @@
-# Student Academic Tracking & Analytics (SATA)
+# SATA B.Tech Career Intelligence Platform
 **Project Overview & Technical Details**
 
 ## 1. Executive Summary
-SATA is a comprehensive, full-stack web application engineered specifically for educational institutions. The platform is designed to seamlessly manage, evaluate, and analyze student academic performance. By providing real-time analytics, automated GPA tracking, and actionable insights, SATA empowers students and administrators to actively monitor academic progress and drive educational outcomes.
+SATA is an enterprise-grade B.Tech Career Intelligence Platform designed to transition student development from legacy academic metric tracking to real-time skill verification, code-level analysis, and automated, multi-tiered career path calibration. By parsing resumes, verifying hands-on repositories, conducting real-time anti-plagiarism technical interviews, and mapping student capabilities to granular industry roles, SATA offers a complete, verified pathway to tech-industry career placement.
+
+---
 
 ## 2. Key Capabilities & Features
 
-### 🎓 Interactive Student Dashboard
-- **Personalized Analytics Overview:** A dynamic dashboard providing a snapshot of current GPA, active semester performance, and overall academic standing.
-- **Progress Tracking:** Detailed breakdown of subject scores, credits earned, and standardized grades.
+### 🚀 Real-Time Anti-Plagiarism Technical Screen
+- **Full-Duplex WebSockets:** Employs a low-latency full-duplex WebSocket architecture (`/ws/interview/{session_id}`) protecting connections through HttpOnly cookies and authorization tokens.
+- **Dynamic Groq-Powered Traps:** Streams live, token-by-token code questions containing intentional complexity traps ($O(N^2)$), logic bugs, or security vulnerabilities from Llama 3.1 8B.
+- **AI-Driven Soft & Hard Skill Calibration:** Evaluates answers in real-time using Gemini 1.5 Flash, dynamically adjusting skill weights ($+10$/$-10$ on `interview_weight`, modifying `communication_weight`) and instantly re-calibrating composite confidence scores.
 
-### 📊 Advanced Performance Analytics
-- **Visual Intelligence:** Intuitive, interactive charts and graphs displaying GPA trends across multiple semesters.
-- **Insightful Evaluations:** Automated algorithms that identify specific academic strengths and pinpoint areas requiring improvement.
-- **Comparative Analysis:** Tools designed to benchmark individual performance against historical semantic datasets.
+### 🔌 Automated GitHub Repository Ingestion & Complexity Scoring
+- **Background Pipeline:** Asynchronously pulls metadata, complete commit history trees, directories, and default README files using `httpx.AsyncClient`.
+- **Programmatic Heuristic Scoring Engine (100 Points Max):**
+  - **Base Verification (+20 points):** Successful 200 OK lookup.
+  - **Commit History Multiplier (+20 points):** Dynamic points scale based on commit volume ($>30$ commits: 20 pts; $10$-$30$ commits: 10 pts; $<10$ commits: 5 pts).
+  - **Architectural Scan (+40 points):** Scans for containerization (Docker, k8s, workflow: 15 pts), automated testing (pytest, Jest, conftest: 15 pts), and clean architecture structure (auth, services, middleware: 10 pts).
+  - **Documentation Quantity (+20 points):** Checks base64 README lengths ($>2000$ chars: 20 pts; $500$-$2000$ chars: 10 pts).
+- **Gemini Skill Tag Extraction:** Reads parsed README documentation to identify exact frameworks, libraries, and languages (`["FastAPI", "React", "Docker"]`) using JSON constraint schema prompts.
 
-### 🤖 AI Interview & Career Prep
-- **Intelligent Question Generation:** Automatically generates highly tailored, dynamic interview questions based on pasted Job Descriptions and uploaded Resumes (PDF).
-- **Real-Time Voice Interaction:** Fully voice-driven interview experience utilizing Web Speech APIs for real-time speech-to-text and text-to-speech feedback.
-- **Comprehensive Feedback:** Sessions are recorded and evaluated to simulate real-world technical and soft-skill interviews.
-
-### 🔐 Robust Security & Authentication
-- **Secure Access Control:** Role-based access requiring valid Student IDs for authentication.
-- **Modern Security Standards:** Stateless authentication leveraging JWT (JSON Web Tokens) with refresh token capabilities. All user passwords are encrypted utilizing industry-standard Bcrypt hashing.
-
-### 🗄️ Seamless Data Integration
-- **Large-Scale Data Support:** The system is integrated with simulated datasets, rigorously managing 10k+ student profiles and their corresponding academic histories. 
-- **Data Integrity:** Backend processes designed to validate and securely ingest CSV-based academic records directly into the central relational database.
-
----
-
-## 3. System Architecture & Technology Stack
-The platform utilizes a modern, decoupled client-server architecture, prioritizing speed, scalability, and maintainability.
-
-### Frontend Presentation Layer (Client)
-- **Framework:** React 18 coupled with TypeScript 5, ensuring robust and easily maintainable code.
-- **Build System:** Vite 5 for rapid development and optimized production bundling.
-- **UI/UX Design:** Tailwind CSS provides a mobile-first, highly responsive, and aesthetically modern interface featuring comprehensive light/dark modes.
-- **Data Visualization & Management:** Recharts powers the analytics dashboards, while TanStack Query intelligently handles all server state and caching.
-
-### Backend Infrastructure Layer (Server)
-- **Framework:** FastAPI (Python), selected for its exceptional performance, async capabilities, and automatic comprehensive Swagger documentation.
-- **Database System:** PostgreSQL 15 acts as the highly reliable, relational data store.
-- **ORM & Migrations:** SQLAlchemy bridges Python with PostgreSQL, while Alembic actively manages forward and backward-compatible database schema migrations.
-- **Data Validation:** Pydantic is utilized to enforce strict data typing and security validation across all API endpoints.
-
-### Machine Learning & AI Layer (Microservice)
-- **Framework:** A secondary, isolated FastAPI stateless microservice dedicated to LLM and ML inference operations.
-- **AI Integrations:** Leverages high-speed LLM APIs (e.g. Groq) to generate highly contextualized interview Q&A flows and future performance prediction analysis.
-- **Network Architecture:** Secured via internal Docker network isolation avoiding redundant authentication overhead while maintaining zero public exposure.
+### 📊 Career Recommendation Match Tiers
+- **Dynamic Composite Calibration Loop:** Re-calibrates overall student skill confidence weights with the Phase 4 linear combination formula:
+  $$\text{Composite Score} = (0.2 \times \text{Resume}) + (0.4 \times \text{Project}) + (0.4 \times \text{Interview})$$
+- **Advanced Match Tiers Dashboard:** Returns career roles categorized dynamically into four matched tiers based on verified skill coverage:
+  - 🥇 **Excellent Match (>= 60%)**
+  - 🥈 **Good Match (35% to 60%)**
+  - 🥉 **Potential Match (20% to 35%)**
+  - ❌ **Low Match (< 20%)**
+- **Enriched High Potential Skill Analysis:** Identifies child/tool skills where the student has theoretical parent knowledge but lacks verified project/interview weights, providing direct conceptual bridging recommendations.
 
 ---
 
-## 4. Current State & Immediate Development Roadmap
-The application is currently in an active development phase (v1.0.0). The immediate technical roadmap focuses on optimization and scaling:
+## 3. Technology Stack & Architecture
 
-1. **Enterprise Data Integrity:** Implementing strict pre-import CSV validation protocols to handle discrepancies and prevent malformed data from affecting database integrity.
-2. **Performance Scaling:** Optimizing backend database operations through strategic indexing, connection pooling, and bulk data operations to dramatically improve processing speeds.
-3. **Advanced Operational Security:** Isolating configuration through strict environment management (Development, Staging, Production configurations).
-4. **Comprehensive Observability:** Transitioning to structured JSON logging and implementing active health checks for stronger infrastructure monitoring.
+### Client Presentation Layer
+- **Framework:** React 18 with TypeScript 5, ensuring robust frontend typing.
+- **Styling:** Premium responsive design using custom-tailored CSS variables, glassmorphism UI elements, dark/light modes, and micro-animations.
+- **Real-Time Integration:** Modern Web Speech APIs for voice-to-text response processing alongside standard WebSocket interfaces.
 
-## 5. Conclusion
-SATA provides educational institutions with a powerful lens into academic performance. By leveraging cutting-edge, scalable web architecture, the platform guarantees a premium user experience while maintaining the rigorous data standards required for modern education analytics.
+### Backend Infrastructure Layer
+- **Framework:** FastAPI (Python 3.12) utilizing high-speed asynchronous endpoint handlers and standard Dependency Injection (`Depends(get_db)`).
+- **Database ORM:** SQLAlchemy with Alembic managing database schemas securely. Includes custom type shims for high-speed, dialect-safe SQLite in-memory mock testing (`VARCHAR(36)` and list serialization/deserialization logic).
+- **Integration Tests:** Comprehensive Pytest integration checking authentication, WebSockets, project analytics, and career recommendation algorithms (100% test coverage with 43 passing tests).
+
+---
+
+## 4. DB Layout (Active Models)
+1. `users` & `student_profiles`: User accounts, student data, and department metadata.
+2. `skill_taxonomy`: Parental concepts and child tools (`skill_type` constrained to `concept` and `tool`).
+3. `student_skills`: Dynamic resume, project, and interview weight variables, alongside final computed composite scores.
+4. `student_preferences`: Career targets (`target_roles`, `preferred_domains`).
+5. `student_projects`: Verified GitHub repository URL metadata, complexity ratings, and extracted frameworks.
+6. `job_skill_requirements`: Job role prerequisites (`importance` constrained to `must_have`, `preferred`, `nice_to_have`).
+7. `skill_gaps`: Computed matches containing `strong_skills`, `high_potential_skills`, `weak_skills`, and `missing_skills` JSONB lists.

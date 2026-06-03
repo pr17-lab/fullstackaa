@@ -19,6 +19,7 @@ export interface SkillGap {
   missing_skills: Array<{ skill_id: string; skill_name?: string; importance: string; gap: boolean }>;
   weak_skills: Array<{ skill_id: string; skill_name?: string; score: number; required: number }>;
   strong_skills: Array<{ skill_id: string; skill_name?: string; score: number }>;
+  high_potential_skills: Array<{ skill_id: string; skill_name?: string; parent_id?: string; parent_name?: string }>;
   computed_at: string | null;
 }
 
@@ -61,6 +62,12 @@ export interface RoadmapTask {
   completed_at: string | null;
   feedback_score: number | null;
   skill_name: string | null;
+  /** Backend validation fields for project tasks */
+  validation_status?: string | null;   // 'pending' | 'verified' | 'failed'
+  submission_link?: string | null;
+  /** Skill linkage for micro-interview triggering */
+  associated_skill_id?: string | null;
+  skill_id?: string | null;
 }
 
 export interface Roadmap {

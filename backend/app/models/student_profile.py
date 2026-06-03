@@ -18,6 +18,14 @@ class StudentProfile(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
+    @property
+    def branch(self):
+        return self.department
+
+    @branch.setter
+    def branch(self, value):
+        self.department = value
+
     # New columns added in migration 0005_new_dataset_columns
     batch_year = Column(Integer, nullable=True)
     performance_status = Column(String(20), nullable=True)  # Excellent / Good / Average / At Risk

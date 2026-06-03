@@ -13,7 +13,7 @@ Improvements over Phase 2 initial:
 import uuid
 from sqlalchemy import (
     Column, String, Text, DateTime, ForeignKey,
-    Index, CheckConstraint, SmallInteger
+    Index, CheckConstraint, SmallInteger, Boolean
 )
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship
@@ -30,7 +30,7 @@ class SessionStatus:
     COMPLETED = "completed"
     ABANDONED = "abandoned"
 
-    ALL = {ACTIVE, COMPLETED, ABANDONED}
+    ALL = {ACTIVE, COMPLETED, abandoned := "abandoned"}
 
 
 class InterviewSession(Base):
@@ -45,6 +45,9 @@ class InterviewSession(Base):
     branch     = Column(String(100), nullable=False)
     topic      = Column(String(100), nullable=True)
     status     = Column(String(20),  nullable=False, default=SessionStatus.ACTIVE)
+    is_micro   = Column(Boolean, default=False, nullable=True)
+    associated_skill_id = Column(UUID(as_uuid=True), ForeignKey("skill_taxonomy.id"), nullable=True)
+    roadmap_task_id = Column(UUID(as_uuid=True), ForeignKey("roadmap_tasks.id"), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
