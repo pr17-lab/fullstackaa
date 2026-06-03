@@ -6,7 +6,7 @@ import {
     Cpu, CheckCircle2, Clock, Sparkles,
     BookOpen, AlertCircle, Mic, MicOff, Square,
     Upload, FileText, X, SkipForward, Trophy,
-    RotateCcw, Volume2, Trash2, ChevronDown, ChevronUp, RefreshCw
+    RotateCcw, Volume2, Trash2, ChevronDown, ChevronUp, RefreshCw, Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {

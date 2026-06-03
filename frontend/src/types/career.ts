@@ -62,6 +62,10 @@ export interface RoadmapTask {
   completed_at: string | null;
   feedback_score: number | null;
   skill_name: string | null;
+  validation_status?: string | null;
+  submission_link?: string | null;
+  associated_skill_id?: string | null;
+  skill_id?: string | null;
 }
 
 export interface Roadmap {
