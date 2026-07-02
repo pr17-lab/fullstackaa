@@ -13520,3 +13520,86 @@ Traceback (most recent call last):
     raise RuntimeError('Event loop is closed')
 RuntimeError: Event loop is closed
 2026-05-24 01:24:45 - app.modules.interview.service - ERROR - service.py:829 - Gemini real-time evaluation failed: object MagicMock can't be used in 'await' expression
+2026-06-03 21:35:25 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:35:25 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:37:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:22 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:36 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:37 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:40 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:48 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:37:49 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:40:05 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:40:12 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:40:12 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:40:22 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:40:22 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:40:42 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:41:51 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:41:55 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:41:55 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:42:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:42:41 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:42:42 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:43:15 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:43:15 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:43:38 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:23 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:44:23 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:44:23 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:45:22 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:45:22 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:46:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:46:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:46:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:46:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:46:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:46:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:46:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:46:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:00 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:49:13 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:13 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:49:49 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:49:49 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
+2026-06-03 21:50:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:50:08 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:50:09 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:50:10 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:50:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:50:12 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:50:20 - httpx - INFO - _client.py:1729 - HTTP Request: GET https://jsearch.p.rapidapi.com/search?query=Software%20Engineer%20fresher%20India&page=1&num_pages=1&date_posted=month "HTTP/1.1 200 OK"
+2026-06-03 21:50:20 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:50:27 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:51:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:51:28 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:51:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:51:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:51:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:51:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:51:29 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-06-03 21:59:48 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-06-03 21:59:48 - app.main - INFO - main.py:41 - Starting Student Academic Tracker API v1.0 (modular monolith)
