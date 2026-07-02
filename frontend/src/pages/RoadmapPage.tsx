@@ -22,26 +22,37 @@ import { ErrorDisplay } from '../components/common/Loading';
 import type { Roadmap, RoadmapDetail, RoadmapTask } from '../types/career';
 import { PageTransition } from '../components/layout/PageTransition';
 
-type ToastVariant = 'success' | 'error';
+type ToastVariant = 'success' | 'error' | 'info' | 'warning';
 interface ToastMsg { variant: ToastVariant; text: string }
 
-const Toast = ({ toast, onClose }: { toast: ToastMsg; onClose: () => void }) => (
-  <div
-    className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-4 rounded-xl shadow-2xl border animate-slide-up
-      ${toast.variant === 'success'
-        ? 'bg-zinc-900 border-emerald-500/40 text-emerald-400'
-        : 'bg-zinc-900 border-red-500/40 text-red-400'}`}
-    style={{ minWidth: 280 }}
-  >
-    {toast.variant === 'success'
-      ? <CheckCircle2 className="h-5 w-5 shrink-0" />
-      : <AlertTriangle className="h-5 w-5 shrink-0" />}
-    <p className="text-sm font-medium flex-1">{toast.text}</p>
-    <button onClick={onClose} className="opacity-60 hover:opacity-100 transition-opacity">
-      <X className="h-4 w-4" />
-    </button>
-  </div>
-);
+const Toast = ({ toast, onClose }: { toast: ToastMsg; onClose: () => void }) => {
+  const borderStyles: Record<ToastVariant, string> = {
+    success: 'border-emerald-500/40 text-emerald-400',
+    error: 'border-red-500/40 text-red-400',
+    info: 'border-indigo-500/40 text-indigo-400',
+    warning: 'border-amber-500/40 text-amber-400',
+  };
+
+  const Icon = {
+    success: CheckCircle2,
+    error: AlertTriangle,
+    info: Zap,
+    warning: AlertTriangle,
+  }[toast.variant] || CheckCircle2;
+
+  return (
+    <div
+      className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-4 rounded-xl shadow-2xl border animate-slide-up bg-zinc-900 ${borderStyles[toast.variant]}`}
+      style={{ minWidth: 280 }}
+    >
+      <Icon className="h-5 w-5 shrink-0" />
+      <p className="text-sm font-medium flex-1">{toast.text}</p>
+      <button onClick={onClose} className="opacity-60 hover:opacity-100 transition-opacity">
+        <X className="h-4 w-4" />
+      </button>
+    </div>
+  );
+};
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
