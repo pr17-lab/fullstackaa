@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
     Home, Settings, Menu, X, LogOut, Bell,
-    Target, Map, Cpu, TrendingUp, LayoutDashboard
+    Target, Map, Cpu, LayoutDashboard
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,7 +14,6 @@ const NAV_ITEMS = [
     { name: 'Skills',    href: '/skills',   icon: Target },
     { name: 'Roadmap',   href: '/roadmap',  icon: Map },
     { name: 'Interview', href: '/interview',icon: Cpu },
-    { name: 'Growth',    href: '/settings', icon: TrendingUp },
 ];
 
 // ─── Sidebar NavLink ──────────────────────────────────────────────────────────
@@ -254,8 +253,8 @@ function BottomNav() {
     const BOTTOM_ITEMS = [
         { name: 'Dashboard', href: '/',         icon: LayoutDashboard },
         { name: 'Skills',    href: '/skills',   icon: Target },
-        { name: 'Jobs',      href: '/roadmap',  icon: Map },
-        { name: 'Growth',    href: '/interview',icon: TrendingUp },
+        { name: 'Roadmap',   href: '/roadmap',  icon: Map },
+        { name: 'Interview', href: '/interview',icon: Cpu },
     ];
 
     return (

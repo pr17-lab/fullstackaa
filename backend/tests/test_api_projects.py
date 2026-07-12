@@ -190,11 +190,11 @@ async def test_verify_github_complexity_async_processing(db_session, sample_user
     
     for s in skills:
         assert float(s.project_weight) == 100.0
-        # Formula: (resume_weight * 0.2) + (project_weight * 0.4) + (interview_weight * 0.4)
-        # Since it's a new row, resume_weight = 0.0, interview_weight = 0.0, so:
-        # confidence_score = 0.0 * 0.2 + 100.0 * 0.4 + 0.0 * 0.4 = 40.0
-        assert float(s.confidence_score) == 40.0
-        assert s.level == "weak"  # 40.0 is < 50
+        # Formula (fallback): (resume_weight * 0.2 + project_weight * 0.4) / 0.6
+        # Since it's a new row, resume_weight = 0.0, so:
+        # confidence_score = (0.0 * 0.2 + 100.0 * 0.4) / 0.6 = 66.67
+        assert float(s.confidence_score) == pytest.approx(66.67, abs=1e-2)
+        assert s.level == "moderate"  # 66.67 is >= 50 and < 80
         if db_session.bind.dialect.name != "sqlite":
             assert "project" in s.source
 
@@ -246,6 +246,7 @@ async def test_verify_github_complexity_async_existing_skill(db_session, sample_
         resume_weight=50.0,
         project_weight=0.0,
         interview_weight=80.0,
+        is_interview_scored=True,
         source=["resume", "interview"] if not is_sqlite else None
     )
     db_session.add(ss)
@@ -330,3 +331,27 @@ async def test_verify_github_complexity_async_existing_skill(db_session, sample_
     # (50.0 * 0.2) + (35.0 * 0.4) + (80.0 * 0.4) = 10.0 + 14.0 + 32.0 = 56.0
     assert float(ss.confidence_score) == 56.0
     assert ss.level == "moderate"  # 52.0 is >= 50 and < 80
+
+
+def test_get_my_projects(auth_client, db_session, sample_user):
+    """Test retrieving user's student projects."""
+    from app.models.student_project import StudentProject
+    import uuid
+    
+    project1 = StudentProject(
+        id=uuid.uuid4(),
+        user_id=sample_user.id,
+        title="Project 1",
+        repo_url="https://github.com/student/p1",
+        depth_verified=False
+    )
+    db_session.add(project1)
+    db_session.commit()
+
+    response = auth_client.get("/api/skills/project")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) >= 1
+    titles = [p["title"] for p in data]
+    assert "Project 1" in titles
+

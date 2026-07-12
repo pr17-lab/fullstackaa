@@ -115,6 +115,14 @@ export const RoadmapService = {
         return response.data;
     },
 
+    createProjectSession: async (project_id: string, limit = 3) => {
+        const response = await api.post<any>('/interview/sessions/practice-project', {
+            project_id,
+            limit
+        });
+        return response.data;
+    },
+
     skipTask: async (task_id: string) => {
         const response = await api.post<{ status: string; message: string }>(
             `/roadmap/tasks/${task_id}/skip`,
@@ -135,6 +143,14 @@ export const RoadmapService = {
 
     deleteTask: async (task_id: string) => {
         await api.delete(`/roadmap/tasks/${task_id}`);
+    },
+
+    voteResource: async (task_id: string, vote_type: 'upvote' | 'downvote') => {
+        const response = await api.post<{ status: string; message: string; upvotes: number; downvotes: number }>(
+            `/roadmap/tasks/${task_id}/vote`,
+            { vote_type }
+        );
+        return response.data;
     },
 
     deleteRoadmap: async (roadmap_id: string) => {

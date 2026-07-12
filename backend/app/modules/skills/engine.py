@@ -74,18 +74,16 @@ TOOL_TO_PARENT = {
 }
 
 
-def calculate_composite_score(resume: float, project: float, interview: float, communication: float) -> float:
-    # Weighted average of non-zero buckets
-    w_r = 0.2 if resume > 0 else 0
-    w_p = 0.3 if project > 0 else 0
-    w_i = 0.3 if interview > 0 else 0
-    w_c = 0.2 if communication > 0 else 0
+def calculate_composite_score(resume: float, project: float, interview: float, communication: float = 0.0, is_interview_scored: bool = False) -> float:
+    res_val = float(resume) if resume else 0.0
+    pr_val = float(project) if project else 0.0
+    in_val = float(interview) if interview else 0.0
     
-    total_w = w_r + w_p + w_i + w_c
-    if total_w == 0:
-        return 0.0
+    if not is_interview_scored:
+        score = (res_val * 0.2 + pr_val * 0.4) / 0.6
+    else:
+        score = (res_val * 0.2) + (pr_val * 0.4) + (in_val * 0.4)
         
-    score = (resume * w_r + project * w_p + interview * w_i + communication * w_c) / total_w
     return float(round(score, 2))
 
 def compute_skills_for_student(db: Session, user_id: str):
@@ -145,7 +143,7 @@ def compute_skills_for_student(db: Session, user_id: str):
             interview_wt = float(existing.interview_weight) if existing.interview_weight else 0.0
             comm_wt = float(existing.communication_weight) if existing.communication_weight else 0.0
             
-            new_confidence = calculate_composite_score(avg_score, project_wt, interview_wt, comm_wt)
+            new_confidence = calculate_composite_score(avg_score, project_wt, interview_wt, comm_wt, is_interview_scored=existing.is_interview_scored)
             existing.confidence_score = new_confidence
             existing.level = score_to_level(new_confidence)
             
@@ -154,7 +152,7 @@ def compute_skills_for_student(db: Session, user_id: str):
                 src_list.append("resume")
                 existing.source = src_list
         else:
-            new_confidence = calculate_composite_score(avg_score, 0.0, 0.0, 0.0)
+            new_confidence = calculate_composite_score(avg_score, 0.0, 0.0, 0.0, is_interview_scored=False)
             new_skill = StudentSkill(
                 id=uuid.uuid4(),
                 user_id=user_id,
@@ -165,10 +163,130 @@ def compute_skills_for_student(db: Session, user_id: str):
                 resume_weight=avg_score,
                 project_weight=0.0,
                 interview_weight=0.0,
-                communication_weight=0.0
+                communication_weight=0.0,
+                is_interview_scored=False
             )
             db.add(new_skill)
     db.commit()
+
+
+def calculate_role_score_and_breakdown(
+    db: Session,
+    user_id,
+    role: str,
+    reqs: list,
+    stud_skills: dict,
+    student_dept: str,
+    id_to_name: dict
+) -> dict:
+    import uuid
+    weight_map = {
+        "must_have": 3,
+        "preferred": 2,
+        "nice_to_have": 1
+    }
+    
+    sum_weights = 0
+    sum_met = 0
+    missing = []
+    weak = []
+    strong = []
+    high_potential = []
+    breakdown = []
+    
+    for req in reqs:
+        sid = req["skill_id"]
+        imp = req["importance"]
+        min_req = req["min_score_required"]
+        w = weight_map.get(imp, 1)
+        
+        # Step 1: Look up student's confidence_score for this child skill
+        has_child = (sid in stud_skills)
+        child_score = stud_skills[sid]["score"] if has_child else 0.0
+        
+        skill_name = id_to_name.get(sid, "Unknown Skill")
+        
+        status_str = ""
+        credit_pct = 0.0
+        
+        if has_child and child_score >= 70.0:
+            sum_weights += w
+            sum_met += w
+            strong.append({"skill_id": sid, "score": child_score})
+            status_str = "strong"
+            credit_pct = 1.0
+        else:
+            # Step 2: Relational query to find tool's parent_id from SkillTaxonomy
+            sid_uuid = uuid.UUID(sid) if isinstance(sid, str) else sid
+            skill_record = db.query(SkillTaxonomy).filter(SkillTaxonomy.id == sid_uuid).first()
+            parent_id = str(skill_record.parent_id) if (skill_record and skill_record.parent_id) else None
+            
+            has_parent = False
+            if parent_id and parent_id in stud_skills:
+                if stud_skills[parent_id]["resume_weight"] > 0:
+                    has_parent = True
+                    
+            if has_parent:
+                sum_weights += w
+                sum_met += w * 0.4  # 40% credit for high potential match
+                high_potential.append({"skill_id": sid, "parent_id": parent_id})
+                status_str = "high_potential"
+                credit_pct = 0.4
+            else:
+                # Step 3: Categorize as weak or missing (0% credit)
+                sum_weights += w
+                if has_child:
+                    weak.append({"skill_id": sid, "score": child_score})
+                    status_str = "weak"
+                else:
+                    missing.append({"skill_id": sid})
+                    status_str = "missing"
+                credit_pct = 0.0
+        
+        weighted_contribution = w * credit_pct
+        breakdown.append({
+            "skill": skill_name,
+            "status": status_str,
+            "importance": imp,
+            "weight": w,
+            "credit_pct": credit_pct,
+            "weighted_contribution": float(round(weighted_contribution, 2))
+        })
+        
+    match_score = (sum_met / sum_weights * 100) if sum_weights > 0 else 0
+    
+    dept_bonus = [
+        "Software Engineer", "Data Scientist", "Data Engineer",
+        "Frontend Developer", "DevOps Engineer", "Cybersecurity Analyst",
+        "Blockchain Developer", "Technical Product Manager"
+    ]
+    ece_bonus = [
+        "Embedded Systems Engineer", "Hardware/VLSI Design Engineer",
+        "Cybersecurity Analyst"
+    ]
+    mech_bonus = [
+        "Mechanical Design Engineer", "Manufacturing Engineer", "Automotive Engineer",
+        "HVAC Engineer", "Robotics/Mechatronics Engineer"
+    ]
+    
+    if student_dept in ("CSE", "AIML", "AI&ML") and role in dept_bonus:
+        match_score += 15
+    elif student_dept == "ECE" and role in ece_bonus:
+        match_score += 15
+    elif student_dept == "MECH" and role in mech_bonus:
+        match_score += 15
+        
+    match_score = min(match_score, 100.0)
+    match_score = float(round(match_score, 2))
+    
+    return {
+        "match_score": match_score,
+        "missing": missing,
+        "weak": weak,
+        "strong": strong,
+        "high_potential": high_potential,
+        "breakdown": breakdown
+    }
 
 
 def compute_gaps_for_student(db: Session, user_id: str):
@@ -226,88 +344,28 @@ def compute_gaps_for_student(db: Session, user_id: str):
     
     skill_tax = db.query(SkillTaxonomy).all()
     id_to_name = {str(s.id): s.skill_name for s in skill_tax}
-    name_to_id = {s.skill_name: str(s.id) for s in skill_tax}
-    
-    weight_map = {
-        "must_have": 3,
-        "preferred": 2,
-        "nice_to_have": 1
-    }
     
     for role in target_roles:
         if role not in job_reqs:
             continue
             
         reqs = job_reqs[role]
-        sum_weights = 0
-        sum_met = 0
-        missing = []
-        weak = []
-        strong = []
-        high_potential = []
+        result = calculate_role_score_and_breakdown(
+            db=db,
+            user_id=user_id,
+            role=role,
+            reqs=reqs,
+            stud_skills=stud_skills,
+            student_dept=student_dept,
+            id_to_name=id_to_name
+        )
         
-        for req in reqs:
-            sid = req["skill_id"]
-            imp = req["importance"]
-            min_req = req["min_score_required"]
-            w = weight_map.get(imp, 1)
+        match_score = result["match_score"]
+        missing = result["missing"]
+        weak = result["weak"]
+        strong = result["strong"]
+        high_potential = result["high_potential"]
             
-            # Step 1: Look up student's confidence_score for this child skill
-            has_child = (sid in stud_skills)
-            child_score = stud_skills[sid]["score"] if has_child else 0.0
-            
-            if has_child and child_score >= 70.0:
-                sum_weights += w
-                sum_met += w
-                strong.append({"skill_id": sid, "score": child_score})
-            else:
-                # Step 2: Relational query to find tool's parent_id from SkillTaxonomy
-                sid_uuid = uuid.UUID(sid) if isinstance(sid, str) else sid
-                skill_record = db.query(SkillTaxonomy).filter(SkillTaxonomy.id == sid_uuid).first()
-                parent_id = str(skill_record.parent_id) if (skill_record and skill_record.parent_id) else None
-                
-                has_parent = False
-                if parent_id and parent_id in stud_skills:
-                    if stud_skills[parent_id]["resume_weight"] > 0:
-                        has_parent = True
-                        
-                if has_parent:
-                    sum_weights += w
-                    sum_met += w * 0.4  # 40% credit for high potential match
-                    high_potential.append({"skill_id": sid, "parent_id": parent_id})
-                else:
-                    # Step 3: Categorize as weak or missing (0% credit)
-                    sum_weights += w
-                    if has_child:
-                        weak.append({"skill_id": sid, "score": child_score})
-                    else:
-                        missing.append({"skill_id": sid})
-                    
-        match_score = (sum_met / sum_weights * 100) if sum_weights > 0 else 0
-        
-        dept_bonus = [
-            "Software Engineer", "Data Scientist", "Data Engineer",
-            "Frontend Developer", "DevOps Engineer", "Cybersecurity Analyst",
-            "Blockchain Developer", "Technical Product Manager"
-        ]
-        ece_bonus = [
-            "Embedded Systems Engineer", "Hardware/VLSI Design Engineer",
-            "Cybersecurity Analyst"
-        ]
-        mech_bonus = [
-            "Mechanical Design Engineer", "Manufacturing Engineer", "Automotive Engineer",
-            "HVAC Engineer", "Robotics/Mechatronics Engineer"
-        ]
-        
-        if student_dept in ("CSE", "AIML", "AI&ML") and role in dept_bonus:
-            match_score += 15
-        elif student_dept == "ECE" and role in ece_bonus:
-            match_score += 15
-        elif student_dept == "MECH" and role in mech_bonus:
-            match_score += 15
-            
-        match_score = min(match_score, 100.0)
-        
         existing = db.query(SkillGap).filter(SkillGap.user_id == user_id, SkillGap.job_role == role).first()
         if existing:
             existing.match_score = match_score

@@ -24,6 +24,7 @@ class SkillGapResponse(BaseModel):
     strong_skills: List[dict]
     high_potential_skills: List[dict] = []
     computed_at: Optional[datetime]
+    requirements_last_reviewed: Optional[datetime] = None
     
     class Config:
         from_attributes = True

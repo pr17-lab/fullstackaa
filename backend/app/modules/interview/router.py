@@ -35,6 +35,8 @@ from app.schemas.interview import (
     GeneratedQuestionsResponse,
     InterviewSessionOut,
     SessionCreateRequest,
+    PracticeTopicCreateRequest,
+    PracticeProjectCreateRequest,
 )
 
 logger = logging.getLogger(__name__)
@@ -159,21 +161,50 @@ async def create_session(
     try:
         profile = _academic_svc.get_student_profile(db, current_user.id)
 
+        jd_text = body.jd_text
+        associated_skill_id = None
+        is_micro_session = False
+
+        if body.roadmap_task_id:
+            from app.models.roadmap import RoadmapTask
+            from app.models.skill_taxonomy import SkillTaxonomy
+            task = db.query(RoadmapTask).filter(RoadmapTask.id == body.roadmap_task_id).first()
+            if not task:
+                raise HTTPException(status_code=404, detail="Roadmap task not found")
+            
+            skill = task.associated_skill or task.skill
+            if not skill and task.skill_id:
+                skill = db.query(SkillTaxonomy).filter(SkillTaxonomy.id == task.skill_id).first()
+            
+            if skill:
+                associated_skill_id = skill.id
+                is_micro_session = True
+                from app.modules.interview.service import build_skill_practice_context
+                jd_text = build_skill_practice_context(db, skill.id)
+
+        from app.models.student_skill import StudentSkill
+        student_skills = (
+            db.query(StudentSkill)
+            .filter(StudentSkill.user_id == current_user.id)
+            .all()
+        )
+
         questions, source = await _interview_svc.generate_questions_async(
             branch=profile.department,
             semester=profile.semester,
-            jd_text=body.jd_text,
-            resume_context=body.resume_context,
+            jd_text=jd_text,
+            student_skills=student_skills,
             limit=body.limit,
         )
 
-        # Build a topic label — prefer JD snippet, fall back to resume snippet
-        if body.jd_text.strip():
-            raw_topic = body.jd_text.strip()
+        # Build a topic label
+        if body.roadmap_task_id and associated_skill_id:
+            from app.models.skill_taxonomy import SkillTaxonomy
+            skill = db.query(SkillTaxonomy).filter(SkillTaxonomy.id == associated_skill_id).first()
+            topic_label = f"Practice Interview: {skill.skill_name if skill else 'Skill'}"
+        elif jd_text.strip():
+            raw_topic = jd_text.strip()
             topic_label = raw_topic[:80] + ("..." if len(raw_topic) > 80 else "")
-        elif body.resume_context and body.resume_context.strip():
-            raw_topic = body.resume_context.strip()
-            topic_label = "Resume: " + raw_topic[:72] + ("..." if len(raw_topic) > 72 else "")
         else:
             topic_label = "General Interview"
 
@@ -184,6 +215,14 @@ async def create_session(
             topic=topic_label,
             questions=questions,
         )
+
+        if body.roadmap_task_id:
+            session.roadmap_task_id = body.roadmap_task_id
+            session.associated_skill_id = associated_skill_id
+            session.is_micro = is_micro_session
+            db.commit()
+            db.refresh(session)
+
         logger.info(
             "Session %s created for user %s (%d questions, source=%s)",
             session.id, current_user.id, len(session.questions), source,
@@ -278,6 +317,97 @@ async def create_micro_session(
         return session
     except Exception as exc:
         logger.error("Error creating micro-interview session: %s", exc, exc_info=True)
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@router.post("/sessions/practice-topic", status_code=201, response_model=InterviewSessionOut)
+async def create_practice_topic_session(
+    body: PracticeTopicCreateRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Start a practice interview session for a specific topic (skill_id) from the taxonomy.
+    """
+    try:
+        from app.models.skill_taxonomy import SkillTaxonomy
+        skill = db.query(SkillTaxonomy).filter(SkillTaxonomy.id == body.skill_id).first()
+        if not skill:
+            raise HTTPException(status_code=404, detail="Skill not found")
+
+        from app.modules.interview.service import build_skill_practice_context
+        jd_text = build_skill_practice_context(db, body.skill_id)
+
+        profile = _academic_svc.get_student_profile(db, current_user.id)
+        branch = profile.department if profile else "CSE"
+        semester = profile.semester if profile else 3
+        
+        from app.models.student_skill import StudentSkill
+        student_skills = (
+            db.query(StudentSkill)
+            .filter(StudentSkill.user_id == current_user.id)
+            .all()
+        )
+
+        questions, source = await _interview_svc.generate_questions_async(
+            branch=branch,
+            semester=semester,
+            jd_text=jd_text,
+            student_skills=student_skills,
+            limit=body.limit or 3,
+            associated_skill_id=body.skill_id,
+            db=db,
+        )
+
+        topic_label = f"Practice Interview: {skill.skill_name}"
+
+        session = _interview_svc.create_session(
+            db,
+            user_id=current_user.id,
+            branch=branch,
+            topic=topic_label,
+            questions=questions,
+        )
+        
+        session.associated_skill_id = body.skill_id
+        session.is_micro = True
+        db.commit()
+        db.refresh(session)
+        
+        logger.info(
+            "Practice-topic session %s created: user=%s skill=%s",
+            session.id, current_user.id, skill.skill_name
+        )
+        return session
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.error("Error creating practice-topic session: %s", exc, exc_info=True)
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@router.post("/sessions/practice-project", status_code=201, response_model=InterviewSessionOut)
+async def create_practice_project_session(
+    body: PracticeProjectCreateRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Start a project depth-verification practice interview session.
+    Grounds question generation in the project's repository context (files, README, tech stack).
+    """
+    try:
+        session = await _interview_svc.create_practice_project_session(
+            db,
+            user_id=current_user.id,
+            project_id=body.project_id,
+            limit=body.limit or 3,
+        )
+        return session
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.error("Error creating project practice session: %s", exc, exc_info=True)
         raise HTTPException(status_code=500, detail=str(exc))
 
 
@@ -387,22 +517,25 @@ async def websocket_interview(
                 
                 if event == "start_interview":
                     jd_text = payload.get("jd_text", "")
-                    resume_context = payload.get("resume_context", "")
                     limit = int(payload.get("limit", 5))
                     
                     async def on_chunk(token: str):
-                        await websocket.send_json({
-                            "event": "stream_chunk",
-                            "data": {"token": token}
-                        })
+                        await websocket.send_text(token)
                     
                     try:
+                        from app.models.student_skill import StudentSkill
+                        student_skills = (
+                            db.query(StudentSkill)
+                            .filter(StudentSkill.user_id == user.id)
+                            .all()
+                        )
+
                         questions, source = await _interview_svc.generate_questions_async(
                             branch=session.branch,
                             semester=user.profile.semester if user.profile else 1,
                             jd_text=jd_text,
-                            resume_context=resume_context,
-                            limit=limit,
+                            student_skills=student_skills,
+                            limit=1,
                             on_chunk=on_chunk
                         )
                         
@@ -419,20 +552,25 @@ async def websocket_interview(
                         db.commit()
                         db.refresh(session)
                         
+                        payload_data = {
+                            "session_id": str(session.id),
+                            "questions": [
+                                {
+                                    "question_id": str(q.id),
+                                    "topic": q.topic,
+                                    "question": q.question,
+                                    "difficulty": q.difficulty,
+                                }
+                                for q in session.questions
+                            ]
+                        }
+                        await websocket.send_json({
+                            "event": "question_complete",
+                            "data": payload_data
+                        })
                         await websocket.send_json({
                             "event": "session_ready",
-                            "data": {
-                                "session_id": str(session.id),
-                                "questions": [
-                                    {
-                                        "question_id": str(q.id),
-                                        "topic": q.topic,
-                                        "question": q.question,
-                                        "difficulty": q.difficulty,
-                                    }
-                                    for q in session.questions
-                                ]
-                            }
+                            "data": payload_data
                         })
                     except Exception as e:
                         logger.error("Error generating questions in WebSocket: %s", e)
@@ -461,22 +599,70 @@ async def websocket_interview(
                             "data": result
                         })
                         
-                        from app.models.interview import SessionStatus
-                        sibling_questions = session.questions
-                        all_answered = all(
-                            (q.user_answer is not None and q.user_answer.strip())
-                            for q in sibling_questions
-                        )
-                        if all_answered and session.status == SessionStatus.ACTIVE:
-                            session.status = SessionStatus.COMPLETED
+                        db.refresh(session)
+                        target_limit = 3 if session.is_micro else 5
+                        if len(session.questions) < target_limit:
+                            async def on_chunk(token: str):
+                                await websocket.send_text(token)
+                            next_q, source = await _interview_svc.generate_next_question_async(
+                                db=db,
+                                session=session,
+                                user_id=user.id,
+                                on_chunk=on_chunk
+                            )
+                            
+                            from app.models.interview import InterviewQuestion
+                            db.add(InterviewQuestion(
+                                session_id=session.id,
+                                topic=next_q.get("topic", "General"),
+                                question=next_q.get("question", ""),
+                                difficulty=next_q.get("difficulty", "medium"),
+                                source=source,
+                                follow_up=next_q.get("follow_up"),
+                            ))
                             db.commit()
+                            db.refresh(session)
+                            
+                            payload_data = {
+                                "session_id": str(session.id),
+                                "questions": [
+                                    {
+                                        "question_id": str(q.id),
+                                        "topic": q.topic,
+                                        "question": q.question,
+                                        "difficulty": q.difficulty,
+                                        "user_answer": q.user_answer,
+                                        "ai_score": q.ai_score,
+                                        "ai_verdict": q.ai_verdict,
+                                    }
+                                    for q in session.questions
+                                ]
+                            }
                             await websocket.send_json({
-                                "event": "session_completed",
-                                "data": {
-                                    "session_id": str(session.id),
-                                    "message": "All interview questions answered. Session completed."
-                                }
+                                "event": "question_complete",
+                                "data": payload_data
                             })
+                            await websocket.send_json({
+                                "event": "session_ready",
+                                "data": payload_data
+                            })
+                        else:
+                            from app.models.interview import SessionStatus
+                            sibling_questions = session.questions
+                            all_answered = all(
+                                (q.user_answer is not None and q.user_answer.strip())
+                                for q in sibling_questions
+                            )
+                            if all_answered and session.status == SessionStatus.ACTIVE:
+                                session.status = SessionStatus.COMPLETED
+                                db.commit()
+                                await websocket.send_json({
+                                    "event": "session_completed",
+                                    "data": {
+                                        "session_id": str(session.id),
+                                        "message": "All interview questions answered. Session completed."
+                                    }
+                                })
                     except Exception as e:
                         logger.error("Error submitting answer in WebSocket: %s", e)
                         await websocket.send_json({

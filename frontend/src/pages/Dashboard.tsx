@@ -5,12 +5,13 @@ import {
     Cpu, CheckSquare, Zap, AlertCircle, TrendingUp,
     Bell, Plus, Info, Star
 } from 'lucide-react';
-import { SkillsService, RoadmapService, JobListingsService } from '../services/api';
+import { SkillsService, RoadmapService, JobListingsService, PreferencesService } from '../services/api';
 import { listSessions } from '../api/interview';
 import { ErrorDisplay } from '../components/common/Loading';
 import { SkeletonStatCard } from '../components/common/SkeletonStatCard';
 import { useAuth } from '../contexts/AuthContext';
 import { PageTransition } from '../components/layout/PageTransition';
+import OnboardingWizard from '../components/dashboard/OnboardingWizard';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -157,6 +158,16 @@ const Dashboard = () => {
         staleTime: 5 * 60 * 1000,
     });
 
+    const {
+        data: prefs,
+        isLoading: prefsLoading,
+        refetch: refetchPrefs
+    } = useQuery({
+        queryKey: ['preferences'],
+        queryFn: PreferencesService.getPreferences,
+        staleTime: 5 * 60 * 1000,
+    });
+
     const primaryRec = careerData?.recommendations?.primary;
     const activeRole = primaryRec?.job_role || 'Developer';
 
@@ -170,7 +181,7 @@ const Dashboard = () => {
         staleTime: 5 * 60 * 1000,
     });
 
-    const loading = careerLoading || skillsLoading || roadmapsLoading || sessionsLoading;
+    const loading = careerLoading || skillsLoading || roadmapsLoading || sessionsLoading || prefsLoading;
     const error = careerError || sessionsError;
 
     if (loading) {
@@ -250,6 +261,15 @@ const Dashboard = () => {
 
     return (
         <PageTransition className="space-y-5">
+            {prefs && prefs.onboarding_step !== 'complete' && (
+                <OnboardingWizard
+                    preferences={prefs}
+                    onComplete={() => {
+                        refetchPrefs();
+                        refetchCareer();
+                    }}
+                />
+            )}
 
             {/* ── HEADER ────────────────────────────────────────────────── */}
             <div className="flex items-start justify-between animate-fade-in-up">

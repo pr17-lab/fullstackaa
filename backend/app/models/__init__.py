@@ -12,6 +12,7 @@ from .roadmap import Roadmap, RoadmapTask
 from .behavior_summary import BehaviorSummary
 from .job_cache import JobCache
 from .skill_resource import SkillResource
+from .learning_resource import LearningResource
 
 __all__ = [
     "User",
@@ -29,4 +30,5 @@ __all__ = [
     "BehaviorSummary",
     "JobCache",
     "SkillResource",
+    "LearningResource",
 ]

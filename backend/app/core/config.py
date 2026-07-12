@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     RAPIDAPI_KEY: str = ""
     GEMINI_API_KEY: str = ""
     GROQ_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.5-flash"
 
     # Pydantic v2 settings config
     model_config = SettingsConfigDict(

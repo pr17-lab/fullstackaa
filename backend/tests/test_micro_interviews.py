@@ -84,6 +84,7 @@ async def test_create_micro_interview_session(db_session, sample_user, sample_sk
     mock_client.post = AsyncMock(return_value=mock_gemini_resp)
 
     with patch("app.modules.interview.service.settings.GEMINI_API_KEY", "test"), \
+         patch("app.modules.interview.service.settings.GROQ_API_KEY", None), \
          patch("app.modules.interview.service.httpx.AsyncClient") as mock_class:
         mock_class.return_value.__aenter__ = AsyncMock(return_value=mock_client)
         mock_class.return_value.__aexit__ = AsyncMock(return_value=False)

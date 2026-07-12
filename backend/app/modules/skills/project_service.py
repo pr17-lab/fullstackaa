@@ -191,7 +191,7 @@ async def verify_github_complexity_async(repo_url: str, user_id: UUID, db: Sessi
         try:
             url_gemini = (
                 "https://generativelanguage.googleapis.com/v1beta/models/"
-                f"gemini-1.5-flash:generateContent?key={settings.GEMINI_API_KEY}"
+                f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
             )
             prompt = f"""Act as an automated technology identifier. Read this project README. Return ONLY a plain JSON array of framework, tool, or database strings discovered (e.g., ['FastAPI', 'React', 'Docker']). Do not include explanatory text or markdown backticks.
 
@@ -341,13 +341,9 @@ README:
                 in_wt = float(ss.interview_weight) if ss.interview_weight else 0.0
                 comm_wt = float(ss.communication_weight) if ss.communication_weight else 0.0
 
-                # Import and execute the Phase 4 calculate_composite_score function (as required by specification)
-                _ = calculate_composite_score(res_wt, pr_wt, in_wt, comm_wt)
-
-                # Recalculate composite confidence score using our dynamic multi-variable balance math:
-                # (resume_weight * 0.2) + (project_weight * 0.4) + (interview_weight * 0.4)
-                new_conf = (res_wt * 0.2) + (pr_wt * 0.4) + (in_wt * 0.4)
-                ss.confidence_score = float(round(new_conf, 2))
+                # Import and execute the Phase 4 calculate_composite_score function
+                new_conf = calculate_composite_score(res_wt, pr_wt, in_wt, comm_wt, is_interview_scored=ss.is_interview_scored)
+                ss.confidence_score = new_conf
 
                 # Update level and last computed timestamp
                 ss.level = score_to_level(ss.confidence_score)

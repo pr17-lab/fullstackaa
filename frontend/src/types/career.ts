@@ -21,6 +21,7 @@ export interface SkillGap {
   strong_skills: Array<{ skill_id: string; skill_name?: string; score: number }>;
   high_potential_skills: Array<{ skill_id: string; skill_name?: string; parent_id?: string; parent_name?: string }>;
   computed_at: string | null;
+  requirements_last_reviewed?: string | null;
 }
 
 export interface SkillsSummary {
@@ -67,6 +68,12 @@ export interface RoadmapTask {
   submission_link?: string | null;
   associated_skill_id?: string | null;
   skill_id?: string | null;
+  resource_source?: string | null;
+  learning_resource_id?: string | null;
+  upvotes?: number;
+  downvotes?: number;
+  depth_verified?: boolean;
+  project_id?: string | null;
 }
 
 export interface Roadmap {
@@ -99,6 +106,8 @@ export interface StudentPreferences {
   transition_to: string | null;
   timeline_months: number;
   experience_level: string;
+  available_hours_per_week?: number | null;
+  onboarding_step?: string;
   created_at?: string;
   updated_at?: string;
 }

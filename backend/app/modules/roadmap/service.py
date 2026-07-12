@@ -10,10 +10,20 @@ from app.models.skill_taxonomy import SkillTaxonomy
 from app.models.skill_gap import SkillGap
 from app.models.student_preference import StudentPreference
 from app.models.skill_resource import SkillResource
+from app.models.learning_resource import LearningResource
 from app.models.student_skill import StudentSkill
 from app.utils.academic import score_to_level
 from app.modules.skills.engine import compute_gaps_for_student
 from app.core.config import settings
+from typing import Optional
+
+class SkillResourceContainer:
+    def __init__(self, resource_url: str, platform: str, estimated_hours: int, resource_source: str, learning_resource_id: Optional[UUID] = None):
+        self.resource_url = resource_url
+        self.platform = platform
+        self.estimated_hours = estimated_hours
+        self.resource_source = resource_source
+        self.learning_resource_id = learning_resource_id
 import logging
 import httpx
 import json
@@ -48,7 +58,7 @@ Return ONLY JSON:
     if not settings.GEMINI_API_KEY:
         raise Exception("GEMINI_API_KEY not configured")
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={settings.GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"temperature": 0.3, "response_mime_type": "application/json"},
@@ -67,56 +77,127 @@ Return ONLY JSON:
         return json.loads(raw.strip())
 
 async def get_resources_for_skill(db: Session, skill_id: UUID, skill_name: str):
-    # 1. Query SkillResource
-    learn_res = db.query(SkillResource).filter(SkillResource.skill_id == skill_id, SkillResource.phase == "learn").first()
-    prac_res = db.query(SkillResource).filter(SkillResource.skill_id == skill_id, SkillResource.phase == "practice").first()
-    
-    # 2. If BOTH exist: return them
-    if learn_res and prac_res:
-        return learn_res, prac_res
-        
-    # 3. ELSE: call generate_resources_with_llm
+    # 1. Query LearningResource (curated) first
+    curated_learn = db.query(LearningResource).filter(
+        LearningResource.skill_id == skill_id,
+        LearningResource.phase == "learn"
+    ).order_by((LearningResource.upvotes - LearningResource.downvotes).desc()).first()
+
+    curated_prac = db.query(LearningResource).filter(
+        LearningResource.skill_id == skill_id,
+        LearningResource.phase == "practice"
+    ).order_by((LearningResource.upvotes - LearningResource.downvotes).desc()).first()
+
+    # Determine containers
+    if curated_learn:
+        learn_container = SkillResourceContainer(
+            resource_url=curated_learn.resource_url,
+            platform=curated_learn.platform,
+            estimated_hours=10,
+            resource_source="curated",
+            learning_resource_id=curated_learn.id
+        )
+    else:
+        # Fall back to SkillResource cache next
+        lr_cached = db.query(SkillResource).filter(SkillResource.skill_id == skill_id, SkillResource.phase == "learn").first()
+        if lr_cached:
+            learn_container = SkillResourceContainer(
+                resource_url=lr_cached.resource_url,
+                platform=lr_cached.platform,
+                estimated_hours=lr_cached.estimated_hours,
+                resource_source="ai_suggested",
+                learning_resource_id=None
+            )
+        else:
+            learn_container = None
+
+    if curated_prac:
+        prac_container = SkillResourceContainer(
+            resource_url=curated_prac.resource_url,
+            platform=curated_prac.platform,
+            estimated_hours=8,
+            resource_source="curated",
+            learning_resource_id=curated_prac.id
+        )
+    else:
+        # Fall back to SkillResource cache next
+        pr_cached = db.query(SkillResource).filter(SkillResource.skill_id == skill_id, SkillResource.phase == "practice").first()
+        if pr_cached:
+            prac_container = SkillResourceContainer(
+                resource_url=pr_cached.resource_url,
+                platform=pr_cached.platform,
+                estimated_hours=pr_cached.estimated_hours,
+                resource_source="ai_suggested",
+                learning_resource_id=None
+            )
+        else:
+            prac_container = None
+
+    # 2. If BOTH containers exist, return them immediately
+    if learn_container and prac_container:
+        return learn_container, prac_container
+
+    # 3. Otherwise: call generate_resources_with_llm for any missing phase
     try:
         llm_result = await generate_resources_with_llm(skill_name)
     except Exception as e:
         logger.error(f"Gemini resource generation failed for {skill_name}: {e}")
         llm_result = None
-        
-    # 5. Fallback safety
+
     if not llm_result:
         llm_result = {
             "learn": {"url": "https://www.coursera.org", "platform": "Coursera", "estimated_hours": 10},
             "practice": {"url": "https://leetcode.com", "platform": "LeetCode", "estimated_hours": 8}
         }
-        
-    # 3 & 4. Create and store resources
-    if not learn_res:
+
+    # Populate learn container
+    if not learn_container:
         learn_data = llm_result.get("learn", {})
-        learn_res = SkillResource(
-            skill_id=skill_id, 
-            phase="learn", 
-            platform=learn_data.get("platform", "Coursera")[:100],
-            resource_url=learn_data.get("url", "https://www.coursera.org")[:500],
-            estimated_hours=learn_data.get("estimated_hours") or learn_data.get("hours") or 10
-        )
-        db.add(learn_res)
+        plat = learn_data.get("platform", "Coursera")[:100]
+        url = learn_data.get("url", "https://www.coursera.org")[:500]
+        hours = learn_data.get("estimated_hours") or learn_data.get("hours") or 10
         
-    if not prac_res:
+        lr_new = SkillResource(
+            skill_id=skill_id,
+            phase="learn",
+            platform=plat,
+            resource_url=url,
+            estimated_hours=hours
+        )
+        db.add(lr_new)
+        learn_container = SkillResourceContainer(
+            resource_url=url,
+            platform=plat,
+            estimated_hours=hours,
+            resource_source="ai_suggested",
+            learning_resource_id=None
+        )
+
+    # Populate practice container
+    if not prac_container:
         prac_data = llm_result.get("practice", {})
-        prac_res = SkillResource(
-            skill_id=skill_id, 
-            phase="practice", 
-            platform=prac_data.get("platform", "LeetCode")[:100],
-            resource_url=prac_data.get("url", "https://leetcode.com")[:500],
-            estimated_hours=prac_data.get("estimated_hours") or prac_data.get("hours") or 8
-        )
-        db.add(prac_res)
+        plat = prac_data.get("platform", "LeetCode")[:100]
+        url = prac_data.get("url", "https://leetcode.com")[:500]
+        hours = prac_data.get("estimated_hours") or prac_data.get("hours") or 8
         
+        pr_new = SkillResource(
+            skill_id=skill_id,
+            phase="practice",
+            platform=plat,
+            resource_url=url,
+            estimated_hours=hours
+        )
+        db.add(pr_new)
+        prac_container = SkillResourceContainer(
+            resource_url=url,
+            platform=plat,
+            estimated_hours=hours,
+            resource_source="ai_suggested",
+            learning_resource_id=None
+        )
+
     db.commit()
-    db.refresh(learn_res)
-    db.refresh(prac_res)
-    
-    return learn_res, prac_res
+    return learn_container, prac_container
 from .schemas import RoadmapSummary, RoadmapResponse, RoadmapTaskResponse
 
 def get_roadmaps(db: Session, user_id: UUID) -> List[RoadmapSummary]:
@@ -154,11 +235,56 @@ def get_roadmap(db: Session, user_id: UUID, roadmap_id: UUID) -> RoadmapResponse
     
     task_responses = []
     for t, sname in tasks_query:
-        # Pydantic conversion
         tr = RoadmapTaskResponse.model_validate(t)
         tr.skill_name = sname
+        
+        tr.depth_verified = False
+        tr.project_id = None
+        if t.phase == "apply" and t.submission_link:
+            from app.models.student_project import StudentProject
+            project = db.query(StudentProject).filter(
+                StudentProject.user_id == user_id,
+                StudentProject.repo_url == t.submission_link
+            ).first()
+            if project:
+                tr.depth_verified = project.depth_verified
+                tr.project_id = project.id
         task_responses.append(tr)
         
+    from app.models.student_preference import StudentPreference
+    from app.models.behavior_summary import BehaviorSummary
+    
+    pref = db.query(StudentPreference).filter(StudentPreference.user_id == r.user_id).first()
+    available_hours = pref.available_hours_per_week if pref else None
+    
+    projected_weeks = None
+    pacing_status = None
+    
+    if available_hours is not None and available_hours > 0:
+        pacing_status = "on_track"
+        incomplete_hours = sum((t[0].estimated_hours or 0) for t in tasks_query if t[0].status != 'completed')
+        projected_weeks = float(incomplete_hours) / available_hours
+        
+        behavior = db.query(BehaviorSummary).filter(BehaviorSummary.user_id == r.user_id).first()
+        if behavior and behavior.last_active_at:
+            dt_active = behavior.last_active_at
+            dt_created = r.created_at
+            if dt_active.tzinfo is not None and dt_created.tzinfo is None:
+                dt_active = dt_active.replace(tzinfo=None)
+            elif dt_created.tzinfo is not None and dt_active.tzinfo is None:
+                dt_created = dt_created.replace(tzinfo=None)
+                
+            elapsed_seconds = (dt_active - dt_created).total_seconds()
+            weeks_elapsed = elapsed_seconds / (7.0 * 24.0 * 3600.0)
+            
+            if weeks_elapsed >= 0.1:
+                remaining_tasks_count = sum(1 for t in tasks_query if t[0].status != 'completed')
+                if projected_weeks > 0:
+                    needed_rate = remaining_tasks_count / projected_weeks
+                    actual_rate = (behavior.roadmap_tasks_done or 0) / weeks_elapsed
+                    if actual_rate < 0.5 * needed_rate:
+                        pacing_status = "behind"
+                        
     tot = r.total_tasks if r.total_tasks else 1
     comp = r.completed_tasks if r.completed_tasks else 0
     pct = (comp / tot * 100) if tot > 0 else 0.0
@@ -176,7 +302,9 @@ def get_roadmap(db: Session, user_id: UUID, roadmap_id: UUID) -> RoadmapResponse
         total_tasks=r.total_tasks,
         completed_tasks=r.completed_tasks,
         updated_at=r.updated_at,
-        tasks=task_responses
+        tasks=task_responses,
+        projected_completion_weeks=projected_weeks,
+        pacing_status=pacing_status
     )
 
 async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> RoadmapResponse:
@@ -193,21 +321,35 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
     missing = gap.missing_skills if gap.missing_skills else []
     weak = gap.weak_skills if gap.weak_skills else []
     
+    from app.models.job_skill_requirement import JobSkillRequirement
+    reqs = db.query(JobSkillRequirement).filter(JobSkillRequirement.job_role == job_role).all()
+    importance_map = {str(r.skill_id): r.importance for r in reqs}
+
     prioritized = []
     for m in missing:
-        if m.get('importance') == 'must_have':
-            prioritized.append(m['skill_id'])
+        sid = m['skill_id']
+        imp = importance_map.get(str(sid))
+        if imp == 'must_have' or imp is None:
+            prioritized.append(sid)
+            
     for w in weak: # Assuming all weak mapped skills are heavily important 
-        if w.get('required', 0) > 0:
-            prioritized.append(w['skill_id'])
+        # In newer schema, required might not be present or different, fallback to always adding if not in prioritized
+        sid = w['skill_id']
+        if w.get('required', 1) > 0 and sid not in prioritized:
+            prioritized.append(sid)
+            
     for m in missing:
-        if m.get('importance') == 'preferred' and m['skill_id'] not in prioritized:
-            prioritized.append(m['skill_id'])
+        sid = m['skill_id']
+        imp = importance_map.get(str(sid))
+        if imp == 'preferred' and sid not in prioritized:
+            prioritized.append(sid)
             
     top_skills = prioritized[:6]
+    import uuid
+    top_skills_uuids = [uuid.UUID(str(sid)) for sid in top_skills]
     
     # Resolve names
-    skill_tax = db.query(SkillTaxonomy).filter(SkillTaxonomy.id.in_(top_skills)).all()
+    skill_tax = db.query(SkillTaxonomy).filter(SkillTaxonomy.id.in_(top_skills_uuids)).all()
     sn_map = {str(s.id): s.skill_name for s in skill_tax}
     
     new_roadmap_id = uuid.uuid4()
@@ -215,7 +357,7 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
     
     v_order = {"learn": 1, "practice": 1, "apply": 1}
     
-    for sid in top_skills:
+    for sid in top_skills_uuids:
         sname = sn_map.get(str(sid), "Skill")
         
         # Determine resources from Database or LLM
@@ -233,7 +375,9 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
             resource_url=learn_res.resource_url,
             platform=learn_res.platform,
             estimated_hours=learn_res.estimated_hours,
-            order_index=v_order["learn"]
+            order_index=v_order["learn"],
+            resource_source=learn_res.resource_source,
+            learning_resource_id=learn_res.learning_resource_id
         ))
         v_order["learn"] += 1
         
@@ -245,11 +389,13 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
             associated_skill_id=sid,
             phase="practice",
             task_type="practice",
-            title=f"Practice {sname} Concepts",
-            resource_url=prac_res.resource_url,
-            platform=prac_res.platform,
+            title=f"Practice Interview: {sname}",
+            resource_url="/interview",
+            platform="Interview Platform",
             estimated_hours=prac_res.estimated_hours,
-            order_index=v_order["practice"]
+            order_index=v_order["practice"],
+            resource_source="system",
+            learning_resource_id=None
         ))
         v_order["practice"] += 1
         
@@ -265,7 +411,9 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
             resource_url="https://github.com",
             platform="GitHub",
             estimated_hours=12,
-            order_index=v_order["apply"]
+            order_index=v_order["apply"],
+            resource_source="curated",
+            learning_resource_id=None
         ))
         v_order["apply"] += 1
         
@@ -508,7 +656,9 @@ async def update_roadmap_with_weak_skills(db: Session, roadmap: Roadmap, weak_sk
             platform=learn_res.platform,
             estimated_hours=learn_res.estimated_hours,
             order_index=current_order,
-            status="pending"
+            status="pending",
+            resource_source=learn_res.resource_source,
+            learning_resource_id=learn_res.learning_resource_id
         ))
         current_order += 1
         
@@ -524,7 +674,9 @@ async def update_roadmap_with_weak_skills(db: Session, roadmap: Roadmap, weak_sk
             platform=prac_res.platform,
             estimated_hours=prac_res.estimated_hours,
             order_index=current_order,
-            status="pending"
+            status="pending",
+            resource_source=prac_res.resource_source,
+            learning_resource_id=prac_res.learning_resource_id
         ))
         current_order += 1
         
@@ -540,7 +692,9 @@ async def update_roadmap_with_weak_skills(db: Session, roadmap: Roadmap, weak_sk
             platform="GitHub",
             estimated_hours=12,
             order_index=current_order,
-            status="pending"
+            status="pending",
+            resource_source="curated",
+            learning_resource_id=None
         ))
         current_order += 1
         

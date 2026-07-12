@@ -74,6 +74,16 @@ def _make_match_label(score: float) -> str:
     return "Low Match"
 
 
+def _get_requirements_last_reviewed(db: Session, job_role: str):
+    from sqlalchemy import func
+    from app.models.job_skill_requirement import JobSkillRequirement
+    return (
+        db.query(func.min(JobSkillRequirement.last_reviewed_at))
+        .filter(func.lower(JobSkillRequirement.job_role) == job_role.lower())
+        .scalar()
+    )
+
+
 # ---------------------------------------------------------------------------
 # Public service functions
 # ---------------------------------------------------------------------------
@@ -129,6 +139,7 @@ def get_student_gaps(db: Session, user_id: UUID) -> list[SkillGapResponse]:
             strong_skills=_enrich_skill_list(g.strong_skills or [], skill_name_map),
             high_potential_skills=_enrich_skill_list(g.high_potential_skills or [], skill_name_map),
             computed_at=g.computed_at,
+            requirements_last_reviewed=_get_requirements_last_reviewed(db, g.job_role),
         ))
     return results
 
@@ -179,13 +190,21 @@ def get_career_recommendation(db: Session, user_id: UUID) -> dict:
 
     def gap_to_dict(g) -> dict:
         score = float(g.match_score) if g.match_score else 0.0
-        return {"job_role": g.job_role, "match_score": round(score, 2), "match_label": _make_match_label(score)}
+        return {
+            "job_role": g.job_role,
+            "match_score": round(score, 2),
+            "match_label": _make_match_label(score),
+            "requirements_last_reviewed": _get_requirements_last_reviewed(db, g.job_role)
+        }
 
     # Career-transition mode: user explicitly chose a target role
     if is_transition and transition_to:
         transition_gap = next((g for g in all_gaps if g.job_role == transition_to), None)
         primary = gap_to_dict(transition_gap) if transition_gap else {
-            "job_role": transition_to, "match_score": 0.0, "match_label": "Low Match"
+            "job_role": transition_to,
+            "match_score": 0.0,
+            "match_label": "Low Match",
+            "requirements_last_reviewed": None
         }
         return {
             "primary": primary,

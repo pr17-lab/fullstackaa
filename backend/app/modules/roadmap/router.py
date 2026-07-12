@@ -52,6 +52,70 @@ async def complete_roadmap_task(
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
 
+    if task.phase == "apply":
+        if task.associated_skill_id:
+            incomplete_siblings = []
+            siblings = (
+                db.query(RoadmapTask)
+                .filter(
+                    RoadmapTask.roadmap_id == task.roadmap_id,
+                    RoadmapTask.associated_skill_id == task.associated_skill_id,
+                    RoadmapTask.phase.in_(["learn", "practice"]),
+                    RoadmapTask.status != "completed"
+                )
+                .all()
+            )
+            has_attempts = False
+            best_score = 0.0
+            for sib in siblings:
+                if sib.phase == "practice":
+                    from app.models.interview import InterviewSession
+                    completed_interview_exists = False
+                    sessions = (
+                        db.query(InterviewSession)
+                        .filter(
+                            InterviewSession.user_id == current_user.id,
+                            InterviewSession.associated_skill_id == task.associated_skill_id,
+                            InterviewSession.status == "completed"
+                        )
+                        .all()
+                    )
+                    for s in sessions:
+                        if s.questions and all(q.ai_score is not None for q in s.questions):
+                            scores = [int(q.ai_score) for q in s.questions]
+                            avg = sum(scores) / len(scores) if scores else 0.0
+                            has_attempts = True
+                            if avg > best_score:
+                                best_score = avg
+                            if avg >= 7.0:
+                                completed_interview_exists = True
+                                break
+                    if completed_interview_exists:
+                        sib.status = "completed"
+                        sib.validation_status = "verified"
+                        from datetime import datetime
+                        sib.completed_at = datetime.utcnow()
+                        db.commit()
+                        continue
+                incomplete_siblings.append(sib)
+
+            if incomplete_siblings:
+                from app.models.skill_taxonomy import SkillTaxonomy
+                skill_name = "the skill"
+                skill_tax = db.query(SkillTaxonomy).filter(SkillTaxonomy.id == task.associated_skill_id).first()
+                if skill_tax:
+                    skill_name = skill_tax.skill_name
+                
+                if has_attempts and best_score < 7.0:
+                    detail_msg = f"You scored {round(best_score, 1)}/10 on this practice interview. Score 7+ to unlock the next step, or retry when ready."
+                else:
+                    detail_msg = f"Complete the Learn/Practice steps for {skill_name} before starting this Apply task."
+                
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=detail_msg
+                )
+
     if task.task_type == "apply" or task.phase == "apply" or task.task_type == "project":
         if not req.submission_link:
             raise HTTPException(
@@ -136,3 +200,64 @@ def delete_roadmap(
     """Delete a roadmap and all its tasks"""
     service.delete_roadmap(db, current_user.id, roadmap_id)
     return None
+
+@router.post("/tasks/{task_id}/vote")
+def vote_roadmap_task_resource(
+    task_id: UUID,
+    req: schemas.ResourceVoteRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Upvote or downvote the learning resource of a roadmap task"""
+    task = db.query(RoadmapTask).filter(RoadmapTask.id == task_id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Roadmap task not found")
+    if not task.resource_url:
+        raise HTTPException(status_code=400, detail="This task does not have an associated resource URL to vote on")
+
+    from app.models.learning_resource import LearningResource
+
+    # 1. If it has a learning_resource_id: update it directly
+    if task.learning_resource_id:
+        lr = db.query(LearningResource).filter(LearningResource.id == task.learning_resource_id).first()
+        if lr:
+            if req.vote_type == "upvote":
+                lr.upvotes += 1
+            elif req.vote_type == "downvote":
+                lr.downvotes += 1
+            db.commit()
+            return {"status": "success", "message": "Vote recorded for curated resource.", "upvotes": lr.upvotes, "downvotes": lr.downvotes}
+
+    # 2. Otherwise (AI-suggested resource):
+    # Check if a learning resource with this URL already exists for the skill
+    lr = db.query(LearningResource).filter(
+        LearningResource.skill_id == task.skill_id,
+        LearningResource.resource_url == task.resource_url
+    ).first()
+
+    if not lr:
+        # Create a new learning resource entry
+        lr = LearningResource(
+            skill_id=task.skill_id,
+            title=task.title,
+            resource_url=task.resource_url,
+            platform=task.platform or "Unverified Site",
+            phase=task.phase,
+            upvotes=1 if req.vote_type == "upvote" else 0,
+            downvotes=1 if req.vote_type == "downvote" else 0
+        )
+        db.add(lr)
+        db.flush() # get ID
+    else:
+        if req.vote_type == "upvote":
+            lr.upvotes += 1
+        elif req.vote_type == "downvote":
+            lr.downvotes += 1
+
+    # Link the task to this learning resource
+    task.learning_resource_id = lr.id
+    task.resource_source = "curated" # promotes it to curated/verified status!
+    db.commit()
+
+    return {"status": "success", "message": "AI resource promoted to curated database.", "upvotes": lr.upvotes, "downvotes": lr.downvotes}
+

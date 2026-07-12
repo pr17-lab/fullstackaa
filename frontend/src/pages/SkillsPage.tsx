@@ -11,6 +11,7 @@ import { ErrorDisplay } from '../components/common/Loading';
 import type { StudentSkill, SkillGap, TaxonomySearchResponse } from '../types/career';
 import { PageTransition } from '../components/layout/PageTransition';
 import { useAuth } from '../contexts/AuthContext';
+import { Disclosure } from '../components/common/Disclosure';
 
 // ─── Animation Variants ────────────────────────────────────────────────────────
 
@@ -263,6 +264,12 @@ function CareerRecommendationSection() {
             <div className="mb-3 inline-block">
               <MatchBadge score={primary.match_score} highPotentialCount={hpCount} />
             </div>
+            {primary.requirements_last_reviewed && (
+              <p className="text-[10px] text-gray-500 dark:text-indigo-300/60 mb-3">
+                {formatReviewedDate(primary.requirements_last_reviewed)}
+              </p>
+            )}
+            <Disclosure topic="career_match" className="mb-4" />
 
             {alternatives.length > 0 && (
               <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
@@ -291,6 +298,14 @@ function CareerRecommendationSection() {
 }
 
 // ─── Section 3: Skill Gaps Grid ───────────────────────────────────────────────
+
+function formatReviewedDate(dateString?: string | null) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  return `Role requirements last reviewed: ${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
 
 function formatRelativeTime(dateString: string) {
   if (!dateString) return '';
@@ -339,6 +354,11 @@ function GapCard({ gap }: { gap: SkillGap }) {
               {Math.round(gap.match_score)}%
             </span>
           </div>
+          {gap.requirements_last_reviewed && (
+            <p className="text-[10px] text-gray-400 dark:text-zinc-500 mt-1">
+              {formatReviewedDate(gap.requirements_last_reviewed)}
+            </p>
+          )}
         </div>
         {open ? <ChevronUp className="w-4 h-4 text-gray-400 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />}
       </button>

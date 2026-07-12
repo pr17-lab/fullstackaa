@@ -21,6 +21,12 @@ class RoadmapTaskResponse(BaseModel):
     associated_skill_id: Optional[UUID] = None
     submission_link: Optional[str] = None
     validation_status: Optional[str] = None
+    resource_source: Optional[str] = None
+    learning_resource_id: Optional[UUID] = None
+    upvotes: Optional[int] = 0
+    downvotes: Optional[int] = 0
+    depth_verified: Optional[bool] = False
+    project_id: Optional[UUID] = None
     
     class Config:
         from_attributes = True
@@ -44,6 +50,8 @@ class RoadmapResponse(RoadmapSummary):
     completed_tasks: int
     updated_at: datetime
     tasks: List[RoadmapTaskResponse]
+    projected_completion_weeks: Optional[float] = None
+    pacing_status: Optional[str] = None
 
 class GenerateRoadmapRequest(BaseModel):
     job_role: str
@@ -61,3 +69,7 @@ class CustomTaskCreate(BaseModel):
 
 class TaskStatusUpdate(BaseModel):
     status: str
+
+class ResourceVoteRequest(BaseModel):
+    vote_type: str # 'upvote' or 'downvote'
+

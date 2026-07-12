@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Map, ChevronDown, Zap, BookOpen, Code2, ExternalLink,
   CheckCircle2, SkipForward, Star, AlertTriangle, RefreshCw,
-  ArrowRight, Clock, Trophy, Loader2, GripVertical, PlayCircle, Plus, Trash2, X
+  ArrowRight, Clock, Trophy, Loader2, GripVertical, PlayCircle, Plus, Trash2, X, Sparkles
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
@@ -21,6 +21,7 @@ import { RoadmapService, PreferencesService } from '../services/api';
 import { ErrorDisplay } from '../components/common/Loading';
 import type { Roadmap, RoadmapDetail, RoadmapTask } from '../types/career';
 import { PageTransition } from '../components/layout/PageTransition';
+import { Disclosure } from '../components/common/Disclosure';
 
 type ToastVariant = 'success' | 'error' | 'info' | 'warning';
 interface ToastMsg { variant: ToastVariant; text: string }
@@ -141,7 +142,7 @@ function SkeletonPhaseCol() {
 
 // ─── Task Card ───────────────────────────────────────────────────────────────
 
-export function SortableTaskCard({ task, onComplete, onStart, onSkip, onDelete, isUpdating, onMicroInterviewTrigger }: any) {
+export function SortableTaskCard({ task, onComplete, onStart, onSkip, onDelete, isUpdating, onMicroInterviewTrigger, onVoteResource }: any) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: task.id, data: { status: task.status } });
   
   const style = {
@@ -157,12 +158,15 @@ export function SortableTaskCard({ task, onComplete, onStart, onSkip, onDelete, 
 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
-      <TaskCardContent task={task} onComplete={onComplete} onStart={onStart} onSkip={onSkip} onDelete={onDelete} isUpdating={isUpdating} dragListeners={listeners} onMicroInterviewTrigger={onMicroInterviewTrigger} />
+      <TaskCardContent task={task} onComplete={onComplete} onStart={onStart} onSkip={onSkip} onDelete={onDelete} isUpdating={isUpdating} dragListeners={listeners} onMicroInterviewTrigger={onMicroInterviewTrigger} onVoteResource={onVoteResource} />
     </div>
   );
 }
 
-export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, isUpdating, dragListeners, isOverlay = false, onMicroInterviewTrigger }: any) {
+export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, isUpdating, dragListeners, isOverlay = false, onMicroInterviewTrigger, onVoteResource }: any) {
+  const navigate = useNavigate();
+  const [projectInterviewLoading, setProjectInterviewLoading] = useState(false);
+  const [projectError, setProjectError] = useState<string | null>(null);
   const [showRating, setShowRating] = useState(false);
   const [rating, setRating] = useState(0);
   const [githubUrl, setGithubUrl] = useState(task.submission_link || '');
@@ -225,40 +229,113 @@ export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, i
         <span className={`px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide ${priorityColor}`}>
           Priority: {priorityLabel}
         </span>
+        {task.validation_status === 'verified' && (
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30 flex items-center gap-0.5">
+            🛡️ Structurally Verified
+          </span>
+        )}
+        {task.depth_verified && (
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/30 flex items-center gap-0.5">
+            ✨ Depth Verified
+          </span>
+        )}
         {task.estimated_hours && (
-          <span className="flex items-center gap-0.5 text-xs text-gray-500 dark:text-zinc-400">
+          <span className="flex items-center gap-0.5 text-xs text-gray-500 dark:text-zinc-400 font-medium">
             <Clock className="w-3 h-3" />
             {task.estimated_hours}h
           </span>
         )}
         {task.resource_url && (
           <a href={task.resource_url} target="_blank" rel="noreferrer"
-            className="flex items-center gap-0.5 text-xs text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors">
-            Open <ExternalLink className="w-3 h-3" />
+            className="flex items-center gap-0.5 text-xs text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold transition-colors">
+            Open <ExternalLink className="w-3.5 h-3.5" />
           </a>
         )}
-        {task.validation_status === 'verified' && (
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
-            ✓ Verified
+        {task.resource_source === 'curated' ? (
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 border border-emerald-200/30">
+            Curated
           </span>
+        ) : task.resource_source === 'ai_suggested' || task.resource_source === 'ai' ? (
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 border border-amber-200/30">
+            AI-suggested, unverified
+          </span>
+        ) : null}
+        {task.resource_url && onVoteResource && (
+          <div className="flex items-center gap-2 border-l border-gray-200 dark:border-zinc-800 pl-2">
+            <button
+              onClick={() => onVoteResource(task.id, 'upvote')}
+              className="text-gray-400 hover:text-emerald-500 transition-colors flex items-center gap-0.5 text-[10px] font-medium"
+              title="Upvote resource"
+            >
+              👍 {task.upvotes || 0}
+            </button>
+            <button
+              onClick={() => onVoteResource(task.id, 'downvote')}
+              className="text-gray-400 hover:text-red-500 transition-colors flex items-center gap-0.5 text-[10px] font-medium"
+              title="Downvote resource"
+            >
+              👎 {task.downvotes || 0}
+            </button>
+          </div>
+        )}
+        {task.validation_status === 'verified' && (
+          <Disclosure topic="github_verification" />
         )}
       </div>
 
       {/* Completed info */}
       {isDone && (
-        <div className="pl-6 flex items-center gap-2 mb-1">
-          {task.feedback_score && (
-            <div className="flex gap-0.5">
-              {[1,2,3,4,5].map(n => (
-                <Star key={n} className={`w-3 h-3 ${n <= (task.feedback_score ?? 0)
-                  ? 'fill-amber-400 text-amber-400' : 'text-gray-200 dark:text-zinc-700'}`} />
-              ))}
+        <div className="space-y-2">
+          <div className="pl-6 flex items-center gap-2 mb-1">
+            {task.feedback_score && (
+              <div className="flex gap-0.5">
+                {[1,2,3,4,5].map(n => (
+                  <Star key={n} className={`w-3 h-3 ${n <= (task.feedback_score ?? 0)
+                    ? 'fill-amber-400 text-amber-400' : 'text-gray-200 dark:text-zinc-700'}`} />
+                ))}
+              </div>
+            )}
+            {task.completed_at && (
+              <span className="text-xs text-gray-400 dark:text-zinc-500">
+                {new Date(task.completed_at).toLocaleDateString()}
+              </span>
+            )}
+          </div>
+          {isApply && task.validation_status === 'verified' && !task.depth_verified && task.project_id && (
+            <div className="pl-6 pb-2">
+              <button
+                onClick={() => {
+                  setProjectError(null);
+                  setProjectInterviewLoading(true);
+                  RoadmapService.createProjectSession(task.project_id!)
+                    .then(session => {
+                      navigate(`/interview?session_id=${session.id}&websocket=true`);
+                    })
+                    .catch(err => {
+                      console.error("Failed to create project session:", err);
+                      setProjectError("Failed to initialize depth verification.");
+                    })
+                    .finally(() => {
+                      setProjectInterviewLoading(false);
+                    });
+                }}
+                disabled={projectInterviewLoading}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors disabled:opacity-50 shadow-sm"
+              >
+                {projectInterviewLoading ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  <Sparkles className="w-3 h-3" />
+                )}
+                Verify this project further
+              </button>
+              {projectError && (
+                <p className="text-[10px] text-red-500 font-semibold mt-1">❌ {projectError}</p>
+              )}
+              <p className="text-[10px] text-gray-400 dark:text-zinc-500 mt-1 leading-normal max-w-xs">
+                Elevate your project's credibility with a quick depth screen on implementation choices.
+              </p>
             </div>
-          )}
-          {task.completed_at && (
-            <span className="text-xs text-gray-400 dark:text-zinc-500">
-              {new Date(task.completed_at).toLocaleDateString()}
-            </span>
           )}
         </div>
       )}
@@ -373,7 +450,7 @@ export function TaskCardContent({ task, onComplete, onStart, onSkip, onDelete, i
 
 // ─── Kanban Column & Custom Task Form ────────────────────────────────────────
 
-function KanbanColumn({ id, title, tasks, onStart, onComplete, onSkip, onDelete, isUpdating, onAddClick, showAddForm, onMicroInterviewTrigger, children }: any) {
+function KanbanColumn({ id, title, tasks, onStart, onComplete, onSkip, onDelete, isUpdating, onAddClick, showAddForm, onMicroInterviewTrigger, onVoteResource, children }: any) {
   const { setNodeRef } = useSortable({ id, data: { isColumn: true } });
 
   return (
@@ -389,7 +466,7 @@ function KanbanColumn({ id, title, tasks, onStart, onComplete, onSkip, onDelete,
       <div ref={setNodeRef} className="flex-1 space-y-3 pb-4">
         <SortableContext items={tasks.map((t: any) => t.id)} strategy={verticalListSortingStrategy}>
           {tasks.map((task: any) => (
-            <SortableTaskCard key={task.id} task={task} onStart={() => onStart(task.id)} onComplete={(score: any, subLink: any) => onComplete(task.id, score, subLink)} onSkip={() => onSkip(task.id)} onDelete={() => onDelete(task.id)} isUpdating={isUpdating} onMicroInterviewTrigger={onMicroInterviewTrigger} />
+            <SortableTaskCard key={task.id} task={task} onStart={() => onStart(task.id)} onComplete={(score: any, subLink: any) => onComplete(task.id, score, subLink)} onSkip={() => onSkip(task.id)} onDelete={() => onDelete(task.id)} isUpdating={isUpdating} onMicroInterviewTrigger={onMicroInterviewTrigger} onVoteResource={onVoteResource} />
           ))}
         </SortableContext>
         {children}
@@ -469,6 +546,9 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
     mutationFn: ({ taskId, score, submissionLink }: { taskId: string; score?: number; submissionLink?: string }) =>
       RoadmapService.completeTask(taskId, score, submissionLink),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['roadmap', roadmapId] }),
+    onError: (err: any) => {
+      showToast('error', err.message || 'Failed to complete task.');
+    }
   });
 
   const skipMutation = useMutation({
@@ -485,6 +565,18 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
   const deleteMutation = useMutation({
     mutationFn: (taskId: string) => RoadmapService.deleteTask(taskId),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['roadmap', roadmapId] }),
+  });
+
+  const voteResourceMutation = useMutation({
+    mutationFn: ({ taskId, voteType }: { taskId: string; voteType: 'upvote' | 'downvote' }) =>
+      RoadmapService.voteResource(taskId, voteType),
+    onSuccess: (res) => {
+      qc.invalidateQueries({ queryKey: ['roadmap', roadmapId] });
+      showToast('success', res.message);
+    },
+    onError: (err: any) => {
+      showToast('error', err.response?.data?.detail || 'Failed to submit vote');
+    }
   });
 
   const [activeTab, setActiveTab] = useState<'pending' | 'in_progress' | 'completed'>('pending');
@@ -510,7 +602,7 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
           const task = rm.tasks.find(t => t.id === id);
           if (task) {
             if (task.validation_status === 'verified') {
-              showToast('success', '🎉 Project Verified! Your project weight has been upgraded!');
+              showToast('success', '🎉 Project verified via structural heuristics (tests, CI, README, history). Note: This is a heuristic check, not a correctness review.');
             } else if (task.validation_status === 'failed') {
               showToast('error', '❌ Project verification failed. Please check your submission link.');
             }
@@ -645,19 +737,22 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
         <div className="hidden lg:grid grid-cols-3 gap-5">
            <KanbanColumn id="pending" title="To Learn" tasks={tasksByStatus.pending} 
              onStart={startTask} onComplete={completeTaskStatus} onSkip={skipTaskAction} onDelete={deleteTaskAction} 
-             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('learn')} showAddForm={addFormPhase === 'learn'} onMicroInterviewTrigger={setMicroInterviewModalTask}>
+             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('learn')} showAddForm={addFormPhase === 'learn'} onMicroInterviewTrigger={setMicroInterviewModalTask}
+             onVoteResource={(taskId: string, voteType: 'upvote' | 'downvote') => voteResourceMutation.mutate({ taskId, voteType })}>
              {addFormPhase === 'learn' && <AddCustomTaskForm roadmapId={roadmapId} phase="learn" onCancel={() => setAddFormPhase(null)} onSuccess={() => setAddFormPhase(null)} />}
            </KanbanColumn>
 
            <KanbanColumn id="in_progress" title="Practicing" tasks={tasksByStatus.in_progress} 
              onStart={startTask} onComplete={completeTaskStatus} onSkip={skipTaskAction} onDelete={deleteTaskAction} 
-             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('practice')} showAddForm={addFormPhase === 'practice'} onMicroInterviewTrigger={setMicroInterviewModalTask}>
+             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('practice')} showAddForm={addFormPhase === 'practice'} onMicroInterviewTrigger={setMicroInterviewModalTask}
+             onVoteResource={(taskId: string, voteType: 'upvote' | 'downvote') => voteResourceMutation.mutate({ taskId, voteType })}>
              {addFormPhase === 'practice' && <AddCustomTaskForm roadmapId={roadmapId} phase="practice" onCancel={() => setAddFormPhase(null)} onSuccess={() => setAddFormPhase(null)} />}
            </KanbanColumn>
 
            <KanbanColumn id="completed" title="Completed" tasks={tasksByStatus.completed} 
              onStart={startTask} onComplete={completeTaskStatus} onSkip={skipTaskAction} onDelete={deleteTaskAction} 
-             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('apply')} showAddForm={addFormPhase === 'apply'} onMicroInterviewTrigger={setMicroInterviewModalTask}>
+             isUpdating={updateStatusMutation.isPending || completeMutation.isPending || deleteMutation.isPending} onAddClick={() => setAddFormPhase('apply')} showAddForm={addFormPhase === 'apply'} onMicroInterviewTrigger={setMicroInterviewModalTask}
+             onVoteResource={(taskId: string, voteType: 'upvote' | 'downvote') => voteResourceMutation.mutate({ taskId, voteType })}>
              {addFormPhase === 'apply' && <AddCustomTaskForm roadmapId={roadmapId} phase="apply" onCancel={() => setAddFormPhase(null)} onSuccess={() => setAddFormPhase(null)} />}
            </KanbanColumn>
         </div>
@@ -676,6 +771,7 @@ function RoadmapDetailView({ roadmapId }: { roadmapId: string }) {
                  onAddClick={() => setAddFormPhase(activeTab === 'pending' ? 'learn' : activeTab === 'in_progress' ? 'practice' : 'apply')} 
                  showAddForm={addFormPhase !== null}
                  onMicroInterviewTrigger={setMicroInterviewModalTask}
+                 onVoteResource={(taskId: string, voteType: 'upvote' | 'downvote') => voteResourceMutation.mutate({ taskId, voteType })}
                >
                  {addFormPhase && <AddCustomTaskForm roadmapId={roadmapId} phase={addFormPhase} onCancel={() => setAddFormPhase(null)} onSuccess={() => setAddFormPhase(null)} />}
                </KanbanColumn>

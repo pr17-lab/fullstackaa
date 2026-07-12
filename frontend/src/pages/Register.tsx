@@ -41,7 +41,8 @@ export default function Register() {
     preferredDomains: [] as string[],
     timelineMonths: 6,
     openToRemote: true,
-    experienceLevel: "fresher"
+    experienceLevel: "fresher",
+    availableHoursPerWeek: null as number | null
   });
 
   const togglePrefArray = (key: 'targetRoles' | 'preferredDomains', value: string) => {
@@ -115,7 +116,8 @@ export default function Register() {
              transition_from: null,
              transition_to: null,
              timeline_months: preferences.timelineMonths,
-             experience_level: preferences.experienceLevel
+             experience_level: preferences.experienceLevel,
+             available_hours_per_week: preferences.availableHoursPerWeek
           });
         } catch (prefErr) {
           console.warn("Failed to save initial preferences:", prefErr);
@@ -237,6 +239,25 @@ export default function Register() {
             );
           })}
         </div>
+      </div>
+
+      <div>
+        <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Weekly Availability (Hours)</h3>
+        <input
+          type="number"
+          min="1"
+          max="168"
+          placeholder="e.g. 15"
+          className="w-full p-2.5 rounded-xl text-sm"
+          style={{
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid var(--border-primary)',
+            color: 'var(--text-primary)',
+            outline: 'none'
+          }}
+          value={preferences.availableHoursPerWeek || ''}
+          onChange={e => setPreferences({ ...preferences, availableHoursPerWeek: e.target.value ? parseInt(e.target.value) : null })}
+        />
       </div>
 
       <div className="rounded-xl p-4 flex gap-3" style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', color: '#a5b4fc' }}>

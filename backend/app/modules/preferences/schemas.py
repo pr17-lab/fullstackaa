@@ -5,13 +5,15 @@ from datetime import datetime
 
 class PreferenceBase(BaseModel):
     target_roles: List[str]
-    preferred_domains: List[str]
+    preferred_domains: Optional[List[str]] = None
     open_to_remote: bool
     career_transition: bool
     transition_from: Optional[str] = None
     transition_to: Optional[str] = None
     timeline_months: int
-    experience_level: str
+    experience_level: Optional[str] = None
+    available_hours_per_week: Optional[int] = None
+    onboarding_step: Optional[str] = "preferred_role_set"
 
 class PreferenceCreate(PreferenceBase):
     pass

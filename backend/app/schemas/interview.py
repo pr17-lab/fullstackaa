@@ -61,6 +61,10 @@ class InterviewSessionOut(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None  # advances when status changes (e.g. → completed)
     questions: list[InterviewQuestionOut] = []
+    roadmap_task_id: Optional[uuid.UUID] = None
+    associated_skill_id: Optional[uuid.UUID] = None
+    is_micro: bool = False
+    project_id: Optional[uuid.UUID] = None
 
 
 # ---------------------------------------------------------------------------
@@ -80,6 +84,16 @@ class GeneratedQuestionsResponse(BaseModel):
 # ---------------------------------------------------------------------------
 
 class SessionCreateRequest(BaseModel):
-    jd_text: str = ""           # Job description text (optional when resume is provided)
-    resume_context: Optional[str] = None
-    limit: int = 10
+    jd_text: str = ""           # Job description text
+    limit: int = 5
+    roadmap_task_id: Optional[uuid.UUID] = None
+
+
+class PracticeTopicCreateRequest(BaseModel):
+    skill_id: uuid.UUID
+    limit: Optional[int] = 3
+
+
+class PracticeProjectCreateRequest(BaseModel):
+    project_id: uuid.UUID
+    limit: Optional[int] = 3

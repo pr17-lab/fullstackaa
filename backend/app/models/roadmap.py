@@ -45,8 +45,24 @@ class RoadmapTask(Base):
     feedback_score = Column(SmallInteger)
     submission_link = Column(String(500), nullable=True)
     validation_status = Column(String(20), nullable=True)
+    resource_source = Column(String(20), default="ai_suggested")
+    learning_resource_id = Column(UUID(as_uuid=True), ForeignKey("learning_resources.id", ondelete="SET NULL"), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    # Relationships
+    roadmap = relationship("Roadmap", back_populates="roadmap_tasks")
+    skill = relationship("SkillTaxonomy", back_populates="roadmap_tasks", foreign_keys=[skill_id])
+    associated_skill = relationship("SkillTaxonomy", foreign_keys=[associated_skill_id])
+    learning_resource = relationship("LearningResource")
+
+    @property
+    def upvotes(self) -> int:
+        return self.learning_resource.upvotes if self.learning_resource else 0
+
+    @property
+    def downvotes(self) -> int:
+        return self.learning_resource.downvotes if self.learning_resource else 0
 
     __table_args__ = (
         CheckConstraint(
@@ -58,8 +74,3 @@ class RoadmapTask(Base):
             name="ck_roadmap_tasks_validation_status"
         ),
     )
-
-    # Relationships
-    roadmap = relationship("Roadmap", back_populates="roadmap_tasks")
-    skill = relationship("SkillTaxonomy", back_populates="roadmap_tasks", foreign_keys=[skill_id])
-    associated_skill = relationship("SkillTaxonomy", foreign_keys=[associated_skill_id])

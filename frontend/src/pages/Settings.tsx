@@ -3,6 +3,7 @@ import {
     User, Lock, Moon, Mail, BadgeCheck,
     Pencil, Save, X, KeyRound, Eye, EyeOff,
     ShieldCheck, CheckCircle2, AlertCircle,
+    Upload, FileText, Loader2,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
@@ -11,6 +12,9 @@ import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { PageTransition } from '../components/layout/PageTransition';
 import { ProfileService } from '../services/api';
+import { Disclosure } from '../components/common/Disclosure';
+import { parseResumePdf } from '../api/interview';
+import api from '../api/client';
 
 // ─── tiny toast ───────────────────────────────────────────────────────────────
 type ToastVariant = 'success' | 'error';
@@ -57,6 +61,11 @@ const Settings = () => {
     const [profileName, setProfileName] = useState(user?.name || '');
     const [profileSemester, setProfileSemester] = useState<number>(user?.semester || 1);
     const [profileLoading, setProfileLoading] = useState(false);
+
+    // ── resume re-upload state ────────────────────────────────────────────────
+    const [resumeLoading, setResumeLoading] = useState(false);
+    const [resumeStatus, setResumeStatus] = useState('');
+    const [resumeError, setResumeError] = useState('');
 
     // ── password state ────────────────────────────────────────────────────────
     const [currentPwd, setCurrentPwd] = useState('');
@@ -276,6 +285,85 @@ const Settings = () => {
                 </CardContent>
             </Card>
 
+            {/* ── Resume Management ─────────────────────────────────────── */}
+            <Card variant="elevated">
+                <CardHeader>
+                    <div className="flex items-center gap-2">
+                        <FileText className="h-5 w-5 text-[var(--brand-primary)]" />
+                        <CardTitle>Resume Profile</CardTitle>
+                    </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <p className="text-sm text-[var(--text-secondary)]">
+                        Re-upload your resume to re-extract technical skill tags and update your skill profile weights.
+                    </p>
+                    
+                    <div className="flex flex-col gap-3">
+                        <div className="flex items-center gap-3">
+                            <input
+                                id="settings-resume-upload"
+                                type="file"
+                                accept=".pdf"
+                                className="hidden"
+                                onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (!file) return;
+                                    
+                                    setResumeError('');
+                                    setResumeStatus('Parsing PDF resume...');
+                                    setResumeLoading(true);
+                                    
+                                    try {
+                                        const parseRes = await parseResumePdf(file);
+                                        setResumeStatus('Extracting skills with Gemini...');
+                                        
+                                        const resp = await api.post('/skills/extract-resume-skills', {
+                                            resume_text: parseRes.text
+                                        });
+                                        
+                                        setResumeStatus('');
+                                        showToast('success', `Resume updated successfully! Extracted ${resp.data.skills_saved_count} skills.`);
+                                    } catch (err: any) {
+                                        const errMsg = err.response?.data?.detail || err.message || 'Failed to update resume.';
+                                        setResumeError(errMsg);
+                                        showToast('error', errMsg);
+                                    } finally {
+                                        setResumeLoading(false);
+                                        e.target.value = '';
+                                    }
+                                }}
+                                disabled={resumeLoading}
+                            />
+                            <Button
+                                id="btn-settings-upload-resume"
+                                variant="secondary"
+                                size="md"
+                                leftIcon={resumeLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                                onClick={() => {
+                                    const el = document.getElementById('settings-resume-upload');
+                                    el?.click();
+                                }}
+                                disabled={resumeLoading}
+                            >
+                                {resumeLoading ? 'Processing...' : 'Upload New Resume (PDF)'}
+                            </Button>
+                        </div>
+                        {resumeStatus && (
+                            <p className="text-xs text-[var(--text-secondary)] font-medium flex items-center gap-1.5 animate-pulse">
+                                <span className="h-3 w-3 border-2 border-[var(--brand-primary)] border-t-transparent rounded-full animate-spin" />
+                                {resumeStatus}
+                            </p>
+                        )}
+                        {resumeError && (
+                            <div className="rounded-xl border border-red-700/40 bg-red-900/10 px-4 py-3 text-sm text-red-400 flex items-center gap-2">
+                                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                                {resumeError}
+                            </div>
+                        )}
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* ── Preferences ────────────────────────────────────────────── */}
             <Card variant="elevated">
                 <CardHeader><CardTitle>Preferences</CardTitle></CardHeader>
@@ -299,6 +387,19 @@ const Settings = () => {
                             {theme === 'dark' ? 'Enabled' : 'Disabled'}
                         </Badge>
                     </button>
+                </CardContent>
+            </Card>
+
+            {/* ── Known Limitations ───────────────────────────────────────── */}
+            <Card variant="elevated">
+                <CardHeader>
+                    <div className="flex items-center gap-2">
+                        <AlertCircle className="h-5 w-5 text-amber-500" />
+                        <CardTitle>Known Limitations</CardTitle>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <Disclosure topic="limitations" />
                 </CardContent>
             </Card>
 

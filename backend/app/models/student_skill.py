@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Numeric, DateTime, ForeignKey, UniqueConstraint, Text
+from sqlalchemy import Column, String, Numeric, DateTime, ForeignKey, UniqueConstraint, Text, Boolean
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -18,6 +18,7 @@ class StudentSkill(Base):
     project_weight = Column(Numeric(5, 2), default=0)
     interview_weight = Column(Numeric(5, 2), default=0)
     communication_weight = Column(Numeric(5, 2), default=0)
+    is_interview_scored = Column(Boolean, default=False, server_default="0", nullable=False)
     last_computed_at = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

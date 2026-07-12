@@ -312,14 +312,17 @@ class TestWebSocketTechnicalScreen:
             })
             
             while True:
-                resp = websocket.receive_json()
-                if resp["event"] == "stream_chunk":
-                    assert "token" in resp["data"]
-                elif resp["event"] == "session_ready":
-                    assert len(resp["data"]["questions"]) > 0
-                    break
-                elif resp["event"] == "error":
-                    pytest.fail(f"WebSocket error received: {resp['data']['message']}")
+                raw_msg = websocket.receive_text()
+                try:
+                    import json
+                    resp = json.loads(raw_msg)
+                    if resp.get("event") == "session_ready":
+                        assert len(resp["data"]["questions"]) > 0
+                        break
+                    elif resp.get("event") == "error":
+                        pytest.fail(f"WebSocket error received: {resp['data']['message']}")
+                except json.JSONDecodeError:
+                    assert len(raw_msg) > 0
 
     def test_websocket_submit_answer_and_calibration(self, client, sample_user, sample_interview_session, db_session):
         from app.models.skill_taxonomy import SkillTaxonomy

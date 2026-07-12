@@ -442,3 +442,11 @@ a:hover { color: var(--brand-hover); }
   background: var(--border-primary);
   margin: 0;
 }
+
+/* ─── Live Caret & Custom Animations ────────────────────────────────────────── */
+@keyframes caret_blink {
+  50% { opacity: 0; }
+}
+.live-caret {
+  animation: caret_blink 0.8s step-end infinite;
+}

@@ -6,6 +6,7 @@ import type {
     AnswerSubmitResponse,
     EvaluationResult,
 } from '../types/interview';
+import type { TaxonomySearchResponse } from '../types/career';
 
 // Generate questions (does not create a session)
 export const generateQuestions = async (
@@ -27,12 +28,10 @@ export const listSessions = async (): Promise<{ sessions: InterviewSessionSummar
 // Start a new session (generates + persists questions)
 export const createSession = async (
     jdText: string,
-    resumeContext?: string,
     limit = 10,
 ): Promise<InterviewSession> => {
     const res = await api.post('/interview/sessions', {
         jd_text: jdText,
-        resume_context: resumeContext || null,
         limit,
     });
     return res.data;
@@ -91,3 +90,51 @@ export const createMicroSession = async (
     const res = await api.post('/interview/sessions/micro', null, { params });
     return res.data;
 };
+
+// Create a project-based depth-verification interview session
+export const createProjectSession = async (
+    projectId: string,
+    limit = 3,
+): Promise<InterviewSession> => {
+    const res = await api.post('/interview/sessions/practice-project', {
+        project_id: projectId,
+        limit,
+    });
+    return res.data;
+};
+
+// Create a topic-based practice interview session
+export const createPracticeTopicSession = async (
+    skillId: string,
+    limit = 3,
+): Promise<InterviewSession> => {
+    const res = await api.post('/interview/sessions/practice-topic', {
+        skill_id: skillId,
+        limit,
+    });
+    return res.data;
+};
+
+// Get list of practiceable topics
+export const getPracticeTopics = async (): Promise<TaxonomySearchResponse[]> => {
+    const res = await api.get('/skills/topics');
+    return res.data;
+};
+
+export interface StudentProject {
+    id: string;
+    title: string;
+    repo_url?: string;
+    tech_stack?: string[];
+    extracted_skills?: string[];
+    depth_verified: boolean;
+    calculated_complexity?: number;
+    analyzed_at?: string;
+}
+
+// Get list of user's projects
+export const getStudentProjects = async (): Promise<StudentProject[]> => {
+    const res = await api.get('/skills/project');
+    return res.data;
+};
+

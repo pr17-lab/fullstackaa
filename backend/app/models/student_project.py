@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Text, DateTime, Date, ForeignKey, Integer
+from sqlalchemy import Column, String, Text, DateTime, Date, ForeignKey, Integer, Boolean
 from sqlalchemy.dialects.postgresql import UUID, ARRAY, JSONB
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy.sql import func
@@ -23,6 +23,8 @@ class StudentProject(Base):
     extracted_skills = Column(JSONB, nullable=True)
     calculated_complexity = Column(Integer, nullable=True)
     analyzed_at = Column(DateTime(timezone=True), nullable=True)
+    depth_verified = Column(Boolean, default=False, server_default="false", nullable=False)
+    depth_verified_at = Column(DateTime(timezone=True), nullable=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

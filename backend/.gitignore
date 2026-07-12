@@ -17,3 +17,5 @@ build/
 .DS_Store
 server_log.txt
 postgres_data/
+logs/
+*.log

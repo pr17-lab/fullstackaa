@@ -123,19 +123,20 @@ def main():
                     row['skill_name'], 
                     row['category'], 
                     aliases, 
-                    row['description']
+                    row['description'],
+                    'concept'
                 ))
                 skill_name_to_id[row['skill_name']] = row['id']
                 
         execute_values(
             cur,
             """
-            INSERT INTO skill_taxonomy (id, skill_name, category, aliases, description)
+            INSERT INTO skill_taxonomy (id, skill_name, category, aliases, description, skill_type)
             VALUES %s
             ON CONFLICT (skill_name) DO NOTHING
             """,
             data,
-            template="(%s::uuid, %s, %s, %s::text[], %s)"
+            template="(%s::uuid, %s, %s, %s::text[], %s, %s)"
         )
         conn.commit()
         inserted_skills = cur.rowcount
@@ -166,7 +167,8 @@ def main():
                     role,
                     row['skill_id'],
                     row['importance'],
-                    float(row['min_score_required'])
+                    float(row['min_score_required']),
+                    row.get('last_reviewed_at') or '2026-03-01 00:00:00+00:00'
                 ))
                 
                 # Caching for Step 5
@@ -181,12 +183,12 @@ def main():
         execute_values(
             cur,
             """
-            INSERT INTO job_skill_requirements (id, job_role, skill_id, importance, min_score_required)
+            INSERT INTO job_skill_requirements (id, job_role, skill_id, importance, min_score_required, last_reviewed_at)
             VALUES %s
-            ON CONFLICT (job_role, skill_id) DO NOTHING
+            ON CONFLICT (job_role, skill_id) DO UPDATE SET last_reviewed_at = EXCLUDED.last_reviewed_at
             """,
             data,
-            template="(%s::uuid, %s, %s::uuid, %s, %s)"
+            template="(%s::uuid, %s, %s::uuid, %s, %s, %s::timestamptz)"
         )
         conn.commit()
         
@@ -197,6 +199,8 @@ def main():
         print(f"  - Processed {len(data)} job skill requirements.")
         for k, v in job_counts.items():
             print(f"    - {k}: {v} skills")
+        print("\n[INFO] Exiting seed pipeline early after Step 2.")
+        sys.exit(0)
     except Exception as e:
         conn.rollback()
         print(f"  [!] Step 2 Failed: {e}")

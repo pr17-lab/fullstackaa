@@ -13,6 +13,7 @@ class JobSkillRequirement(Base):
     skill_id = Column(UUID(as_uuid=True), ForeignKey("skill_taxonomy.id"), nullable=False)
     importance = Column(String(20), nullable=False)
     min_score_required = Column(Numeric(5, 2))
+    last_reviewed_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (

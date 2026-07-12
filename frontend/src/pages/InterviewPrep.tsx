@@ -6,15 +6,19 @@ import {
     Cpu, CheckCircle2, Clock, Sparkles,
     BookOpen, AlertCircle, Mic, MicOff, Square,
     Upload, FileText, X, SkipForward, Trophy,
-    RotateCcw, Volume2, Trash2, ChevronDown, ChevronUp, RefreshCw, Loader2
+    RotateCcw, Volume2, Trash2, ChevronDown, ChevronUp, RefreshCw, Loader2, Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    createSession, listSessions, getSession, submitAnswer, deleteSession, parseResumePdf, evaluateSession
+    createSession, listSessions, getSession, submitAnswer, deleteSession, parseResumePdf, evaluateSession,
+    getPracticeTopics, createPracticeTopicSession, getStudentProjects, createProjectSession
 } from '../api/interview';
 import type { InterviewSession, InterviewSessionSummary, EvaluationResult } from '../types/interview';
+import type { TaxonomySearchResponse } from '../types/career';
+import type { StudentProject } from '../api/interview';
 import { Card, CardHeader, CardContent, CardTitle } from '../components/common/Card';
 import { PageTransition } from '../components/layout/PageTransition';
+import { useWebSocketInterview } from '../hooks/useWebSocketInterview';
 
 // ---------------------------------------------------------------------------
 // Web Speech API type augmentation
@@ -156,13 +160,16 @@ function useTypewriter(text: string, speed = 22) {
 // Text-to-Speech hook
 // ---------------------------------------------------------------------------
 function useTTS() {
-    const speak = useCallback((text: string) => {
+    const speak = useCallback((text: string, onEnd?: () => void) => {
         if (!window.speechSynthesis) return;
         window.speechSynthesis.cancel();
         const utt = new SpeechSynthesisUtterance(text);
         utt.rate = 0.95;
         utt.pitch = 1;
         utt.lang = 'en-US';
+        if (onEnd) {
+            utt.onend = () => onEnd();
+        }
         window.speechSynthesis.speak(utt);
     }, []);
 
@@ -174,6 +181,56 @@ function useTTS() {
 
     return { speak, cancel };
 }
+
+// ---------------------------------------------------------------------------
+// Markdown code-block splitter & renderer
+// ---------------------------------------------------------------------------
+const renderQuestionText = (text: string, done: boolean) => {
+    if (!text.includes('```')) {
+        return (
+            <p className="text-lg text-gray-900 dark:text-zinc-100 leading-relaxed font-medium min-h-[3rem] whitespace-pre-wrap text-left">
+                {text}
+                {!done && <span className="inline-block w-0.5 h-5 bg-indigo-400 animate-pulse ml-0.5 align-middle" />}
+            </p>
+        );
+    }
+    const parts = text.split('```');
+    return (
+        <div className="text-lg text-gray-900 dark:text-zinc-100 leading-relaxed font-medium min-h-[3rem] text-left">
+            {parts.map((part, index) => {
+                if (index % 2 === 1) {
+                    // Code block
+                    const lines = part.split('\n');
+                    let lang = '';
+                    let code = part;
+                    if (lines[0] && /^[a-zA-Z0-9_-]+$/.test(lines[0].trim())) {
+                        lang = lines[0].trim();
+                        code = lines.slice(1).join('\n');
+                    }
+                    return (
+                        <div key={index} className="my-4 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-950 p-4 font-mono text-[11px] sm:text-xs text-indigo-300 whitespace-pre overflow-x-auto text-left shadow-inner">
+                            {lang && (
+                                <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider mb-2 border-b border-zinc-900 pb-1 select-none">
+                                    {lang}
+                                </div>
+                            )}
+                            <code>{code.trim()}</code>
+                        </div>
+                    );
+                }
+                const isLastPart = index === parts.length - 1;
+                return (
+                    <span key={index} className="whitespace-pre-wrap">
+                        {part}
+                        {isLastPart && !done && (
+                            <span className="inline-block w-0.5 h-5 bg-indigo-400 animate-pulse ml-0.5 align-middle" />
+                        )}
+                    </span>
+                );
+            })}
+        </div>
+    );
+};
 
 // ---------------------------------------------------------------------------
 // Timer ring
@@ -225,19 +282,24 @@ function MicButton({
     );
 
     return (
-        <button
-            type="button"
-            onClick={listening ? onStop : onStart}
-            className={`w-28 h-28 rounded-full flex flex-col items-center justify-center gap-2 font-semibold text-sm transition-all duration-200 shadow-xl focus:outline-none focus:ring-4 ${listening
-                ? 'bg-red-500 hover:bg-red-600 text-white ring-red-400/40 animate-pulse'
-                : 'bg-indigo-600 hover:bg-indigo-500 text-white ring-indigo-400/40'
-                }`}
-        >
-            {listening
-                ? <><Square className="h-8 w-8" /><span>Stop</span></>
-                : <><Mic className="h-8 w-8" /><span>Speak</span></>
-            }
-        </button>
+        <div className="relative">
+            {listening && (
+                <div className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-75 pointer-events-none scale-105" />
+            )}
+            <button
+                type="button"
+                onClick={listening ? onStop : onStart}
+                className={`relative w-28 h-28 rounded-full flex flex-col items-center justify-center gap-2 font-semibold text-sm transition-all duration-200 shadow-xl focus:outline-none focus:ring-4 ${listening
+                    ? 'bg-red-500 hover:bg-red-600 text-white ring-red-400/40'
+                    : 'bg-indigo-600 hover:bg-indigo-500 text-white ring-indigo-400/40'
+                    }`}
+            >
+                {listening
+                    ? <><Square className="h-8 w-8 animate-pulse text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" /><span>Stop</span></>
+                    : <><Mic className="h-8 w-8" /><span>Speak</span></>
+                }
+            </button>
+        </div>
     );
 }
 
@@ -307,18 +369,21 @@ type Phase = 'lobby' | 'interview' | 'results';
 
 // ---------------------------------------------------------------------------
 // LOBBY
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------
 function Lobby({
-    resumeText, onResumeChange,
     jdText, onJdChange,
     onStart, isStarting, startError,
     sessions, sessionsLoading,
     onSelectSession,
     onDelete, deletingId,
     activeSessionId,
+    topics,
+    topicsLoading,
+    onStartTopic,
+    projects,
+    projectsLoading,
+    onStartProject,
 }: {
-    resumeText: string;
-    onResumeChange: (t: string) => void;
     jdText: string;
     onJdChange: (t: string) => void;
     onStart: () => void;
@@ -330,12 +395,54 @@ function Lobby({
     onDelete: (id: string) => void;
     deletingId: string | null;
     activeSessionId: string | null;
+    topics: TaxonomySearchResponse[];
+    topicsLoading: boolean;
+    onStartTopic: (skillId: string) => void;
+    projects: StudentProject[];
+    projectsLoading: boolean;
+    onStartProject: (projectId: string) => void;
 }) {
-    const fileRef = useRef<HTMLInputElement>(null);
-    const [isParsingPdf, setIsParsingPdf] = useState(false);
-    const hasResume = resumeText.trim().length > 0;
     const hasJd = jdText.trim().length > 20;
-    const hasContext = hasJd || hasResume; // either JD or resume is enough to start
+    const [activeTab, setActiveTab] = useState<'jd' | 'topic' | 'project'>('jd');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
+    const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+
+    const filteredTopics = useMemo(() => {
+        if (!searchQuery.trim()) return topics;
+        return topics.filter(t => 
+            t.skill_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            t.category.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [topics, searchQuery]);
+
+    const selectedTopic = useMemo(() => {
+        return topics.find(t => t.id === selectedTopicId) || null;
+    }, [topics, selectedTopicId]);
+
+    const isStartDisabled = useMemo(() => {
+        if (activeTab === 'jd') return false;
+        if (activeTab === 'topic') return !selectedTopicId;
+        if (activeTab === 'project') return !selectedProjectId;
+        return true;
+    }, [activeTab, selectedTopicId, selectedProjectId]);
+
+    const startHint = useMemo(() => {
+        if (activeTab === 'jd') return null;
+        if (activeTab === 'topic' && !selectedTopicId) return "Select a topic above to start.";
+        if (activeTab === 'project' && !selectedProjectId) return "Select a project above to start.";
+        return null;
+    }, [activeTab, selectedTopicId, selectedProjectId]);
+
+    const handleStartClick = () => {
+        if (activeTab === 'jd') {
+            onStart();
+        } else if (activeTab === 'topic' && selectedTopicId) {
+            onStartTopic(selectedTopicId);
+        } else if (activeTab === 'project' && selectedProjectId) {
+            onStartProject(selectedProjectId);
+        }
+    };
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -354,22 +461,66 @@ function Lobby({
                     </CardHeader>
                 </Card>
 
-                {/* JD input â€” primary */}
-                <Card variant="elevated" className="border-indigo-500/20 dark:border-indigo-400/20 shadow-indigo-300 dark:shadow-indigo-900/10">
-                    <CardHeader className="pb-3 flex flex-row items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <Sparkles className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
-                            <CardTitle>Job Description</CardTitle>
-                        </div>
-                        <span className="text-xs font-medium text-gray-500 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-md">JD or Resume required</span>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                        <textarea
-                            id="jd-input"
-                            rows={8}
-                            value={jdText}
-                            onChange={e => onJdChange(e.target.value)}
-                            placeholder={`Paste the full job description here.
+                {/* Mode Selector Tabs */}
+                <div className="flex border-b border-gray-200 dark:border-zinc-700">
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('jd')}
+                        className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-all ${
+                            activeTab === 'jd'
+                                ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
+                                : 'border-transparent text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300'
+                        }`}
+                    >
+                        JD-Based
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('topic')}
+                        className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-all ${
+                            activeTab === 'topic'
+                                ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
+                                : 'border-transparent text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300'
+                        }`}
+                    >
+                        Practice a Topic
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('project')}
+                        className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-all ${
+                            activeTab === 'project'
+                                ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
+                                : 'border-transparent text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300'
+                        }`}
+                    >
+                        Practice a Project
+                    </button>
+                </div>
+
+                {/* Mode Description Subtext */}
+                <p className="text-xs text-gray-500 dark:text-zinc-400 font-medium leading-none">
+                    {activeTab === 'jd' && "Simulate a real interview for a specific job description."}
+                    {activeTab === 'topic' && "Practice one skill at a time."}
+                    {activeTab === 'project' && "Get asked about a specific project you've built."}
+                </p>
+
+                {activeTab === 'jd' && (
+                    <Card variant="elevated" className="border-indigo-500/20 dark:border-indigo-400/20 shadow-indigo-300 dark:shadow-indigo-900/10">
+                        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <Sparkles className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                                <CardTitle>Job Description</CardTitle>
+                            </div>
+                            <span className="text-xs font-medium text-gray-500 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-md">Optional</span>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                            <textarea
+                                id="jd-input"
+                                rows={8}
+                                value={jdText}
+                                onChange={e => onJdChange(e.target.value)}
+                                placeholder={`Paste the full job description here (optional).
 
 Example:
   We are looking for a Backend Engineer...
@@ -380,108 +531,159 @@ Example:
   ...
 
 The AI will tailor every question to this JD.`}
-                            className="w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white/60 dark:bg-zinc-900/60 text-gray-800 dark:text-zinc-200 text-sm px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-500 dark:text-zinc-600"
-                        />
-                        {hasJd && (
-                            <p className="text-xs text-emerald-400 flex items-center gap-1">
-                                <CheckCircle2 className="h-3.5 w-3.5" />
-                                JD loaded
-                            </p>
-                        )}
-                    </CardContent>
-                </Card>
-
-                {/* Resume input */}
-                <Card variant="elevated" className="border-gray-200/50 dark:border-zinc-700/50 dark:border-zinc-700/50">
-                    <CardHeader className="flex flex-row items-center justify-between pb-3">
-                        <div className="flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-gray-500 dark:text-zinc-500 dark:text-zinc-400" />
-                            <CardTitle>Resume <span className="text-gray-600 dark:text-zinc-400 dark:text-zinc-500 text-sm font-normal">(optional)</span></CardTitle>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <button
-                                type="button"
-                                onClick={() => fileRef.current?.click()}
-                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-gray-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs font-medium transition"
-                            >
-                                <Upload className="h-3.5 w-3.5" /> Upload File
-                            </button>
-                            {hasResume && (
-                                <button
-                                    type="button"
-                                    onClick={() => onResumeChange('')}
-                                    className="p-1.5 rounded-lg text-gray-600 dark:text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition"
-                                >
-                                    <X className="h-4 w-4" />
-                                </button>
+                                className="w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white/60 dark:bg-zinc-900/60 text-gray-800 dark:text-zinc-200 text-sm px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-500 dark:text-zinc-600"
+                            />
+                            {hasJd && (
+                                <p className="text-xs text-emerald-400 flex items-center gap-1 mt-2">
+                                    <CheckCircle2 className="h-3.5 w-3.5" />
+                                    JD loaded
+                                </p>
                             )}
-                        </div>
-                        <input
-                            ref={fileRef}
-                            type="file"
-                            accept=".txt,.md,.pdf"
-                            className="hidden"
-                            onChange={async (e) => {
-                                const file = e.target.files?.[0];
-                                if (!file) return;
+                        </CardContent>
+                    </Card>
+                )}
 
-                                if (file.name.toLowerCase().endsWith('.pdf')) {
-                                    setIsParsingPdf(true);
-                                    try {
-                                        const res = await parseResumePdf(file);
-                                        onResumeChange(res.text);
-                                    } catch (err) {
-                                        console.error('Failed to parse PDF', err);
-                                        alert('Failed to parse PDF. Please try again or use text instead.');
-                                    } finally {
-                                        setIsParsingPdf(false);
-                                    }
-                                } else {
-                                    const reader = new FileReader();
-                                    reader.onload = ev => onResumeChange((ev.target?.result as string) ?? '');
-                                    reader.readAsText(file);
-                                }
-                                e.target.value = '';
-                            }}
-                        />
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                        <textarea
-                            id="resume-input"
-                            rows={4}
-                            value={resumeText}
-                            onChange={e => onResumeChange(e.target.value)}
-                            placeholder="Paste your resume / skills here (optional). Helps the AI probe your background."
-                            className="w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white/60 dark:bg-zinc-900/60 text-gray-800 dark:text-zinc-200 text-sm px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-500 dark:text-zinc-600"
-                        />
-                        {isParsingPdf && (
-                            <p className="text-xs text-indigo-400 font-medium flex items-center gap-1.5 mt-2">
-                                <span className="h-3 w-3 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
-                                Parsing PDF resume...
-                            </p>
-                        )}
-                        {hasResume && !isParsingPdf && (
-                            <p className="text-xs text-emerald-400 flex items-center gap-1 mt-2">
-                                <CheckCircle2 className="h-3.5 w-3.5" />
-                                Resume loaded
-                            </p>
-                        )}
-                    </CardContent>
-                </Card>
+                {activeTab === 'topic' && (
+                    <Card variant="elevated" className="border-indigo-500/20 dark:border-indigo-400/20 shadow-indigo-300 dark:shadow-indigo-900/10">
+                        <CardHeader className="pb-3">
+                            <div className="flex items-center gap-2">
+                                <BookOpen className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                                <CardTitle>Select a Topic</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="pt-0 space-y-4">
+                            <div className="relative">
+                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Search topics (e.g. React, PostgreSQL, Docker)..."
+                                    value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)}
+                                    className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border border-gray-300 dark:border-zinc-600 bg-white/60 dark:bg-zinc-900/60 text-gray-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                />
+                            </div>
+
+                            {topicsLoading ? (
+                                <div className="flex flex-col items-center justify-center py-8 space-y-2 text-gray-500 dark:text-zinc-400">
+                                    <Loader2 className="h-6 w-6 animate-spin text-indigo-500" />
+                                    <p className="text-xs">Loading practiceable topics...</p>
+                                </div>
+                            ) : filteredTopics.length === 0 ? (
+                                <div className="text-center py-8 text-sm text-gray-500 dark:text-zinc-500 border border-dashed border-gray-200 dark:border-zinc-700 rounded-xl">
+                                    No matching topics found
+                                </div>
+                            ) : (
+                                <div className="max-h-64 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-2 pr-1 custom-scrollbar">
+                                    {filteredTopics.map(topic => (
+                                        <button
+                                            key={topic.id}
+                                            type="button"
+                                            onClick={() => setSelectedTopicId(topic.id)}
+                                            className={`flex flex-col items-start text-left p-3 rounded-xl border transition-all ${
+                                                selectedTopicId === topic.id
+                                                    ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-900/20'
+                                                    : 'border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 bg-white/30 dark:bg-zinc-900/30'
+                                            }`}
+                                        >
+                                            <span className="text-sm font-semibold text-gray-800 dark:text-zinc-200">
+                                                {topic.skill_name}
+                                            </span>
+                                            <span className="text-xs text-gray-500 dark:text-zinc-500 mt-1 capitalize">
+                                                {topic.category}
+                                            </span>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                )}
+
+                {activeTab === 'project' && (
+                    <Card variant="elevated" className="border-indigo-500/20 dark:border-indigo-400/20 shadow-indigo-300 dark:shadow-indigo-900/10">
+                        <CardHeader className="pb-3">
+                            <div className="flex items-center gap-2">
+                                <Cpu className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                                <CardTitle>Select a Project</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="pt-0 space-y-4">
+                            {projectsLoading ? (
+                                <div className="flex flex-col items-center justify-center py-8 space-y-2 text-gray-500 dark:text-zinc-400">
+                                    <Loader2 className="h-6 w-6 animate-spin text-indigo-500" />
+                                    <p className="text-xs">Loading projects...</p>
+                                </div>
+                            ) : projects.length === 0 ? (
+                                <div className="text-center py-8 text-sm text-gray-500 dark:text-zinc-500 border border-dashed border-gray-200 dark:border-zinc-700 rounded-xl">
+                                    No projects connected yet.
+                                </div>
+                            ) : (
+                                <div className="max-h-64 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                                    {projects.map(project => {
+                                        const tech = project.extracted_skills || project.tech_stack || [];
+                                        return (
+                                            <button
+                                                key={project.id}
+                                                type="button"
+                                                onClick={() => setSelectedProjectId(project.id)}
+                                                className={`w-full flex flex-col items-start text-left p-4 rounded-xl border transition-all ${
+                                                    selectedProjectId === project.id
+                                                        ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-900/20'
+                                                        : 'border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 bg-white/30 dark:bg-zinc-900/30'
+                                                }`}
+                                            >
+                                                <div className="flex items-center justify-between w-full">
+                                                    <span className="text-sm font-semibold text-gray-800 dark:text-zinc-200">
+                                                        {project.title}
+                                                    </span>
+                                                    {project.analyzed_at && (
+                                                        <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30 flex items-center gap-0.5">
+                                                            Structurally Verified
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                {tech.length > 0 && (
+                                                    <div className="flex flex-wrap gap-1 mt-2">
+                                                        {tech.map((t, idx) => (
+                                                            <span key={idx} className="px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-800 text-[10px] font-medium text-gray-600 dark:text-zinc-400 capitalize">
+                                                                {t}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                )}
 
                 {/* Start button */}
-                <div className="flex items-center gap-3">
+                <div className="flex flex-col items-start gap-2">
                     <button
                         id="create-session-btn"
-                        onClick={onStart}
-                        disabled={isStarting || !hasContext}
+                        onClick={handleStartClick}
+                        disabled={isStarting || isStartDisabled}
                         className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition shadow-lg shadow-indigo-200 dark:shadow-indigo-900/40 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <Sparkles className="h-4 w-4" />
-                        {isStarting ? 'Generating questions...' : 'Start Interview'}
+                        {isStarting ? (
+                            <>
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                                Generating questions...
+                            </>
+                        ) : (
+                            <>
+                                <Sparkles className="h-4 w-4" />
+                                Start Interview
+                            </>
+                        )}
                     </button>
-                    {!hasContext && (
-                        <p className="text-xs text-gray-500 dark:text-zinc-500">Paste a job description or resume above to start</p>
+                    {startHint && (
+                        <p className="text-xs text-red-500 font-semibold mt-1">
+                            {startHint}
+                        </p>
                     )}
                 </div>
 
@@ -497,14 +699,16 @@ The AI will tailor every question to this JD.`}
                     <h3 className="text-sm font-semibold text-gray-700 dark:text-zinc-300">How it works</h3>
                     <div className="grid grid-cols-3 gap-4 text-center">
                         {[
-                            { icon: <Sparkles className="h-5 w-5 text-indigo-400 mx-auto mb-1" />, label: '1. Paste JD', sub: 'AI reads the job description' },
-                            { icon: <Mic className="h-5 w-5 text-red-400 mx-auto mb-1" />, label: '2. Speak Answers', sub: 'Voice-only, no typing' },
-                            { icon: <Trophy className="h-5 w-5 text-amber-400 mx-auto mb-1" />, label: '3. See Results', sub: 'Full Q&A summary at the end' },
+                            { num: '1', label: 'Prepare Topic/JD', sub: 'Select a direct topic, project or paste a JD' },
+                            { num: '2', label: 'Speak Answers', sub: 'Voice-only, no typing' },
+                            { num: '3', label: 'See Results', sub: 'Full Q&A summary at the end' },
                         ].map((step, i) => (
-                            <div key={i} className="rounded-xl bg-gray-50/60 dark:bg-zinc-800/60 border border-gray-200/50 dark:border-zinc-700/50 p-4">
-                                {step.icon}
+                            <div key={i} className="rounded-xl bg-gray-50/60 dark:bg-zinc-800/60 border border-gray-200/50 dark:border-zinc-700/50 p-4 space-y-2">
+                                <div className="h-8 w-8 rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-sm mx-auto">
+                                    {step.num}
+                                </div>
                                 <p className="text-xs font-semibold text-gray-800 dark:text-zinc-200">{step.label}</p>
-                                <p className="text-xs text-gray-500 dark:text-zinc-500 mt-1">{step.sub}</p>
+                                <p className="text-xs text-gray-500 dark:text-zinc-500 mt-1 leading-relaxed">{step.sub}</p>
                             </div>
                         ))}
                     </div>
@@ -523,8 +727,9 @@ The AI will tailor every question to this JD.`}
                         ))}
                     </div>
                 ) : sessions.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-gray-200 dark:border-zinc-700 p-8 text-center text-sm text-gray-500 dark:text-zinc-500">
-                        No sessions yet
+                    <div className="rounded-2xl border border-dashed border-gray-200 dark:border-zinc-700 p-8 text-center text-gray-500 dark:text-zinc-500 space-y-2">
+                        <p className="text-sm font-semibold text-gray-700 dark:text-zinc-300">Your first session will show up here</p>
+                        <p className="text-xs text-gray-500 dark:text-zinc-500">Most students start with a topic-based practice interview before a full JD simulation.</p>
                     </div>
                 ) : (
                     <div className="space-y-2">
@@ -659,10 +864,7 @@ function InterviewRoom({
                             {currentIndex + 1}
                         </div>
                         <div className="flex-1">
-                            <p className="text-lg text-gray-900 dark:text-zinc-100 leading-relaxed font-medium min-h-[3rem]">
-                                {displayed}
-                                {!done && <span className="inline-block w-0.5 h-5 bg-indigo-400 animate-pulse ml-0.5 align-middle" />}
-                            </p>
+                            {renderQuestionText(displayed, done)}
                             {done && (
                                 <button
                                     type="button"
@@ -1084,17 +1286,28 @@ interface WebSocketInterviewRoomProps {
 }
 
 function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRoomProps) {
-    const [socket, setSocket] = useState<WebSocket | null>(null);
-    const [connected, setConnected] = useState(false);
-    const [questions, setQuestions] = useState<any[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [secondsLeft, setSecondsLeft] = useState(QUESTION_TIME_SEC);
-    const [isEvaluating, setIsEvaluating] = useState(false);
-    const [evalResult, setEvalResult] = useState<any>(null);
-    const [error, setError] = useState<string | null>(null);
+    const {
+        socket,
+        connected,
+        questions,
+        currentIndex,
+        setCurrentIndex,
+        secondsLeft,
+        setSecondsLeft,
+        isEvaluating,
+        setIsEvaluating,
+        evalResult,
+        setEvalResult,
+        error,
+        currentStreamedText,
+    } = useWebSocketInterview(sessionId, onCompleted);
 
     const activeQuestion = questions[currentIndex];
     const total = questions.length;
+
+    // Local typed answer state
+    const [typedAnswer, setTypedAnswer] = useState("");
+    const [assistantMode, setAssistantMode] = useState(true);
 
     // Speech & TTS
     const { supported, listening, interimText, finalText, startListening, stopListening, clearFinal } = useVoice();
@@ -1111,94 +1324,13 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
         setSecondsLeft(QUESTION_TIME_SEC);
         setEvalResult(null);
         setIsEvaluating(false);
-    }, [currentIndex, cancel]);
-
-    useEffect(() => {
-        if (done && activeQuestion?.question && spokenIndexRef.current !== currentIndex) {
-            spokenIndexRef.current = currentIndex;
-            speak(activeQuestion.question);
-        }
-    }, [done, activeQuestion?.question, currentIndex, speak]);
-
-    // WebSocket connection
-    useEffect(() => {
-        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws';
-        const wsUrl = `${protocol}://${window.location.host}/api/interview/ws/interview/${sessionId}`;
-        console.log("Connecting WebSocket to URL:", wsUrl);
-        const ws = new WebSocket(wsUrl);
-
-        ws.onopen = () => {
-            console.log("WebSocket connection established");
-            setConnected(true);
-            setError(null);
-        };
-
-        ws.onmessage = (event) => {
-            try {
-                const msg = JSON.parse(event.data);
-                console.log("WebSocket event received:", msg.event, msg.data);
-                
-                if (msg.event === 'session_ready') {
-                    setQuestions(msg.data.questions);
-                    // Find first unanswered question
-                    const unansweredIdx = msg.data.questions.findIndex((q: any) => !q.user_answer);
-                    if (unansweredIdx !== -1) {
-                        setCurrentIndex(unansweredIdx);
-                    }
-                } else if (msg.event === 'answer_evaluated') {
-                    setIsEvaluating(false);
-                    setEvalResult(msg.data);
-                    // Advance to next question after a 3 second delay showing results
-                    setTimeout(() => {
-                        setCurrentIndex(idx => {
-                            if (idx < questions.length - 1) {
-                                return idx + 1;
-                            }
-                            return idx;
-                        });
-                    }, 3000);
-                } else if (msg.event === 'session_completed') {
-                    console.log("WebSocket session completed!");
-                    onCompleted();
-                } else if (msg.event === 'error') {
-                    setError(msg.data.message || 'An error occurred during interview generation');
-                }
-            } catch (err) {
-                console.error("Failed to parse WebSocket message:", err);
-            }
-        };
-
-        ws.onerror = (err) => {
-            console.error("WebSocket connection error:", err);
-            setError("Connection to interview server failed. Make sure server is running.");
-        };
-
-        ws.onclose = () => {
-            console.log("WebSocket connection closed");
-            setConnected(false);
-        };
-
-        setSocket(ws);
-
-        return () => {
-            ws.close();
-        };
-    }, [sessionId, onCompleted, questions.length]);
-
-    // Timer
-    useEffect(() => {
-        if (secondsLeft <= 0) {
-            handleSkip();
-            return;
-        }
-        if (isEvaluating) return;
-        const timer = setTimeout(() => setSecondsLeft(s => s - 1), 1000);
-        return () => clearTimeout(timer);
-    }, [secondsLeft, isEvaluating]);
+        setTypedAnswer("");
+    }, [currentIndex, cancel, setSecondsLeft, setEvalResult, setIsEvaluating]);
 
     const handleSkip = () => {
         stopListening();
         clearFinal();
+        setTypedAnswer("");
         if (currentIndex >= total - 1) {
             onCompleted();
         } else {
@@ -1215,12 +1347,55 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
             event: "submit_answer",
             data: {
                 question_id: activeQuestion.question_id || activeQuestion.id,
-                answer_text: finalText.trim()
+                answer_text: typedAnswer.trim()
             }
         }));
         
         clearFinal();
     };
+
+    // Timer
+    useEffect(() => {
+        if (secondsLeft <= 0) {
+            handleSkip();
+            return;
+        }
+        if (isEvaluating) return;
+        const timer = setTimeout(() => setSecondsLeft(s => s - 1), 1000);
+        return () => clearTimeout(timer);
+    }, [secondsLeft, isEvaluating, setSecondsLeft]);
+
+    // Auto-trigger microphone after TTS completes
+    useEffect(() => {
+        if (done && activeQuestion?.question && spokenIndexRef.current !== currentIndex) {
+            spokenIndexRef.current = currentIndex;
+            speak(activeQuestion.question, () => {
+                if (assistantMode) {
+                    console.log("TTS finished. Auto starting microphone...");
+                    startListening();
+                }
+            });
+        }
+    }, [done, activeQuestion?.question, currentIndex, speak, assistantMode, startListening]);
+
+    // Sync speech transcription to local typed answer buffer
+    useEffect(() => {
+        if (finalText) {
+            setTypedAnswer(finalText);
+        }
+    }, [finalText]);
+
+    // Auto-submit silence detection
+    useEffect(() => {
+        if (!assistantMode || !listening || !typedAnswer.trim()) return;
+
+        const silenceTimeout = setTimeout(() => {
+            console.log("Auto-submitting due to speech pause...");
+            handleSubmit();
+        }, 2200); // 2.2 seconds of silence
+
+        return () => clearTimeout(silenceTimeout);
+    }, [typedAnswer, listening, assistantMode]);
 
     if (error) {
         return (
@@ -1240,9 +1415,25 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
 
     if (!connected || questions.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <div className="h-12 w-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" />
-                <p className="text-gray-600 dark:text-zinc-400 text-sm font-semibold animate-pulse">⚙️ Connecting Real-Time Screen...</p>
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 w-full max-w-3xl mx-auto px-4">
+                <div className="flex items-center gap-3">
+                    <div className="h-6 w-6 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin shrink-0" />
+                    <p className="text-gray-700 dark:text-zinc-300 text-sm font-semibold animate-pulse">
+                        🤖 AI Interviewer is thinking...
+                    </p>
+                </div>
+                {currentStreamedText ? (
+                    <div className="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 bg-zinc-950 p-6 shadow-xl font-mono text-[10px] sm:text-xs text-emerald-400 overflow-y-auto max-h-[300px] whitespace-pre-wrap leading-relaxed animate-fade-in text-left">
+                        <div className="flex items-center justify-between border-b border-zinc-800 pb-2 mb-3">
+                            <span className="text-zinc-500 select-none">STREAM_LOG // QUESTION_GENERATION</span>
+                            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                        </div>
+                        {currentStreamedText}
+                        <span className="inline-block w-1.5 h-4 bg-emerald-400 ml-1 live-caret align-middle" />
+                    </div>
+                ) : (
+                    <p className="text-xs text-gray-400 italic">Waiting for stream chunks to arrive...</p>
+                )}
             </div>
         );
     }
@@ -1263,9 +1454,32 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
                         {activeQuestion.topic}
                     </span>
                 </div>
-                <span className="text-sm font-semibold text-gray-700 dark:text-zinc-300 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 px-3 py-1 rounded-full">
-                    Q {currentIndex + 1} / {total}
-                </span>
+                <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setAssistantMode(prev => {
+                                const newVal = !prev;
+                                if (!newVal) {
+                                    stopListening();
+                                }
+                                return newVal;
+                            });
+                        }}
+                        className={`text-xs flex items-center gap-1.5 px-3 py-1 rounded-full font-bold border transition ${
+                            assistantMode
+                                ? 'bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 shadow-[0_0_8px_rgba(16,185,129,0.15)]'
+                                : 'bg-gray-100 dark:bg-zinc-800 text-gray-500 dark:text-zinc-400 border-gray-200 dark:border-zinc-700'
+                        }`}
+                        title="Toggle hands-free conversational loop (Google Assistant style)"
+                    >
+                        <span>🤖 Assistant Mode</span>
+                        <span className={`h-1.5 w-1.5 rounded-full ${assistantMode ? 'bg-emerald-500 animate-pulse' : 'bg-gray-400'} inline-block`} />
+                    </button>
+                    <span className="text-sm font-semibold text-gray-700 dark:text-zinc-300 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 px-3 py-1 rounded-full">
+                        Q {currentIndex + 1} / {total}
+                    </span>
+                </div>
             </div>
 
             {/* Progress bar */}
@@ -1285,19 +1499,29 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
                             {currentIndex + 1}
                         </div>
                         <div className="flex-1">
-                            <p className="text-lg text-gray-900 dark:text-zinc-100 leading-relaxed font-medium min-h-[3rem]">
-                                {displayed}
-                                {!done && <span className="inline-block w-0.5 h-5 bg-indigo-400 animate-pulse ml-0.5 align-middle" />}
-                            </p>
-                            {done && (
-                                <button
-                                    type="button"
-                                    onClick={() => speak(activeQuestion.question)}
-                                    title="Replay question"
-                                    className="mt-3 flex items-center gap-1.5 text-xs text-gray-500 dark:text-zinc-500 hover:text-indigo-400 transition"
-                                >
-                                    <Volume2 className="h-3.5 w-3.5" /> Replay question
-                                </button>
+                            {currentStreamedText ? (
+                                <div className="w-full rounded-xl border border-gray-200 dark:border-zinc-700 bg-zinc-950 p-5 shadow-lg font-mono text-[10px] sm:text-xs text-emerald-400 overflow-y-auto max-h-[250px] whitespace-pre-wrap leading-relaxed animate-fade-in text-left">
+                                    <div className="flex items-center justify-between border-b border-zinc-800 pb-2 mb-3 select-none">
+                                        <span className="text-zinc-500 font-bold uppercase tracking-wider">🤖 AI Interviewer // Drafting Follow-up Question</span>
+                                        <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                                    </div>
+                                    {currentStreamedText}
+                                    <span className="inline-block w-1.5 h-4 bg-emerald-400 ml-1 live-caret align-middle" />
+                                </div>
+                            ) : (
+                                <>
+                                    {renderQuestionText(displayed, done)}
+                                    {done && (
+                                        <button
+                                            type="button"
+                                            onClick={() => speak(activeQuestion.question)}
+                                            title="Replay question"
+                                            className="mt-3 flex items-center gap-1.5 text-xs text-gray-500 dark:text-zinc-500 hover:text-indigo-400 transition"
+                                        >
+                                            <Volume2 className="h-3.5 w-3.5" /> Replay question
+                                        </button>
+                                    )}
+                                </>
                             )}
                         </div>
                     </div>
@@ -1345,20 +1569,18 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
                         supported={supported}
                     />
 
-                    {/* Live caption */}
-                    <div className="w-full max-w-2xl min-h-[3.5rem] rounded-xl border border-gray-200 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 px-5 py-3 text-sm shadow-inner">
-                        {finalText ? (
-                            <p className="text-gray-800 dark:text-zinc-200">{finalText}</p>
-                        ) : interimText ? (
-                            <p className="text-indigo-400 italic">{interimText}</p>
-                        ) : (
-                            <p className="text-gray-500 dark:text-zinc-500 italic">
-                                {listening ? 'Listening... speak your answer' : 'Press Speak to record your answer'}
-                            </p>
-                        )}
+                    {/* Live caption & Text input panel */}
+                    <div className="w-full max-w-2xl rounded-xl border border-gray-200 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 p-4 shadow-inner flex flex-col gap-2 relative">
+                        <textarea
+                            value={typedAnswer}
+                            onChange={(e) => setTypedAnswer(e.target.value)}
+                            placeholder={listening ? (interimText || 'Listening... speak your answer') : 'Press Speak or type your answer here...'}
+                            disabled={isEvaluating}
+                            className="w-full min-h-[5rem] bg-transparent border-none outline-none resize-none text-sm text-gray-800 dark:text-zinc-200 placeholder-indigo-400/70 dark:placeholder-indigo-400/50"
+                        />
                         {listening && (
-                            <span className="inline-flex items-center gap-1 text-xs text-red-500 mt-1 font-semibold animate-pulse">
-                                <span className="h-1.5 w-1.5 rounded-full bg-red-500" /> Live Streaming Voice
+                            <span className="absolute bottom-3 right-4 inline-flex items-center gap-1.5 text-[10px] text-red-500 font-bold uppercase tracking-wider animate-pulse">
+                                <span className="h-2 w-2 rounded-full bg-red-500" /> Live Voice Stream
                             </span>
                         )}
                     </div>
@@ -1368,15 +1590,15 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
                         <button
                           type="button"
                           onClick={handleSkip}
-                          disabled={isEvaluating}
-                          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 text-sm font-medium transition"
+                          disabled={isEvaluating || currentStreamedText.length > 0}
+                          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 text-sm font-medium transition disabled:opacity-30 disabled:hover:bg-transparent"
                         >
                             <SkipForward className="h-4 w-4" /> Skip
                         </button>
 
                         <button
                           type="button"
-                          disabled={!finalText.trim() || isEvaluating}
+                          disabled={!typedAnswer.trim() || isEvaluating || currentStreamedText.length > 0}
                           onClick={handleSubmit}
                           className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition disabled:opacity-40 shadow-lg shadow-indigo-100 dark:shadow-indigo-950/30"
                         >
@@ -1387,10 +1609,10 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
                             )}
                         </button>
 
-                        {finalText && !isEvaluating && (
+                        {(typedAnswer || finalText) && !isEvaluating && (
                             <button
                                 type="button"
-                                onClick={() => { clearFinal(); if (listening) stopListening(); }}
+                                onClick={() => { clearFinal(); setTypedAnswer(""); if (listening) stopListening(); }}
                                 className="p-2 rounded-xl text-gray-500 dark:text-zinc-500 hover:text-red-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
                                 title="Clear recording"
                             >
@@ -1411,15 +1633,13 @@ const InterviewPrep: React.FC = () => {
     const qc = useQueryClient();
     const [phase, setPhase] = useState<Phase>('lobby');
     const [jdText, setJdText] = useState('');
-    const [resumeText, setResumeText] = useState('');
+
     const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     // Track local answers for results view (in case session query is stale)
     const [localAnswers, setLocalAnswers] = useState<Record<string, string>>({});
     // Evaluation state
     const [evaluationData, setEvaluationData] = useState<EvaluationResult | null>(null);
-    const [isWebSocketMode, setIsWebSocketMode] = useState(false);
-
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const urlSessionId = params.get('session_id');
@@ -1427,7 +1647,6 @@ const InterviewPrep: React.FC = () => {
         if (urlSessionId) {
             setActiveSessionId(urlSessionId);
             if (isWs) {
-                setIsWebSocketMode(true);
                 setPhase('interview');
             } else {
                 setPhase('results');
@@ -1470,11 +1689,10 @@ const InterviewPrep: React.FC = () => {
         }
     }, [mergedSession, phase, evaluationData]);
 
-    // Create session mutation — JD-based: pass jd_text + optional resume context
+    // Create session mutation — JD-based: pass jd_text
     const createMutation = useMutation({
         mutationFn: () => {
-            const resumeSnippet = resumeText.trim().slice(0, 500) || undefined;
-            return createSession(jdText, resumeSnippet);
+            return createSession(jdText);
         },
         onSuccess: (session) => {
             setActiveSessionId(session.id);
@@ -1484,6 +1702,46 @@ const InterviewPrep: React.FC = () => {
             setPhase('interview');
             qc.invalidateQueries({ queryKey: ['interview-sessions'] });
         },
+    });
+
+    // Create topic practice session mutation
+    const createTopicMutation = useMutation({
+        mutationFn: (skillId: string) => {
+            return createPracticeTopicSession(skillId);
+        },
+        onSuccess: (session) => {
+            setActiveSessionId(session.id);
+            setCurrentIndex(0);
+            setLocalAnswers({});
+            setEvaluationData(null);
+            setPhase('interview');
+            qc.invalidateQueries({ queryKey: ['interview-sessions'] });
+        },
+    });
+
+    const { data: topicsData = [], isLoading: topicsLoading } = useQuery<TaxonomySearchResponse[]>({
+        queryKey: ['practice-topics'],
+        queryFn: getPracticeTopics,
+    });
+
+    // Create project practice session mutation
+    const createProjectMutation = useMutation({
+        mutationFn: (projectId: string) => {
+            return createProjectSession(projectId);
+        },
+        onSuccess: (session) => {
+            setActiveSessionId(session.id);
+            setCurrentIndex(0);
+            setLocalAnswers({});
+            setEvaluationData(null);
+            setPhase('interview');
+            qc.invalidateQueries({ queryKey: ['interview-sessions'] });
+        },
+    });
+
+    const { data: projectsData = [], isLoading: projectsLoading } = useQuery<StudentProject[]>({
+        queryKey: ['student-projects'],
+        queryFn: getStudentProjects,
     });
 
     // Delete session mutation
@@ -1553,7 +1811,6 @@ const InterviewPrep: React.FC = () => {
         setLocalAnswers({});
         setEvaluationData(null);
         setPhase('lobby');
-        setIsWebSocketMode(false);
     };
 
     return (
@@ -1561,45 +1818,34 @@ const InterviewPrep: React.FC = () => {
             <div className="max-w-6xl mx-auto px-4 py-8">
                 {phase === 'lobby' && (
                     <Lobby
-                        resumeText={resumeText}
-                        onResumeChange={setResumeText}
                         jdText={jdText}
                         onJdChange={setJdText}
                         onStart={() => createMutation.mutate()}
-                        isStarting={createMutation.isPending}
-                        startError={createMutation.isError}
+                        isStarting={createMutation.isPending || createTopicMutation.isPending || createProjectMutation.isPending}
+                        startError={createMutation.isError || createTopicMutation.isError || createProjectMutation.isError}
                         sessions={sessionsData?.sessions ?? []}
                         sessionsLoading={sessionsLoading}
                         onSelectSession={handleSelectSession}
                         onDelete={(id) => deleteMutation.mutate(id)}
                         deletingId={deletingId}
                         activeSessionId={activeSessionId}
+                        topics={topicsData}
+                        topicsLoading={topicsLoading}
+                        onStartTopic={(skillId) => createTopicMutation.mutate(skillId)}
+                        projects={projectsData}
+                        projectsLoading={projectsLoading}
+                        onStartProject={(projectId) => createProjectMutation.mutate(projectId)}
                     />
                 )}
 
                 {phase === 'interview' && (
-                    isWebSocketMode ? (
-                        <WebSocketInterviewRoom
-                            sessionId={activeSessionId!}
-                            onCompleted={() => {
-                                setIsWebSocketMode(false);
-                                setPhase('results');
-                                qc.invalidateQueries({ queryKey: ['interview-session', activeSessionId] });
-                            }}
-                        />
-                    ) : sessionLoading || !mergedSession ? (
-                        <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                            <div className="h-12 w-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" />
-                            <p className="text-gray-600 dark:text-zinc-400 text-sm">Preparing your interview...</p>
-                        </div>
-                    ) : (
-                        <InterviewRoom
-                            session={mergedSession}
-                            currentIndex={currentIndex}
-                            onAnswered={handleAnswered}
-                            onSkip={handleSkip}
-                        />
-                    )
+                    <WebSocketInterviewRoom
+                        sessionId={activeSessionId!}
+                        onCompleted={() => {
+                            setPhase('results');
+                            qc.invalidateQueries({ queryKey: ['interview-session', activeSessionId] });
+                        }}
+                    />
                 )}
 
                 {phase === 'results' && mergedSession && (
