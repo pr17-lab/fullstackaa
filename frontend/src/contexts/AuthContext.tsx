@@ -38,8 +38,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             });
 
             if (response.ok) {
-                const userData = await response.json();
-                setUser(userData);
+                const text = await response.text();
+                if (text) {
+                    const userData = JSON.parse(text);
+                    setUser(userData);
+                } else {
+                    setUser(null);
+                }
             } else {
                 setUser(null);
             }
@@ -63,8 +68,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
 
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.detail || 'Login failed');
+            let errorMessage = 'Login failed';
+            try {
+                const text = await response.text();
+                if (text) {
+                    const data = JSON.parse(text);
+                    errorMessage = data.detail || data.message || errorMessage;
+                } else {
+                    errorMessage = `Server response empty (${response.status}). The server may be starting up.`;
+                }
+            } catch {
+                if (response.status === 502 || response.status === 504) {
+                    errorMessage = 'Backend server is waking up (cold start). Please wait 30 seconds and try again.';
+                } else {
+                    errorMessage = `Server error (${response.status}). Please try again shortly.`;
+                }
+            }
+            throw new Error(errorMessage);
         }
 
         await fetchCurrentUser();
