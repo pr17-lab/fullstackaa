@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"  # development | staging | production
 
     # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5173"]
+    CORS_ORIGINS: Union[List[str], str] = ["http://localhost:3000", "http://localhost:5173"]
 
     # External APIs
     RAPIDAPI_KEY: str = ""
