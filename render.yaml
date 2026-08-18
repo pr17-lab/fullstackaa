@@ -32,9 +32,10 @@ services:
     plan: free
     region: singapore   # Closest to South Asia; free tier: oregon/virginia also available
 
-    # Monorepo: set build context to the backend subdirectory
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
+    # Monorepo configuration
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    dockerContext: .
 
     healthCheckPath: /api/health
 
@@ -101,11 +102,6 @@ services:
   # Render free tier has no private networking, so traffic goes over public HTTPS.
   # The BACKEND_URL env var is injected into nginx.conf at container start
   # via envsubst (see frontend/Dockerfile CMD).
-  #
-  # BACKEND_URL is set by referencing the backend service's RENDER_EXTERNAL_HOSTNAME
-  # (a Render-default env var injected into every service) and prepending "https://".
-  # Since Blueprint doesn't support string interpolation, we use sync:false here
-  # and the Render dashboard will show the correct value after the backend deploys.
   # ---------------------------------------------------------------------------
   - type: web
     name: sata-frontend
@@ -113,9 +109,10 @@ services:
     plan: free
     region: singapore
 
-    # Monorepo: set build context to the frontend subdirectory
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
+    # Monorepo configuration
+    rootDir: frontend
+    dockerfilePath: Dockerfile
+    dockerContext: .
 
     envVars:
       # ---- Backend public URL for nginx proxy --------------------------------

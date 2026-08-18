@@ -55,12 +55,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
     CMD wget -qO- http://localhost:80/ || exit 1
 
 # At startup:
-#   1. Substitute ${BACKEND_URL} in the template → /tmp/nginx.conf
-#   2. Start nginx pointing at the rendered config
-#
-# BACKEND_URL must be set at runtime:
-#   - Render production: set via render.yaml envVars (fromService: sata-backend host),
-#     prepend "https://" → e.g. https://sata-backend.onrender.com
-#   - Local Docker Compose: uses `target: builder` so this stage never runs locally.
-#     If you do run the nginx stage locally, set BACKEND_URL=http://backend:8000
-CMD ["/bin/sh", "-c", "envsubst '$BACKEND_URL' < /etc/nginx/nginx.conf.template > /tmp/nginx.conf && nginx -g 'daemon off;' -c /tmp/nginx.conf"]
+#   1. Set default BACKEND_URL fallback if unset (http://localhost:8000)
+#   2. Substitute ${BACKEND_URL} in the template → /tmp/nginx.conf
+#   3. Start nginx pointing at the rendered config
+CMD ["/bin/sh", "-c", "export BACKEND_URL=\"${BACKEND_URL:-http://localhost:8000}\" && envsubst '$BACKEND_URL' < /etc/nginx/nginx.conf.template > /tmp/nginx.conf && nginx -g 'daemon off;' -c /tmp/nginx.conf"]

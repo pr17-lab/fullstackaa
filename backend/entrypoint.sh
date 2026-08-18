@@ -8,7 +8,8 @@ echo "=== Student Academic Tracker — Startup ==="
 
 # ---------------------------------------------------------------------------
 # 1. Wait for PostgreSQL to be ready
-#    We parse the DATABASE_URL to extract host and port.
+#    Uses Python's urllib.parse to robustly extract hostname and port
+#    for both local Postgres (localhost:5432) and Neon pooled URLs.
 # ---------------------------------------------------------------------------
 DB_URL="${DATABASE_URL:-}"
 
@@ -17,21 +18,22 @@ if [ -z "$DB_URL" ]; then
   exit 1
 fi
 
-# Extract host (between @ and : or @)
-DB_HOST=$(echo "$DB_URL" | sed -E 's|.*@([^:/]+)[:/].*|\1|')
-DB_PORT=$(echo "$DB_URL" | sed -E 's|.*@[^:]+:([0-9]+)/.*|\1|')
-DB_PORT="${DB_PORT:-5432}"
-
-echo "Waiting for PostgreSQL at ${DB_HOST}:${DB_PORT} ..."
+echo "Waiting for PostgreSQL connection..."
 
 MAX_RETRIES=30
 RETRY_INTERVAL=2
 retries=0
 
 until python -c "
-import socket, sys
+import sys, socket
+from urllib.parse import urlparse
+
+url = '''${DB_URL}'''
 try:
-    s = socket.create_connection(('${DB_HOST}', ${DB_PORT}), timeout=2)
+    parsed = urlparse(url)
+    host = parsed.hostname or 'localhost'
+    port = parsed.port or 5432
+    s = socket.create_connection((host, port), timeout=3)
     s.close()
     sys.exit(0)
 except Exception:
