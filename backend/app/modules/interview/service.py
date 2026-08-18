@@ -9,13 +9,7 @@ Architectural notes:
   - Lifecycle: status auto-advances to "completed" when all questions are answered.
   - Performance: list_sessions() uses joinedload to avoid N+1 on question_count.
   - ML pipeline: Groq → Gemini → built-in question bank (graceful degradation).
-
-ML Sub-Service — Network Boundary
-----------------------------------
-The ML sub-service (ML_SERVICE_URL) must run exclusively inside the private Docker
-network and must NOT be exposed publicly. All authentication is handled by the core
-FastAPI application before this service is called. See docker-compose.yml for the
-correct network isolation pattern.
+    All inference runs in-process; no separate ml_service container required.
 """
 from __future__ import annotations
 

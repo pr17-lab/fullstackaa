@@ -1,60 +1,113 @@
-version: '3.8'
+# =============================================================================
+# docker-compose.yml — Local development only
+#
+# Start everything with:  docker compose up --build
+#
+# Services:
+#   postgres     — PostgreSQL 15 (local dev DB; Neon in prod via DATABASE_URL env var)
+#   backend      — FastAPI + Uvicorn (auto-migrates on startup)
+#   frontend     — Vite dev server (proxies /api → backend)
+#
+# All services share the "app-network" bridge network.
+# Only frontend (3000) and backend (8000) are exposed to the host.
+# postgres (5432) is exposed for local DB tools (TablePlus, DBeaver, etc.).
+# =============================================================================
 
 services:
+
+  # ---------------------------------------------------------------------------
+  # PostgreSQL 15 — local development database
+  # In production, use Neon (set DATABASE_URL directly — see render.yaml).
+  # ---------------------------------------------------------------------------
   postgres:
     image: postgres:15-alpine
     container_name: student-tracker-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: studentadmin
+      POSTGRES_USER:     studentadmin
       POSTGRES_PASSWORD: studentpass123
-      POSTGRES_DB: student_tracker
-      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB:       student_tracker
+      PGDATA:            /var/lib/postgresql/data/pgdata
     ports:
-      - "5432:5432"
+      - "5432:5432"       # expose for local DB tools only
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U studentadmin -d student_tracker" ]
+      test: ["CMD-SHELL", "pg_isready -U studentadmin -d student_tracker"]
       interval: 10s
       timeout: 5s
       retries: 5
-
-  #  adminer:
-  #    image: adminer:latest
-  #    container_name: student-tracker-adminer
-  #    restart: unless-stopped
-  #    ports:
-  #      - "8080:8080"
-  #    environment:
-  #      ADMINER_DEFAULT_SERVER: postgres
-  #    depends_on:
-  #      - postgres
+      start_period: 10s
+    networks:
+      - app-network
 
   # ---------------------------------------------------------------------------
-  # ML Sub-Service — internal only, do NOT expose publicly
-  # See backend/ml_service/README.md for trust model documentation.
+  # Backend — FastAPI + Uvicorn
+  # Waits for postgres to be healthy before launching.
+  # entrypoint.sh handles: wait-for-DB → alembic upgrade head → uvicorn
   # ---------------------------------------------------------------------------
-  ml_service:
+  backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.ml
-    container_name: student-tracker-ml
+      dockerfile: Dockerfile
+    container_name: student-tracker-api
     restart: unless-stopped
-    ports:
-      - "8001:8001" # local dev only; remove in production
+    depends_on:
+      postgres:
+        condition: service_healthy
     env_file:
       - backend/.env
     environment:
-      - PYTHONUNBUFFERED=1
-      # GROQ_API_KEY is now loaded from env_file
-      - GROQ_MODEL=${GROQ_MODEL:-llama-3.1-8b-instant}
-      - GROQ_TEMPERATURE=${GROQ_TEMPERATURE:-0.7}
-      - GROQ_MAX_TOKENS=${GROQ_MAX_TOKENS:-1024}
-      - GROQ_TIMEOUT_SEC=${GROQ_TIMEOUT_SEC:-10.0}
-    # healthcheck is defined in Dockerfile.ml using Python urllib (curl not available in slim image)
-    # No dependency on DB — the ML service is purely stateless inference
+      PYTHONUNBUFFERED: "1"
+      # Override DATABASE_URL host: inside Docker use service name, not localhost
+      DATABASE_URL: postgresql://studentadmin:studentpass123@postgres:5432/student_tracker
+      # Allow the frontend dev server origin in CORS
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:5173","http://frontend:3000"]'
+    ports:
+      - "8000:8000"       # expose for direct API testing / Swagger UI
+    volumes:
+      # Mount uploads dir so resume files persist across container restarts
+      - uploads_data:/app/uploads
+    networks:
+      - app-network
 
+  # ---------------------------------------------------------------------------
+  # Frontend — Vite dev server
+  # In production this is replaced by the multi-stage nginx container.
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      # Override to use a dev-only Dockerfile if you separate dev/prod builds.
+      # For local dev we still use the production Dockerfile but it's fine;
+      # alternatively you can add a Dockerfile.dev target.
+      target: builder     # only run the build stage; skip nginx in local dev
+    container_name: student-tracker-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      # Point Vite dev proxy at the backend Docker service
+      VITE_BACKEND_URL: http://backend:8000
+    ports:
+      - "3000:3000"
+    command: ["npm", "run", "dev"]
+    networks:
+      - app-network
+
+# =============================================================================
+# Volumes — persist data across container restarts
+# =============================================================================
 volumes:
   postgres_data:
     driver: local
+  uploads_data:
+    driver: local
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  app-network:
+    driver: bridge

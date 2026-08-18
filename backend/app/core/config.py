@@ -26,10 +26,6 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5173"]
 
-    # ML sub-service (internal only — not exposed publicly)
-    ML_SERVICE_URL: str = "http://localhost:8001"
-    ML_SERVICE_TIMEOUT: float = 3.0  # seconds before falling back to built-in bank
-
     # External APIs
     RAPIDAPI_KEY: str = ""
     GEMINI_API_KEY: str = ""
@@ -38,7 +34,7 @@ class Settings(BaseSettings):
 
     # Pydantic v2 settings config
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(".env", ".env.local", "../.env.local"),
         case_sensitive=True,
         extra="ignore",
     )

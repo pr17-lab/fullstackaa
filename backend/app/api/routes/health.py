@@ -32,15 +32,15 @@ def detailed_health_check(db: Session = Depends(get_db)):
         # Database metrics
         user_count = db.execute(text("SELECT COUNT(*) FROM users")).scalar()
         profile_count = db.execute(text("SELECT COUNT(*) FROM student_profiles")).scalar()
-        term_count = db.execute(text("SELECT COUNT(*) FROM academic_terms")).scalar()
-        subject_count = db.execute(text("SELECT COUNT(*) FROM subjects")).scalar()
+        interview_count = db.execute(text("SELECT COUNT(*) FROM interview_sessions")).scalar()
+        roadmap_count = db.execute(text("SELECT COUNT(*) FROM roadmaps")).scalar()
         
         db_metrics = {
             "status": "healthy",
             "users_count": user_count,
             "profiles_count": profile_count,
-            "academic_terms_count": term_count,
-            "subjects_count": subject_count
+            "interview_sessions_count": interview_count,
+            "roadmaps_count": roadmap_count
         }
     except Exception as e:
         db_metrics = {

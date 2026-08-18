@@ -1,0 +1,126 @@
+# =============================================================================
+# render.yaml — Render Blueprint for Student Academic Tracker
+#
+# Two Docker-based web services on the free plan:
+#   - sata-backend  (FastAPI + Uvicorn, port 8000)
+#   - sata-frontend (nginx serving Vite SPA, port 80)
+#
+# Database: Neon (external — paste connection string into DATABASE_URL below)
+#
+# Deploy flow:
+#   1. Connect this repo to Render → Render auto-detects render.yaml
+#   2. Render prompts for all sync:false values in the dashboard
+#   3. Fill in secrets → click "Apply" to deploy both services
+#
+# Render free tier note:
+#   - Services spin down after 15 min idle (50s+ cold start on next request)
+#   - No private networking between services — frontend→backend goes over public HTTPS
+#   - PORT is auto-injected by Render; entrypoint.sh uses ${PORT:-8000} as fallback
+#
+# Docs: https://render.com/docs/blueprint-spec
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # Backend — FastAPI + Uvicorn
+  # entrypoint.sh: wait-for-DB (TCP check) → alembic upgrade head → uvicorn
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: sata-backend
+    runtime: docker
+    plan: free
+    region: singapore   # Closest to South Asia; free tier: oregon/virginia also available
+
+    # Monorepo: set build context to the backend subdirectory
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+
+    healthCheckPath: /api/health
+
+    envVars:
+      # ---- Database (Neon external) ------------------------------------------
+      - key: DATABASE_URL
+        sync: false       # Paste Neon pooled URL in Render dashboard on first deploy
+                          # e.g. postgresql://user:pass@ep-xxx.neon.tech/db?sslmode=require
+
+      # ---- JWT Security ------------------------------------------------------
+      - key: SECRET_KEY
+        generateValue: true   # Render generates a random 256-bit value automatically
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+
+      # ---- Application -------------------------------------------------------
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+
+      # ---- CORS — Render frontend public URL ---------------------------------
+      # After first deploy, update this to your frontend's actual onrender.com URL.
+      # Format: ["https://sata-frontend.onrender.com"]
+      - key: CORS_ORIGINS
+        sync: false       # Set ["https://<your-frontend-name>.onrender.com"] in dashboard
+
+      # ---- DB Connection Pool (keep low for Neon free tier limits) -----------
+      - key: DB_POOL_SIZE
+        value: "3"
+      - key: DB_MAX_OVERFLOW
+        value: "5"
+      - key: DB_POOL_RECYCLE
+        value: "300"      # 5 min — shorter than default for serverless-friendly behaviour
+
+      # ---- AI / External APIs ------------------------------------------------
+      - key: GROQ_API_KEY
+        sync: false       # https://console.groq.com — AI interview question generation
+      - key: GEMINI_API_KEY
+        sync: false       # https://aistudio.google.com/app/apikey — roadmap generation
+      - key: RAPIDAPI_KEY
+        sync: false       # https://rapidapi.com/jsearch — job listings (optional)
+
+      # ---- Groq tuning (defaults are fine) -----------------------------------
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+      - key: GROQ_TEMPERATURE
+        value: "0.7"
+      - key: GROQ_MAX_TOKENS
+        value: "1024"
+      - key: GROQ_TIMEOUT_SEC
+        value: "10.0"
+
+      # ---- Gemini tuning -----------------------------------------------------
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+
+  # ---------------------------------------------------------------------------
+  # Frontend — nginx serving the Vite/React SPA
+  #
+  # Proxies /api/* → sata-backend's public Render URL.
+  # Render free tier has no private networking, so traffic goes over public HTTPS.
+  # The BACKEND_URL env var is injected into nginx.conf at container start
+  # via envsubst (see frontend/Dockerfile CMD).
+  #
+  # BACKEND_URL is set by referencing the backend service's RENDER_EXTERNAL_HOSTNAME
+  # (a Render-default env var injected into every service) and prepending "https://".
+  # Since Blueprint doesn't support string interpolation, we use sync:false here
+  # and the Render dashboard will show the correct value after the backend deploys.
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: sata-frontend
+    runtime: docker
+    plan: free
+    region: singapore
+
+    # Monorepo: set build context to the frontend subdirectory
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+
+    envVars:
+      # ---- Backend public URL for nginx proxy --------------------------------
+      # After sata-backend deploys, set this to: https://sata-backend.onrender.com
+      # (Render does not support cross-service string interpolation in blueprints,
+      # so this must be pasted manually on first deploy via sync:false prompt.)
+      - key: BACKEND_URL
+        sync: false       # Set to https://sata-backend.onrender.com in the dashboard

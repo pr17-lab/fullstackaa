@@ -1,0 +1,44 @@
+# ============================================================
+# frontend/.dockerignore
+# ============================================================
+
+# Dependencies — rebuilt inside Docker via npm ci
+node_modules/
+
+# Previous build output — rebuilt inside Docker
+dist/
+build/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Test files
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__/
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+
+# Misc HTML demo files
+*.html
+!index.html

@@ -19,6 +19,8 @@ import type { StudentProject } from '../api/interview';
 import { Card, CardHeader, CardContent, CardTitle } from '../components/common/Card';
 import { PageTransition } from '../components/layout/PageTransition';
 import { useWebSocketInterview } from '../hooks/useWebSocketInterview';
+import { WsConnectionBanner } from '../components/interview/WsConnectionBanner';
+import { ReconnectToast } from '../components/interview/ReconnectToast';
 
 // ---------------------------------------------------------------------------
 // Web Speech API type augmentation
@@ -1285,10 +1287,17 @@ interface WebSocketInterviewRoomProps {
     onCompleted: () => void;
 }
 
-function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRoomProps) {
+function WebSocketInterviewRoom({ sessionId, onCompleted, onGoToLobby }: WebSocketInterviewRoomProps & { onGoToLobby?: () => void }) {
     const {
         socket,
         connected,
+        connState,
+        retryAttempt,
+        elapsedMs,
+        wsError,
+        retryNow,
+        markIntentionalClose,
+        sendAnswer,
         questions,
         currentIndex,
         setCurrentIndex,
@@ -1339,18 +1348,15 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
     };
 
     const handleSubmit = () => {
-        if (!socket || !activeQuestion) return;
+        if (!activeQuestion) return;
         stopListening();
-        setIsEvaluating(true);
-        
-        socket.send(JSON.stringify({
-            event: "submit_answer",
-            data: {
-                question_id: activeQuestion.question_id || activeQuestion.id,
-                answer_text: typedAnswer.trim()
-            }
-        }));
-        
+
+        // Cancel any stale stuck-eval poll and set tracking refs via sendAnswer
+        sendAnswer(
+            activeQuestion.question_id || activeQuestion.id,
+            typedAnswer.trim()
+        );
+
         clearFinal();
     };
 
@@ -1413,33 +1419,42 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
         );
     }
 
-    if (!connected || questions.length === 0) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 w-full max-w-3xl mx-auto px-4">
-                <div className="flex items-center gap-3">
-                    <div className="h-6 w-6 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin shrink-0" />
-                    <p className="text-gray-700 dark:text-zinc-300 text-sm font-semibold animate-pulse">
-                        🤖 AI Interviewer is thinking...
-                    </p>
-                </div>
-                {currentStreamedText ? (
-                    <div className="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 bg-zinc-950 p-6 shadow-xl font-mono text-[10px] sm:text-xs text-emerald-400 overflow-y-auto max-h-[300px] whitespace-pre-wrap leading-relaxed animate-fade-in text-left">
-                        <div className="flex items-center justify-between border-b border-zinc-800 pb-2 mb-3">
-                            <span className="text-zinc-500 select-none">STREAM_LOG // QUESTION_GENERATION</span>
-                            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                        </div>
-                        {currentStreamedText}
-                        <span className="inline-block w-1.5 h-4 bg-emerald-400 ml-1 live-caret align-middle" />
-                    </div>
-                ) : (
-                    <p className="text-xs text-gray-400 italic">Waiting for stream chunks to arrive...</p>
-                )}
-            </div>
-        );
-    }
-
     return (
         <div className="min-h-[70vh] flex flex-col">
+            {/* Connection state banner — shown for all non-connected, non-closed states */}
+            <WsConnectionBanner
+                connState={connState}
+                retryAttempt={retryAttempt}
+                elapsedMs={elapsedMs}
+                wsError={wsError}
+                retryNow={retryNow}
+                onGoToLobby={onGoToLobby}
+            />
+
+            {/* Reconnect success toast */}
+            <ReconnectToast connState={connState} />
+
+            {/* If not yet connected / loading questions — show stream log while banner is visible */}
+            {(!connected || questions.length === 0) && (
+                <div className="flex flex-col items-center justify-center min-h-[50vh] gap-6 w-full max-w-3xl mx-auto px-4">
+                    {currentStreamedText ? (
+                        <div className="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 bg-zinc-950 p-6 shadow-xl font-mono text-[10px] sm:text-xs text-emerald-400 overflow-y-auto max-h-[300px] whitespace-pre-wrap leading-relaxed animate-fade-in text-left">
+                            <div className="flex items-center justify-between border-b border-zinc-800 pb-2 mb-3">
+                                <span className="text-zinc-500 select-none">STREAM_LOG // QUESTION_GENERATION</span>
+                                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                            </div>
+                            {currentStreamedText}
+                            <span className="inline-block w-1.5 h-4 bg-emerald-400 ml-1 live-caret align-middle" />
+                        </div>
+                    ) : connState === 'connected' ? (
+                        <p className="text-xs text-gray-400 italic">Waiting for stream chunks to arrive...</p>
+                    ) : null}
+                </div>
+            )}
+
+            {/* Interview UI — only shown when connected + questions loaded */}
+            {connected && questions.length > 0 && (
+            <>
             {/* Top bar */}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3 animate-slide-in">
@@ -1622,6 +1637,8 @@ function WebSocketInterviewRoom({ sessionId, onCompleted }: WebSocketInterviewRo
                     </div>
                 </div>
             </div>
+            </>
+            )}
         </div>
     );
 }
@@ -1844,6 +1861,10 @@ const InterviewPrep: React.FC = () => {
                         onCompleted={() => {
                             setPhase('results');
                             qc.invalidateQueries({ queryKey: ['interview-session', activeSessionId] });
+                        }}
+                        onGoToLobby={() => {
+                            setActiveSessionId(null);
+                            setPhase('lobby');
                         }}
                     />
                 )}

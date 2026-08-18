@@ -1,0 +1,80 @@
+# ============================================================
+# backend/.dockerignore
+# Keep the Docker build context lean and secure.
+# ============================================================
+
+# Python virtual environment (never ship to Docker)
+.venv
+venv
+env
+ENV
+
+# Python bytecode
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Testing & coverage
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+*.xml
+pytest.ini
+setup.cfg
+
+# Alembic compiled cache (not the migrations themselves)
+alembic/__pycache__/
+
+# Development / debug scripts (root-level one-off files)
+test_*.py
+check_*.py
+*.txt
+!requirements.txt
+*.log
+error.txt
+log*.txt
+output*.txt
+student_error*.txt
+interview_test_out.txt
+test_auth.txt
+test_interview*.txt
+test_out*.txt
+uvicorn_processes.txt
+
+# Large data files — never in Docker image
+data/
+backups/
+student_passwords.csv
+
+# Logs directory
+logs/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Secrets — never ship
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+
+# ML model files (if any large binaries appear)
+*.pkl
+*.bin
+*.h5
+*.pt
+*.onnx

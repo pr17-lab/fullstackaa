@@ -464,7 +464,7 @@ async def websocket_interview(
         user = await get_websocket_user(websocket, db)
         if not user:
             await websocket.send_json({"event": "error", "data": {"message": "Unauthorized"}})
-            await websocket.close()
+            await websocket.close(code=4001, reason="Unauthorized")
             return
             
         from app.models.interview import InterviewSession
@@ -478,7 +478,7 @@ async def websocket_interview(
         )
         if not session:
             await websocket.send_json({"event": "error", "data": {"message": "Session not found"}})
-            await websocket.close()
+            await websocket.close(code=4004, reason="Session not found")
             return
             
         if len(session.questions) > 0:
@@ -670,6 +670,8 @@ async def websocket_interview(
                             "data": {"message": f"Answer submission failed: {str(e)}"}
                         })
                         
+                elif event == "ping":
+                    await websocket.send_json({"event": "pong", "data": {}})
                 else:
                     await websocket.send_json({
                         "event": "error",

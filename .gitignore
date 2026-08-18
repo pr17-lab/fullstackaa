@@ -24,6 +24,8 @@ wheels/
 .coverage
 htmlcov/
 .env
+.env*.local
+.env.local
 .venv
 venv/
 ENV/
@@ -53,3 +55,24 @@ backend/test_endpoints_simple.py
 
 # Sensitive data (DO NOT COMMIT)
 backend/data/user_credentials_10k_common_password.csv
+
+# Backend debug/log files (not needed in git)
+backend/*.txt
+backend/*.log
+backend/log*.txt
+backend/error.txt
+backend/output*.txt
+backend/student_error*.txt
+backend/interview_test_out.txt
+backend/test_auth.txt
+backend/test_interview*.txt
+backend/test_out*.txt
+backend/uvicorn_processes.txt
+
+# Docker
+docker-compose.override.yml
+.docker/
+
+# Railway
+.railway/
+.env.local

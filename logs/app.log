@@ -1,0 +1,3 @@
+2026-08-15 22:04:59 - root - INFO - logging.py:86 - Logging initialized for student_tracker at level INFO
+2026-08-15 22:05:00 - app.middleware.logging - INFO - logging.py:15 - api_request
+2026-08-15 22:05:00 - httpx - INFO - _client.py:1013 - HTTP Request: GET http://testserver/api/health "HTTP/1.1 200 OK"

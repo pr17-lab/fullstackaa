@@ -209,17 +209,6 @@ const Login = () => {
                     </div>
                 </div>
 
-                {/* Demo Credentials */}
-                <div
-                    className="mt-4 p-4 rounded-xl"
-                    style={{ background: 'rgba(99,102,241,0.05)', border: '1px solid rgba(99,102,241,0.15)' }}
-                >
-                    <p className="text-xs font-bold mb-1.5" style={{ color: 'var(--brand-primary)' }}>
-                        Demo Credentials
-                    </p>
-                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>User ID: S00001</p>
-                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Password: S00001@123</p>
-                </div>
             </div>
         </div>
     );

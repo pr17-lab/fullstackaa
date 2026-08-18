@@ -1,6 +1,10 @@
 """
 groq_client.py — Groq LLM wrapper for interview question generation.
 
+Moved here from the former ml_service sub-process (backend/ml_service/groq_client.py)
+as part of folding ml_service into the main backend. The network hop
+(httpx POST /predict/questions) is eliminated; this module is called in-process.
+
 Design principles (production-hardened):
   - Temperature controlled via GROQ_TEMPERATURE env var (default 0.7).
   - Strict JSON validation: parses, validates structure, validates keys,
@@ -58,7 +62,7 @@ def _build_prompt(branch, semester, overall_gpa, weak_subjects, jd_text, resume_
 {jd_text.strip()}
 
 CRITICAL INSTRUCTION: You are an industry technical interviewer.
-Generate exactly {limit} interview questions based ONLY on the technologies, 
+Generate exactly {limit} interview questions based ONLY on the technologies,
 skills, and roles mentioned in the job description above.
 
 STUDENT PROFILE (For difficulty calibration only):
@@ -92,7 +96,7 @@ Return ONLY the JSON array. No explanation, no markdown fences."""
 - Weak subjects: {weak_str}
 - Resume skills: {resume_str}"""
 
-        instruction = f"""Generate exactly {limit} technical interview questions 
+        instruction = f"""Generate exactly {limit} technical interview questions
 for a {branch} engineering student in semester {semester}.
 Mix of DSA, core CS, and domain topics appropriate for their branch.
 
@@ -100,7 +104,7 @@ Return as JSON array:
 [
   {{
     "topic": "topic name",
-    "question": "your question here", 
+    "question": "your question here",
     "difficulty": "easy|medium|hard"
   }}
 ]
@@ -204,8 +208,12 @@ def generate_questions_with_groq(
     limit: int = 10,
 ) -> Optional[list[dict]]:
     """
-    Call Groq API to generate interview questions. Returns None on any
-    failure so the caller can fall back to the built-in bank.
+    Call Groq API (synchronous SDK) to generate interview questions.
+    Returns None on any failure so the caller can fall back to the built-in bank.
+
+    Note: The main generate_questions_async flow uses the async Groq SDK directly
+    for streaming support. This function is the synchronous fallback path retained
+    from the former ml_service for non-streaming callers.
 
     Logs:
         - Question count + branch on success (no question text logged).
