@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from pydantic import field_validator, ValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -42,6 +42,24 @@ class Settings(BaseSettings):
     # ---------------------------------------------------------------------------
     # Validators
     # ---------------------------------------------------------------------------
+
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        if isinstance(v, str):
+            v = v.strip()
+            if not v:
+                return ["http://localhost:3000", "http://localhost:5173"]
+            if v.startswith("[") and v.endswith("]"):
+                import json
+                try:
+                    return json.loads(v)
+                except Exception:
+                    pass
+            return [i.strip() for i in v.split(",") if i.strip()]
+        elif isinstance(v, list):
+            return v
+        return ["http://localhost:3000", "http://localhost:5173"]
 
     @field_validator("DATABASE_URL")
     @classmethod
