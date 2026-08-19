@@ -23,9 +23,10 @@ import subprocess
 
 from app.models import User, StudentProfile
 from app.core.database import Base
+from app.core.config import settings
 
 # Database connection
-DATABASE_URL = "postgresql://studentadmin:studentpass123@localhost:5432/student_tracker"
+DATABASE_URL = settings.DATABASE_URL
 
 # CSV file path
 IEEE_CSV_PATH = backend_dir / "data" / "SATA_student_main_info_10k_IEEE.csv"
