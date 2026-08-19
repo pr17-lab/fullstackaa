@@ -43,8 +43,13 @@ class User(Base):
     
     def is_locked(self) -> bool:
         """Check if account is currently locked."""
-        if self.locked_until and self.locked_until > datetime.utcnow():
-            return True
+        if self.locked_until:
+            from datetime import timezone
+            now = datetime.now(timezone.utc)
+            locked_until_tz = self.locked_until
+            if locked_until_tz.tzinfo is None:
+                locked_until_tz = locked_until_tz.replace(tzinfo=timezone.utc)
+            return locked_until_tz > now
         return False
     
     def record_failed_login(self) -> None:
@@ -53,7 +58,8 @@ class User(Base):
         
         # Lock account after 5 failed attempts for 30 minutes
         if self.failed_login_attempts >= 5:
-            self.locked_until = datetime.utcnow() + timedelta(minutes=30)
+            from datetime import timezone
+            self.locked_until = datetime.now(timezone.utc) + timedelta(minutes=30)
     
     def reset_failed_attempts(self) -> None:
         """Reset failed login attempts after successful login."""

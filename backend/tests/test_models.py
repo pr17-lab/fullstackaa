@@ -56,7 +56,8 @@ def test_user_account_lockout(db_session, sample_user):
     assert sample_user.is_locked() is True
     assert sample_user.failed_login_attempts == 5
     assert sample_user.locked_until is not None
-    assert sample_user.locked_until > datetime.utcnow()
+    from datetime import timezone
+    assert sample_user.locked_until > datetime.now(timezone.utc)
 
 def test_user_reset_failed_attempts(db_session, sample_user):
     """Test resetting failed login attempts."""

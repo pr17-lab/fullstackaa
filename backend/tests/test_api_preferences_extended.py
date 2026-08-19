@@ -86,8 +86,7 @@ def test_update_preferences_does_not_overwrite(auth_client, db_session, sample_u
     assert data["experience_level"] == "junior"
     assert data["preferred_domains"] == ["Custom Domain"]
 
-@pytest.mark.anyio
-async def test_new_roles_gap_analysis_and_roadmap_generation(auth_client, db_session, sample_user, sample_student_profile):
+def test_new_roles_gap_analysis_and_roadmap_generation(auth_client, db_session, sample_user, sample_student_profile):
     import csv
     import os
     from app.models.learning_resource import LearningResource
@@ -230,7 +229,8 @@ async def test_new_roles_gap_analysis_and_roadmap_generation(auth_client, db_ses
         db_session.commit()
 
         # Call generate_roadmap service function
-        roadmap = await generate_roadmap(db_session, sample_user.id, role)
+        import asyncio
+        roadmap = asyncio.run(generate_roadmap(db_session, sample_user.id, role))
         assert roadmap is not None
         assert roadmap.job_role == role
         

@@ -28,38 +28,60 @@ from app.core.security import get_password_hash
 
 
 # ---------------------------------------------------------------------------
-# 1. SQLite UUID compatibility shim
-# ---------------------------------------------------------------------------
-from sqlalchemy.dialects.sqlite import base as _sqlite_base
-
-def _visit_UUID(self, type_, **kw):          # noqa: N802
-    return "VARCHAR(36)"
-
-def _visit_ARRAY(self, type_, **kw):
-    return "JSON"
-
-def _visit_JSONB(self, type_, **kw):
-    return "JSON"
-
-_sqlite_base.SQLiteTypeCompiler.visit_UUID = _visit_UUID   # type: ignore[attr-defined]
-_sqlite_base.SQLiteTypeCompiler.visit_ARRAY = _visit_ARRAY
-_sqlite_base.SQLiteTypeCompiler.visit_JSONB = _visit_JSONB
-
-
-# ---------------------------------------------------------------------------
-# 2. Session-scoped engine (created once)
+# 2. Session-scoped engine (created once on PostgreSQL)
 # ---------------------------------------------------------------------------
 
 @pytest.fixture(scope="session")
 def engine():
-    """In-memory SQLite engine shared across all tests."""
-    _engine = create_engine(
-        "sqlite:///:memory:",
-        connect_args={"check_same_thread": False},
-        poolclass=StaticPool,
-    )
-    Base.metadata.create_all(bind=_engine)
+    """PostgreSQL engine shared across all tests, migrated with Alembic."""
+    import os
+    from alembic.config import Config
+    from alembic import command
+    
+    # We use a dedicated test database on the local PostgreSQL service
+    default_url = "postgresql://studentadmin:studentpass123@localhost:5432/postgres"
+    test_db_name = "student_tracker_test"
+    test_url = f"postgresql://studentadmin:studentpass123@localhost:5432/{test_db_name}"
+    
+    # Ensure test database exists and is completely fresh
+    tmp_engine = create_engine(default_url, isolation_level="AUTOCOMMIT")
+    with tmp_engine.connect() as conn:
+        # Terminate any stale connections to test DB to prevent lockouts
+        conn.execute(text(
+            f"SELECT pg_terminate_backend(pg_stat_activity.pid) "
+            f"FROM pg_stat_activity "
+            f"WHERE pg_stat_activity.datname = '{test_db_name}' AND pid <> pg_backend_pid()"
+        ))
+        conn.execute(text(f"DROP DATABASE IF EXISTS {test_db_name}"))
+        conn.execute(text(f"CREATE DATABASE {test_db_name}"))
+    tmp_engine.dispose()
+    
+    # Connect to the test database
+    _engine = create_engine(test_url)
+    
+    # Overwrite settings and database module components dynamically
+    from app.core.config import settings
+    settings.DATABASE_URL = test_url
+    
+    import app.core.database
+    app.core.database.engine = _engine
+    app.core.database.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=_engine)
+    
+    # Run Alembic migrations programmatically
+    os.environ["DATABASE_URL"] = test_url
+    alembic_cfg = Config("alembic.ini")
+    command.upgrade(alembic_cfg, "head")
+    
+    # Run programmatic check to verify model-to-migration consistency (catches schema drift)
+    try:
+        command.check(alembic_cfg)
+    except Exception as e:
+        import pytest
+        pytest.fail(f"Alembic detected schema/migration drift! Run 'alembic revision --autogenerate' to align them. Error: {e}")
+    
     yield _engine
+    
+    # Teardown: drop tables
     Base.metadata.drop_all(bind=_engine)
 
 
@@ -91,13 +113,17 @@ def db_session(engine):
     )
     session = TestingSessionLocal()
 
-    # Clear all tables in reverse dependency order before each test
+    # Clear all tables in public schema except alembic_version using CASCADE truncate
     with engine.connect() as conn:
-        conn.execute(text("DELETE FROM interview_questions"))
-        conn.execute(text("DELETE FROM interview_sessions"))
-        conn.execute(text("DELETE FROM student_profiles"))
-        conn.execute(text("DELETE FROM users"))
-        conn.commit()
+        res = conn.execute(text(
+            "SELECT table_name FROM information_schema.tables "
+            "WHERE table_schema = 'public' AND table_name != 'alembic_version'"
+        ))
+        tables = [row[0] for row in res]
+        if tables:
+            tables_str = ", ".join(f'"{t}"' for t in tables)
+            conn.execute(text(f"TRUNCATE TABLE {tables_str} CASCADE"))
+            conn.commit()
 
     yield session
 
