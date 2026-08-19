@@ -39,6 +39,29 @@ limiter = Limiter(key_func=get_remote_address)
 async def lifespan(app: FastAPI):
     """Load startup resources, then clean up on shutdown."""
     logger.info("Starting Student Academic Tracker API v1.0 (modular monolith)")
+    
+    # Verify database is seeded
+    from app.core.database import SessionLocal
+    from sqlalchemy import text
+    db = SessionLocal()
+    try:
+        cur_tax = db.execute(text("SELECT COUNT(*) FROM skill_taxonomy")).scalar()
+        cur_req = db.execute(text("SELECT COUNT(*) FROM job_skill_requirements")).scalar()
+        if cur_tax == 0 or cur_req == 0:
+            logger.warning(
+                "⚠️ WARNING: Database tables are unseeded! "
+                f"skill_taxonomy count: {cur_tax}, job_skill_requirements count: {cur_req}. "
+                "Please run 'python scripts/seed_v2_pipeline.py' to seed career skill requirements."
+            )
+        else:
+            logger.info(
+                f"Database verified: {cur_tax} skills in taxonomy, {cur_req} job skill requirements."
+            )
+    except Exception as e:
+        logger.error(f"Error during startup database validation check: {e}")
+    finally:
+        db.close()
+        
     yield
 
 # ---------------------------------------------------------------------------

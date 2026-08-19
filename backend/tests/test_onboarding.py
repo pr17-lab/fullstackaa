@@ -174,3 +174,121 @@ def test_api_create_session_from_roadmap_task(auth_client, db_session, sample_us
         assert data["associated_skill_id"] == str(skill.id)
         assert data["is_micro"] is True
         assert data["topic"] == "Practice Interview: Docker"
+
+
+def test_onboarding_on_demand_gaps_to_roadmap(auth_client, db_session, sample_user):
+    import uuid
+    import json
+    from sqlalchemy import text
+    from app.models.student_profile import StudentProfile
+    from app.models.student_preference import StudentPreference
+    from app.models.skill_taxonomy import SkillTaxonomy
+    from app.models.skill_gap import SkillGap
+    from app.models.roadmap import Roadmap
+
+    # Clean existing data for clean environment
+    db_session.query(SkillGap).filter(SkillGap.user_id == sample_user.id).delete()
+    db_session.query(Roadmap).filter(Roadmap.user_id == sample_user.id).delete()
+    db_session.commit()
+
+    role = "Software Engineer"
+
+    # 1. Seed Student Profile
+    profile = StudentProfile(
+        user_id=sample_user.id,
+        name="Onboarding Flow Student",
+        department="CSE",
+        semester=5,
+        interests="Web Development"
+    )
+    db_session.add(profile)
+    db_session.commit()
+
+    # 2. Seed Student Preference (Simulating Step 1 target role setting)
+    is_sqlite = db_session.bind.dialect.name == "sqlite"
+    if is_sqlite:
+        db_session.execute(
+            text(
+                "INSERT INTO student_preferences (id, user_id, target_roles, preferred_domains, open_to_remote, career_transition, timeline_months, experience_level, onboarding_step) "
+                "VALUES (:id, :user_id, :target_roles, :preferred_domains, 1, 0, 6, 'fresher', 'preferred_role_set')"
+            ),
+            {
+                "id": uuid.uuid4().hex,
+                "user_id": sample_user.id.hex,
+                "target_roles": json.dumps([role]),
+                "preferred_domains": json.dumps(["Software"])
+            }
+        )
+        db_session.commit()
+    else:
+        pref = StudentPreference(
+            id=uuid.uuid4(),
+            user_id=sample_user.id,
+            target_roles=[role],
+            preferred_domains=["Software"],
+            timeline_months=6,
+            experience_level="fresher",
+            onboarding_step="preferred_role_set"
+        )
+        db_session.add(pref)
+        db_session.commit()
+
+    # 3. Seed Skill Taxonomy & Requirements (so gaps can actually be computed)
+    skill = db_session.query(SkillTaxonomy).filter(SkillTaxonomy.skill_name == "FastAPI").first()
+    if not skill:
+        skill = SkillTaxonomy(
+            id=uuid.uuid4(),
+            skill_name="FastAPI",
+            category="backend",
+            skill_type="tool"
+        )
+        db_session.add(skill)
+        db_session.commit()
+        db_session.refresh(skill)
+
+    db_session.execute(text("DELETE FROM job_skill_requirements WHERE job_role = :role"), {"role": role})
+    db_session.commit()
+    db_session.execute(
+        text(
+            "INSERT INTO job_skill_requirements (id, job_role, skill_id, importance, min_score_required) "
+            "VALUES (:id, :role, :skill_id, 'must_have', 70.0)"
+        ),
+        {
+            "id": str(uuid.uuid4()),
+            "role": role,
+            "skill_id": str(skill.id)
+        }
+    )
+    db_session.commit()
+
+    # Verify no gaps exist yet in the database for the user
+    gaps_before = db_session.query(SkillGap).filter(SkillGap.user_id == sample_user.id).all()
+    assert len(gaps_before) == 0
+
+    # 4. Fetch recommendations (Gap Preview / Step 3 endpoint)
+    # This GET request should trigger the auto-computation of gaps on-the-fly!
+    response_rec = auth_client.get("/api/skills/recommendations")
+    assert response_rec.status_code == 200
+    rec_data = response_rec.json()
+    assert rec_data["recommendations"]["primary"]["job_role"] == role
+
+    # Confirm that a SkillGap row was created/saved to the database!
+    gaps_after = db_session.query(SkillGap).filter(SkillGap.user_id == sample_user.id).all()
+    assert len(gaps_after) > 0
+    assert gaps_after[0].job_role == role
+
+    # Let's delete the SkillGap record again to test the second fallback inside generate_roadmap itself!
+    db_session.query(SkillGap).filter(SkillGap.user_id == sample_user.id).delete()
+    db_session.commit()
+    
+    gaps_deleted = db_session.query(SkillGap).filter(SkillGap.user_id == sample_user.id).all()
+    assert len(gaps_deleted) == 0
+
+    # 5. Call generate roadmap endpoint (Step 4 / Get Roadmap endpoint)
+    # Even with SkillGap record deleted from DB, generating the roadmap should trigger on-demand gap computation and succeed!
+    response_rm = auth_client.post("/api/roadmap/generate", json={"job_role": role})
+    assert response_rm.status_code == 200
+    rm_data = response_rm.json()
+    assert rm_data["job_role"] == role
+    assert len(rm_data["tasks"]) > 0
+

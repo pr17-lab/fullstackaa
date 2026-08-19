@@ -117,6 +117,10 @@ def get_student_gaps(db: Session, user_id: UUID) -> list[SkillGapResponse]:
     """Return all skill-gap records for a student, ordered by match score desc."""
     if isinstance(user_id, str):
         user_id = UUID(user_id)
+        
+    from app.modules.skills.engine import compute_gaps_for_student
+    compute_gaps_for_student(db, str(user_id))
+
     gaps = (
         db.query(SkillGap)
         .filter(SkillGap.user_id == user_id)
@@ -162,6 +166,10 @@ def get_career_recommendation(db: Session, user_id: UUID) -> dict:
     """Return primary and alternative career recommendations based on gap scores."""
     if isinstance(user_id, str):
         user_id = UUID(user_id)
+        
+    from app.modules.skills.engine import compute_gaps_for_student
+    compute_gaps_for_student(db, str(user_id))
+
     from app.models.student_profile import StudentProfile
     from app.models.student_preference import StudentPreference
 

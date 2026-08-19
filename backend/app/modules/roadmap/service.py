@@ -311,6 +311,10 @@ async def generate_roadmap(db: Session, user_id: UUID, job_role: str) -> Roadmap
     # 1. Load skill_gaps
     gap = db.query(SkillGap).filter(SkillGap.user_id == user_id, SkillGap.job_role == job_role).first()
     if not gap:
+        compute_gaps_for_student(db, str(user_id))
+        gap = db.query(SkillGap).filter(SkillGap.user_id == user_id, SkillGap.job_role == job_role).first()
+        
+    if not gap:
         raise HTTPException(status_code=404, detail="Skill gap analysis not found for this role. Complete gaps first.")
         
     # 2. Preferences
