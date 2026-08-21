@@ -191,7 +191,7 @@ async def verify_github_complexity_async(repo_url: str, user_id: UUID, db: Sessi
         try:
             url_gemini = (
                 "https://generativelanguage.googleapis.com/v1beta/models/"
-                f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+                f"{settings.GEMINI_MODEL}:generateContent"
             )
             prompt = f"""Act as an automated technology identifier. Read this project README. Return ONLY a plain JSON array of framework, tool, or database strings discovered (e.g., ['FastAPI', 'React', 'Docker']). Do not include explanatory text or markdown backticks.
 
@@ -206,7 +206,7 @@ README:
                 },
             }
             async with httpx.AsyncClient(timeout=25.0) as client_http:
-                resp_gemini = await client_http.post(url_gemini, json=payload)
+                resp_gemini = await client_http.post(url_gemini, json=payload, headers={"x-goog-api-key": settings.GEMINI_API_KEY})
                 resp_gemini.raise_for_status()
                 raw_text = resp_gemini.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                 

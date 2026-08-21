@@ -83,7 +83,7 @@ services:
 
       # ---- Groq tuning (defaults are fine) -----------------------------------
       - key: GROQ_MODEL
-        value: llama-3.1-8b-instant
+        value: openai/gpt-oss-120b
       - key: GROQ_TEMPERATURE
         value: "0.7"
       - key: GROQ_MAX_TOKENS

@@ -146,7 +146,7 @@ Resume:
         try:
             url_gemini = (
                 "https://generativelanguage.googleapis.com/v1beta/models/"
-                f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+                f"{settings.GEMINI_MODEL}:generateContent"
             )
             payload = {
                 "contents": [{"parts": [{"text": prompt}]}],
@@ -156,7 +156,7 @@ Resume:
                 },
             }
             async with httpx.AsyncClient(timeout=25.0) as client_http:
-                resp_gemini = await client_http.post(url_gemini, json=payload)
+                resp_gemini = await client_http.post(url_gemini, json=payload, headers={"x-goog-api-key": settings.GEMINI_API_KEY})
                 resp_gemini.raise_for_status()
                 raw_text = resp_gemini.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                 

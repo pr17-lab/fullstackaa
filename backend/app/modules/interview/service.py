@@ -37,6 +37,19 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
+# Gemini auth helper
+# ---------------------------------------------------------------------------
+# Google AI Studio now issues AQ. prefix keys ("Auth Keys"). These must be
+# sent via the x-goog-api-key HTTP header — the legacy ?key= query-param
+# authentication is NOT supported for the AQ. format (returns 401).
+# Do NOT fall back to ?key= for any new Gemini calls.
+
+def _gemini_headers() -> dict:
+    """Return the x-goog-api-key auth header for all Gemini native endpoint calls."""
+    return {"x-goog-api-key": settings.GEMINI_API_KEY}
+
+
+# ---------------------------------------------------------------------------
 # Built-in question bank — fallback when ML service is unavailable
 # ---------------------------------------------------------------------------
 
@@ -287,7 +300,7 @@ STRICT RULES:
                 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
                 if on_chunk:
                     response_stream = await client.chat.completions.create(
-                        model="llama-3.1-8b-instant",
+                        model=settings.GROQ_MODEL,
                         messages=[{"role": "user", "content": prompt}],
                         temperature=0.7,
                         max_tokens=4000,
@@ -303,7 +316,7 @@ STRICT RULES:
                     raw = full_text.strip()
                 else:
                     response = await client.chat.completions.create(
-                        model="llama-3.1-8b-instant",
+                        model=settings.GROQ_MODEL,
                         messages=[{"role": "user", "content": prompt}],
                         temperature=0.7,
                         max_tokens=4000,
@@ -324,7 +337,7 @@ STRICT RULES:
                 if on_chunk:
                     url = (
                         "https://generativelanguage.googleapis.com/v1beta/models/"
-                        f"{settings.GEMINI_MODEL}:streamGenerateContent?alt=sse&key={settings.GEMINI_API_KEY}"
+                        f"{settings.GEMINI_MODEL}:streamGenerateContent?alt=sse"
                     )
                     payload = {
                         "contents": [{"parts": [{"text": prompt}]}],
@@ -335,7 +348,7 @@ STRICT RULES:
                     }
                     full_text = ""
                     async with httpx.AsyncClient(timeout=90.0) as http_client:
-                        async with http_client.stream("POST", url, json=payload) as response:
+                        async with http_client.stream("POST", url, json=payload, headers=_gemini_headers()) as response:
                             response.raise_for_status()
                             async for line in response.aiter_lines():
                                 if line.startswith("data: "):
@@ -352,7 +365,7 @@ STRICT RULES:
                 else:
                     url = (
                         "https://generativelanguage.googleapis.com/v1beta/models/"
-                        f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+                        f"{settings.GEMINI_MODEL}:generateContent"
                     )
                     payload = {
                         "contents": [{"parts": [{"text": prompt}]}],
@@ -362,7 +375,7 @@ STRICT RULES:
                         },
                     }
                     async with httpx.AsyncClient(timeout=90.0) as http_client:
-                        resp = await http_client.post(url, json=payload)
+                        resp = await http_client.post(url, json=payload, headers=_gemini_headers())
                         resp.raise_for_status()
                         raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                 
@@ -633,7 +646,7 @@ STRICT RULES:
                 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
                 if on_chunk:
                     response_stream = await client.chat.completions.create(
-                        model="llama-3.1-8b-instant",
+                        model=settings.GROQ_MODEL,
                         messages=[{"role": "user", "content": prompt}],
                         temperature=0.7,
                         max_tokens=2000,
@@ -649,7 +662,7 @@ STRICT RULES:
                     raw = full_text.strip()
                 else:
                     response = await client.chat.completions.create(
-                        model="llama-3.1-8b-instant",
+                        model=settings.GROQ_MODEL,
                         messages=[{"role": "user", "content": prompt}],
                         temperature=0.7,
                         max_tokens=2000,
@@ -668,7 +681,7 @@ STRICT RULES:
                 if on_chunk:
                     url = (
                         "https://generativelanguage.googleapis.com/v1beta/models/"
-                        f"{settings.GEMINI_MODEL}:streamGenerateContent?alt=sse&key={settings.GEMINI_API_KEY}"
+                        f"{settings.GEMINI_MODEL}:streamGenerateContent?alt=sse"
                     )
                     payload = {
                         "contents": [{"parts": [{"text": prompt}]}],
@@ -679,7 +692,7 @@ STRICT RULES:
                     }
                     full_text = ""
                     async with httpx.AsyncClient(timeout=90.0) as http_client:
-                        async with http_client.stream("POST", url, json=payload) as response:
+                        async with http_client.stream("POST", url, json=payload, headers=_gemini_headers()) as response:
                             response.raise_for_status()
                             async for line in response.aiter_lines():
                                 if line.startswith("data: "):
@@ -696,7 +709,7 @@ STRICT RULES:
                 else:
                     url = (
                         "https://generativelanguage.googleapis.com/v1beta/models/"
-                        f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+                        f"{settings.GEMINI_MODEL}:generateContent"
                     )
                     payload = {
                         "contents": [{"parts": [{"text": prompt}]}],
@@ -706,7 +719,7 @@ STRICT RULES:
                         },
                     }
                     async with httpx.AsyncClient(timeout=90.0) as http_client:
-                        resp = await http_client.post(url, json=payload)
+                        resp = await http_client.post(url, json=payload, headers=_gemini_headers())
                         resp.raise_for_status()
                         raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                 
@@ -788,7 +801,7 @@ Return ONLY a valid JSON object matching this schema exactly:
                 from groq import AsyncGroq
                 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
                 response = await client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
+                    model=settings.GROQ_MODEL,
                     messages=[{"role": "user", "content": prompt}],
                     temperature=0.7,
                     max_tokens=4000,
@@ -808,7 +821,7 @@ Return ONLY a valid JSON object matching this schema exactly:
             try:
                 url = (
                     "https://generativelanguage.googleapis.com/v1beta/models/"
-                    f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+                    f"{settings.GEMINI_MODEL}:generateContent"
                 )
                 payload = {
                     "contents": [{"parts": [{"text": prompt}]}],
@@ -818,7 +831,7 @@ Return ONLY a valid JSON object matching this schema exactly:
                     },
                 }
                 async with httpx.AsyncClient(timeout=90.0) as http_client:
-                    resp = await http_client.post(url, json=payload)
+                    resp = await http_client.post(url, json=payload, headers=_gemini_headers())
                     resp.raise_for_status()
                     raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                     parsed = json.loads(_strip_json_fences(raw))
@@ -1151,14 +1164,14 @@ Return ONLY the JSON array. No other text."""
                 raise ValueError("GEMINI_API_KEY not configured")
             url = (
                 f"https://generativelanguage.googleapis.com/v1beta/models/"
-                f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+                f"{settings.GEMINI_MODEL}:generateContent"
             )
             payload = {
                 "contents": [{"parts": [{"text": eval_prompt}]}],
                 "generationConfig": {"temperature": 0.3, "response_mime_type": "application/json"},
             }
             async with httpx.AsyncClient(timeout=90.0) as client_http:
-                resp = await client_http.post(url, json=payload)
+                resp = await client_http.post(url, json=payload, headers=_gemini_headers())
                 resp.raise_for_status()
                 raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                 evaluations = json.loads(_strip_json_fences(raw))
@@ -1171,7 +1184,7 @@ Return ONLY the JSON array. No other text."""
                 from groq import Groq
                 client = Groq(api_key=settings.GROQ_API_KEY)
                 response = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
+                    model=settings.GROQ_MODEL,
                     messages=[{"role": "user", "content": eval_prompt}],
                     temperature=0.3,
                     max_tokens=4000,
@@ -1588,14 +1601,14 @@ Return ONLY a valid JSON object matching this schema exactly:
                 raise ValueError("GEMINI_API_KEY not configured")
             url = (
                 f"https://generativelanguage.googleapis.com/v1beta/models/"
-                f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+                f"{settings.GEMINI_MODEL}:generateContent"
             )
             payload = {
                 "contents": [{"parts": [{"text": eval_prompt}]}],
                 "generationConfig": {"temperature": 0.3, "response_mime_type": "application/json"},
             }
             async with httpx.AsyncClient(timeout=90.0) as client_http:
-                resp = await client_http.post(url, json=payload)
+                resp = await client_http.post(url, json=payload, headers=_gemini_headers())
                 resp.raise_for_status()
                 raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                 eval_item = json.loads(_strip_json_fences(raw))
@@ -2021,7 +2034,7 @@ Return ONLY a valid JSON object matching this schema exactly:
                 from groq import AsyncGroq
                 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
                 response = await client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
+                    model=settings.GROQ_MODEL,
                     messages=[{"role": "user", "content": prompt}],
                     temperature=0.7,
                     max_tokens=4000,
@@ -2041,7 +2054,7 @@ Return ONLY a valid JSON object matching this schema exactly:
             try:
                 url = (
                     "https://generativelanguage.googleapis.com/v1beta/models/"
-                    f"{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+                    f"{settings.GEMINI_MODEL}:generateContent"
                 )
                 payload = {
                     "contents": [{"parts": [{"text": prompt}]}],
@@ -2051,7 +2064,7 @@ Return ONLY a valid JSON object matching this schema exactly:
                     },
                 }
                 async with httpx.AsyncClient(timeout=90.0) as http_client:
-                    resp = await http_client.post(url, json=payload)
+                    resp = await http_client.post(url, json=payload, headers=_gemini_headers())
                     resp.raise_for_status()
                     raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                     parsed = json.loads(_strip_json_fences(raw))

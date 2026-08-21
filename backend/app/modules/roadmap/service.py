@@ -58,14 +58,14 @@ Return ONLY JSON:
     if not settings.GEMINI_API_KEY:
         raise Exception("GEMINI_API_KEY not configured")
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{settings.GEMINI_MODEL}:generateContent?key={settings.GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{settings.GEMINI_MODEL}:generateContent"
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"temperature": 0.3, "response_mime_type": "application/json"},
     }
 
     async with httpx.AsyncClient(timeout=15.0) as client:
-        resp = await client.post(url, json=payload)
+        resp = await client.post(url, json=payload, headers={"x-goog-api-key": settings.GEMINI_API_KEY})
         resp.raise_for_status()
         raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
         

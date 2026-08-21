@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 _GROQ_API_KEY: Optional[str] = os.environ.get("GROQ_API_KEY")
-_GROQ_MODEL: str = os.environ.get("GROQ_MODEL", "llama-3.1-8b-instant")
+_GROQ_MODEL: str = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b")
 _GROQ_TEMPERATURE: float = float(os.environ.get("GROQ_TEMPERATURE", "0.7"))
 _GROQ_MAX_TOKENS: int = int(os.environ.get("GROQ_MAX_TOKENS", "1024"))
 _GROQ_TIMEOUT_SEC: float = float(os.environ.get("GROQ_TIMEOUT_SEC", "10.0"))
