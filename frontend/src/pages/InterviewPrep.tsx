@@ -508,7 +508,7 @@ function Lobby({
                 </p>
 
                 {activeTab === 'jd' && (
-                    <Card variant="elevated" className="border-indigo-500/20 dark:border-indigo-400/20 shadow-indigo-300 dark:shadow-indigo-900/10">
+                    <Card variant="elevated" className="!bg-[var(--bg-card)] border-indigo-500/30 shadow-none">
                         <CardHeader className="pb-3 flex flex-row items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <Sparkles className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
@@ -533,7 +533,7 @@ Example:
   ...
 
 The AI will tailor every question to this JD.`}
-                                className="w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white/60 dark:bg-zinc-900/60 text-gray-800 dark:text-zinc-200 text-sm px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-500 dark:text-zinc-600"
+                                className="w-full rounded-xl border border-[var(--border-primary)] bg-[var(--bg-surface)] text-[var(--text-primary)] text-sm px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/60 placeholder:text-[var(--text-tertiary)]"
                             />
                             {hasJd && (
                                 <p className="text-xs text-emerald-400 flex items-center gap-1 mt-2">
@@ -546,7 +546,7 @@ The AI will tailor every question to this JD.`}
                 )}
 
                 {activeTab === 'topic' && (
-                    <Card variant="elevated" className="border-indigo-500/20 dark:border-indigo-400/20 shadow-indigo-300 dark:shadow-indigo-900/10">
+                    <Card variant="elevated" className="!bg-[var(--bg-card)] border-indigo-500/30 shadow-none">
                         <CardHeader className="pb-3">
                             <div className="flex items-center gap-2">
                                 <BookOpen className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
@@ -561,7 +561,7 @@ The AI will tailor every question to this JD.`}
                                     placeholder="Search topics (e.g. React, PostgreSQL, Docker)..."
                                     value={searchQuery}
                                     onChange={e => setSearchQuery(e.target.value)}
-                                    className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border border-gray-300 dark:border-zinc-600 bg-white/60 dark:bg-zinc-900/60 text-gray-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border border-[var(--border-primary)] bg-[var(--bg-surface)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/60 placeholder:text-[var(--text-tertiary)]"
                                 />
                             </div>
 
@@ -583,14 +583,14 @@ The AI will tailor every question to this JD.`}
                                             onClick={() => setSelectedTopicId(topic.id)}
                                             className={`flex flex-col items-start text-left p-3 rounded-xl border transition-all ${
                                                 selectedTopicId === topic.id
-                                                    ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-900/20'
-                                                    : 'border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 bg-white/30 dark:bg-zinc-900/30'
+                                                    ? 'border-indigo-500 bg-indigo-500/10'
+                                                    : 'border-[var(--border-primary)] hover:border-indigo-500/40 bg-[var(--bg-surface)]'
                                             }`}
                                         >
-                                            <span className="text-sm font-semibold text-gray-800 dark:text-zinc-200">
+                                            <span className="text-sm font-semibold text-[var(--text-primary)]">
                                                 {topic.skill_name}
                                             </span>
-                                            <span className="text-xs text-gray-500 dark:text-zinc-500 mt-1 capitalize">
+                                            <span className="text-xs text-[var(--text-secondary)] mt-1 capitalize">
                                                 {topic.category}
                                             </span>
                                         </button>
@@ -602,7 +602,7 @@ The AI will tailor every question to this JD.`}
                 )}
 
                 {activeTab === 'project' && (
-                    <Card variant="elevated" className="border-indigo-500/20 dark:border-indigo-400/20 shadow-indigo-300 dark:shadow-indigo-900/10">
+                    <Card variant="elevated" className="!bg-[var(--bg-card)] border-indigo-500/30 shadow-none">
                         <CardHeader className="pb-3">
                             <div className="flex items-center gap-2">
                                 <Cpu className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
@@ -630,12 +630,12 @@ The AI will tailor every question to this JD.`}
                                                 onClick={() => setSelectedProjectId(project.id)}
                                                 className={`w-full flex flex-col items-start text-left p-4 rounded-xl border transition-all ${
                                                     selectedProjectId === project.id
-                                                        ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-900/20'
-                                                        : 'border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 bg-white/30 dark:bg-zinc-900/30'
+                                                        ? 'border-indigo-500 bg-indigo-500/10'
+                                                        : 'border-[var(--border-primary)] hover:border-indigo-500/40 bg-[var(--bg-surface)]'
                                                 }`}
                                             >
                                                 <div className="flex items-center justify-between w-full">
-                                                    <span className="text-sm font-semibold text-gray-800 dark:text-zinc-200">
+                                                    <span className="text-sm font-semibold text-[var(--text-primary)]">
                                                         {project.title}
                                                     </span>
                                                     {project.analyzed_at && (
@@ -697,20 +697,20 @@ The AI will tailor every question to this JD.`}
                 )}
 
                 {/* Instructions */}
-                <div className="rounded-2xl border border-gray-200/50 dark:border-zinc-700/50 bg-gray-50/30 dark:bg-zinc-800/30 p-5 space-y-3">
-                    <h3 className="text-sm font-semibold text-gray-700 dark:text-zinc-300">How it works</h3>
+                <div className="rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-surface)] p-5 space-y-3">
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)]">How it works</h3>
                     <div className="grid grid-cols-3 gap-4 text-center">
                         {[
                             { num: '1', label: 'Prepare Topic/JD', sub: 'Select a direct topic, project or paste a JD' },
                             { num: '2', label: 'Speak Answers', sub: 'Voice-only, no typing' },
                             { num: '3', label: 'See Results', sub: 'Full Q&A summary at the end' },
                         ].map((step, i) => (
-                            <div key={i} className="rounded-xl bg-gray-50/60 dark:bg-zinc-800/60 border border-gray-200/50 dark:border-zinc-700/50 p-4 space-y-2">
-                                <div className="h-8 w-8 rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-sm mx-auto">
+                            <div key={i} className="rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] p-4 space-y-2">
+                                <div className="h-8 w-8 rounded-full bg-indigo-500/15 text-indigo-400 flex items-center justify-center font-bold text-sm mx-auto">
                                     {step.num}
                                 </div>
-                                <p className="text-xs font-semibold text-gray-800 dark:text-zinc-200">{step.label}</p>
-                                <p className="text-xs text-gray-500 dark:text-zinc-500 mt-1 leading-relaxed">{step.sub}</p>
+                                <p className="text-xs font-semibold text-[var(--text-primary)]">{step.label}</p>
+                                <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">{step.sub}</p>
                             </div>
                         ))}
                     </div>
