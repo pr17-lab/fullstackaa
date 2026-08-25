@@ -320,8 +320,8 @@ function SessionHistoryItem({
     return (
         <div
             className={`relative group w-full text-left px-4 py-3 rounded-xl border transition-all ${active
-                ? 'border-indigo-300 dark:border-indigo-500/60 bg-indigo-50 dark:bg-indigo-900/20'
-                : 'border-gray-200 dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-800/50 hover:border-indigo-500/40'
+                ? 'border-[var(--brand-primary)] bg-[var(--brand-light)]'
+                : 'border-[var(--border-primary)] bg-[var(--bg-surface)] hover:border-indigo-500/40'
                 }`}
         >
             {/* Clickable main area */}
@@ -331,14 +331,14 @@ function SessionHistoryItem({
                 className="w-full text-left"
             >
                 <div className="flex items-center justify-between pr-6">
-                    <span className="text-sm font-medium text-gray-900 dark:text-zinc-100 truncate">
+                    <span className="text-sm font-medium text-[var(--text-primary)] truncate">
                         {summary.topic ?? summary.branch}
                     </span>
                     <span className={`text-xs font-semibold ml-2 flex-shrink-0 ${STATUS_COLOR[summary.status] ?? ''}`}>
                         {summary.status}
                     </span>
                 </div>
-                <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-zinc-500">
+                <div className="flex items-center gap-3 mt-1 text-xs text-[var(--text-tertiary)]">
                     <span>{summary.question_count} questions</span>
                     {summary.created_at && (
                         <span className="flex items-center gap-1">
@@ -356,7 +356,7 @@ function SessionHistoryItem({
                 onClick={onDelete}
                 disabled={isDeleting}
                 title="Delete session"
-                className="absolute top-2.5 right-2.5 p-1.5 rounded-lg text-gray-500 dark:text-zinc-600 hover:text-red-400 hover:bg-red-900/20 opacity-0 group-hover:opacity-100 transition-all disabled:opacity-30"
+                className="absolute top-2.5 right-2.5 p-1.5 rounded-lg text-[var(--text-tertiary)] hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all disabled:opacity-30"
             >
                 <Trash2 className="h-3.5 w-3.5" />
             </button>
@@ -458,20 +458,20 @@ function Lobby({
                         </div>
                         <div>
                             <CardTitle>AI Interview</CardTitle>
-                            <p className="text-sm text-gray-500 dark:text-zinc-500 dark:text-zinc-400 font-medium">Voice-only &bull; Real-time &bull; Personalised</p>
+                            <p className="text-sm text-[var(--text-tertiary)] font-medium">Voice-only &bull; Real-time &bull; Personalised</p>
                         </div>
                     </CardHeader>
                 </Card>
 
                 {/* Mode Selector Tabs */}
-                <div className="flex border-b border-gray-200 dark:border-zinc-700">
+                <div className="flex border-b border-[var(--border-primary)]">
                     <button
                         type="button"
                         onClick={() => setActiveTab('jd')}
                         className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-all ${
                             activeTab === 'jd'
-                                ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
-                                : 'border-transparent text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300'
+                                ? 'border-indigo-500 text-indigo-400'
+                                : 'border-transparent text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
                         }`}
                     >
                         JD-Based
@@ -481,8 +481,8 @@ function Lobby({
                         onClick={() => setActiveTab('topic')}
                         className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-all ${
                             activeTab === 'topic'
-                                ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
-                                : 'border-transparent text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300'
+                                ? 'border-indigo-500 text-indigo-400'
+                                : 'border-transparent text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
                         }`}
                     >
                         Practice a Topic
@@ -492,8 +492,8 @@ function Lobby({
                         onClick={() => setActiveTab('project')}
                         className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-all ${
                             activeTab === 'project'
-                                ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
-                                : 'border-transparent text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300'
+                                ? 'border-indigo-500 text-indigo-400'
+                                : 'border-transparent text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
                         }`}
                     >
                         Practice a Project
@@ -501,7 +501,7 @@ function Lobby({
                 </div>
 
                 {/* Mode Description Subtext */}
-                <p className="text-xs text-gray-500 dark:text-zinc-400 font-medium leading-none">
+                <p className="text-xs text-[var(--text-tertiary)] font-medium leading-none">
                     {activeTab === 'jd' && "Simulate a real interview for a specific job description."}
                     {activeTab === 'topic' && "Practice one skill at a time."}
                     {activeTab === 'project' && "Get asked about a specific project you've built."}
@@ -509,14 +509,14 @@ function Lobby({
 
                 {activeTab === 'jd' && (
                     <Card variant="elevated" className="!bg-[var(--bg-card)] border-indigo-500/30 shadow-none">
-                        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+                        <CardHeader className="pb-3 flex flex-row items-center justify-between border-b border-[var(--border-primary)]">
                             <div className="flex items-center gap-2">
-                                <Sparkles className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                                <Sparkles className="h-5 w-5 text-indigo-400" />
                                 <CardTitle>Job Description</CardTitle>
                             </div>
-                            <span className="text-xs font-medium text-gray-500 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-md">Optional</span>
+                            <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-md">Optional</span>
                         </CardHeader>
-                        <CardContent className="pt-0">
+                        <CardContent className="pt-4">
                             <textarea
                                 id="jd-input"
                                 rows={8}
@@ -533,7 +533,7 @@ Example:
   ...
 
 The AI will tailor every question to this JD.`}
-                                className="w-full rounded-xl border border-[var(--border-primary)] bg-[var(--bg-surface)] text-[var(--text-primary)] text-sm px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/60 placeholder:text-[var(--text-tertiary)]"
+                                className="w-full rounded-xl border border-[var(--border-primary)] bg-[var(--bg-page)] text-[var(--text-primary)] text-sm px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/60 placeholder:text-[var(--text-tertiary)]"
                             />
                             {hasJd && (
                                 <p className="text-xs text-emerald-400 flex items-center gap-1 mt-2">
@@ -547,31 +547,31 @@ The AI will tailor every question to this JD.`}
 
                 {activeTab === 'topic' && (
                     <Card variant="elevated" className="!bg-[var(--bg-card)] border-indigo-500/30 shadow-none">
-                        <CardHeader className="pb-3">
+                        <CardHeader className="pb-3 border-b border-[var(--border-primary)]">
                             <div className="flex items-center gap-2">
-                                <BookOpen className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                                <BookOpen className="h-5 w-5 text-indigo-400" />
                                 <CardTitle>Select a Topic</CardTitle>
                             </div>
                         </CardHeader>
-                        <CardContent className="pt-0 space-y-4">
+                        <CardContent className="pt-4 space-y-4">
                             <div className="relative">
-                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-[var(--text-tertiary)]" />
                                 <input
                                     type="text"
                                     placeholder="Search topics (e.g. React, PostgreSQL, Docker)..."
                                     value={searchQuery}
                                     onChange={e => setSearchQuery(e.target.value)}
-                                    className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border border-[var(--border-primary)] bg-[var(--bg-surface)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/60 placeholder:text-[var(--text-tertiary)]"
+                                    className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border border-[var(--border-primary)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/60 placeholder:text-[var(--text-tertiary)]"
                                 />
                             </div>
 
                             {topicsLoading ? (
-                                <div className="flex flex-col items-center justify-center py-8 space-y-2 text-gray-500 dark:text-zinc-400">
-                                    <Loader2 className="h-6 w-6 animate-spin text-indigo-500" />
+                                <div className="flex flex-col items-center justify-center py-8 space-y-2 text-[var(--text-tertiary)]">
+                                    <Loader2 className="h-6 w-6 animate-spin text-indigo-400" />
                                     <p className="text-xs">Loading practiceable topics...</p>
                                 </div>
                             ) : filteredTopics.length === 0 ? (
-                                <div className="text-center py-8 text-sm text-gray-500 dark:text-zinc-500 border border-dashed border-gray-200 dark:border-zinc-700 rounded-xl">
+                                <div className="text-center py-8 text-sm text-[var(--text-tertiary)] border border-dashed border-[var(--border-primary)] rounded-xl">
                                     No matching topics found
                                 </div>
                             ) : (
@@ -697,7 +697,7 @@ The AI will tailor every question to this JD.`}
                 )}
 
                 {/* Instructions */}
-                <div className="rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-surface)] p-5 space-y-3">
+                <div className="rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-card)] p-5 space-y-3">
                     <h3 className="text-sm font-semibold text-[var(--text-primary)]">How it works</h3>
                     <div className="grid grid-cols-3 gap-4 text-center">
                         {[
@@ -705,12 +705,12 @@ The AI will tailor every question to this JD.`}
                             { num: '2', label: 'Speak Answers', sub: 'Voice-only, no typing' },
                             { num: '3', label: 'See Results', sub: 'Full Q&A summary at the end' },
                         ].map((step, i) => (
-                            <div key={i} className="rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] p-4 space-y-2">
+                            <div key={i} className="rounded-xl bg-[var(--bg-surface)] border border-[var(--border-primary)] p-4 space-y-2">
                                 <div className="h-8 w-8 rounded-full bg-indigo-500/15 text-indigo-400 flex items-center justify-center font-bold text-sm mx-auto">
                                     {step.num}
                                 </div>
                                 <p className="text-xs font-semibold text-[var(--text-primary)]">{step.label}</p>
-                                <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">{step.sub}</p>
+                                <p className="text-xs text-[var(--text-tertiary)] mt-1 leading-relaxed">{step.sub}</p>
                             </div>
                         ))}
                     </div>
@@ -719,19 +719,19 @@ The AI will tailor every question to this JD.`}
 
             {/* Session history sidebar */}
             <div className="space-y-3">
-                <h2 className="text-sm font-semibold text-gray-600 dark:text-zinc-400 flex items-center gap-2">
+                <h2 className="text-sm font-semibold text-[var(--text-secondary)] flex items-center gap-2">
                     <BookOpen className="h-4 w-4" /> Past Sessions
                 </h2>
                 {sessionsLoading ? (
                     <div className="space-y-2">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="h-16 rounded-xl bg-gray-50 dark:bg-zinc-800 animate-pulse" />
+                            <div key={i} className="h-16 rounded-xl bg-[var(--bg-surface)] animate-pulse" />
                         ))}
                     </div>
                 ) : sessions.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-gray-200 dark:border-zinc-700 p-8 text-center text-gray-500 dark:text-zinc-500 space-y-2">
-                        <p className="text-sm font-semibold text-gray-700 dark:text-zinc-300">Your first session will show up here</p>
-                        <p className="text-xs text-gray-500 dark:text-zinc-500">Most students start with a topic-based practice interview before a full JD simulation.</p>
+                    <div className="rounded-2xl border border-dashed border-[var(--border-primary)] bg-[var(--bg-surface)]/40 p-8 text-center text-[var(--text-tertiary)] space-y-2">
+                        <p className="text-sm font-semibold text-[var(--text-primary)]">Your first session will show up here</p>
+                        <p className="text-xs text-[var(--text-tertiary)]">Most students start with a topic-based practice interview before a full JD simulation.</p>
                     </div>
                 ) : (
                     <div className="space-y-2">
@@ -834,23 +834,23 @@ function InterviewRoom({
             {/* Top bar */}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                    <span className="text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase tracking-wider">
+                    <span className="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
                         {session.branch}{session.topic ? ` Â· ${session.topic}` : ''}
                     </span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${DIFFICULTY_COLOR[question.difficulty] ?? 'text-gray-600 dark:text-zinc-400'} bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700`}>
+                    <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${DIFFICULTY_COLOR[question.difficulty] ?? 'text-[var(--text-secondary)]'} bg-[var(--bg-surface)] border border-[var(--border-primary)]`}>
                         {question.difficulty}
                     </span>
-                    <span className="text-xs text-gray-500 dark:text-zinc-500 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 px-2 py-0.5 rounded-full">
+                    <span className="text-xs text-[var(--text-tertiary)] bg-[var(--bg-surface)] border border-[var(--border-primary)] px-2.5 py-0.5 rounded-full">
                         {question.topic}
                     </span>
                 </div>
-                <span className="text-sm font-semibold text-gray-700 dark:text-zinc-300 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 px-3 py-1 rounded-full">
+                <span className="text-sm font-semibold text-[var(--text-primary)] bg-[var(--bg-surface)] border border-[var(--border-primary)] px-3 py-1 rounded-full">
                     Q {currentIndex + 1} / {total}
                 </span>
             </div>
 
             {/* Progress bar */}
-            <div className="h-1 rounded-full bg-gray-50 dark:bg-zinc-800 mb-8 overflow-hidden">
+            <div className="h-1 rounded-full bg-[var(--bg-surface)] mb-8 overflow-hidden">
                 <div
                     className="h-full rounded-full bg-indigo-500 transition-all duration-500"
                     style={{ width: `${((currentIndex) / total) * 100}%` }}
@@ -860,9 +860,9 @@ function InterviewRoom({
             {/* Main card */}
             <div className="flex-1 flex flex-col items-center justify-center gap-8">
                 {/* Question */}
-                <div className="w-full max-w-3xl rounded-2xl border border-gray-200 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-800/60 p-8">
+                <div className="w-full max-w-3xl rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-card)] p-8">
                     <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 h-9 w-9 rounded-full bg-indigo-50 dark:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-700/50 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-sm font-bold">
+                        <div className="flex-shrink-0 h-9 w-9 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm font-bold">
                             {currentIndex + 1}
                         </div>
                         <div className="flex-1">
@@ -872,7 +872,7 @@ function InterviewRoom({
                                     type="button"
                                     onClick={() => speak(question.question)}
                                     title="Replay question"
-                                    className="mt-3 flex items-center gap-1.5 text-xs text-gray-500 dark:text-zinc-500 hover:text-indigo-400 transition"
+                                    className="mt-3 flex items-center gap-1.5 text-xs text-[var(--text-tertiary)] hover:text-indigo-400 transition"
                                 >
                                     <Volume2 className="h-3.5 w-3.5" /> Replay question
                                 </button>
@@ -881,9 +881,9 @@ function InterviewRoom({
                     </div>
                     {/* Follow-up hint — shown once typewriter finishes */}
                     {done && question.follow_up && (
-                        <div className="mt-4 flex items-start gap-2 border-t border-gray-200 dark:border-zinc-700 pt-4">
-                            <span className="text-xs font-semibold text-indigo-500 dark:text-indigo-400 flex-shrink-0 mt-0.5">Follow-up:</span>
-                            <p className="text-sm text-gray-500 dark:text-zinc-400 italic">{question.follow_up}</p>
+                        <div className="mt-4 flex items-start gap-2 border-t border-[var(--border-primary)] pt-4">
+                            <span className="text-xs font-semibold text-indigo-400 flex-shrink-0 mt-0.5">Follow-up:</span>
+                            <p className="text-sm text-[var(--text-secondary)] italic">{question.follow_up}</p>
                         </div>
                     )}
                 </div>
@@ -900,7 +900,7 @@ function InterviewRoom({
                     />
 
                     {/* Live caption */}
-                    <div className="w-full max-w-2xl min-h-[3.5rem] rounded-xl border border-gray-200 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 px-5 py-3 text-sm">
+                    <div className="w-full max-w-2xl min-h-[3.5rem] rounded-xl border border-[var(--border-primary)] bg-[var(--bg-page)] px-5 py-3 text-sm">
                         {finalText ? (
                             <p className="text-gray-800 dark:text-zinc-200">{finalText}</p>
                         ) : interimText ? (
@@ -975,37 +975,37 @@ function QuestionCard({ q, i }: { q: any, i: number }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50/40 dark:bg-zinc-800/40 p-5"
+            className="rounded-xl border border-[var(--border-primary)] bg-[var(--bg-card)] p-5"
         >
             <div className="flex items-start gap-4">
                 <div className="flex-1 space-y-3">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className="text-sm font-semibold text-gray-900 dark:text-zinc-100">{i + 1}. {q.question}</span>
+                        <span className="text-sm font-semibold text-[var(--text-primary)]">{i + 1}. {q.question}</span>
                     </div>
                     <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs text-gray-500 dark:text-zinc-500 bg-gray-200 dark:bg-zinc-700 px-2 py-0.5 rounded">{q.topic}</span>
+                        <span className="text-xs text-[var(--text-tertiary)] bg-[var(--bg-surface)] px-2 py-0.5 rounded border border-[var(--border-primary)]">{q.topic}</span>
                         <span className={`text-xs font-medium ${DIFFICULTY_COLOR[q.difficulty]}`}>{q.difficulty}</span>
                     </div>
 
                     {/* Follow-up question */}
                     {q.follow_up && (
-                        <div className="flex items-start gap-2 rounded-lg bg-indigo-50/60 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-800/30 px-3 py-2">
-                            <span className="text-xs font-semibold text-indigo-500 dark:text-indigo-400 flex-shrink-0 mt-0.5">Follow-up:</span>
-                            <p className="text-xs text-indigo-800 dark:text-indigo-300 italic">{q.follow_up}</p>
+                        <div className="flex items-start gap-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 px-3 py-2">
+                            <span className="text-xs font-semibold text-indigo-400 flex-shrink-0 mt-0.5">Follow-up:</span>
+                            <p className="text-xs text-indigo-300 italic">{q.follow_up}</p>
                         </div>
                     )}
                     
-                    <div className="rounded-lg bg-gray-100 dark:bg-zinc-900 border border-gray-200/50 dark:border-zinc-700/50 px-3 py-2">
-                        <p className="text-xs text-gray-500 dark:text-zinc-500 mb-1">Your Answer:</p>
+                    <div className="rounded-lg bg-[var(--bg-page)] border border-[var(--border-primary)] px-3 py-2">
+                        <p className="text-xs text-[var(--text-tertiary)] mb-1">Your Answer:</p>
                         {q.user_answer ? (
-                            <p className="text-sm text-gray-700 dark:text-zinc-300 italic">"{q.user_answer}"</p>
+                            <p className="text-sm text-[var(--text-secondary)] italic">"{q.user_answer}"</p>
                         ) : (
-                            <p className="text-sm text-gray-400 dark:text-zinc-600 italic">Skipped</p>
+                            <p className="text-sm text-[var(--text-tertiary)] italic">Skipped</p>
                         )}
                     </div>
                     
                     {q.ai_score != null && (
-                        <div className="pt-3 border-t border-gray-200 dark:border-zinc-700 space-y-3">
+                        <div className="pt-3 border-t border-[var(--border-primary)] space-y-3">
                             {/* Score + Verdict */}
                             <div className="flex items-center gap-3 flex-wrap">
                                 <div className={`flex items-center justify-center h-8 w-8 rounded-full border-2 ${Number(q.ai_score) >= 7 ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400' : Number(q.ai_score) >= 4 ? 'border-amber-500 text-amber-600 dark:text-amber-400' : 'border-red-500 text-red-600 dark:text-red-400'} font-bold text-xs`}>
