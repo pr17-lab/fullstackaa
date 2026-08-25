@@ -92,8 +92,10 @@ services:
         value: "10.0"
 
       # ---- Gemini tuning -----------------------------------------------------
+      # gemini-2.5-flash is deprecated (404 for new users — API says "use gemini-3.6").
+      # gemini-3.6-flash is the verified successor: tested live, returns HTTP 200.
       - key: GEMINI_MODEL
-        value: gemini-2.5-flash
+        value: gemini-3.6-flash
 
   # ---------------------------------------------------------------------------
   # Frontend — nginx serving the Vite/React SPA

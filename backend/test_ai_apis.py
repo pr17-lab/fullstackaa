@@ -79,7 +79,12 @@ if not gemini_key:
     print("GEMINI_API_KEY is not set.")
     results['gemini'] = {"status": "FAILED", "error": "GEMINI_API_KEY missing"}
 else:
-    models_to_try = ["gemini-3.6-flash", "gemini-flash-latest", "gemini-3.6-pro"]
+    # gemini-3.6-flash: verified working (HTTP 200) — primary
+    # gemini-3.5-flash: GA stable fallback
+    # gemini-2.5-flash: deprecated (HTTP 404 — "use gemini-3.6")
+    # gemini-3.6-pro: does NOT exist in the API model list
+    # gemini-flash-latest: times out consistently
+    models_to_try = ["gemini-3.6-flash", "gemini-3.5-flash"]
     gemini_success = False
     
     start = time.time()
